@@ -1,0 +1,6 @@
+profile_id = "rethinking-work"
+
+[openspec]
+material_paths = [
+    "**",
+]
