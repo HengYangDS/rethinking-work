@@ -1,0 +1,5 @@
+# Normalize authored text without treating generated or binary files as text.
+* text=auto eol=lf
+# Synthetic teaching fixtures include an intentionally failing function.
+# They are reader material, not the publication's runtime product.
+exercises/** ethos-role=docs

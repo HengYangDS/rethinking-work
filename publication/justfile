@@ -1,0 +1,58 @@
+set working-directory := ".."
+
+default:
+    @just --justfile publication/justfile --list
+
+# Inspect existing supply without installing or changing its owner.
+bootstrap:
+    typst --version
+    mmdc --version
+    just --version
+    prettier --version
+    python3.12 --version
+    pdfinfo -v
+    pdftotext -v
+
+# Render one editable figure through the installed Mermaid CLI.
+diagram name:
+    mkdir -p build/artifacts/diagrams
+    mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.png --configFile publication/mermaid.json --scale 2 --backgroundColor white
+
+diagrams: (diagram "collaboration") (diagram "data-chain") (diagram "memory") (diagram "orchestration") (diagram "reconcile") (diagram "runtime") (diagram "work-loop")
+
+# Build only; this command grants no editorial approval or publication.
+pdf:
+    mkdir -p build/artifacts/pdf
+    typst compile --root . --deps build/artifacts/pdf/inputs.json book/main.typ build/artifacts/pdf/rethinking-work.pdf
+
+# Check the exact existing compiler, fonts and complete package inputs.
+typst-input-check supply:
+    cd "{{supply}}" && shasum --algorithm 256 --check "{{justfile_directory()}}/typst-inputs.sha256"
+
+# Replay frozen figure inputs without ambient font or package discovery.
+pdf-isolated supply: (typst-input-check supply)
+    mkdir -p build/artifacts/pdf-isolated
+    "{{supply}}/bin/typst" compile --root . --ignore-system-fonts --font-path "{{supply}}/fonts" --package-path "{{supply}}/packages" --package-cache-path "{{supply}}/packages" --deps build/artifacts/pdf-isolated/inputs.json book/main.typ build/artifacts/pdf-isolated/rethinking-work.pdf
+
+build: diagrams pdf
+
+# Native per-page previews used by visual review.
+render:
+    mkdir -p build/artifacts/pages
+    typst compile --root . --format png --ppi 144 book/main.typ build/artifacts/pages/page-{0p}.png
+
+# Tests consume freshly rendered figures, including in a source-only checkout.
+test: diagrams
+    python3.12 -B -m unittest discover -s tests -v
+
+# Run only the synthetic companion contracts; no PDF or browser is required.
+exercises:
+    python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
+
+format-check:
+    prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --check .
+
+format:
+    prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --write .
+
+check: format-check test

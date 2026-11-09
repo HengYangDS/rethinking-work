@@ -1,0 +1,21 @@
+{
+  "theme": "base",
+  "securityLevel": "strict",
+  "fontFamily": "Noto Sans CJK SC",
+  "themeVariables": {
+    "fontSize": "20px",
+    "primaryTextColor": "#273B46",
+    "lineColor": "#82979f",
+    "edgeLabelBackground": "#ffffff"
+  },
+  "flowchart": {
+    "htmlLabels": false,
+    "curve": "linear",
+    "nodeSpacing": 24,
+    "rankSpacing": 30,
+    "padding": 10,
+    "wrappingWidth": 260,
+    "markdownAutoWrap": false,
+    "useMaxWidth": false
+  }
+}

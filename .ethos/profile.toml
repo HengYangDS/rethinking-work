@@ -4,3 +4,52 @@ profile_id = "rethinking-work"
 material_paths = [
     "**",
 ]
+
+[proof]
+code_correctness_gates = ["source-behavior", "source-static-analysis", "publication-inputs", "formatting"]
+
+[proof.code_correctness_map]
+behavior = "source-behavior"
+static-analysis = "source-static-analysis"
+
+[[proof.gates]]
+id = "source-behavior"
+kind = "test"
+providers = ["ethos.adapters.gates.code_quality:behavior_report"]
+dimensions = ["behavior", "test", "coverage"]
+evidence_class = "proof"
+trust_bearing = true
+writes_files = true
+network_policy = "offline"
+
+[[proof.gates]]
+id = "source-static-analysis"
+kind = "static"
+providers = ["ethos.adapters.gates.code_quality:static_report"]
+dimensions = ["static-analysis"]
+evidence_class = "proof"
+trust_bearing = true
+writes_files = false
+network_policy = "offline"
+
+[[proof.gates]]
+id = "publication-inputs"
+kind = "test"
+command = ["just", "--justfile", "publication/justfile", "test"]
+dimensions = ["publication-inputs"]
+evidence_class = "proof"
+trust_bearing = true
+writes_files = true
+timeout_seconds = 120
+network_policy = "offline"
+
+[[proof.gates]]
+id = "formatting"
+kind = "lint"
+command = ["just", "--justfile", "publication/justfile", "format-check"]
+dimensions = ["format"]
+evidence_class = "proof"
+trust_bearing = true
+writes_files = false
+timeout_seconds = 120
+network_policy = "offline"

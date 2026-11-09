@@ -1,0 +1,4 @@
+security_id,reason
+S04,missing_return
+S05,not_available_at_cutoff
+S99,outside_universe

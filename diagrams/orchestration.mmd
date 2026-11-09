@@ -1,0 +1,14 @@
+flowchart TD
+ H["Hermes<br/>个人会话与能力"]
+ O["Orca<br/>仓库与工作空间"]
+ M["Multica<br/>任务队列与运行时"]
+ T["TeamAI<br/>方法资产与评审"]
+ Q["这项工作缺少哪种持久对象？"]
+ Q -->|"会话接续"| H
+ Q -->|"空间接续"| O
+ Q -->|"任务接续"| M
+ Q -->|"方法接续"| T
+
+classDef base fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px;
+classDef focus fill:#273b46,stroke:#273b46,color:#ffffff,stroke-width:1px;
+class H,O,M,T,Q base;

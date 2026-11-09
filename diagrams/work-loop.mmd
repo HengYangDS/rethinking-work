@@ -1,0 +1,17 @@
+block-beta
+ columns 5
+ H["人：目标与边界"] space A["Agent：选择行动"] space T["工具：执行"]
+ space:5
+ S["停止并说明"] space R["检查结果与效果"] space D["交付"]
+ H --> A
+ A --> T
+ T --> R
+ R -- "需纠偏" --> A
+ R -- "已满足" --> D
+ R -- "越界或缺条件" --> S
+ style H fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style A fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style T fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style R fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style D fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style S fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px

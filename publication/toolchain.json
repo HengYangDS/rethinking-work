@@ -1,0 +1,24 @@
+{
+  "version_owner": ".config/mise/config.toml",
+  "current_host_installation_owner": "Homebrew",
+  "repository_resolution": "Candidate declaration only: no accepted mise.lock or complete tool sidecars exist yet. The current build uses existing Homebrew executors, not an accepted locked bootstrap.",
+  "python_compatibility": ">=3.12,<3.13",
+  "typst_package": "@preview/neat-book:0.1.0",
+  "fonts": ["Songti SC", "Noto Sans CJK SC", "Charter", "DejaVu Sans Mono", "Apple Color Emoji"],
+  "font_supply": {
+    "typst": "Songti SC and Charter from macOS; Noto Sans CJK SC from its existing Homebrew cask; DejaVu Sans Mono embedded in Typst 0.15.1; Apple Color Emoji from macOS as the observed emoji fallback.",
+    "mermaid_browser": "publication/mermaid.json selects Noto Sans CJK SC, which must be available to the selected headless browser. The other Typst families are not declared diagram requirements.",
+    "closure": "The bound replay checks six actual font files, the exact compiler with its embedded fonts, and all eight complete package roots through publication/typst-inputs.sha256. Typst inputs.json still omits font reads. Same-host, network-disabled replay equals the delivered PDF byte-for-byte; extra supplied files and second-machine reproduction remain unqualified.",
+    "rights": "No standalone font binaries are included in repository source. Delivered PDFs embed used font faces; each font retains its own terms. See publication/third-party-notices.md."
+  },
+  "pdf_inspection": {
+    "package": "poppler",
+    "commands": ["pdfinfo", "pdftotext"],
+    "current_build_version": "26.11.0",
+    "installation_owner": "Homebrew",
+    "locked_repository_resolution": "Not yet qualified; required by check and bootstrap."
+  },
+  "mermaid_browser": "Use Puppeteer's supported browser, or select an existing compatible browser with PUPPETEER_EXECUTABLE_PATH. Record its identity with the build; never use a personal browser profile or disable the sandbox.",
+  "reproduction": "The source avoids private machine bindings, but the current layout depends on macOS font supply and has not qualified a second-machine build. Matching compiler, actual font files, browser, complete resolved packages, diagram inputs and fixed document date are reproduction prerequisites, not a byte-identical guarantee. A font substitution requires relayout and successor acceptance.",
+  "typst_input_binding": "publication/typst-inputs.sha256"
+}

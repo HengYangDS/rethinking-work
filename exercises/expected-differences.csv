@@ -1,0 +1,5 @@
+security_id,expected_bps,snapshot_bps,reason,delta_bps
+S01,0,5,value_mismatch,-5
+S02,-100,-80,value_mismatch,-20
+S05,NULL,20,not_accepted_at_cutoff,NULL
+S06,40,NULL,missing_in_snapshot,NULL

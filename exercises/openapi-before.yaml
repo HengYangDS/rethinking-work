@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Synthetic Research Snapshot API
+  version: 1.0.0
+paths:
+  /research-snapshot:
+    get:
+      operationId: getResearchSnapshot
+      responses:
+        "200":
+          description: Frozen research snapshot
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - security_id
+                    - return_bps
+                  properties:
+                    security_id:
+                      type: string
+                    return_bps:
+                      type: integer

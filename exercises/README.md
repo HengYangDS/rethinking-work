@@ -1,0 +1,107 @@
+# Companion exercises
+
+These are wholly synthetic teaching fixtures and templates for the field guide's data, code, API and work-design sections. They contain no business data and require no credentials or model service.
+
+## Check all runnable examples
+
+From the repository root, run:
+
+```sh
+just --justfile publication/justfile exercises
+```
+
+This uses existing Python 3.12, DuckDB, ast-grep and oasdiff installations.
+It checks the complete data outputs and coverage, the intentionally failing
+export and its correction, structural search, and changed/unchanged API
+controls. The overall suite passes only when each example has its stated
+outcome, including the deliberate failures. It installs nothing and requires
+no PDF, browser, account or model. Individual commands remain below for learners
+to inspect and explain; a passing suite is not proof of transfer to real work.
+
+## Historical research snapshot
+
+Use an existing DuckDB installation; the recorded command uses DuckDB 2.0.0.
+Run from this directory:
+
+```sh
+duckdb -no-agent -csv < reconcile.sql
+duckdb -no-agent -csv < quality.sql
+```
+
+The event date is 2026-10-30 and the cutoff is 2026-11-02 09:00:00 UTC.
+This fixture reconstructs what the system could use at the cutoff.
+Both `published_at` and `ingested_at` must be at or before the cutoff.
+Filter eligibility before selecting a revision, ordered by revision,
+publication time, ingestion time and `row_no`, all descending. S03's duplicate
+deliveries are equivalent; this tie-break does not resolve conflicting values.
+The expected universe is S01–S06. Preserve zero and negative returns, in basis
+points; exclude missing returns without changing the coverage denominator.
+
+Accepted values are S01=0, S02=-100, S03=60 and S06=40: coverage 4/6.
+`expected-differences.csv` contains S01 (-5), S02 (-20), S05 (not accepted at
+cutoff) and S06 (missing in snapshot). Single-sided differences have NULL
+deltas. `expected-quality.csv` contains S04 (missing return), S05 (not available
+at cutoff) and S99 (outside universe). Do not sum individual security returns
+into a portfolio return. These checks establish synthetic contract differences,
+not the production cause of an incident or investment validity.
+
+## Export regression
+
+Use an existing Python 3 installation. The module contract preserves zero, positive and negative returns and excludes only `None`.
+
+```sh
+EXPORT_MODULE=export_bug python3 -B -m unittest -v test_export.py
+EXPORT_MODULE=export_fixed python3 -B -m unittest -v test_export.py
+```
+
+The old module is expected to fail one of two tests (exit 1). The fixed module passes both (exit 0). Empty input is the control test. These results do not establish deployment or coverage of other invalid inputs.
+
+## Teaching and cleanup
+
+Read the contracts first. Explain scope, assumptions and results to a peer. Do not change expected output merely to obtain a pass. Delete only copies you created; preserve your task's own results when needed. The full machine-specific acceptance receipt remains with the original evidence owner, not in this portable bundle.
+
+## Working templates and transfer practice
+
+`task-brief.md`, `source-table.csv`, `evaluation-card.md` and `team-asset-review.md` are editable templates, not host policy or model-call approval. `transfer-cases.json` holds teacher-authored transfer cases and rubric. These are known synthetic teaching cases, not an independently frozen blind benchmark. Use a new authorized real task to assess transfer; preserve the distinction between self-review and independent review.
+
+For the data transfer case, state the reconstruction purpose before choosing
+time filters. Public visibility requires `published_at` at or before the cutoff;
+operational availability requires both `published_at` and `ingested_at` at or
+before it. Apply the chosen filters before revision ranking. In the existing
+fixture, S02 is -80 bps under public visibility and -100 bps under operational
+availability: revision 2 was published before the cutoff but ingested after it.
+The runnable `reconcile.sql` and `quality.sql` retain their operational contract.
+
+## Structural code search and API contract
+
+Use already-installed ast-grep and oasdiff. The first command matches one
+selected expression without editing the file. A match is not a defect verdict:
+the export contract and behavioral test determine the business meaning.
+
+```sh
+ast-grep run --lang python --pattern 'row["return_bps"]' \
+  --json=compact export_bug.py
+```
+
+The synthetic API revision removes `GET /research-snapshot`. The breaking comparison is
+expected to return `api-path-removed-without-deprecation` and exit 1. The
+unchanged control returns `[]` and exit 0. External references are disabled;
+neither command starts a service or uploads a specification.
+
+```sh
+oasdiff breaking openapi-before.yaml openapi-after.yaml \
+  --format json --allow-external-refs=false --fail-on ERR
+oasdiff breaking openapi-before.yaml openapi-before.yaml \
+  --format json --allow-external-refs=false --fail-on ERR
+```
+
+These checks were executed on the stated synthetic inputs. They do not prove
+implementation conformance, runtime compatibility or full API coverage.
+
+## Work design and convergence
+
+`work-chain-design.md` helps identify inputs, native capabilities, outputs,
+decision owners and stop conditions. `long-task-checkpoint.md` separates changed
+evidence, the next discriminating action, retained originals and exact cleanup.
+Use the relevant fields inside the task's existing brief or progress owner;
+neither template authorizes a new service, scheduler or duplicate task ledger.

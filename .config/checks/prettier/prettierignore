@@ -1,0 +1,4 @@
+build/
+.git/
+# Complete imported originals remain byte-exact until migration acceptance.
+exercises/

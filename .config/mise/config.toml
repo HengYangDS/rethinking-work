@@ -1,0 +1,29 @@
+[tasks.build]
+description = "Render declared diagrams and build the candidate PDF"
+run = "just --justfile publication/justfile build"
+
+[tasks.check]
+description = "Check authored inputs through native formatting and Typst readers"
+run = "just --justfile publication/justfile check"
+
+[tasks.fix]
+description = "Format the declared authored files"
+run = "just --justfile publication/justfile format"
+
+[tasks.render]
+description = "Render every PDF page for visual review"
+run = "just --justfile publication/justfile render"
+[settings]
+locked = true
+
+[tools]
+node = "26.13.0"
+python = "3.12.16"
+typst = "0.15.1"
+just = "1.59.0"
+"npm:@mermaid-js/mermaid-cli" = "12.2.0"
+"npm:prettier" = "3.9.10"
+
+[tasks.bootstrap]
+description = "Inspect existing publication supply without installing software"
+run = "just --justfile publication/justfile bootstrap"

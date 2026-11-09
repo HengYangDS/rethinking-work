@@ -1,0 +1,49 @@
+{
+  "kind": "teacher-authored synthetic transfer cases, not independent holdout",
+  "cases": [
+    {
+      "id": "data",
+      "change": "a revision is public before cutoff but ingested after it; duplicate deliveries have identical revision and value",
+      "required": [
+        "distinguish public visibility from operational availability",
+        "filter published_at before revision ranking for public visibility; filter both published_at and ingested_at for operational availability",
+        "explain why S02 is -80 bps under public visibility but -100 bps under operational availability at the declared cutoff",
+        "apply declared ordering only after checking duplicate equivalence",
+        "never infer portfolio return by summing security returns"
+      ],
+      "new_business_policy_requires": "human decision"
+    },
+    {
+      "id": "code",
+      "change": "missing key, None, zero, empty string",
+      "required": [
+        "separate absent from explicit zero",
+        "state original function contract",
+        "do not silently default missing to zero"
+      ]
+    },
+    {
+      "id": "consumers",
+      "change": "CLI new, MCP old schema, Web old edition",
+      "required": [
+        "identify three consumers",
+        "check exact binding and edition",
+        "limit native reconnect to authorized connection"
+      ]
+    }
+  ],
+  "scoring": {
+    "dimensions": ["object_contract", "source_evidence", "execution_result", "authority_closeout"],
+    "per_dimension": {
+      "0": "missing or contradicts contract",
+      "1": "identified but incomplete",
+      "2": "explained and checkable"
+    },
+    "max": 8
+  },
+  "limits": [
+    "known teaching cases",
+    "not production qualification",
+    "not measured team effectiveness"
+  ]
+}

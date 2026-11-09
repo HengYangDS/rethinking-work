@@ -1,0 +1,16 @@
+block-beta
+ columns 7
+ A["原安装者<br/>官方包"] space B["项目锁<br/>兼容约束"] space:4
+ space:7
+ C["实际入口<br/>与运行时"] space D["原客户端<br/>会话"] space E["输出<br/>持久效果"] space F["任务接受<br/>未证明范围"]
+ A -- "发布字节" --> C
+ B -- "选择版本" --> C
+ C -- "加载／连接" --> D
+ D -- "调用" --> E
+ E -- "独立核对" --> F
+ style A fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style B fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style C fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style D fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style E fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style F fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px

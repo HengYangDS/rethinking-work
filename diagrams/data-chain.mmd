@@ -1,0 +1,21 @@
+block-beta
+ columns 3
+ A["冻结快照"] B["dlt：加载"] C["DuckDB：原表"]
+ space:3
+ F["Dagster：依赖／检查"] space D["SQLMesh：模型／审计"]
+ space:3
+ space G["负责人接受"] E["结果／拒绝"]
+ A --> B
+ B --> C
+ C --> D
+ D --> E
+ E --> G
+ F -.-> B
+ F -.-> D
+ style A fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style B fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style C fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style D fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style E fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style F fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
+ style G fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px
