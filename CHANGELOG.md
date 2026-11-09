@@ -11,6 +11,16 @@ claim editorial acceptance or public publication.
 
 ## [Unreleased]
 
+### Changed
+
+- Reworked the opening around a quantitative data department's complete work
+  chain, from the research question and source evaluation to modeling,
+  production, quality, delivery and feedback.
+- Connected tool choices to consequential uncertainties and inspectable outputs,
+  and expanded the teaching path from repeated answers to transferable judgment.
+- Dated the substantive PDF successor 2026-11-10; reader qualification and source
+  integration retain their independent acceptance boundaries.
+
 ### Added
 
 - A modular Chinese handbook for quantitative data teams, with worked data,
