@@ -32,13 +32,18 @@
 #let small(body) = text(size: 8.5pt, fill: muted, body)
 #let pageref(loc) = context link(loc, text(fill: teal)[#counter(page).at(loc).first()])
 #let case(identifier) = link(label("case-" + identifier), identifier)
+#let contents-return() = link(<contents>, text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[返回目录 ↗])
 #let chapter(part, n, title, lead) = {
   set heading(numbering: none)
   pagebreak(weak: true)
   heading(level: 1)[#title]
   block(above: 0pt, below: 2 * space, sticky: true)[
     #set par(first-line-indent: 0pt, leading: 5.5pt, spacing: 2 * space)
-    #text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[#part / #n]
+    #metadata((chapter: n))<chapter-navigation>
+    #grid(columns: (1fr, auto),
+      text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[#part / #n],
+      contents-return(),
+    )
     #parbreak()
     #text(size: 11pt, fill: teal)[#lead]
   ]

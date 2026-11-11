@@ -1,0 +1,4 @@
+source_id,purpose,universe,period_start,period_end,use_allowed,covered_securities,required_securities,has_revision_history,has_available_time,onboarding_days
+incumbent,historical_decision,U6,2024-01-01,2024-12-31,true,5,6,true,true,1
+public_latest,historical_decision,U6,2024-01-01,2024-12-31,true,6,6,false,false,0
+new_vendor,historical_decision,U6,2024-01-01,2024-12-31,true,6,6,true,true,5

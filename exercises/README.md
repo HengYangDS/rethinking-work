@@ -45,6 +45,54 @@ at cutoff) and S99 (outside universe). Do not sum individual security returns
 into a portfolio return. These checks establish synthetic contract differences,
 not the production cause of an incident or investment validity.
 
+## Source selection
+
+`source-candidates.csv` fixes one synthetic purpose: historical decisions for
+the six-security universe U6 over calendar 2024. Use authorization, full
+coverage, revision history and availability timestamps are hard requirements;
+only eligible sources are compared by onboarding days. The days measure initial
+effort, not procurement, maintenance or exit cost. Run in one DuckDB session:
+
+```sql
+.read source-selection.sql
+SELECT source_id, onboarding_days FROM selected;
+```
+
+The result is `new_vendor,5`. The incumbent covers only five securities; the
+public final-value source has no revision history or availability timestamps.
+In a teaching copy, change incumbent coverage to six: the result becomes
+`incumbent,1`. Alternatively, withdraw the new vendor's authorization under the
+original coverage: no source is eligible. Do not fall back to a source that
+cannot answer the declared question. These assumptions do not establish any
+real vendor's authorization, data quality or procurement acceptance.
+
+## Keyed reconciliation
+
+```sh
+duckdb -no-agent -csv < entity-reconciliation.sql
+```
+
+Expected E01=6000 and E02=4000 are swapped in the observed table. Counts and
+totals agree, but the full keyed comparison reports E01=-2000 and E02=+2000
+in `observed_minus_expected`. This direction differs from the snapshot's
+expected-minus-observed delta. Values are synthetic counts, not returns or
+exposures. Production inputs also need key-uniqueness checks before the join.
+
+## Effective-date mapping
+
+```sh
+duckdb -no-agent -csv < entity-mapping.sql
+```
+
+PAT01 belongs to OWNER_A before 2024-07-01T00:00:00Z and OWNER_B from that
+instant onward. Half-open intervals resolve EV01 to OWNER_A and EV02 exactly at
+the boundary to OWNER_B. EV03 uses PAT99, so its owner is NULL and its status
+is `unmapped`. Overlapping intervals yield NULL / `ambiguous`, not an arbitrary
+owner. The suite checks this overlap in memory without changing the fixtures.
+All timestamps are explicitly TIMESTAMPTZ. The mapping describes event-time
+ownership; historical knowledge additionally needs publication or acquisition
+times. Fixing a mapping does not authorize expanding the research universe.
+
 ## Export regression
 
 Use an existing Python 3 installation. The module contract preserves zero, positive and negative returns and excludes only `None`.

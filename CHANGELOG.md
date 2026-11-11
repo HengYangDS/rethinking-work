@@ -18,7 +18,7 @@ claim editorial acceptance or public publication.
   production, quality, delivery and feedback.
 - Connected tool choices to consequential uncertainties and inspectable outputs,
   and expanded the teaching path from repeated answers to transferable judgment.
-- Dated the substantive PDF successor 2026-11-10; reader qualification and source
+- Dated the substantive PDF successor 2026-11-11; reader qualification and source
   integration retain their independent acceptance boundaries.
 
 ### Added
@@ -28,8 +28,9 @@ claim editorial acceptance or public publication.
   qualifications and decision-led tool guidance.
 - A single edition metadata owner and native Typst, Mermaid, formatting and
   verification tasks, with navigable figures and reader references.
-- A synthetic practice companion with eight executable data, export,
-  structural-search and API contract controls.
+- A synthetic practice companion with 15 executable checks covering source
+  selection, entity-level reconciliation, effective-date mapping, explicit UTC
+  cutoffs, exports, structural search and API contracts.
 - A checksum-bound compiler, font and complete Typst package input manifest,
   with native replay and three missing/altered-input regression tests. The
   same-host network-disabled replay matches the delivered PDF; complete locked

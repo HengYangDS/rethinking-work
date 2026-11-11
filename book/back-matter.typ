@@ -1,18 +1,18 @@
 #import "/publication/style.typ": *
 #import "/book/metadata.typ": *
-#chapter("附录", "A", "案例环境与适用范围", "理解一项经验，先看它在哪些条件下成立。以下记录有明确日期，不是一套人人需要复制的工具清单。")
-#small[2026-11-07 05:44 UTC 的只读快照覆盖 13 组原生管理/状态命令、87 个 /Applications 顶层 App bundle 与 25 个入口解析。Brew 457 行，npm 全局根包 13 个，pnpm 根包 1 个，UV 工具 25 个，Mise 工具身份 34 个，MAS 21 行；这些分母相互重叠，不求和。原 97 项 App 盘点的选区更宽，差异不证明移除了 10 个软件。I2 保存本次精确范围；I1 保留前次快照。]
+#chapter("附录", "A", "案例环境与适用范围", "理解一项经验，先看它在哪些条件下成立。以下记录有明确日期，不是一套人人需要复制的工具清单。")<case-environment>
+#small[以下采用 2026-11-07 05:44 UTC 的只读快照，范围包括 13 组软件管理与状态命令、/Applications 下 87 个顶层应用包，以及 25 个命令入口。Homebrew 清单有 457 行；npm 全局根包 13 个、pnpm 根包 1 个、UV 工具 25 个、Mise 工具身份 34 个、MAS 清单 21 行。这些统计范围有重叠，不能相加。此前的 97 项 App 盘点范围更宽，不能据两次计数之差断言移除了 10 个软件。I2 保存本次范围，I1 保留前次快照。]
 
 #text(size: 8.8pt)[
-#matrix([*层*], [*记录中的代表对象*], [*本册所支持的状态*], [主Agent/App], [Codex、Claude、Cursor、JetBrains、Hermes、Qoder、WorkBuddy、Trae], [安装和入口元数据；各已有使用路径范围不同，不作统一推荐], [Brew原生工具], [DuckDB 2.0.0_1、Typst0.15.1、Quarto1.11.9、JupyterLab4.6.5、uv0.13.7], [原版本/入口已读；不代表项目环境和全部功能], [npm全局], [Hindsight插件0.8.6、AgentDesktop1.2.0、ContextMode2.1.5、TeamAI0.29.0、OMX0.21.46], [包元数据；复制运行环境和当前客户端分别核验], [pnpm], [Paperclip2026.1023.0], [已安装；候选包装和安装根目录的拒绝仍开放], [UV工具], [Semble0.7.2、Serena2.1.0、CRG2.3.9、RepoWise0.60.1、Hindsight1.2.0、Semantica0.7.0], [独立工具环境；RepoWise容器与此不同], [其余UV能力], [AgentReach、MarkItDown、BrowserUse、Phoenix、Inspect、SQLMesh、MLX工具、OpenEvolve], [已盘点根版本；实绩按具体样例], [Mise], [2026.11.3，Python/Node/npm等多版本], [人为锁定版本保留；项目当前选择不是已安装版本全集], [其他管理者], [pipx、Cargo、Bun global、Pixi global], [本次原清单为空；不代表全机没有相应项目], [App生态], [Obsidian、Notion、Office、Blender、IINA、Raycast、Setapp、Ollama], [App元数据与已有使用路径；账号/插件/内嵌运行环境不外推], [VM/容器], [3台CI 虚拟机；OrbStack/容器/服务], [当前VM运行元数据；不证明项目任务与恢复])
+#matrix([*层*], [*记录中的代表对象*], [*这份记录说明什么*], [主 Agent 与 App], [Codex、Claude、Cursor、JetBrains、Hermes、Qoder、WorkBuddy、Trae], [安装与入口信息；各项使用记录范围不同，不作统一推荐], [Homebrew 工具], [DuckDB 2.0.0_1、Typst 0.15.1、Quarto 1.11.9、JupyterLab 4.6.5、uv 0.13.7], [已读取当时的版本和入口；未验证全部项目环境与功能], [npm 全局包], [Hindsight 插件 0.8.6、Agent Desktop 1.2.0、Context Mode 2.1.5、TeamAI 0.29.0、OMX 0.21.46], [包的信息；独立运行环境与实际客户端仍须分别核验], [pnpm], [Paperclip 2026.1023.0], [已安装；候选包及安装根目录的资格检查仍有拒绝未解决], [UV 工具], [Semble 0.7.2、Serena 2.1.0、CRG 2.3.9、RepoWise 0.60.1、Hindsight 1.2.0、Semantica 0.7.0], [独立工具环境；不等于 RepoWise 容器环境], [其余 UV 工具], [Agent Reach、MarkItDown、Browser Use、Phoenix、Inspect、SQLMesh、MLX 工具、OpenEvolve], [已盘点工具根版本；使用结果限于具体样例], [Mise], [2026.11.3，Python/Node/npm 等多版本], [保留当时人为锁定的版本；项目所选版本不等于全部已安装版本], [其他包管理工具], [pipx、Cargo、Bun global、Pixi global], [本次所查清单为空；不代表没有相关项目], [其他 App], [Obsidian、Notion、Office、Blender、IINA、Raycast、Setapp、Ollama], [App 信息与已有使用记录；不推及账号、插件和内嵌运行环境], [虚拟机与容器], [3 台 CI 虚拟机；OrbStack、容器与服务], [当时的虚拟机运行信息；不证明项目作业与恢复已通过验收])
 ]
 
-#takeaway("这个案例的证明范围", [附录原生列表记录三台 CI 虚拟机在运行，另有一台 Rosetta VM 已被人删除，不在恢复范围。列表只证明那一时刻的状态，不证明所有项目同 SHA 验收。读者设计自己的 CI 路径，仍须确认源码、运行节点、权限和恢复责任。])
+#takeaway("这个案例的证明范围", [当时的状态列表记录三台 CI 虚拟机在运行，另有一台 Rosetta 虚拟机已被人删除，不在恢复范围。列表只说明那个时刻的状态，不证明所有项目都已完成同一源码提交的 CI 验收。读者设计自己的流程，仍须确认源码、执行节点、权限和恢复责任。])
 
-#small[研究/条件项同样保留：OMC与OpenRewrite仅源码研究；Qwen对比暂停；新的编排、企业数据/IAM、独立RSI与未接受恢复不得写成完成。airflow/dagster等章节是角色选择建议，不宣称这些方案均已安装。]
+#small[未完成事项也照实保留：OMC 与 OpenRewrite 仅作源码研究，Qwen 对比暂停；新的编排方案、企业数据与身份权限接入、独立 RSI 试验和未通过验收的恢复，不能写成完成。Airflow、Dagster 等章节讨论的是适用场景与选择，不表示这些方案均已安装。]
 
 #heading(level: 2, outlined: true)[从案例事实到采用判断]
-一份安装清单回答“有什么”，一项实战记录回答“在什么条件下做过什么”。两者都不能替团队回答“是否值得采用”。编写本册时，71 项明确请求各有章节或采用条件，38 份来源绑定逐项复核；这些记录用于防止遗漏与失真，不是团队必须照搬的采购清单。源存在且字节相同，只支持出处保留，不证明工具今天都已配置、可用或值得采用 \[#case("I2") / #case("R1")\]。
+安装清单回答“有什么”，实战记录回答“在什么条件下做过什么”；是否值得采用，还要结合团队的工作判断。编写本册时，71 项明确请求分别对应章节或采用条件，38 份来源记录及其引用关系经过逐项复核。这样做是为了减少遗漏与失真，不是要求团队照搬一份采购清单。确认原件存在、字节一致，只能证明出处得到保留，不能证明其中的工具今天都已配置妥当、能够使用或值得采用 \[#case("I2") / #case("R1")\]。
 
 #matrix([*事实层*], [*记录支持什么*], [*仍不能说什么*], [原生安装元数据], [在本次选区中有包、App或入口], [所有功能、账号、插件都已正常], [完整实战记录], [指定对象曾走通指定输入到结果], [每个用户、平台或数据都适用], [采用建议], [按任务、代价与维护选择最小组合], [已测团队收益或行业最佳], [未知与保留], [哪些边界缺证、由谁继续判断], [没有读到就等于不存在])
 
@@ -29,7 +29,13 @@ Jev/Laya、Clef/Clef-flash 的有限离线试验未支持自主维护推广；Qw
 
 #chapter("附录", "B", "案例出处与限制", "每项结论都限定到实际记录的对象。来源编号连接正文与以下说明；精确路径、完整原件和校验记录由原证据拥有者保留，不随源仓库或练习包分享。")<case-records>
 #small[以下是案例范围说明，不是公开原始日志。未随书提供的材料不能被视为读者已核验的证据；可独立练习的合成输入见#link(<companion>)[附录 C]。]
-#text(size: 8.5pt)[
+
+== 本册的编辑与试验范围
+编写工作包括写作、原生只读盘点与公开合成样例；原版、完整源和必要证据由原证据库保留。写作不包含软件安装，也不改变服务、账号、模型、项目锁或人工版本约束。作者自审和逐页检查与独立外部评审、实际教学反馈分别记录。
+
+#block[
+#set text(size: 9pt)
+#set par(first-line-indent: 0pt, leading: 5.5pt, spacing: 9pt)
 #metadata((case: "S1"))<case-S1> *S1* Quarto：2026-11-07，原生发布的精确执行边界、完整正文与视觉验收，不是所有出版环境证明。
 
 #metadata((case: "S2"))<case-S2> *S2* Hermes：2026-11-06，原会话选定Skills完整读取与RepoWise连接；完整工具执行与一般运行中恢复未接受。
@@ -59,7 +65,6 @@ Jev/Laya、Clef/Clef-flash 的有限离线试验未支持自主维护推广；Qw
 #metadata((case: "Q1"))<case-Q1> *Q1* Semgrep：2026-11-07，公开Python/Go离线规则样例、安装与精确旧版退休；无法完整识别的核心与已批准依赖限制保留。
 
 #metadata((case: "I1"))<case-I1> #metadata((case: "E1"))<case-E1> *I1/E1* 编写期间的原生安装清单与完全合成对账/红绿tests：仅该metadata/合同，未接企业数据、账号或服务。
-]
 
 == 历史事件的来源角色
 #metadata((case: "L1"))<case-L1> *L1* 整机范围被缩小到Brew、#metadata((case: "L2"))<case-L2> *L2* AgentDesktop script warning、#metadata((case: "L4"))<case-L4> *L4* SQLite temp路径、#metadata((case: "L5"))<case-L5> *L5* Gateway拓扑、#metadata((case: "L6"))<case-L6> *L6* Runner389 前提条件、#metadata((case: "L7"))<case-L7> *L7* 恢复包保存位置与保管记录缺失，来自案例中的人类请求与批准、源代码及原始操作记录。转述时保持人类决定、操作者报告和直接观察的区别。
@@ -97,6 +102,8 @@ Jev/Laya、Clef/Clef-flash 的有限离线试验未支持自主维护推广；Qw
 
 #metadata((case: "X2"))<case-X2> *X2* 2026-11-09 随册量化数据部门合成练习的原生执行：旧 Python 一项业务断言失败、控制通过，新版两项通过；完整 AST 匹配一处，字节范围 58–75；删除 `GET /research-snapshot` 被拒绝，未改合同控制为空数组。历史快照接受 S01/S02/S03/S06，覆盖 4/6，与污染快照有四项差异；截止点后移，覆盖为 5/6，仅 S06 快照遗漏仍在。质量清单分别保留缺值、不可用与范围外问题。它证明所选公开合成输入与查询的结果，不证明企业数据、模型效果、组合收益、业务部署或教学成效。
 
+#metadata((case: "X3"))<case-X3> *X3* 2026-11-10 随册合成练习扩展：显式 UTC 截止时点在 UTC 与 Asia/Shanghai 会话中保持同一结果；来源选择按必要条件得到 new_vendor，现有源覆盖补齐后改选 incumbent，撤去新源许可则无合格候选；实体级对账揭示总量相等时的 −2000/+2000；有效期映射区分唯一匹配、无匹配与重叠歧义。原生测试核对完整输出，不调用模型或业务数据。它支持这些教学规则与边界，不证明实际供应商、专利、财报或数据管理系统已通过验收。
+
 #metadata((case: "N4"))<case-N4> *N4* 2026-11-08 Open Code Review 1.13.6 的原生版本、delegate/preview/rule 完整帮助及已安装的官方评审与委派 Skill：核对文件范围、规则解析、输出字段和命令语法。本文的零收益评审意见来自随册合成合同，不是 OCR 模型结果；未调用模型、测试供应商、读取凭据或证明团队采用收益。
 
 #metadata((case: "T1"))<case-T1> *T1* 2026-11-08 直接读取 Hermes 源版 `1af0577348cb23440b413846798dd75de3ee1cf4` 的 `agent/turn_tool_round.py`、`agent/tool_executor.py` 与 `run_agent.py` 相关执行入口：工具调用校验、调用记录先保存、宿主执行、失败或边界停止、结果后继续。它支持所选实现的源码解释；未运行模型、验收所有分支，也不外推为每种 Agent 的统一实现。正文将这项机制用于教学，并未改变 Hermes 安装。
@@ -105,8 +112,7 @@ Jev/Laya、Clef/Clef-flash 的有限离线试验未支持自主维护推广；Qw
 
 #metadata((case: "T2"))<case-T2> *T2* 2026-11-08 读取 OpenAI 公开 Prompt engineering、Function calling、Retrieval 与 Supervised fine-tuning 文档：非确定性输出、上下文与 RAG、调用回路、向量相似性和按训练样例更新参数。仅用于解释所选技术关系；不把文档中的供应商能力、通道或例子当作所有产品的保证。所选完整返回正文和相关段落由原证据拥有者保留，未执行模型 API 请求、训练或模型对比。
 
-== 本册的编辑与试验范围
-编写工作包括写作、原生只读盘点与公开合成样例；原版、完整源和必要证据由原证据库保留。写作不包含软件安装，也不改变服务、账号、模型、项目锁或人工版本约束。作者自审和逐页检查与独立外部评审、实际教学反馈分别记录。
+]
 
 #chapter("附录", "C", "官方入口与随册练习", "先核对自己的产品版本与环境，再使用例子。文档入口不是运行授权。")<companion>
 #block[
@@ -116,40 +122,54 @@ Jev/Laya、Clef/Clef-flash 的有限离线试验未支持自主维护推广；Qw
 
 #link("https://onorca.dev/")[Orca] · #link("https://github.com/multica-ai/multica")[Multica] · #link("https://github.com/Tencent/teamai-cli")[TeamAI]
 
-#link("https://github.com/paperclipai/paperclip")[Paperclip]
+#link("https://github.com/paperclipai/paperclip")[Paperclip] · #link("https://github.com/Yeachan-Heo/oh-my-codex")[OMX] · #link("https://github.com/Yeachan-Heo/oh-my-claudecode")[OMC] · #link("https://omp.sh")[OMP]
 
 #link("https://github.com/MinishLab/semble")[Semble] · #link("https://github.com/repowise-dev/repowise")[RepoWise] · #link("https://github.com/tirth8205/code-review-graph")[Code Review Graph]
 
 #link("https://github.com/oraios/serena")[Serena] · #link("https://github.com/Egonex-AI/Understand-Anything")[Understand Anything] · #link("https://github.com/microsoft/markitdown")[MarkItDown]
 
+#link("https://docs.graphify.com")[Graphify] · #link(<code-search>)[代码检索的分工]
+
 #link("https://github.com/alibaba/open-code-review")[Open Code Review] · #link(<quality>)[评审使用路径]
 
 #link("https://developers.openai.com/api/docs/guides/prompt-engineering")[模型请求与上下文] · #link("https://developers.openai.com/api/docs/guides/function-calling")[工具调用] · #link("https://developers.openai.com/api/docs/guides/retrieval")[检索机制] · #link("https://developers.openai.com/api/docs/guides/supervised-fine-tuning")[微调机制]
 
-#link("https://github.com/Panniantong/Agent-Reach")[Agent Reach] · #link("https://duckdb.org/docs/stable/")[DuckDB] · #link("https://jupyter.org/")[Jupyter]
+#link("https://context7.com/docs/resources/all-clients")[Context7] · #link("https://github.com/Panniantong/Agent-Reach")[Agent Reach] · #link("https://duckdb.org/docs/stable/")[DuckDB] · #link("https://jupyter.org/")[Jupyter]
 
 #link("https://docs.browser-use.com/open-source/quickstart")[Browser Use] · #link("https://github.com/vercel-labs/agent-desktop")[Agent Desktop] · #link("https://github.com/mksglu/context-mode")[Context Mode]
 
 #link("https://quarto.org/docs/guide/")[Quarto] · #link("https://typst.app/docs/")[Typst] · #link("https://help.obsidian.md/")[Obsidian]
 
-#link("https://docs.getsemantica.ai/")[Semantica]
+#link("https://github.com/HengYangDS/architecture-publisher")[Architecture Publisher] · #link(<generated-explanation>)[生成说明的核对]
+
+#link("https://docs.getsemantica.ai/")[Semantica] · #link("https://docs.mem0.ai/introduction")[Mem0]
 
 #link("https://hindsight.vectorize.io/")[Hindsight] · #link("https://github.com/vectorize-io/hindsight")[Hindsight 源码] · #link("https://brew.sh/")[Homebrew] · #link("https://docs.astral.sh/uv/")[UV] · #link("https://mise.jdx.dev/")[Mise]
 
 #link("https://www.promptfoo.dev/docs/")[Promptfoo] · #link("https://inspect.aisi.org.uk/")[Inspect] · #link("https://arize.com/docs/phoenix/")[Phoenix]
 
-#link("https://dlthub.com/docs/")[dlt] · #link("https://sqlmesh.readthedocs.io/")[SQLMesh] · #link("https://docs.dagster.io/")[Dagster]
+#link("https://dlthub.com/docs/")[dlt] · #link("https://sqlmesh.readthedocs.io/")[SQLMesh] · #link("https://docs.dagster.io/")[Dagster] · #link("https://airflow.apache.org/docs/")[Airflow]
 
 #link("https://semgrep.dev/docs/")[Semgrep] · #link("https://ast-grep.github.io/")[ast-grep] · #link("https://www.oasdiff.com/")[oasdiff]
+
+#link("https://docs.openrewrite.org")[OpenRewrite] · #link(<case-S14>)[仅源码研究的采用边界]
+
+#link("https://github.com/HengYangDS/aigw-cli")[AIGW] · #link(<reading-capabilities>)[主 Agent 与模型路由的分工]
 
 #link("https://github.com/anchore/syft")[Syft] · #link("https://github.com/anchore/grype")[Grype] · #link("https://github.com/casey/just")[Just] · #link("https://difftastic.wilfred.me.uk/")[Difftastic]
 
 ]
 
-== 随册练习文件
+== 随册练习文件 <companion-files>
+若你收到本册及配套 ZIP，请先解压练习包，阅读其中的“开始阅读.txt”与 exercises/reader-guide.zh.md；再按#link(<practice-code>)[零收益修复]、#link(<practice-data>)[历史快照核验]或#link(<practice-research>)[来源选择]进入。PDF 不依赖某台机器的文件路径，也不提供未经发布的下载链接；未收到练习包时，仍可先读正文中的完整示例。
+
 随册源仓库的 exercises 目录保存合成数据、SQL、预期差异、旧/新Python函数与unittest。每个文件均可完整阅读；先读契约，再跑离线命令。教学资产不绑定个人用户名或业务路径，不需要账号。Python 题只用标准库；数据题需要已有 DuckDB，接口题需要已有 oasdiff，选做的结构匹配题需要 ast-grep。没有这些工具时，仍可读完整输入、预测结果并完成判断题；安装须按团队原供应流程另行处理。
 
-*数据练习*：source-observations.csv、universe.csv、research-snapshot.csv、reconcile.sql、expected-differences.csv、quality.sql、expected-quality.csv。*编码练习*：export_bug.py、export_fixed.py、test_export.py。*接口练习*：openapi-before.yaml、openapi-after.yaml。*工作模板*：task-brief.md、source-table.csv、evaluation-card.md、team-asset-review.md、work-chain-design.md、long-task-checkpoint.md、transfer-cases.json。完整机器验收留在原证据拥有者，不装入可分享练习包。
+*历史快照*：source-observations.csv、universe.csv、research-snapshot.csv、reconcile.sql、expected-differences.csv、quality.sql、expected-quality.csv。
+
+*来源选择*：source-candidates.csv、source-selection.sql。*实体对账*：entity-expected.csv、entity-observed.csv、entity-reconciliation.sql。*有效期映射*：entity-mappings.csv、entity-events.csv、entity-mapping.sql。
+
+*编码练习*：export_bug.py、export_fixed.py、test_export.py。*接口练习*：openapi-before.yaml、openapi-after.yaml。*工作模板*：task-brief.md、source-table.csv、evaluation-card.md、team-asset-review.md、work-chain-design.md、long-task-checkpoint.md、transfer-cases.json。完整机器验收留在原证据拥有者，不装入可分享练习包。
 
 == 读完之后做一件真实的事
 选一项你熟悉质量标准、又被重复劳动拖慢的任务。把材料与边界交清楚，先看一个样品，用实际工具做成一份可检查的成果。随后让同事接续，看方法在哪里需要改进。

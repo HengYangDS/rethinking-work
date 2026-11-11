@@ -1,0 +1,3 @@
+entity_id,owner_id,valid_from,valid_to
+PAT01,OWNER_A,2024-01-01T00:00:00Z,2024-07-01T00:00:00Z
+PAT01,OWNER_B,2024-07-01T00:00:00Z,
