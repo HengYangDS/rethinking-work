@@ -11,6 +11,18 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def read_pdf(*arguments):
+    return subprocess.run(
+        ["just", "--justfile", "publication/justfile", "pdf-tool", *arguments],
+        cwd=ROOT,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        text=True,
+        timeout=60,
+        check=True,
+    )
+
+
 def evaluate(expression):
     result = subprocess.run(
         ["typst", "eval", "--root", str(ROOT), "--in", "book/main.typ", expression],
@@ -61,14 +73,7 @@ class PublicationInputs(unittest.TestCase):
 
     def test_built_pdf_identity_matches_visible_attribution(self):
         identity = evaluate("query(<edition-identity>).first().value")
-        result = subprocess.run(
-            ["pdfinfo", "-meta", str(self.pdf)],
-            stdin=subprocess.DEVNULL,
-            capture_output=True,
-            text=True,
-            timeout=15,
-            check=True,
-        )
+        result = read_pdf("pdfinfo", "-meta", str(self.pdf))
         xmp = ET.fromstring(result.stdout)
         namespaces = {
             "dc": "http://purl.org/dc/elements/1.1/",
@@ -88,14 +93,7 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(keywords.text, ", ".join(identity["keywords"]))
         for value in (created, modified):
             self.assertEqual(value.text, identity["date"] + "T00:00:00Z")
-        info = subprocess.run(
-            ["pdfinfo", "-isodates", str(self.pdf)],
-            stdin=subprocess.DEVNULL,
-            capture_output=True,
-            text=True,
-            timeout=15,
-            check=True,
-        ).stdout
+        info = read_pdf("pdfinfo", "-isodates", str(self.pdf)).stdout
         fields = dict(line.split(":", 1) for line in info.splitlines() if ":" in line)
         self.assertEqual(fields["Title"].strip(), title.text)
         self.assertEqual(fields["Author"].strip(), author.text)
@@ -103,28 +101,14 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(fields["Keywords"].strip(), keywords.text)
         self.assertEqual(fields["CreationDate"].strip(), created.text)
         self.assertEqual(fields["ModDate"].strip(), modified.text)
-        cover = subprocess.run(
-            ["pdftotext", "-f", "1", "-l", "1", str(self.pdf), "-"],
-            stdin=subprocess.DEVNULL,
-            capture_output=True,
-            text=True,
-            timeout=15,
-            check=True,
-        ).stdout
+        cover = read_pdf("pdftotext", "-f", "1", "-l", "1", str(self.pdf), "-").stdout
         self.assertIn(identity["title"]["text"], cover)
         self.assertIn(identity["author"][0], cover)
         for part in identity["date"].split("-"):
             self.assertIn(str(int(part)), cover)
 
     def test_body_paragraphs_use_aligned_starts_and_visible_spacing(self):
-        result = subprocess.run(
-            ["pdftotext", "-bbox-layout", str(self.pdf), "-"],
-            stdin=subprocess.DEVNULL,
-            capture_output=True,
-            text=True,
-            timeout=20,
-            check=True,
-        )
+        result = read_pdf("pdftotext", "-bbox-layout", str(self.pdf), "-")
         document = ET.fromstring(result.stdout)
         ns = {"pdf": "http://www.w3.org/1999/xhtml"}
         pages = document.findall(".//pdf:page", ns)

@@ -13,6 +13,9 @@ claim editorial acceptance or public publication.
 
 ### Changed
 
+- Bound the native Mermaid task to software rasterization through supported
+  Puppeteer configuration, with a real-browser replay regression. Same-host
+  stability is qualified; changed raster pixels still require successor review.
 - Reworked the opening around a quantitative data department's complete work
   chain, from the research question and source evaluation to modeling,
   production, quality, delivery and feedback.

@@ -31,6 +31,20 @@ The same headless browser is required, with a 60-second subprocess deadline.
 The check covers this figure's current straight-line SVG geometry. It does not
 replace visual inspection of the PNG or its legibility on the actual book page.
 
+## Native raster replay
+
+[test_diagram_replay.py](test_diagram_replay.py) runs the actual Just `diagram`
+task in a temporary fixture using the real headless browser. Two renders must
+equal a same-input software-rasterized reference produced through Mermaid's
+supported launch configuration. The test checks PNG identity and dimensions,
+not source strings or a fixed historical image digest. Each subprocess has a
+60-second deadline; the fixture is removed even on assertion failure.
+
+This guards the task's raster selection and observed repeated bytes on the
+current host. The separate all-seven qualification covers the selected figure
+set. Neither check proves cross-machine rendering or replaces visual review of
+a successor edition; no personal browser profile or reader PDF is changed.
+
 ## Companion contracts
 
 [test_exercises.py](test_exercises.py) runs the documented synthetic exercises

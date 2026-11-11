@@ -23,6 +23,7 @@ class BoundTypstReplay(unittest.TestCase):
         for directory in ("publication", "book", "supply/bin", "supply/fonts", "supply/packages"):
             (cls.root / directory).mkdir(parents=True)
         shutil.copy2(ROOT / "publication/justfile", cls.root / "publication/justfile")
+        shutil.copy2(ROOT / "publication/brewfile", cls.root / "publication/brewfile")
         shutil.copy2(shutil.which("typst"), cls.supply / "bin/typst")
         (cls.root / "book/main.typ").write_text(
             '#set text(font: "DejaVu Sans Mono")\nBound input replay\n'
@@ -58,11 +59,20 @@ class BoundTypstReplay(unittest.TestCase):
         result = self.replay()
         self.assertEqual(result.returncode, 0, result.stderr)
         text = subprocess.run(
-            ["pdftotext", str(self.pdf), "-"],
+            [
+                "just",
+                "--justfile",
+                "publication/justfile",
+                "pdf-tool",
+                "pdftotext",
+                str(self.pdf),
+                "-",
+            ],
+            cwd=self.root,
             stdin=subprocess.DEVNULL,
             capture_output=True,
             text=True,
-            timeout=15,
+            timeout=60,
             check=True,
         ).stdout
         self.assertEqual(text.strip(), "Bound input replay")

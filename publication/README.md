@@ -6,7 +6,10 @@ manuscript claims or a second edition identity.
 - [style.typ](style.typ) owns the `publication-design` show rule and typography
   helpers, tables, notes and reader figures over the unchanged publisher package.
 - [justfile](justfile) exposes the executable build and check commands.
+- [brewfile](brewfile) declares the Homebrew-owned PDF inspection supply.
 - [mermaid.json](mermaid.json) defines the shared diagram rendering settings.
+- [puppeteer.json](puppeteer.json) selects software rasterization for the existing
+  headless diagram browser without changing its executable or sandbox.
 - [toolchain.json](toolchain.json) records the selected supply and reproduction
   limits, rather than installing software.
 - [instrumented.typ](instrumented.typ) is a diagnostic entrypoint that exposes
@@ -27,17 +30,19 @@ rule. It does not add a publisher framework or modify the pinned package.
 
 Run from the repository root:
 
-| Task                                 | Effect                                                 |
-| ------------------------------------ | ------------------------------------------------------ |
-| `bootstrap`                          | Print installed executor versions; install nothing     |
-| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures             |
-| `pdf`                                | Compile a candidate using already-rendered figures     |
-| `build`                              | Rebuild figures, then compile the candidate            |
-| `render`                             | Render all pages for visual inspection                 |
-| `test`                               | Rebuild figures, then check publication and exercises  |
-| `exercises`                          | Check synthetic data, export, search and API contracts |
-| `format-check` / `format`            | Check / apply Prettier to declared authored formats    |
-| `check`                              | Run formatting, publication and exercise checks        |
+| Task                                 | Effect                                                  |
+| ------------------------------------ | ------------------------------------------------------- |
+| `bootstrap`                          | Print installed executor versions; install nothing      |
+| `pdf-tools-check`                    | Check declared, already-installed PDF inspection tools  |
+| `pdf-tool <command> [arguments]`     | Run PDF inspection in the declared Homebrew environment |
+| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures              |
+| `pdf`                                | Compile a candidate using already-rendered figures      |
+| `build`                              | Rebuild figures, then compile the candidate             |
+| `render`                             | Render all pages for visual inspection                  |
+| `test`                               | Rebuild figures, then check publication and exercises   |
+| `exercises`                          | Check synthetic data, export, search and API contracts  |
+| `format-check` / `format`            | Check / apply Prettier to declared authored formats     |
+| `check`                              | Run formatting, publication and exercise checks         |
 
 The invocation is `just --justfile publication/justfile <task>`.
 `diagram name` produces PNG by default; `diagram name svg` renders the same
@@ -52,15 +57,29 @@ ast-grep and oasdiff; it does not render figures or compile the PDF. See the
 
 ## Supply and reproduction
 
-The existing Homebrew installations own Typst, Mermaid CLI, Just, Prettier and
-Python 3.12 on the current authoring workstation. No parallel tools are installed
-by these tasks. The selected versions and font families are recorded in
-[toolchain.json](toolchain.json).
+Homebrew remains the host installation owner. The native tasks install nothing
+and run the executors selected by their invocation environment. An isolated Mise
+environment has qualified the six declared versions: Node 26.13.0, Python
+3.12.16, Typst 0.15.1, Just 1.59.0, Mermaid CLI 12.2.0 and Prettier 3.9.10. Its
+installation, version checks and native `check` pass; it is not a parallel host
+installation or an accepted repository bootstrap. The selected supply and font
+families are recorded in [toolchain.json](toolchain.json).
 
 Poppler supplies `pdfinfo` and `pdftotext` for PDF Info, XMP and visible-cover
-checks. It is required by `test` and inspected by `bootstrap`, not installed by
-either command. The concrete build version and its unresolved repository supply
-qualification are recorded in `toolchain.json`.
+checks. [brewfile](brewfile) declares the package; the native `pdf-tool` task
+checks its presence with Homebrew Bundle and executes the requested command in
+that bundle's environment. `pdf-tools-check` checks both executables and is a
+prerequisite of `test` and `bootstrap`. These tasks install or upgrade nothing
+and disable Homebrew auto-update. The binding and native checks pass on the
+authoring host. The Brewfile does not lock Poppler's exact version or qualify a
+second-machine bootstrap; [toolchain.json](toolchain.json) records the version
+used by the current build.
+
+For example, inspect a candidate through the same declared binding:
+
+```sh
+just --justfile publication/justfile pdf-tool pdfinfo build/artifacts/pdf/rethinking-work.pdf
+```
 
 Typst imports `@preview/neat-book:0.1.0` and its publisher-declared dependencies.
 Their first use may fetch official packages; subsequent builds can use the
@@ -77,6 +96,24 @@ to obtain a successful render. The [upstream browser guide](https://github.com/m
 warns that only the bundled browser is guaranteed; an existing Chrome build must
 be exercised with the selected CLI. A successful concrete build is not a promise
 that every Chrome version is compatible.
+
+The native diagram task passes [puppeteer.json](puppeteer.json) through Mermaid's
+supported `--puppeteerConfigFile` option. Its only launch argument is
+`--disable-gpu`. This avoids the default graphics path's observed pixel drift
+with Mermaid CLI 12.2.0 and Chrome 157.0.8103.51 on the authoring host. Two
+independent renders of each of the seven figures had identical PNG bytes with
+this setting; the native-task regression also compares repeated output to a
+same-input software-rendered reference. These are bounded host observations,
+not a cross-browser or cross-machine guarantee.
+
+The setting changes real antialiasing and shadow pixels, not only metadata.
+Observed SVG geometry, labels and arrows are preserved; the exact Chrome-internal
+cause is unproved. The software-rendered successor has passed complete-content,
+structural navigation, metadata and the stated every-page author visual
+self-review, and identical bytes have been delivered locally. Its actual-reader
+navigation and human editorial/teaching acceptance remain unverified. These
+results concern a renderer/supply successor, not a substantive manuscript
+rewrite. Running `diagram` alone never accepts or replaces a reader edition.
 
 The current PDF uses the following font supply. The diagram browser has a
 separate selection; it does not need every Typst family.
@@ -111,11 +148,15 @@ but does not establish byte-identical reproduction across machines. Match the
 actual font files and renderer identities as well as the compiler, resolved
 packages and diagram inputs before assessing reproduction.
 
-The Mise declaration exposes the same tasks. No accepted `mise.lock` or complete
-dependency sidecars exist yet. Its full locked supply qualification
-must pass before it is claimed as a second-machine bootstrap path; the current
-Just journey uses existing Homebrew executors. See the active Change for that
-acceptance rather than treating a configuration file as runtime proof.
+The Mise declaration exposes the same tasks. The repository still has no
+accepted `mise.lock` or complete dependency sidecars. Qualification of the
+isolated environment does not promote those files into the repository or qualify
+an independent-machine bootstrap. Poppler's separate Homebrew Bundle binding is
+described above; it is not an exact-version lock. See the
+[active Change](../openspec/changes/publication-foundation/tasks.md) for those
+acceptance boundaries rather than treating a configuration file as runtime proof.
+Frozen edition manifests retain the exact state they qualified; later contributor
+documentation changes are not backdated into those manifests.
 
 ## Bound Typst input replay
 
@@ -173,7 +214,9 @@ text matched, but the full PDF bytes did not. Replacing only those two diagrams
 restored the complete delivered PDF. The failed replay and changed images remain
 with its qualification evidence. This establishes the effect of the changed
 image inputs; it does not establish why the renderer produced different pixels
-or prove deterministic regeneration from Mermaid source.
+or prove deterministic regeneration from Mermaid source. The later software
+rasterization qualification above narrows the remaining gap to other renderer
+identities and machines; it does not retroactively qualify the default path.
 
 ## Reader spacing rhythm
 

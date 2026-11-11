@@ -4,19 +4,28 @@ default:
     @just --justfile publication/justfile --list
 
 # Inspect existing supply without installing or changing its owner.
-bootstrap:
+bootstrap: pdf-tools-check
     typst --version
     mmdc --version
     just --version
     prettier --version
     python3.12 --version
-    pdfinfo -v
-    pdftotext -v
+
+# Require the declared, already-installed PDF supply; never install or upgrade.
+_pdf-tools-installed:
+    env -u HOMEBREW_BUNDLE_CHECK HOMEBREW_NO_AUTO_UPDATE=1 brew bundle check --file publication/brewfile --no-upgrade --quiet
+
+# Only PDF inspection enters Brew's environment; other executors keep their owner.
+[positional-arguments]
+pdf-tool +arguments: _pdf-tools-installed
+    env -u HOMEBREW_BUNDLE_SERVICES -u HOMEBREW_BUNDLE_CHECK HOMEBREW_NO_AUTO_UPDATE=1 brew bundle exec --file publication/brewfile -- "$@"
+
+pdf-tools-check: (pdf-tool "pdfinfo" "-v") (pdf-tool "pdftotext" "-v")
 
 # Render one editable figure through the installed Mermaid CLI.
 diagram name format="png":
     mkdir -p build/artifacts/diagrams
-    mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.{{format}} --configFile publication/mermaid.json --scale 2 --backgroundColor white
+    mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.{{format}} --configFile publication/mermaid.json --scale 2 --backgroundColor white --puppeteerConfigFile publication/puppeteer.json
 
 diagrams: (diagram "collaboration") (diagram "data-chain") (diagram "memory") (diagram "orchestration") (diagram "reconcile") (diagram "runtime") (diagram "work-loop")
 
@@ -42,7 +51,7 @@ render:
     typst compile --root . --format png --ppi 144 book/main.typ build/artifacts/pages/page-{0p}.png
 
 # Tests consume freshly rendered figures, including in a source-only checkout.
-test: diagrams
+test: diagrams pdf-tools-check
     python3.12 -B -m unittest discover -s tests -v
 
 # Run only the synthetic companion contracts; no PDF or browser is required.
