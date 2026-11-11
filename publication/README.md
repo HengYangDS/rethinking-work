@@ -27,19 +27,21 @@ rule. It does not add a publisher framework or modify the pinned package.
 
 Run from the repository root:
 
-| Task                        | Effect                                                 |
-| --------------------------- | ------------------------------------------------------ |
-| `bootstrap`                 | Print installed executor versions; install nothing     |
-| `diagram name` / `diagrams` | Rebuild one / all declared Mermaid figures             |
-| `pdf`                       | Compile a candidate using already-rendered figures     |
-| `build`                     | Rebuild figures, then compile the candidate            |
-| `render`                    | Render all pages for visual inspection                 |
-| `test`                      | Rebuild figures, then check publication and exercises  |
-| `exercises`                 | Check synthetic data, export, search and API contracts |
-| `format-check` / `format`   | Check / apply Prettier to declared authored formats    |
-| `check`                     | Run formatting, publication and exercise checks        |
+| Task                                 | Effect                                                 |
+| ------------------------------------ | ------------------------------------------------------ |
+| `bootstrap`                          | Print installed executor versions; install nothing     |
+| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures             |
+| `pdf`                                | Compile a candidate using already-rendered figures     |
+| `build`                              | Rebuild figures, then compile the candidate            |
+| `render`                             | Render all pages for visual inspection                 |
+| `test`                               | Rebuild figures, then check publication and exercises  |
+| `exercises`                          | Check synthetic data, export, search and API contracts |
+| `format-check` / `format`            | Check / apply Prettier to declared authored formats    |
+| `check`                              | Run formatting, publication and exercise checks        |
 
 The invocation is `just --justfile publication/justfile <task>`.
+`diagram name` produces PNG by default; `diagram name svg` renders the same
+source and configuration as SVG for relationship and arrow-direction checks.
 `pdf` intentionally does not prove that images are freshly rebuilt; use `build`
 when figure sources change. Rendering does not inspect its own output.
 `test` and `check` rebuild the declared figures, so neither depends on images

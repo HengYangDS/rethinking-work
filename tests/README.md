@@ -19,6 +19,18 @@ different scopes; follow [edition acceptance](../docs/publication-acceptance.md)
 The [exercise regression](../exercises/README.md#export-regression) deliberately
 includes a failing old-function control and is not silently changed to pass.
 
+## Rendered diagram relationships
+
+[test_diagrams.py](test_diagrams.py) renders the data-chain figure through the
+actual `diagram data-chain svg` task. It checks the complete node labels, all
+seven directed relationships, solid and dotted edge roles, end markers and
+nondegenerate final tangents pointing toward the target. This guards the observed
+arrow reversal without testing source strings or changing the process meaning.
+The same headless browser is required, with a 60-second subprocess deadline.
+
+The check covers this figure's current straight-line SVG geometry. It does not
+replace visual inspection of the PNG or its legibility on the actual book page.
+
 ## Companion contracts
 
 [test_exercises.py](test_exercises.py) runs the documented synthetic exercises

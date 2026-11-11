@@ -14,9 +14,9 @@ bootstrap:
     pdftotext -v
 
 # Render one editable figure through the installed Mermaid CLI.
-diagram name:
+diagram name format="png":
     mkdir -p build/artifacts/diagrams
-    mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.png --configFile publication/mermaid.json --scale 2 --backgroundColor white
+    mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.{{format}} --configFile publication/mermaid.json --scale 2 --backgroundColor white
 
 diagrams: (diagram "collaboration") (diagram "data-chain") (diagram "memory") (diagram "orchestration") (diagram "reconcile") (diagram "runtime") (diagram "work-loop")
 
