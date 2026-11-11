@@ -94,9 +94,10 @@ font list can be inspected with Poppler's `pdffonts`. The
 [font notices](third-party-notices.md#authored-publication-fonts) distinguish
 standalone font files from PDF embedding and explain the applicable rights.
 
-The current layout depends on macOS font supply. A second-machine build and
-byte-identical reproduction have not been qualified. Different font files or
-browser versions can change wrapping and page count even with identical source.
+The current layout depends on macOS font supply. A second-machine build has not
+been qualified. Same-host byte-identical replay is qualified only for the bound
+inputs described below. Different font files or browser versions can change
+wrapping and page count even with identical source.
 Typst's supported `--font-path`, `--ignore-system-fonts` and
 `--ignore-embedded-fonts` options control discovery; they do not supply fonts or
 grant distribution rights. An open-font substitution requires a separate layout
@@ -147,9 +148,13 @@ distribution rights. Keep Apple fonts local to a licensed Apple environment;
 review the [font terms](third-party-notices.md#authored-publication-fonts).
 
 The output is `build/artifacts/pdf-isolated/rethinking-work.pdf`; this task never
-replaces the reader edition. It consumes the existing seven diagram images,
-so it does not qualify their renderer or prove that they were freshly rebuilt.
-Use the normal `build` task when changing diagram sources.
+replaces the reader edition. It consumes the seven diagram images currently in
+`build/artifacts/diagrams/`. The checksum task does not bind those images, and
+`pdf-isolated` neither freezes nor restores them. For an exact edition replay,
+restore their bytes from that edition's qualification bindings before compiling.
+This does not qualify their renderer or prove that they were freshly rebuilt.
+Use the normal `build` task when changing diagram sources and qualify its new
+output before replacing a reader edition.
 
 The 2026-11-10 same-host qualification used a separate local input directory,
 disabled network access and denied reads of the original font directories and
@@ -158,6 +163,15 @@ was byte-identical to the delivered edition. This proves a bounded replay with
 those actual inputs, not an independent-machine bootstrap, dependency security,
 source integration or complete locked publication supply. The original Change
 retains those remaining acceptance boundaries.
+
+The November 11 successor also reproduced byte-for-byte under the same isolation
+after two drifted generated diagrams were restored from its frozen edition
+inputs. Before restoration, every page's decoded content stream and extracted
+text matched, but the full PDF bytes did not. Replacing only those two diagrams
+restored the complete delivered PDF. The failed replay and changed images remain
+with its qualification evidence. This establishes the effect of the changed
+image inputs; it does not establish why the renderer produced different pixels
+or prove deterministic regeneration from Mermaid source.
 
 ## Reader spacing rhythm
 

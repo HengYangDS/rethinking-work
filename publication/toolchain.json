@@ -8,7 +8,7 @@
   "font_supply": {
     "typst": "Songti SC and Charter from macOS; Noto Sans CJK SC from its existing Homebrew cask; DejaVu Sans Mono embedded in Typst 0.15.1; Apple Color Emoji from macOS as the observed emoji fallback.",
     "mermaid_browser": "publication/mermaid.json selects Noto Sans CJK SC, which must be available to the selected headless browser. The other Typst families are not declared diagram requirements.",
-    "closure": "The bound replay checks six actual font files, the exact compiler with its embedded fonts, and all eight complete package roots through publication/typst-inputs.sha256. Typst inputs.json still omits font reads. Same-host, network-disabled replay equals the delivered PDF byte-for-byte; extra supplied files and second-machine reproduction remain unqualified.",
+    "closure": "The bound replay checks six actual font files, the exact compiler with its embedded fonts, and all eight complete package roots through publication/typst-inputs.sha256. Typst inputs.json still omits font reads. Same-host, network-disabled replay equals the delivered PDF byte-for-byte with exact edition-bound diagram bytes; extra supplied files and second-machine reproduction remain unqualified.",
     "rights": "No standalone font binaries are included in repository source. Delivered PDFs embed used font faces; each font retains its own terms. See publication/third-party-notices.md."
   },
   "pdf_inspection": {
@@ -19,6 +19,7 @@
     "locked_repository_resolution": "Not yet qualified; required by check and bootstrap."
   },
   "mermaid_browser": "Use Puppeteer's supported browser, or select an existing compatible browser with PUPPETEER_EXECUTABLE_PATH. Record its identity with the build; never use a personal browser profile or disable the sandbox.",
+  "diagram_replay": "pdf-isolated consumes current generated images and does not checksum, freeze or restore them. Exact edition replay requires their frozen qualification bindings. November 11 pixel drift changed the complete PDF bytes despite matching page content streams and text; the renderer cause and deterministic regeneration remain unproved.",
   "reproduction": "The source avoids private machine bindings, but the current layout depends on macOS font supply and has not qualified a second-machine build. Matching compiler, actual font files, browser, complete resolved packages, diagram inputs and fixed document date are reproduction prerequisites, not a byte-identical guarantee. A font substitution requires relayout and successor acceptance.",
   "typst_input_binding": "publication/typst-inputs.sha256"
 }
