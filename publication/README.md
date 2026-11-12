@@ -111,14 +111,15 @@ Observed SVG geometry, labels and arrows are preserved; the exact Chrome-interna
 cause is unproved. The delivered prose/supply successor includes substantive
 manuscript revisions and has passed complete-content, structural navigation,
 metadata and every-page author visual self-review. Representative contents,
-tool, return, official URL and companion-reference journeys also pass in Preview
-and Chrome on the exact delivered PDF. These technical and reader-navigation
-results do not establish human editorial acceptance or measured teaching
-effectiveness; those remain open in the
-[active Change](../openspec/changes/publication-foundation/tasks.md), which links
-the edition-bound qualification and actual-reader receipts. The renderer-specific
-observations above do not qualify the prose. Running `diagram` alone never
-accepts or replaces a reader edition.
+tool, return, official URL and companion-reference journeys in Preview and Chrome
+remain bound to the earlier editions recorded in their receipts; they do not
+qualify the current successor. Its original Preview reload and representative
+click journey remain unproved in task 2.4 of the
+[active Change](../openspec/changes/publication-foundation/tasks.md). Human
+editorial acceptance and measured teaching effectiveness also remain unproved
+in task 2.1. Reuse each result only for its bound edition and demonstrated scope.
+The renderer-specific observations above do not qualify the prose. Running
+`diagram` alone never accepts or replaces a reader edition.
 
 The current PDF uses the following font supply. The diagram browser has a
 separate selection; it does not need every Typst family.

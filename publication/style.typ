@@ -59,13 +59,13 @@
   #set par(first-line-indent: 0pt, justify: false, leading: body-line - body-edges, spacing: 2 * body-line - body-edges)
   #text(weight: "bold", title) #h(.5em) #body
 ]
-#let matrix(..args) = {
+#let matrix(columns: (1.05fr, 1.4fr, 1.55fr), ..args) = {
   set par(justify: false, first-line-indent: 0pt, leading: 4.5pt, spacing: 2 * space)
   set text(size: 9.5pt)
   let cells = args.pos()
-  table(columns: (1.05fr, 1.4fr, 1.55fr), inset: (x: 2 * space, y: 1.5 * space),
+  table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
     stroke: (x: none, y: .4pt + rule),
-    table.header(..cells.slice(0, 3)), ..cells.slice(3))
+    table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len()))
 }
 #let reader-figure(name, caption, description, width: 100%) = figure(
   image("/build/artifacts/diagrams/" + name + ".png", width: width, alt: description.text),

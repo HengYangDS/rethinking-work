@@ -60,3 +60,12 @@ The manuscript SHALL explain how Agents participate in real work decisions acros
 
 - **WHEN** the next candidate changes the manuscript after reader delivery
 - **THEN** complete-content, navigation and every-page checks qualify that new candidate before promotion, while the prior edition and its dated delivery receipts remain preserved.
+
+### Requirement: Meaning-led Chinese editorial review
+
+Chinese prose SHALL use accurate concepts and idiomatic paragraph structure. Editorial revision SHALL preserve the source's objects, actors, relationships, numbers, dates, negation, conditions, attribution and uncertainty. Practical instructions SHALL identify the actor, prerequisites, action and observable result. A reviewer score, agreement or word substitution SHALL NOT establish this acceptance.
+
+#### Scenario: One source term has different meanings
+
+- **WHEN** a source term refers to credentials in one passage and sensitive information or non-sensitive metadata in another
+- **THEN** each passage expresses its own intended meaning in natural Chinese, and whole-paragraph source comparison and cold reading qualify the revision rather than a global replacement.

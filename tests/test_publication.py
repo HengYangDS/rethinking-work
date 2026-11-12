@@ -113,7 +113,7 @@ class PublicationInputs(unittest.TestCase):
         ns = {"pdf": "http://www.w3.org/1999/xhtml"}
         pages = document.findall(".//pdf:page", ns)
         pairs = (
-            ("前六项实战已经显出一个区别", "让Agent真正参与工作"),
+            ("前六项实战已经呈现出一个区别", "让Agent真正参与工作"),
             ("从十二个来源中选一项", "工具可以分担检索与表达"),
         )
         for first, second in pairs:

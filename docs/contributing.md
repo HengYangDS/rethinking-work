@@ -55,12 +55,16 @@ lesson merely to fill a documentation category.
    tasks. Obtain exact passing `lane prewrite` admission before source edits.
 3. Make the smallest coherent change. Update links, figure captions and source
    qualifications in the same change when their meaning is affected.
-4. Run `just --justfile publication/justfile check`. Run `build` for changed
-   diagrams and a candidate PDF; `check` rebuilds figures before checking the
-   document, while `pdf` alone consumes existing renders. Select the supported
-   headless browser as described in [publication supply](../publication/README.md#supply-and-reproduction).
-5. Run `render` and inspect every affected page, then the complete candidate
-   before delivery. Follow [edition acceptance](publication-acceptance.md).
+4. For publication-input changes, run `just --justfile publication/justfile check`.
+   Run `build` for changed diagrams and a candidate PDF; `check` rebuilds figures
+   before checking the document, while `pdf` alone consumes existing renders.
+   For contributor-guide or task-only edits, run `format-check` and the current
+   official specification/task validation; do not rebuild unchanged publication
+   inputs. Select the supported headless browser only when needed, as described
+   in [publication supply](../publication/README.md#supply-and-reproduction).
+5. For a new rendered edition, run `render` and inspect every affected page,
+   then qualify the complete candidate before delivery. Reuse bound evidence
+   for an unchanged artifact. Follow [edition acceptance](publication-acceptance.md).
 6. Commit source and follow the current native proof and landing result. Source
    integration, artifact promotion and remote publication remain separate.
 
