@@ -108,12 +108,17 @@ not a cross-browser or cross-machine guarantee.
 
 The setting changes real antialiasing and shadow pixels, not only metadata.
 Observed SVG geometry, labels and arrows are preserved; the exact Chrome-internal
-cause is unproved. The software-rendered successor has passed complete-content,
-structural navigation, metadata and the stated every-page author visual
-self-review, and identical bytes have been delivered locally. Its actual-reader
-navigation and human editorial/teaching acceptance remain unverified. These
-results concern a renderer/supply successor, not a substantive manuscript
-rewrite. Running `diagram` alone never accepts or replaces a reader edition.
+cause is unproved. The delivered prose/supply successor includes substantive
+manuscript revisions and has passed complete-content, structural navigation,
+metadata and every-page author visual self-review. Representative contents,
+tool, return, official URL and companion-reference journeys also pass in Preview
+and Chrome on the exact delivered PDF. These technical and reader-navigation
+results do not establish human editorial acceptance or measured teaching
+effectiveness; those remain open in the
+[active Change](../openspec/changes/publication-foundation/tasks.md), which links
+the edition-bound qualification and actual-reader receipts. The renderer-specific
+observations above do not qualify the prose. Running `diagram` alone never
+accepts or replaces a reader edition.
 
 The current PDF uses the following font supply. The diagram browser has a
 separate selection; it does not need every Typst family.
