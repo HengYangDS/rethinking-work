@@ -79,16 +79,20 @@ and synthetic exercises. That acceptance does not establish dependency safety
 or a passing hosted job.
 
 GitHub runs on hosted macOS arm64 for pushes, pull requests and manual dispatch.
-Both branch jobs passed at `8747f90`: pipeline projections, formatting and all
+Both branch jobs passed at `1ee35a9`: pipeline projections, formatting and all
 15 exercises. GitLab's first two jobs failed while pulling the image from Docker
 Hub, before checkout or source execution. The private pipeline now retrieves
 the same official Node manifest from Amazon ECR Public, with its digest,
 configuration and seven layer bindings unchanged. The owner-associated general
 Linux Runner and its global settings are unchanged. Both jobs at `38c6706`
 pulled that image and checked out the event commit, then failed while downloading
-official Mise; one bounded retry reproduced the HTTP/2 stream failure. The Linux
-bootstrap now selects curl's native HTTP/1.1 option without changing TLS, source,
-version or checksum. Hosted source acceptance remains pending. Check the native job record, not the
+official Mise. HTTP/1.1 also timed out at `1ee35a9`, so it did not resolve the
+transfer failure. The Linux bootstrap now uses `mise.jdx.dev`, the official
+installer's primary endpoint, while retaining the GitHub-bound archive checksum,
+exact version, HTTPS restrictions and deadline. An isolated bootstrap in the
+approved Linux image downloaded and verified the archive and extracted binary
+in 6.6 seconds. The underlying GitHub transfer cause is unproved, and hosted
+source acceptance remains pending. Check the native job record, not the
 presence of YAML, before reporting hosted success. This task does not render the
 PDF, launch a browser, certify typography or establish merge protection. The
 original four ETHOS proof gates and publication acceptance remain in force.
