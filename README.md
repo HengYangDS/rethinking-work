@@ -36,6 +36,9 @@ The dependency path is `metadata + style + ordered manuscript + rendered
 diagram inputs -> book/main.typ -> candidate PDF -> qualification -> reader
 delivery`. Exercises are companion source, not a second copy of the book.
 Contributor guides explain this path; the active Change alone tracks progress.
+Each `exercises/cases/<case>/` keeps one case’s inputs, executable example and
+expected outcome together; `exercises/templates/` and `exercises/assessment/`
+serve reusable work materials and transfer practice respectively.
 
 | Path                                 | Responsibility                                                 | Retention                                                     |
 | ------------------------------------ | -------------------------------------------------------------- | ------------------------------------------------------------- |
@@ -55,7 +58,7 @@ source tree when the native task interface and topic owners already suffice.
 ## Build a candidate
 
 Use the existing installed tools declared in
-[publication/toolchain.json](publication/toolchain.json). The build requires
+[publication/supply/toolchain.json](publication/supply/toolchain.json). The build requires
 Typst's pinned publisher packages, the declared fonts and a headless browser for
 Mermaid. See [supply and reproduction](publication/README.md#supply-and-reproduction)
 before running it on a new machine; these commands do not install tools.
@@ -100,5 +103,5 @@ the peers therefore declare repository and publication capabilities only.
 
 The authored source is available under the [MIT License](LICENSE), copyright
 2026 衡阳. Third-party package licenses remain in
-[publication/third-party-notices.md](publication/third-party-notices.md) and are
+[publication/rights/third-party-notices.md](publication/rights/third-party-notices.md) and are
 not replaced by this license.

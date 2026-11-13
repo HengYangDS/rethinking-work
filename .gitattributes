@@ -3,6 +3,6 @@
 # Reader fixtures retain their documentation role; runnable Python examples
 # and their regression tests have native code and test responsibilities.
 exercises/** ethos-role=docs
-exercises/export_bug.py ethos-role=code
-exercises/export_fixed.py ethos-role=code
-exercises/test_export.py ethos-role=test
+exercises/cases/export-regression/export_bug.py ethos-role=code
+exercises/cases/export-regression/export_fixed.py ethos-role=code
+exercises/cases/export-regression/test_export.py ethos-role=test

@@ -15,13 +15,13 @@ search-and-replace or an additional publishing framework.
 ## Select one responsibility
 
 An unclear argument belongs in its manuscript part. A repeated presentation
-defect belongs in `publication/style.typ` or the document entrypoint. A wrong
+defect belongs in `publication/layout/style.typ` or the document entrypoint. A wrong
 relationship belongs in the editable diagram and its nearby explanation. A
 teaching failure belongs in the case, fixture or instructions that produced it.
 Title, author and editorial date belong only in `book/metadata.typ`.
 
 The main entrypoint assembles the selected publisher and edition. The
-`publication-design` show rule in `publication/style.typ` owns repeated heading,
+`publication-design` show rule in `publication/layout/style.typ` owns repeated heading,
 table and caption design. The native date also supplies its human-readable form;
 do not maintain a separate date string in a cover, task or contributor guide.
 
@@ -37,7 +37,7 @@ use, or a failed trial into a success story.
 | ----------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------- |
 | Improve a claim or case             | Root source map, `book/parts/README.md`, then its module and qualification | Full changed meaning and affected PDF pages               |
 | Correct a diagram relationship      | Manuscript caption, `diagrams/README.md`, then the `.mmd` input            | Rebuilt figure and its actual book page                   |
-| Repair recurring page spacing       | `publication/style.typ`, composed by `book/main.typ`                       | Every page affected by the rule                           |
+| Repair recurring page spacing       | `publication/layout/style.typ`, composed by `book/main.typ`                | Every page affected by the rule                           |
 | Change reading order or attribution | `book/manuscript.typ` or `book/metadata.typ`                               | Contents, bookmarks, visible attribution and PDF metadata |
 | Improve a practice task             | `exercises/README.md`, fixture and expected outcome                        | The stated command and both failing/valid controls        |
 
@@ -78,7 +78,7 @@ locked test environment with `uv sync --locked --no-build
 Run `just --justfile publication/justfile test-proof build/ethos/local-tests`
 for JUnit results and subprocess-aware coverage from the same execution.
 Pytest runs the existing unittest cases in `tests/` only. The intentionally
-failing `exercises/export_bug.py` is a teaching control, not a passing test
+failing `exercises/cases/export-regression/export_bug.py` is a teaching control, not a passing test
 suite; the parent tests verify both its failure and the corrected export.
 
 ## Format only authored inputs

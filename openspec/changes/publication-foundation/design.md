@@ -18,6 +18,22 @@ This Change does not create a publishing engine, a new governance framework or a
 
 The manuscript is divided into front matter, judgment, environment, capability roles, end-to-end practice, failure analysis, team learning, longer-term choices and references. This preserves conceptual relationships rather than splitting by page number. Tool-specific submodules can follow when editorial boundaries justify them.
 
+### Let directories express responsibilities
+
+Group each synthetic case’s inputs, code and expected outcomes under
+`exercises/cases/<case>/`. Reusable work materials belong in `templates/`;
+transfer cases belong in `assessment/`. Tests select the case directory
+explicitly so SQL-relative inputs and Python imports keep their original
+behavior. Do not split one case across global data, SQL and expected-output
+folders merely to classify file extensions.
+
+Keep publication layout, diagnostics, consumed supply manifests and rights
+notices distinct. The root README and Just interface remain navigation and
+execution entry points. Small coherent trees need no additional nesting. ETHOS
+owns common governance interfaces and native configuration admission; the
+publication owns its content taxonomy. Leave configuration carriers in their
+current admitted locations until their native owner accepts a supported move.
+
 ### Reuse native tools
 
 Use Just as the visible task interface and Typst, Mermaid CLI, Prettier, Python unittest and Git as their native executors. Mise exposes the same common verbs and owns future locked repository resolution; its acceptance does not follow from configuration alone. Do not introduce a PDF engine or custom installer. Existing Homebrew installations remain the host owners for the current build. The pinned Neat Book import remains unchanged; no vendor code is copied or patched.

@@ -19,7 +19,13 @@ class BoundTypstReplay(unittest.TestCase):
         cls.addClassCleanup(cls.scratch.cleanup)
         cls.root = Path(cls.scratch.name)
         cls.supply = cls.root / "supply"
-        for directory in ("publication", "book", "supply/bin", "supply/fonts", "supply/packages"):
+        for directory in (
+            "publication/supply",
+            "book",
+            "supply/bin",
+            "supply/fonts",
+            "supply/packages",
+        ):
             (cls.root / directory).mkdir(parents=True)
         shutil.copy2(ROOT / "publication/justfile", cls.root / "publication/justfile")
         shutil.copy2(ROOT / "publication/brewfile", cls.root / "publication/brewfile")
@@ -34,7 +40,7 @@ class BoundTypstReplay(unittest.TestCase):
         for relative in ("bin/typst", "fonts/fixture.txt", "packages/fixture.txt"):
             digest = hashlib.sha256((cls.supply / relative).read_bytes()).hexdigest()
             manifest.append(f"{digest}  {relative}\n")
-        (cls.root / "publication/typst-inputs.sha256").write_text("".join(manifest))
+        (cls.root / "publication/supply/typst-inputs.sha256").write_text("".join(manifest))
         cls.pdf = cls.root / "build/artifacts/pdf-isolated/rethinking-work.pdf"
 
     def replay(self):

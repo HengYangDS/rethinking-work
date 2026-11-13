@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("四 / 按任务补能力", "21", "研究、平台资料与文档转换", "把来源取得、文本抽取和判断分开；每一段都有不同的失败方式。")<research-tools>
 #link(<practice-research>)[实战三]比较了现有授权源、公开来源与新供应商。把建议变成可用的输入，往往还缺一份关键材料。比如，供应商今天重新发布了历史价格：你需要知道改了哪些值、何时首次可用、是否保留旧版，以及许可是否涵盖研究用途。网页能打开，只解决了取得材料的第一步，尚未回答这份数据能支持什么判断。

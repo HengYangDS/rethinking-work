@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("附录", "A", "案例环境与适用范围", "理解一项经验，先看它在哪些条件下成立。以下记录有明确日期，不是一套人人需要复制的工具清单。")<case-environment>
 #small[以下采用 2026-11-07 05:44 UTC 的只读快照，范围包括 13 组软件管理与状态命令、/Applications 下 87 个顶层应用包，以及 25 个命令入口。Homebrew 清单有 457 行；npm 全局根包 13 个、pnpm 根包 1 个、UV 工具 25 个、Mise 工具身份 34 个、MAS 清单 21 行。这些统计范围有重叠，不能相加。此前的 97 项 App 盘点范围更宽，不能据两次计数之差断言移除了 10 个软件。I2 保存本次范围，I1 保留前次快照。]

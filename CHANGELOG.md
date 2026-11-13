@@ -13,6 +13,12 @@ claim editorial acceptance or public publication.
 
 ### Changed
 
+- Organized synthetic exercises by teaching case, separating reusable templates
+  and transfer assessment while preserving fixture bytes and behavior.
+- Separated publication layout, diagnostics, supply manifests and third-party
+  notices, updating their native task and manuscript consumers.
+- Moved the publication Node lock to the 26.13.1 security release, preserving
+  the other five tool versions and npm sidecars.
 - Bound the native Mermaid task to software rasterization through supported
   Puppeteer configuration, with a real-browser replay regression. Same-host
   stability is qualified; changed raster pixels still require successor review.

@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("一 / 先做成一项工作", "01", "实战一：修复零收益被丢弃", "先用一个能失败的例子说清业务区别，再修改导致错误的条件。")<practice-code>
 *合成练习*：研究快照的导出函数丢掉零收益行。随册提供 #link(<companion-files>)[Python 标准库 unittest]，不需新依赖，不操作业务仓库。本题要求保留 0、正收益和负收益，只排除 None；空输入返回空列表。收益单位为基点，1 基点等于 0.01 个百分点。
@@ -16,7 +16,7 @@ def export_rows(rows):
 EXPORT_MODULE=export_bug python3 -B -m unittest -v test_export.py
 EXPORT_MODULE=export_fixed python3 -B -m unittest -v test_export.py
 ```
-从随册仓库的 #link(<companion-files>)[`exercises/` 目录]执行。旧模块预期 exit 1，新模块预期 exit 0；最终结果还要看具体断言。这个练习不证明企业服务已经修复。
+从随册仓库的 #link(<companion-files>)[`exercises/cases/export-regression/` 目录]执行。旧模块预期 exit 1，新模块预期 exit 0；最终结果还要看具体断言。这个练习不证明企业服务已经修复。
 
 == 只改让区别消失的条件
 ```python
@@ -89,7 +89,7 @@ S03 的两次投递值相同，row_no 只使等价记录的选择确定。若同
 duckdb -no-agent -csv < reconcile.sql
 duckdb -no-agent -csv < quality.sql
 ```
-从 #link(<companion-files>)[`exercises/`] 执行，完整输出应分别等于 expected-differences.csv 和 expected-quality.csv。CSV 中 NULL 表示没有可比较的值，不是零收益。单边缺失不计算收益差；原记录的未知值也不被改写。
+从 #link(<companion-files>)[`exercises/cases/historical-snapshot/`] 执行，完整输出应分别等于 expected-differences.csv 和 expected-quality.csv。CSV 中 NULL 表示没有可比较的值，不是零收益。单边缺失不计算收益差；原记录的未知值也不被改写。
 
 质量清单列出 S04 missing_return、S05 not_available_at_cutoff、S99 outside_universe。差异清单检查快照是否符合声明的数据规则；质量清单则说明输入有哪些问题、是否满足选入条件。二者用途不同。S03 的等值重传不会多出一只证券，S04 缺值也不能成为缩小覆盖率分母的理由。
 

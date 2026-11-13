@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("三 / 环境与接口", "11", "看清任务实际在哪里执行", "环境是计算过程的一部分。解释结果，要追到真正参与执行的程序、配置和输入。")<reading-environment>
 同一份研究快照，终端可能用新版 DuckDB，后台仍用旧入口；磁盘配置已改，长连接仍保留旧字段。代码相同，执行条件未必相同。排查从出错任务的调用路径开始：谁发起，调用哪个入口，加载哪份环境与配置，结果写到哪里。工具来源与案例范围见附录 \[#case("I1")\]。
@@ -97,7 +97,7 @@ jq '{matches: [.matches[] |
  {id: .vulnerability.id, package: .artifact.name}]}' \
  findings.json
 
-difft exercises/export_bug.py exercises/export_fixed.py
+difft exercises/cases/export-regression/export_bug.py exercises/cases/export-regression/export_fixed.py
 ```
 这组表达式是教学示例，需与所用 Grype 版本的字段结构一致；空列表只表示该选择未取得记录，不代表完整安全 \[#case("N1")–#case("N2")\]。
 

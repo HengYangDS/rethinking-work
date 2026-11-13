@@ -10,12 +10,19 @@ import unittest
 from pathlib import Path
 
 EXERCISES = Path(__file__).resolve().parents[1] / "exercises"
+CASES = EXERCISES / "cases"
+SNAPSHOT = CASES / "historical-snapshot"
+EXPORT = CASES / "export-regression"
+API = CASES / "api-evolution"
+SOURCE_SELECTION = CASES / "source-selection"
+RECONCILIATION = CASES / "keyed-reconciliation"
+MAPPING = CASES / "effective-date-mapping"
 
 
-def run(*arguments, input=None, env=None):
+def run(case, *arguments, input=None, env=None):
     return subprocess.run(
         arguments,
-        cwd=EXERCISES,
+        cwd=case,
         input=input,
         stdin=subprocess.DEVNULL if input is None else None,
         capture_output=True,
@@ -33,28 +40,32 @@ def csv_rows(text):
 class CompanionExercises(unittest.TestCase):
     def test_snapshot_differences_match_complete_expected_csv(self):
         result = run(
+            SNAPSHOT,
             "duckdb",
             "-no-agent",
             "-csv",
-            input=(EXERCISES / "reconcile.sql").read_text(),
+            input=(SNAPSHOT / "reconcile.sql").read_text(),
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
             csv_rows(result.stdout),
-            csv_rows((EXERCISES / "expected-differences.csv").read_text()),
+            csv_rows((SNAPSHOT / "expected-differences.csv").read_text()),
         )
 
     def test_quality_exceptions_match_complete_expected_csv(self):
-        result = run("duckdb", "-no-agent", "-csv", input=(EXERCISES / "quality.sql").read_text())
+        result = run(
+            SNAPSHOT, "duckdb", "-no-agent", "-csv", input=(SNAPSHOT / "quality.sql").read_text()
+        )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
             csv_rows(result.stdout),
-            csv_rows((EXERCISES / "expected-quality.csv").read_text()),
+            csv_rows((SNAPSHOT / "expected-quality.csv").read_text()),
         )
 
     def test_cutoff_preserves_values_and_universe_coverage(self):
-        sql = (EXERCISES / "reconcile.sql").read_text()
+        sql = (SNAPSHOT / "reconcile.sql").read_text()
         result = run(
+            SNAPSHOT,
             "duckdb",
             "-no-agent",
             "-csv",
@@ -65,11 +76,12 @@ class CompanionExercises(unittest.TestCase):
         header = rows.index(["security_id", "return_bps"])
         accepted = rows[header + 1 :]
         self.assertEqual(accepted, [["S01", "0"], ["S02", "-100"], ["S03", "60"], ["S06", "40"]])
-        universe = csv_rows((EXERCISES / "universe.csv").read_text())[1:]
+        universe = csv_rows((SNAPSHOT / "universe.csv").read_text())[1:]
         self.assertEqual((len(accepted), len(universe)), (4, 6))
 
     def test_original_export_fails_only_the_nonmissing_return_contract(self):
         result = run(
+            EXPORT,
             sys.executable,
             "-B",
             "-m",
@@ -89,6 +101,7 @@ class CompanionExercises(unittest.TestCase):
 
     def test_fixed_export_passes_both_contracts(self):
         result = run(
+            EXPORT,
             sys.executable,
             "-B",
             "-m",
@@ -103,6 +116,7 @@ class CompanionExercises(unittest.TestCase):
 
     def test_structural_search_finds_the_selected_expression(self):
         result = run(
+            EXPORT,
             "ast-grep",
             "run",
             "--lang",
@@ -120,6 +134,7 @@ class CompanionExercises(unittest.TestCase):
 
     def test_removed_api_path_is_a_breaking_change(self):
         result = run(
+            API,
             "oasdiff",
             "breaking",
             "openapi-before.yaml",
@@ -141,6 +156,7 @@ class CompanionExercises(unittest.TestCase):
 
     def test_unchanged_api_is_the_control(self):
         result = run(
+            API,
             "oasdiff",
             "breaking",
             "openapi-before.yaml",
@@ -158,6 +174,7 @@ class CompanionExercises(unittest.TestCase):
         for timezone in ("UTC", "Asia/Shanghai"):
             with self.subTest(timezone=timezone):
                 result = run(
+                    SNAPSHOT,
                     "duckdb",
                     "-no-agent",
                     "-csv",
@@ -172,6 +189,7 @@ class CompanionExercises(unittest.TestCase):
         for timezone, expected in (("UTC", "true"), ("Asia/Shanghai", "false")):
             with self.subTest(timezone=timezone):
                 result = run(
+                    SNAPSHOT,
                     "duckdb",
                     "-no-agent",
                     "-csv",
@@ -186,20 +204,21 @@ class CompanionExercises(unittest.TestCase):
         for timezone in ("UTC", "Asia/Shanghai"):
             with self.subTest(timezone=timezone):
                 result = run(
+                    SNAPSHOT,
                     "duckdb",
                     "-no-agent",
                     "-csv",
                     input=f"SET TimeZone='{timezone}';\n"
-                    + (EXERCISES / "reconcile.sql").read_text(),
+                    + (SNAPSHOT / "reconcile.sql").read_text(),
                 )
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual(
                     csv_rows(result.stdout),
-                    csv_rows((EXERCISES / "expected-differences.csv").read_text()),
+                    csv_rows((SNAPSHOT / "expected-differences.csv").read_text()),
                 )
 
     def test_source_selection_changes_only_when_decisive_evidence_changes(self):
-        sql = (EXERCISES / "source-selection.sql").read_text()
+        sql = (SOURCE_SELECTION / "source-selection.sql").read_text()
         cases = (
             ("", [["new_vendor", "5"]]),
             (
@@ -214,6 +233,7 @@ class CompanionExercises(unittest.TestCase):
         for evidence, expected in cases:
             with self.subTest(evidence=evidence):
                 result = run(
+                    SOURCE_SELECTION,
                     "duckdb",
                     "-no-agent",
                     "-csv",
@@ -229,10 +249,11 @@ class CompanionExercises(unittest.TestCase):
 
     def test_equal_totals_do_not_hide_swapped_entity_values(self):
         result = run(
+            RECONCILIATION,
             "duckdb",
             "-no-agent",
             "-csv",
-            input=(EXERCISES / "entity-reconciliation.sql").read_text(),
+            input=(RECONCILIATION / "entity-reconciliation.sql").read_text(),
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
@@ -249,13 +270,13 @@ class CompanionExercises(unittest.TestCase):
             ],
         )
         for filename in ("entity-expected.csv", "entity-observed.csv"):
-            with (EXERCISES / filename).open() as source:
+            with (RECONCILIATION / filename).open() as source:
                 values = list(csv.DictReader(source))
             self.assertEqual((len(values), sum(int(row["value"]) for row in values)), (2, 10000))
 
     def test_mapping_uses_event_time_and_excludes_the_old_boundary(self):
-        sql = (EXERCISES / "entity-mapping.sql").read_text()
-        result = run("duckdb", "-no-agent", "-csv", input=sql)
+        sql = (MAPPING / "entity-mapping.sql").read_text()
+        result = run(MAPPING, "duckdb", "-no-agent", "-csv", input=sql)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
             csv_rows(result.stdout),
@@ -268,9 +289,10 @@ class CompanionExercises(unittest.TestCase):
         )
 
     def test_overlapping_mapping_is_reported_not_arbitrarily_selected(self):
-        sql = (EXERCISES / "entity-mapping.sql").read_text()
+        sql = (MAPPING / "entity-mapping.sql").read_text()
         setup, query = sql.split("-- Resolve event ownership", 1)
         result = run(
+            MAPPING,
             "duckdb",
             "-no-agent",
             "-csv",

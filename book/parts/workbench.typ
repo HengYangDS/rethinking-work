@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("四 / 按任务补能力", "17", "主 Agent 与工作台", "先给任务一个负责推进的人机组合，再为它补齐确实缺少的能力。")<reading-capabilities>
 研究员发现导出的快照少了零收益记录，请你查明原因并重算。这项工作看似是修代码，却要同时读懂三样东西：导出程序怎样筛选，数据规则怎样定义零值与缺值，修正后的快照怎样交回研究员。主 Agent 的价值，是沿着这个问题接起材料、操作和检查，而不让每一段各说各话。

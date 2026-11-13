@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("二 / 工作判断", "07", "从会回答，到能做事", "衡量 Agent 的价值，要算从任务交出到成果可用的整笔账。")<reading-judgment>
 前六项实战已经呈现出一个区别：生成答案与完成工作，所需条件并不相同。同样是一份报告，写出十页文字可以省下打字时间；但只有核对来源、重算数字、说明取舍，让同事真正用得上，才可能省下整项工作的时间。材料准备、人工复核、返工和后续使用，都要算在这笔账里。

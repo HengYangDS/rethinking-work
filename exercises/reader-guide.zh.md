@@ -20,7 +20,7 @@ python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 
 预期是 `Ran 15 tests` 和 `OK`。其中两项专门检查“应该失败”的情况：旧导出函数漏掉零值，接口变更删除了原有路径。总检查通过，表示这些错误被准确识别，不能理解成旧函数或接口变更没有问题。
 
-下面的单项命令均在 `exercises` 目录运行。示例使用 macOS／Linux 终端语法；不要把路径或环境变量语法原样套到其他终端。
+每项练习的输入和代码放在同一个案例目录。下文会注明执行目录；切换练习时，先回到练习根目录，再进入对应目录。工作模板放在 `exercises/templates/`，迁移练习放在 `exercises/assessment/`。示例使用 macOS／Linux 终端语法；不要把路径或环境变量语法原样套到其他终端。
 
 ## 练习一：这个时间点，我们究竟能用哪些数据？
 
@@ -30,22 +30,22 @@ python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 
 | 文件                                               | 你需要看什么                             |
 | -------------------------------------------------- | ---------------------------------------- |
-| [source-observations.csv](source-observations.csv) | 发布、入库、修订号和收益值               |
-| [universe.csv](universe.csv)                       | 应覆盖的 S01–S06，不因数据缺失而缩小分母 |
-| [research-snapshot.csv](research-snapshot.csv)     | 等待核对的研究快照                       |
-| [reconcile.sql](reconcile.sql)                     | 如何筛选、选版和比较                     |
-| [quality.sql](quality.sql)                         | 如何单独报告来源质量问题                 |
+| [source-observations.csv](cases/historical-snapshot/source-observations.csv) | 发布、入库、修订号和收益值               |
+| [universe.csv](cases/historical-snapshot/universe.csv)                       | 应覆盖的 S01–S06，不因数据缺失而缩小分母 |
+| [research-snapshot.csv](cases/historical-snapshot/research-snapshot.csv)     | 等待核对的研究快照                       |
+| [reconcile.sql](cases/historical-snapshot/reconcile.sql)                     | 如何筛选、选版和比较                     |
+| [quality.sql](cases/historical-snapshot/quality.sql)                         | 如何单独报告来源质量问题                 |
 
 收益单位为基点（bps），1 bps = 0.01 个百分点。零收益是真实值，不能当成缺失；负收益也要保留。
 
-先不看答案，检查 S01、S02 和 S06。写下你认为应采用的值，以及对应的来源行。然后运行：
+先不看答案，检查 S01、S02 和 S06。写下你认为应采用的值，以及对应的来源行。然后在练习根目录下的 `exercises/cases/historical-snapshot/` 中运行：
 
 ```sh
 duckdb -no-agent -csv < reconcile.sql
 duckdb -no-agent -csv < quality.sql
 ```
 
-完整输出应分别与 [expected-differences.csv](expected-differences.csv) 和 [expected-quality.csv](expected-quality.csv) 一致。
+完整输出应分别与 [expected-differences.csv](cases/historical-snapshot/expected-differences.csv) 和 [expected-quality.csv](cases/historical-snapshot/expected-quality.csv) 一致。
 
 | 证券 | 截点可用值 | 快照值 | 应如何解释                                     |
 | ---- | ---------- | ------ | ---------------------------------------------- |
@@ -70,7 +70,9 @@ S03 的两次交付具有相同版本和数值，因此本题的排序规则能�
 
 `export_bug.py` 用 `if row["return_bps"]` 筛选记录。在 Python 中，数值零会被当成假值，因此被过滤掉。业务要求却是保留零、正数和负数，只排除 `None`。
 
-先读 [test_export.py](test_export.py)，再比较 [export_bug.py](export_bug.py) 与 [export_fixed.py](export_fixed.py)：
+先读 [test_export.py](cases/export-regression/test_export.py)，再比较 [export_bug.py](cases/export-regression/export_bug.py) 与 [export_fixed.py](cases/export-regression/export_fixed.py)：
+
+在练习根目录下的 `exercises/cases/export-regression/` 中运行：
 
 ```sh
 EXPORT_MODULE=export_bug python3.12 -B -m unittest -v test_export.py
@@ -92,7 +94,7 @@ ast-grep run --lang python --pattern 'row["return_bps"]' \
 
 ## 练习三：版本号变了，调用方就能承受吗？
 
-合成接口的新版本删除了 `GET /research-snapshot`。先比较 [openapi-before.yaml](openapi-before.yaml) 与 [openapi-after.yaml](openapi-after.yaml)，再运行：
+合成接口的新版本删除了 `GET /research-snapshot`。先比较 [openapi-before.yaml](cases/api-evolution/openapi-before.yaml) 与 [openapi-after.yaml](cases/api-evolution/openapi-after.yaml)，再在练习根目录下的 `exercises/cases/api-evolution/` 中运行：
 
 ```sh
 oasdiff breaking openapi-before.yaml openapi-after.yaml \
@@ -107,9 +109,9 @@ oasdiff breaking openapi-before.yaml openapi-before.yaml \
 
 ## 练习四：更齐全的数据，就更适合这次研究吗？
 
-这次要还原六个证券在 2024 年的历史决策信息。先读 [source-candidates.csv](source-candidates.csv)：现有来源只覆盖五个证券；公开来源虽然覆盖六个，却没有修订历史和可用时间；新来源材料齐全，但接入要五天。
+这次要还原六个证券在 2024 年的历史决策信息。先读 [source-candidates.csv](cases/source-selection/source-candidates.csv)：现有来源只覆盖五个证券；公开来源虽然覆盖六个，却没有修订历史和可用时间；新来源材料齐全，但接入要五天。
 
-在 `exercises` 目录，用同一个 DuckDB 会话运行：
+在练习根目录下的 `exercises/cases/source-selection/` 中，用同一个 DuckDB 会话运行：
 
 ```sh
 duckdb -no-agent -csv <<'SQL'
@@ -124,7 +126,7 @@ SQL
 
 ## 练习五：总数都对，为什么分项还是错的？
 
-[entity-expected.csv](entity-expected.csv) 和 [entity-observed.csv](entity-observed.csv) 都有两行，总量都是 10000。先看 E01 和 E02 各自的值，再运行：
+[entity-expected.csv](cases/keyed-reconciliation/entity-expected.csv) 和 [entity-observed.csv](cases/keyed-reconciliation/entity-observed.csv) 都有两行，总量都是 10000。先看 E01 和 E02 各自的值，再在练习根目录下的 `exercises/cases/keyed-reconciliation/` 中运行：
 
 ```sh
 duckdb -no-agent -csv < entity-reconciliation.sql
@@ -136,7 +138,7 @@ E01 应为 6000，实际是 4000；E02 应为 4000，实际是 6000。按实体�
 
 ## 练习六：实体归属，要按哪个时间判断？
 
-PAT01 在 2024-07-01 00:00:00 UTC 前属于 OWNER_A，从这一刻起属于 OWNER_B。阅读 [entity-mappings.csv](entity-mappings.csv) 和 [entity-events.csv](entity-events.csv)，再运行：
+PAT01 在 2024-07-01 00:00:00 UTC 前属于 OWNER_A，从这一刻起属于 OWNER_B。阅读 [entity-mappings.csv](cases/effective-date-mapping/entity-mappings.csv) 和 [entity-events.csv](cases/effective-date-mapping/entity-events.csv)，再在练习根目录下的 `exercises/cases/effective-date-mapping/` 中运行：
 
 ```sh
 duckdb -no-agent -csv < entity-mapping.sql
@@ -156,13 +158,13 @@ EV01 应归 OWNER_A；EV02 恰好发生在切换时刻，应归 OWNER_B。区间
 
 | 材料                                               | 适合用在什么时候                            |
 | -------------------------------------------------- | ------------------------------------------- |
-| [task-brief.md](task-brief.md)                     | 交代交付物、使用者、范围和验收方式          |
-| [source-table.csv](source-table.csv)               | 记录一个判断由什么原始材料支持              |
-| [work-chain-design.md](work-chain-design.md)       | 找出从输入到交付之间的步骤、工具和决策人    |
-| [evaluation-card.md](evaluation-card.md)           | 比较 Agent 方案与原做法，计入复核和返工成本 |
-| [team-asset-review.md](team-asset-review.md)       | 判断某个方法能否沉淀为团队共同资产          |
-| [long-task-checkpoint.md](long-task-checkpoint.md) | 长任务停滞时，确定下一项能改变判断的动作    |
-| [transfer-cases.json](transfer-cases.json)         | 更换条件，检验是否理解了原问题              |
+| [task-brief.md](templates/task-brief.md)                     | 交代交付物、使用者、范围和验收方式          |
+| [source-table.csv](templates/source-table.csv)               | 记录一个判断由什么原始材料支持              |
+| [work-chain-design.md](templates/work-chain-design.md)       | 找出从输入到交付之间的步骤、工具和决策人    |
+| [evaluation-card.md](templates/evaluation-card.md)           | 比较 Agent 方案与原做法，计入复核和返工成本 |
+| [team-asset-review.md](templates/team-asset-review.md)       | 判断某个方法能否沉淀为团队共同资产          |
+| [long-task-checkpoint.md](templates/long-task-checkpoint.md) | 长任务停滞时，确定下一项能改变判断的动作    |
+| [transfer-cases.json](assessment/transfer-cases.json)         | 更换条件，检验是否理解了原问题              |
 
 模板保留英文，便于填入技术任务；不必全部使用，也不必另建一套管理台账。把适用字段放进已有任务记录即可。
 

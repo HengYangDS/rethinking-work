@@ -3,18 +3,18 @@
 This directory owns presentation and the native task interface. It does not own
 manuscript claims or a second edition identity.
 
-- [style.typ](style.typ) owns the `publication-design` show rule and typography
+- [style.typ](layout/style.typ) owns the `publication-design` show rule and typography
   helpers, tables, notes and reader figures over the unchanged publisher package.
 - [justfile](justfile) exposes the executable build and check commands.
 - [brewfile](brewfile) declares the Homebrew-owned PDF inspection supply.
 - [mermaid.json](mermaid.json) defines the shared diagram rendering settings.
 - [puppeteer.json](puppeteer.json) selects software rasterization for the existing
   headless diagram browser without changing its executable or sandbox.
-- [toolchain.json](toolchain.json) records the selected supply and reproduction
+- [toolchain.json](supply/toolchain.json) records the selected supply and reproduction
   limits, rather than installing software.
-- [instrumented.typ](instrumented.typ) is a diagnostic entrypoint that exposes
+- [instrumented.typ](diagnostics/instrumented.typ) is a diagnostic entrypoint that exposes
   native page-bound text for complete-content comparison, not a second book.
-- [third-party-notices.md](third-party-notices.md) preserves publisher attribution
+- [third-party-notices.md](rights/third-party-notices.md) preserves publisher attribution
   and distinguishes third-party rights from the authored publication.
 
 The document entrypoint selects the publisher, paper, margins, fonts and edition
@@ -59,11 +59,11 @@ ast-grep and oasdiff; it does not render figures or compile the PDF. See the
 
 Homebrew remains the host installation owner. The native tasks install nothing
 and run the executors selected by their invocation environment. An isolated Mise
-environment has qualified the six declared versions: Node 26.13.0, Python
+environment has qualified the six declared versions: Node 26.13.1, Python
 3.12.16, Typst 0.15.1, Just 1.59.0, Mermaid CLI 12.2.0 and Prettier 3.9.10. Its
 installation, version checks and native `check` pass; it is not a parallel host
 installation or an accepted repository bootstrap. The selected supply and font
-families are recorded in [toolchain.json](toolchain.json).
+families are recorded in [toolchain.json](supply/toolchain.json).
 
 Poppler supplies `pdfinfo` and `pdftotext` for PDF Info, XMP and visible-cover
 checks. [brewfile](brewfile) declares the package; the native `pdf-tool` task
@@ -72,7 +72,7 @@ that bundle's environment. `pdf-tools-check` checks both executables and is a
 prerequisite of `test` and `bootstrap`. These tasks install or upgrade nothing
 and disable Homebrew auto-update. The binding and native checks pass on the
 authoring host. The Brewfile does not lock Poppler's exact version or qualify a
-second-machine bootstrap; [toolchain.json](toolchain.json) records the version
+second-machine bootstrap; [toolchain.json](supply/toolchain.json) records the version
 used by the current build.
 
 For example, inspect a candidate through the same declared binding:
@@ -138,7 +138,7 @@ DejaVu Sans Mono does not require a separate host installation with the current
 Typst binary. [mermaid.json](mermaid.json) selects Noto Sans CJK SC; that family
 must be available to the selected headless browser. The actual delivered PDF's
 font list can be inspected with Poppler's `pdffonts`. The
-[font notices](third-party-notices.md#authored-publication-fonts) distinguish
+[font notices](rights/third-party-notices.md#authored-publication-fonts) distinguish
 standalone font files from PDF embedding and explain the applicable rights.
 
 The current layout depends on macOS font supply. A second-machine build has not
@@ -172,7 +172,7 @@ documentation changes are not backdated into those manifests.
 
 ## Bound Typst input replay
 
-`typst-inputs.sha256` binds the existing compiler executable, six font files
+`supply/typst-inputs.sha256` binds the existing compiler executable, six font files
 and every file in the eight resolved publisher package roots. It contains no
 font binaries, package source, credentials or private paths. The executable
 binding also fixes its embedded fonts; this does not separately verify their
@@ -200,7 +200,7 @@ roots; Typst's embedded fonts remain enabled. Do not add alternate fonts or
 packages to that directory. The checksum task verifies listed bytes, not the
 absence of extra files. It neither downloads supply nor grants font-copying or
 distribution rights. Keep Apple fonts local to a licensed Apple environment;
-review the [font terms](third-party-notices.md#authored-publication-fonts).
+review the [font terms](rights/third-party-notices.md#authored-publication-fonts).
 
 The output is `build/artifacts/pdf-isolated/rethinking-work.pdf`; this task never
 replaces the reader edition. It consumes the seven diagram images currently in

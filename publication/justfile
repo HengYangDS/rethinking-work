@@ -36,7 +36,7 @@ pdf:
 
 # Check the exact existing compiler, fonts and complete package inputs.
 typst-input-check supply:
-    cd "{{supply}}" && shasum --algorithm 256 --check "{{justfile_directory()}}/typst-inputs.sha256"
+    cd "{{supply}}" && shasum --algorithm 256 --check "{{justfile_directory()}}/supply/typst-inputs.sha256"
 
 # Compile current figure inputs without ambient font or package discovery.
 pdf-isolated supply: (typst-input-check supply)

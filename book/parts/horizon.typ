@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #heading(level: 1, outlined: true)[把眼前的工具放进长远的工作设计]<horizon>
 #block(above: 0pt, below: 2 * space)[#align(right, contents-return())]

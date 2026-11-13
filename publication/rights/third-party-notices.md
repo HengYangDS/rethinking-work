@@ -44,7 +44,7 @@ verbatim in its own document.
 ## Authored publication and local executors
 
 The authored manuscript, diagrams and teaching fixtures are licensed under the
-repository's [MIT License](../LICENSE), copyright (c) 2026 衡阳. This grant does
+repository's [MIT License](../../LICENSE), copyright (c) 2026 衡阳. This grant does
 not replace third-party licenses. The publisher notice above describes Neat
 Book's own examples and font choices; this publication's font supply is
 described below.

@@ -1,4 +1,4 @@
-#import "/publication/style.typ": *
+#import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("六 / 共同能力", "34", "让方法经得起交接", "一项工作换个人仍能做对，经验才不再只属于作者。")<reading-team>
 一份分析已经交付，作者也解释过做法，同事却仍然无法重算：输入没有冻结，脚本尚未提交，关键口径只在几次聊天里出现。这时，团队拥有一份结果，还没有拥有完成这项工作的方法。要补的不是一套更漂亮的提示词，而是别人理解、执行和复核所需的条件。

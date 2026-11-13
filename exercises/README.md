@@ -2,6 +2,11 @@
 
 These are wholly synthetic worked examples and templates for the field guide's data, code, API and work-design sections. They contain no business data and require no credentials or model service.
 
+Each directory under `cases/` owns one runnable example, including its input
+and expected result. `templates/` holds reusable working materials;
+`assessment/` holds transfer cases. Keep these responsibilities together when
+adding a case. Individual commands below name their own working directory.
+
 ## Check all runnable examples
 
 From the repository root, run:
@@ -21,7 +26,7 @@ to inspect and explain; a passing suite is not proof of transfer to real work.
 ## Historical research snapshot
 
 Use an existing DuckDB installation; the recorded command uses DuckDB 2.0.0.
-Run from this directory:
+From `exercises/cases/historical-snapshot/`, run:
 
 ```sh
 duckdb -no-agent -csv < reconcile.sql
@@ -51,7 +56,8 @@ not the production cause of an incident or investment validity.
 the six-security universe U6 over calendar 2024. Use authorization, full
 coverage, revision history and availability timestamps are hard requirements;
 only eligible sources are compared by onboarding days. The days measure initial
-effort, not procurement, maintenance or exit cost. Run in one DuckDB session:
+effort, not procurement, maintenance or exit cost. From
+`exercises/cases/source-selection/`, run in one DuckDB session:
 
 ```sql
 .read source-selection.sql
@@ -68,6 +74,8 @@ real vendor's authorization, data quality or procurement acceptance.
 
 ## Keyed reconciliation
 
+Run from `exercises/cases/keyed-reconciliation/`:
+
 ```sh
 duckdb -no-agent -csv < entity-reconciliation.sql
 ```
@@ -79,6 +87,8 @@ expected-minus-observed delta. Values are synthetic counts, not returns or
 exposures. Production inputs also need key-uniqueness checks before the join.
 
 ## Effective-date mapping
+
+Run from `exercises/cases/effective-date-mapping/`:
 
 ```sh
 duckdb -no-agent -csv < entity-mapping.sql
@@ -95,7 +105,9 @@ times. Fixing a mapping does not authorize expanding the research universe.
 
 ## Export regression
 
-Use an existing Python 3 installation. The module contract preserves zero, positive and negative returns and excludes only `None`.
+Use an existing Python 3 installation. From
+`exercises/cases/export-regression/`, run the commands below. The module contract
+preserves zero, positive and negative returns and excludes only `None`.
 
 ```sh
 EXPORT_MODULE=export_bug python3 -B -m unittest -v test_export.py
@@ -110,7 +122,8 @@ Read the contracts first. Explain scope, assumptions and results to a peer. Do n
 
 ## Working templates and transfer practice
 
-`task-brief.md`, `source-table.csv`, `evaluation-card.md` and `team-asset-review.md` are editable templates, not host policy or model-call approval. `transfer-cases.json` holds author-prepared transfer cases and rubric. These are known synthetic practice cases, not an independently frozen blind benchmark. Use a new authorized real task to assess transfer; preserve the distinction between self-review and independent review.
+`templates/task-brief.md`, `templates/source-table.csv`,
+`templates/evaluation-card.md` and `templates/team-asset-review.md` are editable templates, not host policy or model-call approval. `assessment/transfer-cases.json` holds author-prepared transfer cases and rubric. These are known synthetic practice cases, not an independently frozen blind benchmark. Use a new authorized real task to assess transfer; preserve the distinction between self-review and independent review.
 
 For the data transfer case, state the reconstruction purpose before choosing
 time filters. Public visibility requires `published_at` at or before the cutoff;
@@ -123,7 +136,8 @@ The runnable `reconcile.sql` and `quality.sql` retain their operational contract
 ## Structural code search and API contract
 
 Use already-installed ast-grep and oasdiff. The first command matches one
-selected expression without editing the file. A match is not a defect verdict:
+selected expression without editing the file. Run it from
+`exercises/cases/export-regression/`. A match is not a defect verdict:
 the export contract and behavioral test determine the business meaning.
 
 ```sh
@@ -134,7 +148,8 @@ ast-grep run --lang python --pattern 'row["return_bps"]' \
 The synthetic API revision removes `GET /research-snapshot`. The breaking comparison is
 expected to return `api-path-removed-without-deprecation` and exit 1. The
 unchanged control returns `[]` and exit 0. External references are disabled;
-neither command starts a service or uploads a specification.
+neither command starts a service or uploads a specification. Run both from
+`exercises/cases/api-evolution/`.
 
 ```sh
 oasdiff breaking openapi-before.yaml openapi-after.yaml \
@@ -148,8 +163,8 @@ implementation conformance, runtime compatibility or full API coverage.
 
 ## Work design and convergence
 
-`work-chain-design.md` helps identify inputs, native capabilities, outputs,
-decision owners and stop conditions. `long-task-checkpoint.md` separates changed
+`templates/work-chain-design.md` helps identify inputs, native capabilities, outputs,
+decision owners and stop conditions. `templates/long-task-checkpoint.md` separates changed
 evidence, the next discriminating action, retained originals and exact cleanup.
 Use the relevant fields inside the task's existing brief or progress owner;
 neither template authorizes a new service, scheduler or duplicate task ledger.
