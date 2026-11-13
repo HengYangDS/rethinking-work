@@ -84,8 +84,11 @@ Both branch jobs passed at `8747f90`: pipeline projections, formatting and all
 Hub, before checkout or source execution. The private pipeline now retrieves
 the same official Node manifest from Amazon ECR Public, with its digest,
 configuration and seven layer bindings unchanged. The owner-associated general
-Linux Runner and its global settings are unchanged; hosted acceptance of this
-transport repair remains pending. Check the native job record, not the
+Linux Runner and its global settings are unchanged. Both jobs at `38c6706`
+pulled that image and checked out the event commit, then failed while downloading
+official Mise; one bounded retry reproduced the HTTP/2 stream failure. The Linux
+bootstrap now selects curl's native HTTP/1.1 option without changing TLS, source,
+version or checksum. Hosted source acceptance remains pending. Check the native job record, not the
 presence of YAML, before reporting hosted success. This task does not render the
 PDF, launch a browser, certify typography or establish merge protection. The
 original four ETHOS proof gates and publication acceptance remain in force.

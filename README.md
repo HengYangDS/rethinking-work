@@ -97,8 +97,10 @@ This job uses no business data, accounts, services, PDF fonts or browser.
 The public hosted jobs passed on both `dev` and `main` at commit `8747f90`.
 The private pipeline uses an owner-associated general Linux Runner with an
 isolated Kubernetes executor. Its first jobs failed during image retrieval,
-before source checks. The same approved image is now bound to a public mirror;
-private hosted acceptance remains pending.
+before source checks. Retrieval of the same approved image from a public mirror
+passed at `38c6706`; the next step failed while downloading official Mise over
+HTTP/2. The Linux bootstrap now selects HTTP/1.1 with unchanged HTTPS and digest
+checks. Private hosted source acceptance remains pending.
 Source CI does not replace
 the four ETHOS proof gates, full PDF qualification or human editorial review.
 See [CI scope and supply](publication/README.md#source-ci) for exact boundaries.

@@ -9,9 +9,11 @@ shared: {
 	bootstrap: {
 		platform: "macos-arm64" | "linux-x64"
 		checkCommand: {"macos-arm64": "shasum --algorithm 256 --check", "linux-x64": "sha256sum --check"}[platform]
+		// The Linux job's HTTP/2 transfer closed early; TLS and digest checks stay unchanged.
+		httpOption: {"macos-arm64": "", "linux-x64": "--http1.1 "}[platform]
 		commands: [
 			"mkdir -p build/runtime/ci/bootstrap",
-			"curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v\(miseVersion)/mise-v\(miseVersion)-\(platform).tar.gz",
+			"curl \(httpOption)--fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v\(miseVersion)/mise-v\(miseVersion)-\(platform).tar.gz",
 			"\(checkCommand) publication/supply/ci-mise-\(platform).sha256",
 			"tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise",
 			"build/runtime/ci/bootstrap/mise --version",

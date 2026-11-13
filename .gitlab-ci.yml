@@ -25,7 +25,7 @@ verify:source:
   interruptible: true
   script:
     - mkdir -p build/runtime/ci/bootstrap
-    - curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.7/mise-v2026.11.7-linux-x64.tar.gz
+    - curl --http1.1 --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.7/mise-v2026.11.7-linux-x64.tar.gz
     - sha256sum --check publication/supply/ci-mise-linux-x64.sha256
     - tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise
     - build/runtime/ci/bootstrap/mise --version
