@@ -110,14 +110,16 @@ The setting changes real antialiasing and shadow pixels, not only metadata.
 Observed SVG geometry, labels and arrows are preserved; the exact Chrome-internal
 cause is unproved. The delivered prose/supply successor includes substantive
 manuscript revisions and has passed complete-content, structural navigation,
-metadata and every-page author visual self-review. Representative contents,
-tool, return, official URL and companion-reference journeys in Preview and Chrome
-remain bound to the earlier editions recorded in their receipts; they do not
-qualify the current successor. Its original Preview reload and representative
-click journey remain unproved in task 2.4 of the
+metadata and every-page author visual self-review. The current 113-page Documents
+PDF loaded in Preview; representative contents jumps, cross-references, returns
+and the DuckDB official link passed. The owned PDF window and external browser
+tab closed. Original foreground restoration and dismissal of Preview's remaining
+Open panel remain unproved in task 2.4 of the
 [active Change](../openspec/changes/publication-foundation/tasks.md). Human
 editorial acceptance and measured teaching effectiveness also remain unproved
-in task 2.1. Reuse each result only for its bound edition and demonstrated scope.
+in task 2.1. Earlier tool and companion-reference journeys retain their original
+edition bindings. Reuse each result only for its bound edition and demonstrated
+scope.
 The renderer-specific observations above do not qualify the prose. Running
 `diagram` alone never accepts or replaces a reader edition.
 
@@ -154,10 +156,14 @@ but does not establish byte-identical reproduction across machines. Match the
 actual font files and renderer identities as well as the compiler, resolved
 packages and diagram inputs before assessing reproduction.
 
-The Mise declaration exposes the same tasks. The repository still has no
-accepted `mise.lock` or complete dependency sidecars. Qualification of the
-isolated environment does not promote those files into the repository or qualify
-an independent-machine bootstrap. Poppler's separate Homebrew Bundle binding is
+The Mise declaration exposes the same tasks. The approved native lock is now
+adopted as `.config/mise/mise.lock`, together with the unchanged `aube-lock.yaml`
+and `package.json` sidecars for Mermaid CLI 12.2.0 and Prettier 3.9.10. These five
+files bind the six declared tools; the current lock's archives cover macOS arm64
+only. Native resolution recognizes the installed tools and their sidecar-derived
+paths. This adoption does not qualify an independent-machine bootstrap. Generated
+Aube YAML remains byte-exact and outside the prose formatter's inputs. Poppler's
+separate Homebrew Bundle binding is
 described above; it is not an exact-version lock. See the
 [active Change](../openspec/changes/publication-foundation/tasks.md) for those
 acceptance boundaries rather than treating a configuration file as runtime proof.

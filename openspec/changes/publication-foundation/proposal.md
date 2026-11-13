@@ -12,6 +12,7 @@ The Chinese handbook needs a durable publication owner, not another folder of PD
 - Expose native build, render, format and check tasks using existing installed tools.
 - Keep generated artifacts, machine-specific receipts and recovery objects outside the tracked publication source.
 - Continue the general-reader editorial revision and publication acceptance under this Change, with no parallel checklist.
+- Publish the accepted source to GitLab under `dig/misc/guidelines` and to the author's GitHub repository, with explicit peer declarations and separate exact-commit verification.
 
 ## Capabilities
 
@@ -25,4 +26,4 @@ None. This is a new publication repository.
 
 ## Impact
 
-Only the new repository and this task's authored publication inputs are affected. No model calls, accounts, live services, host upgrades, foreign repositories or remote publication are included. Existing editions and unique evidence retain their original custody until migration acceptance releases each binding.
+Only this repository, its authored publication inputs and its two authorized forge destinations are affected. Destination identity, visibility and publication rights must be resolved before creating a repository or pushing source. No model calls, new accounts, live services, host upgrades or foreign repositories are included. Existing editions and unique evidence retain their original custody until migration acceptance releases each binding.

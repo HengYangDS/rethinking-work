@@ -36,7 +36,11 @@ claim editorial acceptance or public publication.
   cutoffs, exports, structural search and API contracts.
 - A checksum-bound compiler, font and complete Typst package input manifest,
   with native replay and three missing/altered-input regression tests. The
-  same-host network-disabled replay matches the delivered PDF; complete locked
-  tool supply and cross-machine reproduction remain unqualified.
+  same-host network-disabled replay matches the delivered PDF. Approved native
+  Mise locks now bind six publication tools on macOS arm64; independent-machine
+  bootstrap and cross-machine reproduction remain unqualified.
 - A repository version source and contributor links distinguishing source
   releases from PDF editorial editions.
+- Repository-specific GitLab collaboration and GitHub public-distribution peer
+  declarations, with exact signed-source publication and separate remote checks.
+- An MIT license for the authored source, copyright 2026 衡阳.

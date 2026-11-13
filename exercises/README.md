@@ -1,6 +1,6 @@
 # Companion exercises
 
-These are wholly synthetic teaching fixtures and templates for the field guide's data, code, API and work-design sections. They contain no business data and require no credentials or model service.
+These are wholly synthetic worked examples and templates for the field guide's data, code, API and work-design sections. They contain no business data and require no credentials or model service.
 
 ## Check all runnable examples
 
@@ -15,7 +15,7 @@ It checks the complete data outputs and coverage, the intentionally failing
 export and its correction, structural search, and changed/unchanged API
 controls. The overall suite passes only when each example has its stated
 outcome, including the deliberate failures. It installs nothing and requires
-no PDF, browser, account or model. Individual commands remain below for learners
+no PDF, browser, account or model. Individual commands remain below for readers
 to inspect and explain; a passing suite is not proof of transfer to real work.
 
 ## Historical research snapshot
@@ -60,7 +60,7 @@ SELECT source_id, onboarding_days FROM selected;
 
 The result is `new_vendor,5`. The incumbent covers only five securities; the
 public final-value source has no revision history or availability timestamps.
-In a teaching copy, change incumbent coverage to six: the result becomes
+In an exercise copy, change incumbent coverage to six: the result becomes
 `incumbent,1`. Alternatively, withdraw the new vendor's authorization under the
 original coverage: no source is eligible. Do not fall back to a source that
 cannot answer the declared question. These assumptions do not establish any
@@ -104,13 +104,13 @@ EXPORT_MODULE=export_fixed python3 -B -m unittest -v test_export.py
 
 The old module is expected to fail one of two tests (exit 1). The fixed module passes both (exit 0). Empty input is the control test. These results do not establish deployment or coverage of other invalid inputs.
 
-## Teaching and cleanup
+## Review and cleanup
 
 Read the contracts first. Explain scope, assumptions and results to a peer. Do not change expected output merely to obtain a pass. Delete only copies you created; preserve your task's own results when needed. The full machine-specific acceptance receipt remains with the original evidence owner, not in this portable bundle.
 
 ## Working templates and transfer practice
 
-`task-brief.md`, `source-table.csv`, `evaluation-card.md` and `team-asset-review.md` are editable templates, not host policy or model-call approval. `transfer-cases.json` holds teacher-authored transfer cases and rubric. These are known synthetic teaching cases, not an independently frozen blind benchmark. Use a new authorized real task to assess transfer; preserve the distinction between self-review and independent review.
+`task-brief.md`, `source-table.csv`, `evaluation-card.md` and `team-asset-review.md` are editable templates, not host policy or model-call approval. `transfer-cases.json` holds author-prepared transfer cases and rubric. These are known synthetic practice cases, not an independently frozen blind benchmark. Use a new authorized real task to assess transfer; preserve the distinction between self-review and independent review.
 
 For the data transfer case, state the reconstruction purpose before choosing
 time filters. Public visibility requires `published_at` at or before the cutoff;

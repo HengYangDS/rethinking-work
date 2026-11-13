@@ -114,7 +114,7 @@ class PublicationInputs(unittest.TestCase):
         pages = document.findall(".//pdf:page", ns)
         pairs = (
             ("前六项实战已经呈现出一个区别", "让Agent真正参与工作"),
-            ("从十二个来源中选一项", "工具可以分担检索与表达"),
+            ("仍以来源评估为例", "工具可以分担检索与表达"),
         )
         for first, second in pairs:
             with self.subTest(paragraph=second):

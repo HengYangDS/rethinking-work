@@ -1,0 +1,19 @@
+[protected_refs]
+tags = ["v*"]
+
+[[publication.peers]]
+id = "gitlab"
+provider = "gitlab"
+role = "organization_collaboration"
+git_remote = "gitlab"
+capabilities = ["repository", "publication"]
+
+[[publication.peers]]
+id = "github"
+provider = "github"
+role = "public_distribution"
+git_remote = "github"
+capabilities = ["repository", "publication"]
+
+[release]
+mirror = "accepted_ff"

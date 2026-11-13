@@ -83,7 +83,22 @@ OpenSpec owns intent and task progress. Git retains committed source history.
 Unique evidence and recovery originals stay with their declared consumers until
 released, rather than being copied into a second archive here.
 
-No public license has been selected for this authored publication. Third-party
-package licenses are recorded in
-[publication/third-party-notices.md](publication/third-party-notices.md); they do
-not grant rights to this manuscript or imply a vendor endorsement.
+## Repository destinations and license
+
+The same accepted source is published through ETHOS to two independent peers:
+
+| Peer     | Role                       | Destination                                                                 | Visibility |
+| -------- | -------------------------- | --------------------------------------------------------------------------- | ---------- |
+| `github` | Public distribution        | [HengYangDS/rethinking-work](https://github.com/HengYangDS/rethinking-work) | Public     |
+| `gitlab` | Organization collaboration | `dig/misc/guidelines/rethinking-work`                                       | Private    |
+
+The peer declarations live in [.ethos/release.toml](.ethos/release.toml).
+Publication preserves exact signed Git objects and verifies each remote
+separately. Source publication does not certify editorial approval or a working
+remote build. Hosted CI and independent-machine bootstrap are not yet qualified;
+the peers therefore declare repository and publication capabilities only.
+
+The authored source is available under the [MIT License](LICENSE), copyright
+2026 衡阳. Third-party package licenses remain in
+[publication/third-party-notices.md](publication/third-party-notices.md) and are
+not replaced by this license.

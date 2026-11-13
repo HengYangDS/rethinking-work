@@ -1,5 +1,5 @@
 {
-  "kind": "teacher-authored synthetic transfer cases, not independent holdout",
+  "kind": "author-prepared synthetic transfer cases, not independent holdout",
   "cases": [
     {
       "id": "data",
@@ -42,7 +42,7 @@
     "max": 8
   },
   "limits": [
-    "known teaching cases",
+    "known synthetic practice cases",
     "not production qualification",
     "not measured team effectiveness"
   ]
