@@ -186,7 +186,7 @@ Serena 的符号工具减少不必要的整文件阅读，但语言服务器支�
 语义搜索帮助找到实现。要精确查找某类代码，可以用抽象语法树（AST）描述目标结构；要检查接口变化，可以比较新旧规范。这两种方法让检查对象更明确，但结构匹配和规范差异都不能代替业务判断。
 
 === ast-grep：先查，再考虑改
-随册#link(<practice-code>)[零收益例子]只有一处读取 `row["return_bps"]`。可以在该公开示例文件做只读查询：
+随册#link(<practice-code>)[零收益例子]只有一处读取 `row["return_bps"]`。进入练习包的 `exercises/cases/export-regression/` 目录，再对示例文件做只读查询：
 ```sh
 ast-grep run --lang python --pattern 'row["return_bps"]' \
   --json=compact export_bug.py
@@ -194,7 +194,7 @@ ast-grep run --lang python --pattern 'row["return_bps"]' \
 2026-11-09 的随册样例返回一条完整匹配，字节范围为 58–75 \[#case("X2")\]。这说明查询找到了读取该字段的表达式，不说明它一定有错。零值和 None 为什么被一起排除，仍要结合业务规则和行为测试确认。若准备按同一规则修改一批文件，先查看全部匹配，再检查改动前后的差异并运行原有检查，不要直接执行 update-all。
 
 === oasdiff：找出不兼容的接口变更
-随册#link(<companion-files>)[合成 OpenAPI 旧版]声明 `GET /research-snapshot`，新版删除该路径。下面的命令比较两个本地规范文件，禁用外部引用，不上传文件，也不启动服务：
+随册#link(<companion-files>)[合成 OpenAPI 旧版]声明 `GET /research-snapshot`，新版删除该路径。进入练习包的 `exercises/cases/api-evolution/` 目录后，用下面的命令比较两个规范文件。命令禁用外部引用，不上传文件，也不启动服务：
 ```sh
 oasdiff breaking openapi-before.yaml openapi-after.yaml \
   --format json --allow-external-refs=false --fail-on ERR

@@ -175,15 +175,19 @@ Jev/Laya、Clef/Clef-flash 的有限离线试验，尚不足以支持推广到�
 ]
 
 == 随册练习文件 <companion-files>
-若你收到本册及配套练习包，请先解压，阅读其中的“开始阅读.txt”与 exercises/reader-guide.zh.md；再按#link(<practice-code>)[零收益修复]、#link(<practice-data>)[历史快照核验]或#link(<practice-research>)[来源选择]进入。PDF 不依赖某台机器的文件路径，也不提供未经发布的下载链接；未收到练习包时，仍可先读正文中的完整示例。
+若你收到本册及配套练习包，请先解压，阅读其中的“先读.txt”与 `exercises/reader-guide.zh.md`；再按#link(<practice-code>)[零收益修复]、#link(<practice-data>)[历史快照核验]或#link(<practice-research>)[来源选择]进入。PDF 不依赖某台机器的文件路径，也不提供未经发布的下载链接；未收到练习包时，仍可先读正文中的完整示例。
 
 随册源仓库的 exercises 目录保存合成数据、SQL、预期差异，以及修改前后的 Python 函数和 unittest 测试。每个文件均可完整阅读；先读各题的要求与预期结果，再跑离线命令。练习文件不绑定个人用户名或业务路径，不需要账号。Python 题只用标准库；数据题需要已有 DuckDB，接口题需要已有 oasdiff，选做的结构匹配题需要 ast-grep。没有这些工具时，仍可读完整输入、预测结果并完成判断题；安装须按团队原供应流程另行处理。
 
-*历史快照*：source-observations.csv、universe.csv、research-snapshot.csv、reconcile.sql、expected-differences.csv、quality.sql、expected-quality.csv。
+练习按题目分目录；下列路径均从练习包的 exercises 目录算起。进入相应目录后，再运行正文中的命令。中文指南也列出了完整命令与预期结果。
 
-*来源选择*：source-candidates.csv、source-selection.sql。*实体对账*：entity-expected.csv、entity-observed.csv、entity-reconciliation.sql。*有效期映射*：entity-mappings.csv、entity-events.csv、entity-mapping.sql。
+*历史快照*：`cases/historical-snapshot/` 保存来源观察、证券范围、研究快照、核验 SQL，以及预期差异和质量清单。
 
-*编码练习*：export_bug.py、export_fixed.py、test_export.py。*接口练习*：openapi-before.yaml、openapi-after.yaml。*工作模板*：task-brief.md、source-table.csv、evaluation-card.md、team-asset-review.md、work-chain-design.md、long-task-checkpoint.md、transfer-cases.json。完整的工作站验收记录仍由原保管方保存，不装入可分享的练习包。
+*来源选择*：`cases/source-selection/` 保存候选来源表与选择查询。*实体对账*：`cases/keyed-reconciliation/` 保存预期记录、实得记录与对账查询。*有效期映射*：`cases/effective-date-mapping/` 保存事件、标识映射与核验查询。
+
+*编码练习*：`cases/export-regression/` 保存修改前后的导出函数与测试。*接口练习*：`cases/api-evolution/` 保存修改前后的接口定义。
+
+*工作模板*：`templates/` 保存委托书、来源表、评价卡、团队资产复核、工作链设计与长任务交接卡。迁移判断题在 `assessment/transfer-cases.json`。完整的工作站验收记录仍由原保管方保存，不装入可分享的练习包。
 
 == 读完之后做一件真实的事
 选一项你熟悉质量标准、又被重复劳动拖慢的任务。把材料与边界交清楚，先看一个样品，用实际工具做成一份可检查的成果。随后让同事接续，看方法在哪里需要改进。

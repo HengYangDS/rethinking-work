@@ -86,7 +86,7 @@ SELECT event_date,
 FROM accepted
 GROUP BY event_date ORDER BY event_date;
 ```
-这里的 `accepted` 是随册 `reconcile.sql` 按#link(<practice-data>)[实战二]的时点规则创建的视图；这条查询在执行该文件的同一数据库中运行。样例截止时点下，合格观察覆盖 4 个证券，其中 1 个零收益；相对于声明的六个证券，覆盖率是 4/6。它衡量数据覆盖，不衡量组合表现。若研究目标转为组合收益，还需另行给出权重、持仓与时间口径。
+先在练习包的 `exercises/cases/historical-snapshot/` 目录执行 `reconcile.sql`，再在同一数据库中运行上面的查询。`accepted` 是该文件按#link(<practice-data>)[实战二]的时点规则创建的视图。样例截止时点下，合格观察覆盖 4 个证券，其中 1 个零收益；相对于声明的六个证券，覆盖率是 4/6。它衡量数据覆盖，不衡量组合表现。若研究目标转为组合收益，还需另行给出权重、持仓与时间口径。
 
 覆盖、质量和快照差异要分别解释。S05 晚于截止时点才可用，不能因今天有值就纳入当时；S06 符合条件却未进快照，要追筛选或交付路径。把两者都写成“缺数据”，会让后续调查走错方向。若 UTC 时间与交易日不同，还要按已声明的市场日历与时区处理。
 
@@ -95,7 +95,7 @@ GROUP BY event_date ORDER BY event_date;
 
 #matrix([*实体*], [*期望 / 实际*], [*实际减期望*], [E01], [6000 / 4000], [−2000], [E02], [4000 / 6000], [+2000])
 
-从 exercises 目录运行 `duckdb -no-agent -csv < entity-reconciliation.sql`，完整结果应只有这两行。FULL JOIN 同时保留两边独有的实体；差额方向在列名 observed_minus_expected 中明确。它与#link(<practice-data>)[实战二]“期望减快照”的方向不同，不能只看正负号猜含义。这些值是计数，不能解释为收益或敞口。
+在练习包的 `exercises/cases/keyed-reconciliation/` 目录运行 `duckdb -no-agent -csv < entity-reconciliation.sql`，完整结果应只有这两行。FULL JOIN 同时保留两边独有的实体；差额方向在列名 observed_minus_expected 中明确。它与#link(<practice-data>)[实战二]“期望减快照”的方向不同，不能只看正负号猜含义。这些值是计数，不能解释为收益或敞口。
 
 在真实任务里，还要先检查两边的键是否唯一，否则重复键连接会放大行数。Agent 可以生成查询、归类差异并提出排查路径；是否有错挂、重复加载或映射变化，要回到原记录核实。核对总量的成本较低，实体级对应关系才是这项交付真正承诺的内容。
 
@@ -111,7 +111,7 @@ AND (m.valid_to IS NULL OR e.event_at < m.valid_to)
 
 #matrix([*事件*], [*查到的归属*], [*状态与含义*], [EV01：PAT01，4 月], [OWNER_A], [resolved；唯一匹配], [EV02：PAT01，7 月 1 日零点 UTC], [OWNER_B], [resolved；旧区间已结束], [EV03：PAT99，4 月], [NULL], [unmapped；没有对应记录])
 
-运行 `duckdb -no-agent -csv < entity-mapping.sql` 可复算这三行。在副本加入重叠有效期，同一事件会匹配多条记录，完整查询应返回 NULL / ambiguous，不任取一条。无匹配须补查映射，多匹配须核冲突区间，都不能填默认主体。
+在练习包的 `exercises/cases/effective-date-mapping/` 目录运行 `duckdb -no-agent -csv < entity-mapping.sql`，可复算这三行。在副本加入重叠有效期，同一事件会匹配多条记录，完整查询应返回 NULL / ambiguous，不任取一条。无匹配须补查映射，多匹配须核冲突区间，都不能填默认主体。
 
 这里查的是“事件发生时的归属”。要回答“当时已经知道的归属”，还需映射记录的发布或取得时间，只有有效期不够。它与历史快照一样，既有描述对象所对应的时间，也有这份描述被发布或取得的时间。
 
