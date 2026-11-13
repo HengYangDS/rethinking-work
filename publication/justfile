@@ -38,6 +38,10 @@ pdf:
 typst-input-check supply:
     cd "{{supply}}" && shasum --algorithm 256 --check "{{justfile_directory()}}/supply/typst-inputs.sha256"
 
+# Verify the complete upstream package trees before hosted compilation.
+typst-package-check supply:
+    cd "{{supply}}" && shasum --algorithm 256 --check "{{justfile_directory()}}/supply/typst-packages.sha256"
+
 # Compile current figure inputs without ambient font or package discovery.
 pdf-isolated supply: (typst-input-check supply)
     mkdir -p build/artifacts/pdf-isolated
@@ -62,6 +66,20 @@ test-proof output: diagrams pdf-tools-check
 # Run only the synthetic companion contracts; no PDF or browser is required.
 exercises:
     python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
+
+# Package only tracked teaching inputs, with a Chinese reader entrypoint.
+[script]
+practice-pack:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p build/artifacts/practice build/runtime/work
+    mkdir build/runtime/work/practice-pack
+    trap 'rm -r build/runtime/work/practice-pack' EXIT
+    mkdir build/runtime/work/practice-pack/重新理解工作-实战练习
+    git ls-files -z VERSION LICENSE exercises tests/test_exercises.py | tar --null -T - -cf - | tar -xf - -C build/runtime/work/practice-pack/重新理解工作-实战练习
+    cp publication/reader-start.zh.txt build/runtime/work/practice-pack/重新理解工作-实战练习/先读.txt
+    find build/runtime/work/practice-pack -type f -exec chmod 644 {} +
+    COPYFILE_DISABLE=1 tar -czf build/artifacts/practice/rethinking-work-practice.tgz -C build/runtime/work/practice-pack 重新理解工作-实战练习
 
 format-check:
     prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --check .
@@ -88,3 +106,8 @@ ci-identity platform commit:
 
 # Source CI is deliberately separate from the complete PDF qualification.
 ci: ci-projections format-check exercises
+
+# Hosted macOS builds artifacts; local Poppler acceptance remains separate.
+ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) build practice-pack
+    git diff --exit-code -- .config/mise
+    shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/practice/rethinking-work-practice.tgz

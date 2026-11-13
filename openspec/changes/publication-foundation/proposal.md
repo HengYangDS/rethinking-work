@@ -14,6 +14,7 @@ The Chinese handbook needs a durable publication owner, not another folder of PD
 - Continue the general-reader editorial revision and publication acceptance under this Change, with no parallel checklist.
 - Publish the accepted source to the authorized private collaboration and public distribution peers, with explicit peer declarations and separate exact-commit verification.
 - Add shared-source native CI for formatting, pipeline consistency and the synthetic exercise contracts; retain PDF qualification and editorial acceptance as separate obligations.
+- Extend the public macOS job with the native PDF and `.tgz` build using complete declared fonts and publisher packages; qualify actual independent-machine artifacts separately from source checks.
 
 ## Capabilities
 

@@ -21,6 +21,11 @@ jobs:
       MISE_DATA_DIR: ${{ github.workspace }}/build/runtime/ci/mise/data
       MISE_CACHE_DIR: ${{ github.workspace }}/build/runtime/ci/mise/cache
       MISE_STATE_DIR: ${{ github.workspace }}/build/runtime/ci/mise/state
+      PUPPETEER_EXECUTABLE_PATH: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+      TYPST_IGNORE_SYSTEM_FONTS: "1"
+      TYPST_FONT_PATHS: ${{ github.workspace }}/build/runtime/ci/typst/fonts
+      TYPST_PACKAGE_PATH: ${{ github.workspace }}/build/runtime/ci/typst/packages
+      TYPST_PACKAGE_CACHE_PATH: ${{ github.workspace }}/build/runtime/ci/typst/packages
     defaults:
       run:
         shell: bash
@@ -42,3 +47,47 @@ jobs:
       - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci-identity macos:aarch64 "$CHECKOUT_SHA"
       - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci
       - run: git diff --exit-code -- .config/mise
+      - run: build/runtime/ci/bootstrap/mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue typst npm:@mermaid-js/mermaid-cli
+      - run: mkdir -p build/runtime/ci/downloads build/runtime/ci/typst/fonts "$HOME/Library/Fonts"
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/downloads/noto.zip https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip
+      - run: shasum --algorithm 256 --check publication/supply/ci-noto.sha256
+      - run: unzip -q build/runtime/ci/downloads/noto.zip -d build/runtime/ci/downloads/noto
+      - run: cp build/runtime/ci/downloads/noto/NotoSansCJKsc-Regular.otf build/runtime/ci/typst/fonts/
+      - run: cp build/runtime/ci/typst/fonts/NotoSansCJKsc-Regular.otf "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-Regular.otf"
+      - run: cp build/runtime/ci/downloads/noto/NotoSansCJKsc-Bold.otf build/runtime/ci/typst/fonts/
+      - run: cp build/runtime/ci/typst/fonts/NotoSansCJKsc-Bold.otf "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-Bold.otf"
+      - run: cp build/runtime/ci/downloads/noto/NotoSansCJKsc-Black.otf build/runtime/ci/typst/fonts/
+      - run: cp build/runtime/ci/typst/fonts/NotoSansCJKsc-Black.otf "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-Black.otf"
+      - run: test -f "/System/Library/Fonts/Supplemental/Songti.ttc"
+      - run: ln -s "/System/Library/Fonts/Supplemental/Songti.ttc" "build/runtime/ci/typst/fonts/Songti.ttc"
+      - run: test -f "/System/Library/Fonts/Supplemental/Charter.ttc"
+      - run: ln -s "/System/Library/Fonts/Supplemental/Charter.ttc" "build/runtime/ci/typst/fonts/Charter.ttc"
+      - run: test -f "/System/Library/Fonts/Apple Color Emoji.ttc"
+      - run: ln -s "/System/Library/Fonts/Apple Color Emoji.ttc" "build/runtime/ci/typst/fonts/Apple Color Emoji.ttc"
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/algorithmic/1.0.7
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/algorithmic-1.0.7.tar.gz https://packages.typst.org/preview/algorithmic-1.0.7.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/algorithmic-1.0.7.tar.gz -C build/runtime/ci/typst/packages/preview/algorithmic/1.0.7
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/codly/2.0.0
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/codly-2.0.0.tar.gz https://packages.typst.org/preview/codly-2.0.0.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/codly-2.0.0.tar.gz -C build/runtime/ci/typst/packages/preview/codly/2.0.0
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/codly-languages/0.1.10
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/codly-languages-0.1.10.tar.gz https://packages.typst.org/preview/codly-languages-0.1.10.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/codly-languages-0.1.10.tar.gz -C build/runtime/ci/typst/packages/preview/codly-languages/0.1.10
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/elembic/1.1.1
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/elembic-1.1.1.tar.gz https://packages.typst.org/preview/elembic-1.1.1.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/elembic-1.1.1.tar.gz -C build/runtime/ci/typst/packages/preview/elembic/1.1.1
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/neat-book/0.1.0
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/neat-book-0.1.0.tar.gz https://packages.typst.org/preview/neat-book-0.1.0.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/neat-book-0.1.0.tar.gz -C build/runtime/ci/typst/packages/preview/neat-book/0.1.0
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/octique/0.1.1
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/octique-0.1.1.tar.gz https://packages.typst.org/preview/octique-0.1.1.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/octique-0.1.1.tar.gz -C build/runtime/ci/typst/packages/preview/octique/0.1.1
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/showybox/2.0.4
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/showybox-2.0.4.tar.gz https://packages.typst.org/preview/showybox-2.0.4.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/showybox-2.0.4.tar.gz -C build/runtime/ci/typst/packages/preview/showybox/2.0.4
+      - run: mkdir -p build/runtime/ci/typst/packages/preview/theorion/0.6.0
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/theorion-0.6.0.tar.gz https://packages.typst.org/preview/theorion-0.6.0.tar.gz
+      - run: tar -xzf build/runtime/ci/downloads/theorion-0.6.0.tar.gz -C build/runtime/ci/typst/packages/preview/theorion/0.6.0
+      - run: '"$PUPPETEER_EXECUTABLE_PATH" --version'
+      - run: shasum --algorithm 256 build/runtime/ci/typst/fonts/*
+      - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue typst npm:@mermaid-js/mermaid-cli -- just --justfile publication/justfile ci-publication

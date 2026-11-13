@@ -1,10 +1,14 @@
 package ci
 
-import "strings"
+import (
+	"list"
+	"strings"
+)
 
 // Shared commands have one owner; peers bind only their native job context.
 shared: {
 	tools: ["node", "python", "just", "npm:prettier", "duckdb", "ast-grep", "github:oasdiff/oasdiff", "cue"]
+	publicationTools: list.Concat([tools, ["typst", "npm:@mermaid-js/mermaid-cli"]])
 	miseVersion: "2026.11.7"
 	bootstrap: {
 		platform: "macos-arm64" | "linux-x64"
@@ -21,12 +25,41 @@ shared: {
 	}
 	verify: {
 		platform: "macos:aarch64" | "linux:x86_64"
-		commit: string
+		commit:   string
 		commands: [
 			"build/runtime/ci/bootstrap/mise install \(strings.Join(tools, " "))",
 			"build/runtime/ci/bootstrap/mise exec \(strings.Join(tools, " ")) -- just --justfile publication/justfile ci-identity \(platform) \"\(commit)\"",
 			"build/runtime/ci/bootstrap/mise exec \(strings.Join(tools, " ")) -- just --justfile publication/justfile ci",
 			"git diff --exit-code -- .config/mise",
+		]
+	}
+	publication: {
+		packages: ["algorithmic/1.0.7", "codly/2.0.0", "codly-languages/0.1.10", "elembic/1.1.1", "neat-book/0.1.0", "octique/0.1.1", "showybox/2.0.4", "theorion/0.6.0"]
+		commands: [
+			"build/runtime/ci/bootstrap/mise install \(strings.Join(publicationTools, " "))",
+			"mkdir -p build/runtime/ci/downloads build/runtime/ci/typst/fonts \"$HOME/Library/Fonts\"",
+			"curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/downloads/noto.zip https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip",
+			"shasum --algorithm 256 --check publication/supply/ci-noto.sha256",
+			"unzip -q build/runtime/ci/downloads/noto.zip -d build/runtime/ci/downloads/noto",
+			for face in ["Regular", "Bold", "Black"]
+			for command in [
+				"cp build/runtime/ci/downloads/noto/NotoSansCJKsc-\(face).otf build/runtime/ci/typst/fonts/",
+				"cp build/runtime/ci/typst/fonts/NotoSansCJKsc-\(face).otf \"$HOME/Library/Fonts/rethinking-NotoSansCJKsc-\(face).otf\"",
+			] {command},
+			for font in ["Supplemental/Songti.ttc", "Supplemental/Charter.ttc", "Apple Color Emoji.ttc"]
+			for command in [
+				"test -f \"/System/Library/Fonts/\(font)\"",
+				"ln -s \"/System/Library/Fonts/\(font)\" \"build/runtime/ci/typst/fonts/\(strings.Split(font, "/")[len(strings.Split(font, "/"))-1])\"",
+			] {command},
+			for package in packages
+			for command in [
+				"mkdir -p build/runtime/ci/typst/packages/preview/\(package)",
+				"curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/\(strings.Replace(package, "/", "-", -1)).tar.gz https://packages.typst.org/preview/\(strings.Replace(package, "/", "-", -1)).tar.gz",
+				"tar -xzf build/runtime/ci/downloads/\(strings.Replace(package, "/", "-", -1)).tar.gz -C build/runtime/ci/typst/packages/preview/\(package)",
+			] {command},
+			"\"$PUPPETEER_EXECUTABLE_PATH\" --version",
+			"shasum --algorithm 256 build/runtime/ci/typst/fonts/*",
+			"build/runtime/ci/bootstrap/mise exec \(strings.Join(publicationTools, " ")) -- just --justfile publication/justfile ci-publication",
 		]
 	}
 	environment: {
@@ -56,8 +89,13 @@ compiled: github: {
 			"runs-on":         "macos-15"
 			"timeout-minutes": 20
 			env: (shared.environment & {workspace: "${{ github.workspace }}"}).variables & {
-				CHECKOUT_URL: "${{ github.server_url }}/${{ github.repository }}.git"
-				CHECKOUT_SHA: "${{ github.sha }}"
+				CHECKOUT_URL:              "${{ github.server_url }}/${{ github.repository }}.git"
+				CHECKOUT_SHA:              "${{ github.sha }}"
+				PUPPETEER_EXECUTABLE_PATH: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+				TYPST_IGNORE_SYSTEM_FONTS: "1"
+				TYPST_FONT_PATHS:          "${{ github.workspace }}/build/runtime/ci/typst/fonts"
+				TYPST_PACKAGE_PATH:        "${{ github.workspace }}/build/runtime/ci/typst/packages"
+				TYPST_PACKAGE_CACHE_PATH:  "${{ github.workspace }}/build/runtime/ci/typst/packages"
 			}
 			defaults: run: shell: "bash"
 			steps: [
@@ -67,6 +105,7 @@ compiled: github: {
 				{name: "Check out the fetched commit", run: "git -c core.hooksPath=/dev/null checkout --detach FETCH_HEAD"},
 				for command in (shared.bootstrap & {platform: "macos-arm64"}).commands {run: command},
 				for command in (shared.verify & {platform: "macos:aarch64", commit: "$CHECKOUT_SHA"}).commands {run: command},
+				for command in shared.publication.commands {run: command},
 			]
 		}
 	}

@@ -253,3 +253,27 @@ upstream constraints or security settings are changed. Source CI deliberately
 does not replace full publication-input tests, the four ETHOS proof gates or
 human editorial judgment. Pipeline files alone do not establish hosted success
 or merge enforcement; those are separate platform effects.
+
+### Hosted publication extension
+
+Extend the existing public macOS job after its source checks rather than add a
+second pipeline or installation controller. The same locked Mise environment
+supplies Typst and Mermaid. Native download, checksum, archive and Just commands
+provision complete official publisher packages and Noto fonts in job-local
+state; Typst's supported paths bound discovery. The Runner's Apple fonts stay
+within licensed macOS, and its existing Chrome exercises the unchanged
+Puppeteer configuration with the sandbox enabled. GitLab retains source checks
+because the edition currently depends on Apple font supply.
+
+The existing Just owner builds the candidate and packages the selected tracked
+teaching inputs as `.tgz`. A separate Chinese entrypoint serves readers without
+changing source fixture bytes. Archive extraction tests run the actual native
+recipe, compare complete file bytes and modes, exclude untracked inputs and
+run all synthetic exercises. Exact staging is removed on success or failure.
+
+Compilation and hashes alone do not prove artifact retrieval, independent
+reading, navigation or editorial value. Those remain acceptance at their
+existing owners. The job never replaces Documents output, supplies standalone
+Apple fonts, installs Poppler, changes project locks or starts services.
+Any third-party artifact-upload runtime requires its own bounded admission
+before it joins the pipeline.

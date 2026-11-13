@@ -76,6 +76,22 @@ contracts without PDF or browser supply. After editing the CUE owner, run
 `ci-generate` first. These checks complement the full publication and ETHOS
 gates; they do not approve an edition or configure forge merge protection.
 
+The public macOS pipeline also calls `ci-publication` after source checks. It
+installs the remaining locked publication tools, verifies complete official
+Typst package trees, supplies checksum-bound Noto fonts and uses the Runner's
+licensed Apple fonts and existing Chrome. It then builds the PDF and the
+`.tgz` practice archive. This path does not install Poppler or replace the
+Documents edition; actual hosted artifacts still need independent readback.
+
+For an already-provisioned equivalent environment, set Typst's supported font
+and package paths and Mermaid's browser executable, then run
+`just --justfile publication/justfile ci-publication /path/to/supply`.
+The supply directory contains `fonts/` and `packages/preview/` as described in
+[publication reproduction](../publication/README.md#hosted-publication-build).
+Run `practice-pack` alone to package the tracked synthetic inputs without
+rendering the book. Its extracted archive is checked by
+`tests/test_practice_pack.py`, including all 15 exercise contracts.
+
 The repository keeps Python on the 3.12 line. `VERSION` owns the version;
 the matching literal in `pyproject.toml` is checked against it. Install the
 locked test environment with `uv sync --locked --no-build

@@ -87,3 +87,21 @@ and editorial acceptance SHALL remain distinct claims.
 
 - **WHEN** the private peer has no authorized Runner for the locked platform
 - **THEN** its job remains visibly pending, is not represented as passed, and does not prevent independent public-peer verification.
+
+### Requirement: Independent publication build
+
+The public publication job SHALL build the candidate PDF and a `.tgz` practice
+archive from the exact event commit and complete declared publication inputs.
+It SHALL preserve project locks and exclude credentials, business data and
+standalone restricted fonts from its outputs. A hosted success SHALL NOT
+establish reader delivery or editorial approval.
+
+#### Scenario: A clean macOS Runner builds the publication
+
+- **WHEN** the exact event source, locked tools, declared fonts and complete official publisher packages are available
+- **THEN** the native build regenerates the figures, produces the PDF and practice archive, records input and artifact identities, and fails on missing or changed required inputs or project-lock drift.
+
+#### Scenario: The practice archive is read outside the source checkout
+
+- **WHEN** a reader safely extracts the archive in an environment with the declared exercise tools
+- **THEN** the selected tracked teaching files and Chinese entrypoint retain their complete bytes, all 15 synthetic exercise contracts run, and no installation, business-data access or service startup is performed.

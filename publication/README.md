@@ -30,21 +30,24 @@ rule. It does not add a publisher framework or modify the pinned package.
 
 Run from the repository root:
 
-| Task                                 | Effect                                                  |
-| ------------------------------------ | ------------------------------------------------------- |
-| `bootstrap`                          | Print installed executor versions; install nothing      |
-| `pdf-tools-check`                    | Check declared, already-installed PDF inspection tools  |
-| `pdf-tool <command> [arguments]`     | Run PDF inspection in the declared Homebrew environment |
-| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures              |
-| `pdf`                                | Compile a candidate using already-rendered figures      |
-| `build`                              | Rebuild figures, then compile the candidate             |
-| `render`                             | Render all pages for visual inspection                  |
-| `test`                               | Rebuild figures, then check publication and exercises   |
-| `exercises`                          | Check synthetic data, export, search and API contracts  |
-| `format-check` / `format`            | Check / apply Prettier to declared authored formats     |
-| `check`                              | Run formatting, publication and exercise checks         |
-| `ci-generate` / `ci-projections`     | Generate / verify both native pipelines from CUE        |
-| `ci`                                 | Check pipeline agreement, formatting and 15 exercises   |
+| Task                                 | Effect                                                       |
+| ------------------------------------ | ------------------------------------------------------------ |
+| `bootstrap`                          | Print installed executor versions; install nothing           |
+| `pdf-tools-check`                    | Check declared, already-installed PDF inspection tools       |
+| `pdf-tool <command> [arguments]`     | Run PDF inspection in the declared Homebrew environment      |
+| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures                   |
+| `pdf`                                | Compile a candidate using already-rendered figures           |
+| `build`                              | Rebuild figures, then compile the candidate                  |
+| `render`                             | Render all pages for visual inspection                       |
+| `test`                               | Rebuild figures, then check publication and exercises        |
+| `exercises`                          | Check synthetic data, export, search and API contracts       |
+| `practice-pack`                      | Package tracked exercises and Chinese instructions as `.tgz` |
+| `format-check` / `format`            | Check / apply Prettier to declared authored formats          |
+| `check`                              | Run formatting, publication and exercise checks              |
+| `ci-generate` / `ci-projections`     | Generate / verify both native pipelines from CUE             |
+| `ci`                                 | Check pipeline agreement, formatting and 15 exercises        |
+| `typst-package-check supply`         | Check the complete official publisher package trees          |
+| `ci-publication [supply]`            | Check package inputs, build the PDF and practice archive     |
 
 The invocation is `just --justfile publication/justfile <task>`.
 `diagram name` produces PNG by default; `diagram name svg` renders the same
@@ -64,7 +67,7 @@ projects the native GitHub and GitLab pipeline files. After changing it, run
 `just --justfile publication/justfile ci-generate`, then `ci`. The projection
 check rejects drift; generated files are not independent policy owners.
 
-The job installs only Node 26.13.1, Python 3.12.16, Just 1.59.0, Prettier 3.10.1,
+The source-check stage installs Node 26.13.1, Python 3.12.16, Just 1.59.0, Prettier 3.10.1,
 DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0 and CUE 0.17.1 from the peer-specific macOS arm64 or Linux x64
 lock. The exact official Mise 2026.11.7 bootstrap is checksum-bound. Tool state
 and downloads belong to the job's `build/runtime/ci/`; host Homebrew tools are
@@ -104,6 +107,43 @@ failed before a hosted Runner acquired the job; the unchanged-commit rerun
 passed. Source CI does not render the PDF, launch a browser, certify typography
 or establish merge protection. The four ETHOS proof gates and
 [publication acceptance](../docs/publication-acceptance.md) remain separate.
+
+## Hosted publication build
+
+The public macOS pipeline extends the source checks with the native
+`ci-publication` task. GitLab retains the source-only Linux job. The extension
+installs locked Typst 0.15.1 and Mermaid CLI 12.2.0 into the same job-local Mise
+state; it does not alter the authoring host or project lockfiles.
+
+The job fetches the official Noto Sans CJK SC 2.004 archive, verifies
+[ci-noto.sha256](supply/ci-noto.sha256), and makes its Regular, Bold and Black
+faces available to Typst and the disposable Runner's browser. Songti SC,
+Charter and Apple Color Emoji remain native Apple-system inputs, referenced
+only inside the licensed macOS job. No standalone Apple font is included in
+the outputs. The exact browser version and font hashes are recorded in the
+job log; differing Apple fonts or Chrome versions can change the rendered PDF.
+
+Eight complete official Typst package trees are provisioned under
+`build/runtime/ci/typst/packages/preview/` and checked against
+[typst-packages.sha256](supply/typst-packages.sha256) before compilation.
+Typst's supported environment settings disable ambient system-font discovery
+and select the job-local font and package paths. Embedded fonts remain enabled.
+Mermaid uses the Runner's existing Chrome through its supported executable
+setting and the unchanged Puppeteer configuration; the sandbox stays enabled.
+
+The task rebuilds all seven diagrams and produces
+`build/artifacts/pdf/rethinking-work.pdf` and
+`build/artifacts/practice/rethinking-work-practice.tgz`, then refuses any
+project-lock drift and prints both hashes. The practice archive contains only
+tracked `VERSION`, `LICENSE`, `exercises/` and `tests/test_exercises.py`, plus
+the Chinese `先读.txt`; it excludes untracked exercise files and removes its
+exact staging directory on exit. The archive test compares every selected
+file's bytes and mode and runs all 15 exercises after safe extraction.
+
+Official Noto bytes and all 238 listed package files have passed local input
+verification. This is not hosted-build acceptance. Independent-machine
+execution and actual artifact retrieval remain open in task 1.4; successful
+source CI, compilation and author review are distinct evidence boundaries.
 
 ## Supply and reproduction
 
