@@ -28,4 +28,4 @@ build-backend = "setuptools.build_meta"
 packages = []
 
 [tool.setuptools.dynamic]
-version = {file = "VERSION"}
+version = { file = "VERSION" }

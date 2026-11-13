@@ -38,6 +38,8 @@ as attributed publisher material. Statements about its example book describe
 the publisher's examples, not an assertion that this manuscript uses every
 listed icon or asset.
 
+<!-- markdownlint-disable MD025 -->
+
 <!-- prettier-ignore -->
 > # Neat Book publisher notice
 >
@@ -155,6 +157,8 @@ listed icon or asset.
 > LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 > OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 > SOFTWARE.
+
+<!-- markdownlint-enable MD025 -->
 
 ## Authored publication and local executors
 
