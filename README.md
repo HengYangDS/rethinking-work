@@ -89,22 +89,14 @@ released, rather than being copied into a second archive here.
 ## Continuous verification
 
 Both native pipelines consume one [CUE definition](.config/ci/pipeline.cue) and
-the repository's exact platform-specific tool locks. Pushes and pull requests on the
-public forge run `just --justfile publication/justfile ci`: pipeline projection
-checks, authored-file formatting and all 15 synthetic exercise contracts.
-This job uses no business data, accounts, services, PDF fonts or browser.
+the repository's exact platform-specific tool locks. They run
+`just --justfile publication/justfile ci`: pipeline projection checks,
+authored-file formatting and all 15 synthetic exercise contracts.
+The jobs use no business data, accounts, services, PDF fonts or browser.
 
-The public hosted jobs passed on both `dev` and `main` at commit `1ee35a9`.
-The private pipeline uses an owner-associated general Linux Runner with an
-isolated Kubernetes executor. Its first jobs failed during image retrieval,
-before source checks. Retrieval of the same approved image from a public mirror
-passed at `38c6706`; Mise downloads then failed over both HTTP/2 and HTTP/1.1.
-The Linux bootstrap now uses the official installer's primary download endpoint,
-with the same version, archive checksum and HTTPS restrictions. Its isolated
-bootstrap passed; private hosted source acceptance remains pending.
-Source CI does not replace
+See [source CI](publication/README.md#source-ci) for the platform bindings,
+passing hosted job records and supply qualifications. Source CI does not replace
 the four ETHOS proof gates, full PDF qualification or human editorial review.
-See [CI scope and supply](publication/README.md#source-ci) for exact boundaries.
 
 ## Repository destinations and license
 

@@ -75,27 +75,35 @@ The approved macOS use is bounded to configuration checks and synthetic exercise
 without services, accounts or upstream dependency changes. Linux CUE adds eight
 disclosed Go advisory identifiers, and the Node image's SBOM scan timed out.
 The owner accepted this exact Linux toolchain for isolated configuration checks
-and synthetic exercises. That acceptance does not establish dependency safety
-or a passing hosted job.
+and synthetic exercises; this approval does not establish dependency safety.
 
 GitHub runs on hosted macOS arm64 for pushes, pull requests and manual dispatch.
-Both branch jobs passed at `1ee35a9`: pipeline projections, formatting and all
-15 exercises. GitLab's first two jobs failed while pulling the image from Docker
-Hub, before checkout or source execution. The private pipeline now retrieves
-the same official Node manifest from Amazon ECR Public, with its digest,
-configuration and seven layer bindings unchanged. The owner-associated general
-Linux Runner and its global settings are unchanged. Both jobs at `38c6706`
-pulled that image and checked out the event commit, then failed while downloading
-official Mise. HTTP/1.1 also timed out at `1ee35a9`, so it did not resolve the
-transfer failure. The Linux bootstrap now uses `mise.jdx.dev`, the official
-installer's primary endpoint, while retaining the GitHub-bound archive checksum,
-exact version, HTTPS restrictions and deadline. An isolated bootstrap in the
-approved Linux image downloaded and verified the archive and extracted binary
-in 6.6 seconds. The underlying GitHub transfer cause is unproved, and hosted
-source acceptance remains pending. Check the native job record, not the
-presence of YAML, before reporting hosted success. This task does not render the
-PDF, launch a browser, certify typography or establish merge protection. The
-original four ETHOS proof gates and publication acceptance remain in force.
+GitLab uses the owner-associated general Linux Runner 84 with an isolated
+Kubernetes executor. It retrieves the checksum-bound official Node image from
+Amazon ECR Public. Its Mise bootstrap uses `mise.jdx.dev`, the official
+installer's primary endpoint, with the exact version, archive checksum,
+HTTPS restrictions and deadline preserved. The Runner's global settings are
+unchanged.
+
+Hosted acceptance on 2026-11-14 verified all four branch jobs at commit
+`9e293fab29bf079435766b4e21b22c2ab75f136d`. Each passed event and platform identity,
+locked installation, pipeline projections, formatting and all 15 exercises,
+without changing the locks.
+
+| Peer   | Branch | Run or pipeline        | Job          | Result  |
+| ------ | ------ | ---------------------- | ------------ | ------- |
+| GitHub | `dev`  | 43483107986, attempt 2 | 132095925245 | Success |
+| GitHub | `main` | 43483340206            | 132085231533 | Success |
+| GitLab | `dev`  | 15484                  | 70302        | Success |
+| GitLab | `main` | 15485                  | 70303        | Success |
+
+The job records and traces, including predecessor failures, remain under
+`build/evidence/publication-foundation/hosted-ci-20261113/` on the authoring
+host. They are not portable source inputs. The initial GitHub `dev` attempt
+failed before a hosted Runner acquired the job; the unchanged-commit rerun
+passed. Source CI does not render the PDF, launch a browser, certify typography
+or establish merge protection. The four ETHOS proof gates and
+[publication acceptance](../docs/publication-acceptance.md) remain separate.
 
 ## Supply and reproduction
 
