@@ -1,6 +1,10 @@
 [protected_refs]
 tags = ["v*"]
 
+[publication]
+local_verification_command = "just --justfile publication/justfile check"
+local_installation_command = "just --justfile publication/justfile bootstrap"
+
 [[publication.peers]]
 id = "gitlab"
 provider = "gitlab"
