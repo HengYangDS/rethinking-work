@@ -72,6 +72,12 @@ produce readable PDF text. Missing or altered required bytes must refuse before
 replacing a preserved candidate. The temporary fixture is removed by unittest;
 the publication's actual supply and reader PDF are not changed.
 
+A hosted-environment regression reads the CUE-owned Typst setting and invokes
+the native `pdf` task with synthetic inputs and the pinned compiler. Compilation
+must produce a PDF; projection checks separately require the hosted YAML to
+match that CUE owner. This guards the boolean environment value that previously
+stopped the macOS job before compilation.
+
 These checks protect the checksum prerequisite and its observable effects, not
 the completeness, rights or security of the real input closure. The separate
 same-host offline replay qualifies that specific closure; second-machine and

@@ -92,7 +92,7 @@ compiled: github: {
 				CHECKOUT_URL:              "${{ github.server_url }}/${{ github.repository }}.git"
 				CHECKOUT_SHA:              "${{ github.sha }}"
 				PUPPETEER_EXECUTABLE_PATH: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-				TYPST_IGNORE_SYSTEM_FONTS: "1"
+				TYPST_IGNORE_SYSTEM_FONTS: "true"
 				TYPST_FONT_PATHS:          "${{ github.workspace }}/build/runtime/ci/typst/fonts"
 				TYPST_PACKAGE_PATH:        "${{ github.workspace }}/build/runtime/ci/typst/packages"
 				TYPST_PACKAGE_CACHE_PATH:  "${{ github.workspace }}/build/runtime/ci/typst/packages"

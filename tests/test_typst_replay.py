@@ -1,6 +1,8 @@
 """Exercise the bound-input task with synthetic files and the real compiler."""
 
 import hashlib
+import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -81,6 +83,47 @@ class BoundTypstReplay(unittest.TestCase):
             check=True,
         ).stdout
         self.assertEqual(text.strip(), "Bound input replay")
+
+    def test_hosted_typst_environment_compiles_pdf_through_native_task(self):
+        environment = json.loads(
+            subprocess.run(
+                [
+                    "cue",
+                    "export",
+                    ".config/ci/pipeline.cue",
+                    "-e",
+                    "compiled.github.document.jobs.verify.env",
+                    "--out",
+                    "json",
+                ],
+                cwd=ROOT,
+                stdin=subprocess.DEVNULL,
+                capture_output=True,
+                text=True,
+                timeout=60,
+                check=True,
+            ).stdout
+        )
+        result = subprocess.run(
+            ["just", "--justfile", "publication/justfile", "pdf"],
+            cwd=self.root,
+            env={
+                **os.environ,
+                "PATH": f"{self.supply / 'bin'}{os.pathsep}{os.environ['PATH']}",
+                "TYPST_IGNORE_SYSTEM_FONTS": environment["TYPST_IGNORE_SYSTEM_FONTS"],
+                "TYPST_FONT_PATHS": str(self.supply / "fonts"),
+                "TYPST_PACKAGE_PATH": str(self.supply / "packages"),
+                "TYPST_PACKAGE_CACHE_PATH": str(self.supply / "packages"),
+            },
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            text=True,
+            timeout=60,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        pdf = self.root / "build/artifacts/pdf/rethinking-work.pdf"
+        self.assertTrue(pdf.read_bytes().startswith(b"%PDF-"))
 
     def test_altered_required_input_refuses_before_replacing_candidate(self):
         self.preserve_candidate()
