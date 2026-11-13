@@ -30,6 +30,11 @@ format = "junit-xml"
 sessions = ["publication-tests-3.12"]
 
 [[proof.gates.native_outputs]]
+path = "pytest.jsonl"
+format = "pytest-jsonl"
+sessions = ["publication-tests-3.12"]
+
+[[proof.gates.native_outputs]]
 path = "coverage.xml"
 format = "cobertura-xml"
 sessions = ["publication-tests-3.12"]
