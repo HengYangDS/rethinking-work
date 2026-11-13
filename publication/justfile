@@ -54,6 +54,11 @@ render:
 test: diagrams pdf-tools-check
     python3.12 -B -m unittest discover -s tests -v
 
+# The same unittest cases, with native same-attempt test and subprocess coverage reports.
+test-proof output: diagrams pdf-tools-check
+    mkdir -p "{{output}}"
+    env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python python3.12 python -m pytest tests --junitxml="{{output}}/tests.xml" --cov --cov-report="xml:{{output}}/coverage.xml"
+
 # Run only the synthetic companion contracts; no PDF or browser is required.
 exercises:
     python3.12 -B -m unittest discover -s tests -p test_exercises.py -v

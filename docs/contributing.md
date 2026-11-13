@@ -68,6 +68,19 @@ lesson merely to fill a documentation category.
 6. Commit source and follow the current native proof and landing result. Source
    integration, artifact promotion and remote publication remain separate.
 
+## Verify source behavior
+
+The repository keeps Python on the 3.12 line. `VERSION` owns the version;
+the matching literal in `pyproject.toml` is checked against it. Install the
+locked test environment with `uv sync --locked --no-build
+--no-python-downloads --python python3.12`.
+
+Run `just --justfile publication/justfile test-proof build/ethos/local-tests`
+for JUnit results and subprocess-aware coverage from the same execution.
+Pytest runs the existing unittest cases in `tests/` only. The intentionally
+failing `exercises/export_bug.py` is a teaching control, not a passing test
+suite; the parent tests verify both its failure and the corrected export.
+
 ## Format only authored inputs
 
 The original installed Prettier owns Markdown, JSON and YAML formatting with

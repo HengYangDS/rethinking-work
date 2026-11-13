@@ -19,7 +19,7 @@
 ## 3. Source integration
 
 - [ ] 3.1 Integrate the owned source through current native ETHOS proof and landing admission; the accepted source must match the qualified edition inputs, with independent-machine and human acceptance limits preserved.
-- [x] 3.2 Declare both authorized peers, create the empty GitLab private repository at `dig/misc/guidelines/rethinking-work` and GitHub public repository at `HengYangDS/rethinking-work`, and bind their exact native remotes and MIT license. Independent destination readback passes; no pre-existing remote content was present. Evidence: `lock-adoption-20261113-1350/dual-destination-readback.json` under `build/evidence/publication-foundation/source-closeout-20261111-2014/`.
+- [x] 3.2 Declare both authorized peers, create the empty GitLab private repository at `dig/misc/guidelines/rethinking-work` and GitHub public repository at `HengYangDS/rethinking-work`, and bind their exact native remotes and MIT license. Independent destination readback passes; GitLab's English display name follows neighboring repositories; both descriptions match, with paths and visibility unchanged. Evidence: `lock-adoption-20261113-1350/dual-destination-readback.json` and `gitlab-project-metadata-20261113-1500/acceptance.json` under `build/evidence/publication-foundation/source-closeout-20261111-2014/`.
 - [ ] 3.3 Publish the same accepted signed source through native ETHOS publication admission to both declared peers; independently read back each published ref and commit, and report any partial effect.
 
 ## Workflow follow-up

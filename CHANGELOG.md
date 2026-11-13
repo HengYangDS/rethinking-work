@@ -44,3 +44,5 @@ claim editorial acceptance or public publication.
 - Repository-specific GitLab collaboration and GitHub public-distribution peer
   declarations, with exact signed-source publication and separate remote checks.
 - An MIT license for the authored source, copyright 2026 衡阳.
+- A locked Python 3.12 verification environment and native JUnit/Cobertura
+  reports from the existing test cases, including subprocess exercise coverage.

@@ -8,7 +8,7 @@ See `proposal.md`. The current candidate uses Typst 0.15.1 and unchanged Neat Bo
 
 The source tree must let an editor change one argument, teaching case, figure or presentation rule without searching a monolith. It must let another person reproduce the publication without copying the author's private stores.
 
-This Change does not create a publishing engine, a new governance framework, a broad software inventory or a public license. It does not assert independent aesthetic approval or measured teaching effectiveness.
+This Change does not create a publishing engine, a new governance framework or a broad software inventory. The author has authorized MIT licensing for the authored source; third-party terms remain independent. It does not assert independent aesthetic approval or measured teaching effectiveness.
 
 ## Decisions
 
@@ -30,7 +30,7 @@ Record a complete selected-input manifest and verify exact bytes and modes again
 
 ### Keep edition identity in one place
 
-`book/metadata.typ` owns title, subtitle, author, editorial date and keywords. Cover and PDF document metadata consume it. Git signing identity stays separate. Textual author attribution is not a certificate-based PDF signature, and no ISBN, publisher, licensing grant or third-party endorsement is invented.
+`book/metadata.typ` owns title, subtitle, author, editorial date and keywords. Cover and PDF document metadata consume it. Git signing identity stays separate. Textual author attribution is not a certificate-based PDF signature. The root `LICENSE` owns the author's MIT grant; no ISBN, publisher or third-party endorsement is invented.
 
 ## Risks / Trade-offs
 

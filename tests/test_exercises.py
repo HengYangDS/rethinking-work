@@ -4,11 +4,10 @@ import csv
 import io
 import json
 import os
-from pathlib import Path
 import subprocess
 import sys
 import unittest
-
+from pathlib import Path
 
 EXERCISES = Path(__file__).resolve().parents[1] / "exercises"
 

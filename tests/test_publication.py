@@ -1,12 +1,11 @@
 """Check the publication's declared inputs through the native Typst reader."""
 
 import json
-from pathlib import Path
 import subprocess
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 

@@ -4,3 +4,6 @@
 **/exercises/**
 # Native generated lock bytes are owned by Mise, not the prose formatter.
 **/aube-lock.yaml
+# Native test environments and caches are derived, not authored source.
+**/.venv/**
+**/.pytest_cache/**

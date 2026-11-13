@@ -1,12 +1,11 @@
 """Exercise the bound-input task with synthetic files and the real compiler."""
 
 import hashlib
-from pathlib import Path
 import shutil
 import subprocess
 import tempfile
 import unittest
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 

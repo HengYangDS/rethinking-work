@@ -1,12 +1,11 @@
 """Check the data-chain relationships in real native-rendered SVG geometry."""
 
 import math
-from pathlib import Path
 import re
 import subprocess
 import unittest
 import xml.etree.ElementTree as ET
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 NODES = {
@@ -92,9 +91,11 @@ class DataChainRender(unittest.TestCase):
                     0.01,
                     f"{source} -> {target}: degenerate arrowhead tangent",
                 )
-                toward_target = tuple(b - a for a, b in zip(centers[source], centers[target]))
+                toward_target = tuple(
+                    b - a for a, b in zip(centers[source], centers[target], strict=True)
+                )
                 self.assertGreater(
-                    sum(a * b for a, b in zip(tangent, toward_target)),
+                    sum(a * b for a, b in zip(tangent, toward_target, strict=True)),
                     0,
                     f"{source} -> {target}: arrow points away from target",
                 )

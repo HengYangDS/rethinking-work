@@ -1,13 +1,12 @@
 """Exercise the native PDF-tool prerequisite without changing installed supply."""
 
-from pathlib import Path
 import os
 import shutil
 import subprocess
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
