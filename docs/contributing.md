@@ -70,6 +70,12 @@ lesson merely to fill a documentation category.
 
 ## Verify source behavior
 
+For source-only checks, run `just --justfile publication/justfile ci`. It checks
+the shared CUE pipeline projections, formatting and all 15 synthetic exercise
+contracts without PDF or browser supply. After editing the CUE owner, run
+`ci-generate` first. These checks complement the full publication and ETHOS
+gates; they do not approve an edition or configure forge merge protection.
+
 The repository keeps Python on the 3.12 line. `VERSION` owns the version;
 the matching literal in `pyproject.toml` is checked against it. Install the
 locked test environment with `uv sync --locked --no-build

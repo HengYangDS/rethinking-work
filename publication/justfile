@@ -70,3 +70,16 @@ format:
     prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --write .
 
 check: format-check test
+
+# Generate both native peer documents from the shared CUE owner.
+ci-generate:
+    cue export .config/ci/pipeline.cue -e compiled.github.document --out yaml --outfile .github/workflows/verify.yml --force
+    cue export .config/ci/pipeline.cue -e compiled.gitlab.document --out yaml --outfile .gitlab-ci.yml --force
+    prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --write .github/workflows/verify.yml .gitlab-ci.yml
+
+ci-projections:
+    cue vet -c .config/ci/pipeline.cue .github/workflows/verify.yml -d compiled.github.document
+    cue vet -c .config/ci/pipeline.cue .gitlab-ci.yml -d compiled.gitlab.document
+
+# Source CI is deliberately separate from the complete PDF qualification.
+ci: ci-projections format-check exercises

@@ -12,7 +12,8 @@ The Chinese handbook needs a durable publication owner, not another folder of PD
 - Expose native build, render, format and check tasks using existing installed tools.
 - Keep generated artifacts, machine-specific receipts and recovery objects outside the tracked publication source.
 - Continue the general-reader editorial revision and publication acceptance under this Change, with no parallel checklist.
-- Publish the accepted source to GitLab under `dig/misc/guidelines` and to the author's GitHub repository, with explicit peer declarations and separate exact-commit verification.
+- Publish the accepted source to the authorized private collaboration and public distribution peers, with explicit peer declarations and separate exact-commit verification.
+- Add shared-source native CI for formatting, pipeline consistency and the synthetic exercise contracts; retain PDF qualification and editorial acceptance as separate obligations.
 
 ## Capabilities
 

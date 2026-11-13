@@ -1,0 +1,38 @@
+stages:
+  - verify
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH || $CI_COMMIT_TAG
+variables:
+  GIT_DEPTH: "1"
+  GIT_STRATEGY: clone
+  GIT_SUBMODULE_STRATEGY: none
+  MISE_LOCKED: "1"
+  MISE_EXEC_AUTO_INSTALL: "0"
+  MISE_TRUSTED_CONFIG_PATHS: $CI_PROJECT_DIR
+  MISE_DATA_DIR: $CI_PROJECT_DIR/build/runtime/ci/mise/data
+  MISE_CACHE_DIR: $CI_PROJECT_DIR/build/runtime/ci/mise/cache
+  MISE_STATE_DIR: $CI_PROJECT_DIR/build/runtime/ci/mise/state
+verify:source:
+  stage: verify
+  tags:
+    - platform-general
+  image: node@sha256:6eca1d4ba35cef57a8a41008310420541a2a9ffdcd4883841463ccb39a588bd8
+  timeout: 20m
+  interruptible: true
+  script:
+    - test "$(git rev-parse HEAD)" = "$CI_COMMIT_SHA"
+    - |-
+      test "$(uname -s):$(uname -m)" = "Linux:x86_64"
+      mkdir -p build/runtime/ci/bootstrap
+      curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.7/mise-v2026.11.7-linux-x64.tar.gz
+      printf '%s  %s\n' '3198a5ed5716ca8c17ecfc54521e2769d6cacbf2d13f24f0c2f9706620ec0024' build/runtime/ci/bootstrap/mise.tar.gz | sha256sum --check
+      tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise
+      build/runtime/ci/bootstrap/mise --version
+    - |-
+      build/runtime/ci/bootstrap/mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue
+      build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci
+      git diff --exit-code -- .config/mise

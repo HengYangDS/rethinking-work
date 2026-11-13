@@ -13,6 +13,9 @@ claim editorial acceptance or public publication.
 
 ### Changed
 
+- Configure the third-party release age as `0h` in the repository Mise settings,
+  keeping the value explicit and adjustable without changing global policy.
+
 - Organized synthetic exercises by teaching case, separating reusable templates
   and transfer assessment while preserving fixture bytes and behavior.
 - Separated publication layout, diagnostics, supply manifests and third-party
@@ -31,6 +34,13 @@ claim editorial acceptance or public publication.
   integration retain their independent acceptance boundaries.
 
 ### Added
+
+- Shared-source native GitHub and GitLab CI for pipeline consistency, formatting
+  and all 15 synthetic exercise contracts, with exact-commit checkout and a
+  checksum-bound, job-local toolchain. Private-peer execution needs a suitable
+  Runner; source CI does not replace full PDF qualification or editorial review.
+- Exact macOS arm64 locks for the four CI tools and Linux x64 records for the
+  seven native source-CI tools, preserving existing records and npm sidecars.
 
 - A modular Chinese handbook for quantitative data teams, with worked data,
   research, engineering, delivery and team-learning cases, explicit source

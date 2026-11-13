@@ -43,6 +43,8 @@ Run from the repository root:
 | `exercises`                          | Check synthetic data, export, search and API contracts  |
 | `format-check` / `format`            | Check / apply Prettier to declared authored formats     |
 | `check`                              | Run formatting, publication and exercise checks         |
+| `ci-generate` / `ci-projections`     | Generate / verify both native pipelines from CUE        |
+| `ci`                                 | Check pipeline agreement, formatting and 15 exercises   |
 
 The invocation is `just --justfile publication/justfile <task>`.
 `diagram name` produces PNG by default; `diagram name svg` renders the same
@@ -55,12 +57,42 @@ left by an earlier build. They require the same headless browser as `build`.
 ast-grep and oasdiff; it does not render figures or compile the PDF. See the
 [exercise instructions](../exercises/README.md#check-all-runnable-examples).
 
+## Source CI
+
+[pipeline.cue](../.config/ci/pipeline.cue) owns shared source verification and
+projects the native GitHub and GitLab pipeline files. After changing it, run
+`just --justfile publication/justfile ci-generate`, then `ci`. The projection
+check rejects drift; generated files are not independent policy owners.
+
+The job installs only Node 26.13.1, Python 3.12.16, Just 1.59.0, Prettier 3.10.1,
+DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0 and CUE 0.17.1 from the peer-specific macOS arm64 or Linux x64
+lock. The exact official Mise 2026.11.7 bootstrap is checksum-bound. Tool state
+and downloads belong to the job's `build/runtime/ci/`; host Homebrew tools are
+unchanged. Configuration and fixtures are trusted source inputs, not credentials
+or business data. CUE and oasdiff retain disclosed unresolved Go advisories;
+DuckDB and ast-grep scans did not establish complete dependency identity.
+The approved macOS use is bounded to configuration checks and synthetic exercises,
+without services, accounts or upstream dependency changes. Linux CUE adds eight
+disclosed Go advisory identifiers, and the Node image's SBOM scan timed out.
+The owner accepted this exact Linux toolchain for isolated configuration checks
+and synthetic exercises. That acceptance does not establish dependency safety
+or a passing hosted job.
+
+GitHub runs on hosted macOS arm64 for pushes, pull requests and manual dispatch.
+GitLab selects the owner-associated general Linux Runner, whose Kubernetes
+executor would run the digest-bound official Node image after admission. No Runner-global setting
+or service is changed. Check the resulting commit's native job record, not the
+presence of YAML, before reporting hosted success. This task does not render the
+PDF, launch a browser, certify typography or establish merge protection. The
+original four ETHOS proof gates and publication acceptance remain in force.
+
 ## Supply and reproduction
 
 Homebrew remains the host installation owner. The native tasks install nothing
 and run the executors selected by their invocation environment. The current
 project Mise environment uses Node 26.13.1, Python 3.12.16, Typst 0.15.1, Just
-1.59.0, Mermaid CLI 12.2.0 and Prettier 3.10.1. Version checks and the native
+1.59.0, Mermaid CLI 12.2.0 and Prettier 3.10.1, plus the four source-CI tools
+listed above. Version checks and the native
 `check` pass on the authoring host; coverage 7.17.3 also passes its pytest-cov
 consumer checks. The earlier isolated six-tool qualification used Prettier
 3.9.10. Neither journey qualifies an independent-machine bootstrap.
@@ -115,8 +147,9 @@ manuscript revisions and has passed complete-content, structural navigation,
 metadata and every-page author visual self-review. The current 113-page Documents
 PDF loaded in Preview; representative contents jumps, cross-references, returns
 and the DuckDB official link passed. The owned PDF window and external browser
-tab closed. Original foreground restoration and dismissal of Preview's remaining
-Open panel remain unproved in task 2.4 of the
+tab closed; the remaining Open panel was dismissed, and Preview reported no
+available windows. Original foreground restoration remains unproved because its
+identity was not captured, as recorded in task 2.4 of the
 [active Change](../openspec/changes/publication-foundation/tasks.md). Human
 editorial acceptance and measured teaching effectiveness also remain unproved
 in task 2.1. Earlier tool and companion-reference journeys retain their original
@@ -160,9 +193,11 @@ packages and diagram inputs before assessing reproduction.
 
 The Mise declaration exposes the same tasks. The native lock at
 `.config/mise/mise.lock` and its `aube-lock.yaml` and `package.json` sidecars bind
-the six declared tools. The scoped Prettier 3.10.1 update regenerated its two
+the ten declared tools. The scoped Prettier 3.10.1 update regenerated its two
 sidecars through native Mise; Mermaid CLI 12.2.0 and all other tool records remain
-unchanged. The current lock's archives cover macOS arm64 only. Native resolution recognizes the installed tools and their sidecar-derived
+unchanged. All ten tools have macOS arm64 records; the seven native source-CI tools
+also have Linux x64 records, while Prettier uses its portable npm sidecar.
+Native resolution recognizes the installed tools and their sidecar-derived
 paths. This adoption does not qualify an independent-machine bootstrap. Generated
 Aube YAML remains byte-exact and outside the prose formatter's inputs. Poppler's
 separate Homebrew Bundle binding is

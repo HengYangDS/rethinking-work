@@ -10,14 +10,16 @@ id = "gitlab"
 provider = "gitlab"
 role = "organization_collaboration"
 git_remote = "gitlab"
-capabilities = ["repository", "publication"]
+capabilities = ["repository", "ci_cd", "publication"]
+ci_surface = ".gitlab-ci.yml"
 
 [[publication.peers]]
 id = "github"
 provider = "github"
 role = "public_distribution"
 git_remote = "github"
-capabilities = ["repository", "publication"]
+capabilities = ["repository", "ci_cd", "publication"]
+ci_surface = ".github/workflows/verify.yml"
 
 [release]
 mirror = "accepted_ff"

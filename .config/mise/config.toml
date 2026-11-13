@@ -15,6 +15,7 @@ description = "Render every PDF page for visual review"
 run = "just --justfile publication/justfile render"
 [settings]
 locked = true
+minimum_release_age = "0h"
 
 [tools]
 node = "26.13.1"
@@ -23,6 +24,14 @@ typst = "0.15.1"
 just = "1.59.0"
 "npm:@mermaid-js/mermaid-cli" = "12.2.0"
 "npm:prettier" = "3.10.1"
+duckdb = "2.0.0"
+ast-grep = "0.51.2"
+"github:oasdiff/oasdiff" = "1.37.0"
+cue = "0.17.1"
+
+[tasks.ci]
+description = "Check generated pipelines, formatting and all synthetic exercise contracts"
+run = "just --justfile publication/justfile ci"
 
 [tasks.bootstrap]
 description = "Inspect existing publication supply without installing software"

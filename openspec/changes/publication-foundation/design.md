@@ -219,3 +219,37 @@ Code review, report writing and knowledge reuse continue this same case. Existin
 CI and consumer-state cases retain dated scope and unresolved boundaries.
 Predecessor sources and reader artifacts are preserved under
 `build/evidence/publication-foundation/quant-department-20261109/`.
+
+## Native source CI
+
+Local proof and remote publication are separate from hosted verification. One
+CUE definition owns the shared job and projects the two native pipeline files;
+the native `ci-projections` task checks their agreement before formatting and
+the existing synthetic exercise tests. The job checks out the event's exact
+commit, uses read-only public-forge permissions, cancels superseded work and
+has a 20-minute deadline. A checksum-bound official Mise binary installs only
+the locked source-check tools into job-local state under ignored `build/`.
+It does not install software on the authoring host or use credentials, live
+services, business inputs, a PDF browser or fonts.
+
+GitHub selects hosted macOS arm64; GitLab selects the owner-associated general
+Linux x64 Runner and its Kubernetes executor. The native lock preserves every
+macOS record and npm sidecar while adding Linux records at the same versions.
+A digest-bound official Node image is selected for Linux. Its official Dockerfiles
+declare the shell, Git and HTTPS bootstrap tools. The exact image was pulled and
+its generated native journey passed under local Linux amd64 emulation, preserving
+all source bytes and modes. Mise installs the selected repository tools into job-local state.
+Runner registration, global settings and services are unchanged.
+Native command steps avoid adding third-party action runtimes. Platform
+execution remains unqualified until each peer's actual job passes.
+
+The macOS CUE and exercise tools have bounded risk admission for trusted
+repository configuration and synthetic fixtures. Linux CUE adds eight disclosed
+Go advisory identifiers, and the Node image's SBOM scan timed out. Linux execution
+has bounded owner acceptance for isolated configuration checks and synthetic
+exercises; actual platform qualification remains a separate requirement. Scan limitations and
+unresolved dependency advisories remain with the admission evidence; no
+upstream constraints or security settings are changed. Source CI deliberately
+does not replace full publication-input tests, the four ETHOS proof gates or
+human editorial judgment. Pipeline files alone do not establish hosted success
+or merge enforcement; those are separate platform effects.

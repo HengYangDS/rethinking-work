@@ -69,3 +69,21 @@ Chinese prose SHALL use accurate concepts and idiomatic paragraph structure. Edi
 
 - **WHEN** a source term refers to credentials in one passage and sensitive information or non-sensitive metadata in another
 - **THEN** each passage expresses its own intended meaning in natural Chinese, and whole-paragraph source comparison and cold reading qualify the revision rather than a global replacement.
+
+### Requirement: Reproducible source verification
+
+Both publication peers SHALL expose native source CI from one shared definition.
+The job SHALL verify the exact event commit with locked tools, check pipeline
+agreement and formatting, and exercise all synthetic companion contracts without
+business data, services or credentials. Hosted execution, full PDF qualification
+and editorial acceptance SHALL remain distinct claims.
+
+#### Scenario: A source change reaches the public peer
+
+- **WHEN** a push or pull request triggers source CI
+- **THEN** the job reports checks against that event's exact commit, and an invalid pipeline projection, formatting defect or failing exercise makes the job fail.
+
+#### Scenario: A peer lacks a suitable Runner
+
+- **WHEN** the private peer has no authorized Runner for the locked platform
+- **THEN** its job remains visibly pending, is not represented as passed, and does not prevent independent public-peer verification.
