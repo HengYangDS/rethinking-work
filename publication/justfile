@@ -57,7 +57,7 @@ test: diagrams pdf-tools-check
 # The same unittest cases, with native same-attempt test and subprocess coverage reports.
 test-proof output: diagrams pdf-tools-check
     mkdir -p "{{output}}"
-    env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python python3.12 python -m pytest tests --junitxml="{{output}}/tests.xml" --cov --cov-report="xml:{{output}}/coverage.xml"
+    env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python python3.12 python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests --junitxml="{{output}}/tests.xml" --cov --cov-config .config/checks/coverage/coverage.toml --cov-report="xml:{{output}}/coverage.xml"
 
 # Run only the synthetic companion contracts; no PDF or browser is required.
 exercises:

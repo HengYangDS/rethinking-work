@@ -2,7 +2,7 @@
 name = "rethinking-work"
 description = "Native verification tools for the Rethinking Work publication"
 requires-python = ">=3.12,<3.13"
-version = "0.1.0"
+dynamic = ["version"]
 dependencies = []
 
 [tool.uv]
@@ -20,15 +20,12 @@ test = [
   "pygments==2.21.0",
 ]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "-ra"
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
 
-[tool.coverage.run]
-branch = true
-source = ["tests", "exercises"]
-patch = ["subprocess"]
-relative_files = false
+[tool.setuptools]
+packages = []
 
-[tool.coverage.report]
-show_missing = true
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}

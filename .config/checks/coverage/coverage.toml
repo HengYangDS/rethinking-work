@@ -1,0 +1,8 @@
+[tool.coverage.run]
+branch = true
+source = ["tests", "exercises"]
+patch = ["subprocess"]
+relative_files = false
+
+[tool.coverage.report]
+show_missing = true
