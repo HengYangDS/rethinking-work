@@ -22,7 +22,7 @@ python = "3.12.16"
 typst = "0.15.1"
 just = "1.59.0"
 "npm:@mermaid-js/mermaid-cli" = "12.2.0"
-"npm:prettier" = "3.9.10"
+"npm:prettier" = "3.10.1"
 
 [tasks.bootstrap]
 description = "Inspect existing publication supply without installing software"

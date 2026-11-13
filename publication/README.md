@@ -58,12 +58,14 @@ ast-grep and oasdiff; it does not render figures or compile the PDF. See the
 ## Supply and reproduction
 
 Homebrew remains the host installation owner. The native tasks install nothing
-and run the executors selected by their invocation environment. An isolated Mise
-environment has qualified the six declared versions: Node 26.13.1, Python
-3.12.16, Typst 0.15.1, Just 1.59.0, Mermaid CLI 12.2.0 and Prettier 3.9.10. Its
-installation, version checks and native `check` pass; it is not a parallel host
-installation or an accepted repository bootstrap. The selected supply and font
-families are recorded in [toolchain.json](supply/toolchain.json).
+and run the executors selected by their invocation environment. The current
+project Mise environment uses Node 26.13.1, Python 3.12.16, Typst 0.15.1, Just
+1.59.0, Mermaid CLI 12.2.0 and Prettier 3.10.1. Version checks and the native
+`check` pass on the authoring host; coverage 7.17.3 also passes its pytest-cov
+consumer checks. The earlier isolated six-tool qualification used Prettier
+3.9.10. Neither journey qualifies an independent-machine bootstrap.
+[toolchain.json](supply/toolchain.json) retains its original edition's supply and
+font binding rather than describing later tool updates.
 
 Poppler supplies `pdfinfo` and `pdftotext` for PDF Info, XMP and visible-cover
 checks. [brewfile](brewfile) declares the package; the native `pdf-tool` task
@@ -156,11 +158,11 @@ but does not establish byte-identical reproduction across machines. Match the
 actual font files and renderer identities as well as the compiler, resolved
 packages and diagram inputs before assessing reproduction.
 
-The Mise declaration exposes the same tasks. The approved native lock is now
-adopted as `.config/mise/mise.lock`, together with the unchanged `aube-lock.yaml`
-and `package.json` sidecars for Mermaid CLI 12.2.0 and Prettier 3.9.10. These five
-files bind the six declared tools; the current lock's archives cover macOS arm64
-only. Native resolution recognizes the installed tools and their sidecar-derived
+The Mise declaration exposes the same tasks. The native lock at
+`.config/mise/mise.lock` and its `aube-lock.yaml` and `package.json` sidecars bind
+the six declared tools. The scoped Prettier 3.10.1 update regenerated its two
+sidecars through native Mise; Mermaid CLI 12.2.0 and all other tool records remain
+unchanged. The current lock's archives cover macOS arm64 only. Native resolution recognizes the installed tools and their sidecar-derived
 paths. This adoption does not qualify an independent-machine bootstrap. Generated
 Aube YAML remains byte-exact and outside the prose formatter's inputs. Poppler's
 separate Homebrew Bundle binding is
