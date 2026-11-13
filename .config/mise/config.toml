@@ -17,7 +17,7 @@ run = "just --justfile publication/justfile render"
 locked = true
 
 [tools]
-node = "26.13.0"
+node = "26.13.1"
 python = "3.12.16"
 typst = "0.15.1"
 just = "1.59.0"
