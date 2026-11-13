@@ -1,5 +1,8 @@
 # Normalize authored text without treating generated or binary files as text.
 * text=auto eol=lf
-# Synthetic teaching fixtures include an intentionally failing function.
-# They are reader material, not the publication's runtime product.
+# Reader fixtures retain their documentation role; runnable Python examples
+# and their regression tests have native code and test responsibilities.
 exercises/** ethos-role=docs
+exercises/export_bug.py ethos-role=code
+exercises/export_fixed.py ethos-role=code
+exercises/test_export.py ethos-role=test
