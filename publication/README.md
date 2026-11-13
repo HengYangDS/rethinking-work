@@ -79,9 +79,13 @@ and synthetic exercises. That acceptance does not establish dependency safety
 or a passing hosted job.
 
 GitHub runs on hosted macOS arm64 for pushes, pull requests and manual dispatch.
-GitLab selects the owner-associated general Linux Runner, whose Kubernetes
-executor would run the digest-bound official Node image after admission. No Runner-global setting
-or service is changed. Check the resulting commit's native job record, not the
+Both branch jobs passed at `8747f90`: pipeline projections, formatting and all
+15 exercises. GitLab's first two jobs failed while pulling the image from Docker
+Hub, before checkout or source execution. The private pipeline now retrieves
+the same official Node manifest from Amazon ECR Public, with its digest,
+configuration and seven layer bindings unchanged. The owner-associated general
+Linux Runner and its global settings are unchanged; hosted acceptance of this
+transport repair remains pending. Check the native job record, not the
 presence of YAML, before reporting hosted success. This task does not render the
 PDF, launch a browser, certify typography or establish merge protection. The
 original four ETHOS proof gates and publication acceptance remain in force.

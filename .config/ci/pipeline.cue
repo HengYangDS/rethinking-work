@@ -88,7 +88,7 @@ compiled: gitlab: {
 			stage: "verify"
 			// The owner-associated general Linux Runner supplies an isolated Kubernetes job.
 			tags: ["platform-general"]
-			image:         "node@sha256:6eca1d4ba35cef57a8a41008310420541a2a9ffdcd4883841463ccb39a588bd8"
+			image:         "public.ecr.aws/docker/library/node@sha256:6eca1d4ba35cef57a8a41008310420541a2a9ffdcd4883841463ccb39a588bd8"
 			timeout:       "20m"
 			interruptible: true
 			script: [

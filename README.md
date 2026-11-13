@@ -94,10 +94,12 @@ public forge run `just --justfile publication/justfile ci`: pipeline projection
 checks, authored-file formatting and all 15 synthetic exercise contracts.
 This job uses no business data, accounts, services, PDF fonts or browser.
 
-The private pipeline selects an owner-associated general Linux Runner with an
-isolated Kubernetes executor. Its exact Linux tools have bounded risk acceptance;
-hosted execution remains unproved.
-A declared pipeline is not a passing run. Source CI does not replace
+The public hosted jobs passed on both `dev` and `main` at commit `8747f90`.
+The private pipeline uses an owner-associated general Linux Runner with an
+isolated Kubernetes executor. Its first jobs failed during image retrieval,
+before source checks. The same approved image is now bound to a public mirror;
+private hosted acceptance remains pending.
+Source CI does not replace
 the four ETHOS proof gates, full PDF qualification or human editorial review.
 See [CI scope and supply](publication/README.md#source-ci) for exact boundaries.
 
