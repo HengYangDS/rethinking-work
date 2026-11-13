@@ -18,9 +18,9 @@
 
 ## 3. Source integration
 
-- [ ] 3.1 Integrate the owned source through current native ETHOS proof and landing admission; the accepted source must match the qualified edition inputs, with independent-machine and human acceptance limits preserved.
+- [x] 3.1 Integrate the owned source through current native ETHOS proof and landing admission; the accepted source must match the qualified edition inputs, with independent-machine and human acceptance limits preserved. Evidence: `proof-089af49.json`, `land-089af49-apply.json` and `closeout-089af49-apply.json` under `build/evidence/publication-foundation/source-closeout-20261111-2014/`.
 - [x] 3.2 Declare both authorized peers, create the empty GitLab private repository at `dig/misc/guidelines/rethinking-work` and GitHub public repository at `HengYangDS/rethinking-work`, and bind their exact native remotes and MIT license. Independent destination readback passes; GitLab's English display name follows neighboring repositories; both descriptions match, with paths and visibility unchanged. Evidence: `lock-adoption-20261113-1350/dual-destination-readback.json` and `gitlab-project-metadata-20261113-1500/acceptance.json` under `build/evidence/publication-foundation/source-closeout-20261111-2014/`.
-- [ ] 3.3 Publish the same accepted signed source through native ETHOS publication admission to both declared peers; independently read back each published ref and commit, and report any partial effect.
+- [x] 3.3 Publish the same accepted signed source through native ETHOS publication admission to both declared peers; independently read back each published ref and commit, and report any partial effect. Both peers' `dev` and `main` point to signed source `089af494f17ff3e2421e0604f642878a39cc62cf`; all 103 tracked files match bytes and modes. Metadata readback confirms the authorized names, matching descriptions, visibility, MIT license and `main` default branch. Evidence: `publish-dev-089af49-apply.json`, `publish-main-089af49-apply.json` and `dual-source-readback-089af49.json` under `build/evidence/publication-foundation/source-closeout-20261111-2014/`. Source publication does not establish a tagged release, hosted CI or independent-machine build.
 
 ## Workflow follow-up
 
