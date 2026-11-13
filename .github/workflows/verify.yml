@@ -13,6 +13,8 @@ jobs:
     runs-on: macos-15
     timeout-minutes: 20
     env:
+      CHECKOUT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+      CHECKOUT_SHA: ${{ github.sha }}
       MISE_LOCKED: "1"
       MISE_EXEC_AUTO_INSTALL: "0"
       MISE_TRUSTED_CONFIG_PATHS: ${{ github.workspace }}
@@ -23,26 +25,20 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Check out the exact event commit
-        env:
-          CHECKOUT_URL: ${{ github.server_url }}/${{ github.repository }}.git
-          CHECKOUT_SHA: ${{ github.sha }}
-        run: |-
-          git init .
-          git remote add origin "$CHECKOUT_URL"
-          git -c protocol.version=2 fetch --no-tags --depth=1 origin "$CHECKOUT_SHA"
-          git -c core.hooksPath=/dev/null checkout --detach FETCH_HEAD
-          test "$(git rev-parse HEAD)" = "$CHECKOUT_SHA"
-      - name: Prepare checksum-bound Mise
-        run: |-
-          test "$(uname -s):$(uname -m)" = "Darwin:arm64"
-          mkdir -p build/runtime/ci/bootstrap
-          curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.7/mise-v2026.11.7-macos-arm64.tar.gz
-          printf '%s  %s\n' '92f1b9f68b6031a9f77938a0ff8dfd7a77fe9cd918c5b09d0ed434f06ebbd3f2' build/runtime/ci/bootstrap/mise.tar.gz | shasum --algorithm 256 --check
-          tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise
-          build/runtime/ci/bootstrap/mise --version
-      - name: Check projections, formatting and all companion contracts
-        run: |-
-          build/runtime/ci/bootstrap/mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue
-          build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci
-          git diff --exit-code -- .config/mise
+      - name: Initialize checkout
+        run: git init .
+      - name: Select the public event repository
+        run: git remote add origin "$CHECKOUT_URL"
+      - name: Fetch the exact event commit
+        run: git -c protocol.version=2 fetch --no-tags --depth=1 origin "$CHECKOUT_SHA"
+      - name: Check out the fetched commit
+        run: git -c core.hooksPath=/dev/null checkout --detach FETCH_HEAD
+      - run: mkdir -p build/runtime/ci/bootstrap
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.7/mise-v2026.11.7-macos-arm64.tar.gz
+      - run: shasum --algorithm 256 --check publication/supply/ci-mise-macos-arm64.sha256
+      - run: tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise
+      - run: build/runtime/ci/bootstrap/mise --version
+      - run: build/runtime/ci/bootstrap/mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue
+      - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci-identity macos:aarch64 "$CHECKOUT_SHA"
+      - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci
+      - run: git diff --exit-code -- .config/mise

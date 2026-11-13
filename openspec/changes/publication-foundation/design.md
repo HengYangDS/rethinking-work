@@ -240,7 +240,7 @@ declare the shell, Git and HTTPS bootstrap tools. The exact image was pulled and
 its generated native journey passed under local Linux amd64 emulation, preserving
 all source bytes and modes. Mise installs the selected repository tools into job-local state.
 Runner registration, global settings and services are unchanged.
-Native command steps avoid adding third-party action runtimes. Platform
+Each Forge step invokes one native command; checksum manifests bind the bootstrap archives. The existing Just owner checks the actual platform and exact event commit before source verification. Native command steps avoid adding third-party action runtimes. Platform
 execution remains unqualified until each peer's actual job passes.
 
 The macOS CUE and exercise tools have bounded risk admission for trusted

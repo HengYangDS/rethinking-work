@@ -81,5 +81,10 @@ ci-projections:
     cue vet -c .config/ci/pipeline.cue .github/workflows/verify.yml -d compiled.github.document
     cue vet -c .config/ci/pipeline.cue .gitlab-ci.yml -d compiled.gitlab.document
 
+# Bind the native job to its declared platform and exact event commit.
+ci-identity platform commit:
+    test "{{os()}}:{{arch()}}" = "{{platform}}"
+    test "{{`git rev-parse HEAD`}}" = "{{commit}}"
+
 # Source CI is deliberately separate from the complete PDF qualification.
 ci: ci-projections format-check exercises

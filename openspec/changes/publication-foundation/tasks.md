@@ -14,7 +14,7 @@
 
 - [x] 1.9 Refresh only Prettier to 3.10.1 and coverage to 7.17.3 through scoped native locks; all other tool and dependency records remain unchanged, the project formatter passes, 31 native checks pass, and 15 pytest-cov consumer checks pass. Evidence: `scoped-lock-diff.json`, `native-check.txt` and `coverage-consumer.txt` under `build/evidence/publication-foundation/supply-refresh-20261113-2143/`. Promotion additionally requires exact-HEAD ETHOS proof on the same commit.
 
-- [x] 1.10 Qualify both native source pipelines and unchanged-version platform locks; clean installation preserves lock bytes and passes projections, formatting and all 15 exercises. Evidence: `clean-macos-acceptance.json` and `linux-clean-acceptance-0020.json` under `build/evidence/publication-foundation/hosted-ci-20261113/`. Linux acceptance is local amd64 emulation, not a hosted Runner job or independent-machine PDF build.
+- [x] 1.10 Qualify both native source pipelines and unchanged-version platform locks; clean installation preserves all 108 source files and modes, installs the eight exact tools with executable bin paths, and passes projections, formatting and all 15 exercises. Repaired single-native-command acceptance: `native-repair-macos-acceptance.json` and `native-repair-linux-acceptance.json` under `build/evidence/publication-foundation/hosted-ci-20261113/`. Linux is local amd64 emulation, not a hosted Runner job or independent-machine PDF build; predecessor failures remain preserved.
 
 ## 2. Editorial and publication acceptance
 
