@@ -106,6 +106,19 @@ compiled: github: {
 				for command in (shared.bootstrap & {platform: "macos-arm64"}).commands {run: command},
 				for command in (shared.verify & {platform: "macos:aarch64", commit: "$CHECKOUT_SHA"}).commands {run: command},
 				for command in shared.publication.commands {run: command},
+				for artifact in [
+					{label: "PDF", path: "build/artifacts/pdf/rethinking-work.pdf"},
+					{label: "Practice package", path: "build/artifacts/practice/rethinking-work-practice.tgz"},
+				] {
+					name: "Upload \(artifact.label) without re-archiving"
+					uses: "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9"
+					with: {
+						path:                artifact.path
+						archive:             false
+						"if-no-files-found": "error"
+						"retention-days":    14
+					}
+				},
 			]
 		}
 	}

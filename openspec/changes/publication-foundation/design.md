@@ -275,5 +275,12 @@ Compilation and hashes alone do not prove artifact retrieval, independent
 reading, navigation or editorial value. Those remain acceptance at their
 existing owners. The job never replaces Documents output, supplies standalone
 Apple fonts, installs Poppler, changes project locks or starts services.
-Any third-party artifact-upload runtime requires its own bounded admission
-before it joins the pipeline.
+The owner accepted official `actions/upload-artifact` 7.0.2 at the exact
+`cf430e030ddbb5b0abf93d22962f4752f3646cd9` commit for this isolated CI. Two
+separate steps upload the exact PDF and `.tgz` paths with `archive: false`,
+missing-file failure and 14-day retention. Repository permissions remain
+`contents: read`; no wildcard, business input, new credential or vendor
+dependency edit is introduced. The 36 disclosed source-lock advisory identifiers
+remain in the admission evidence; inclusion and exploitability in the released
+Action bundle are unproved. Approval permits the bounded execution, not a claim
+of dependency safety or successful artifact retrieval.
