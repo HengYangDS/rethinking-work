@@ -129,39 +129,39 @@ CUE definition owns the shared job and projects the two native pipeline files;
 the native `ci-projections` task checks their agreement before formatting and
 the existing synthetic exercise tests. The job checks out the event's exact
 commit, uses read-only public-forge permissions, cancels superseded work and
-has a 20-minute deadline. A checksum-bound official Mise binary installs only
-the locked source-check tools into job-local state under ignored `build/`.
-It does not install software on the authoring host or use credentials, live
+has a 20-minute deadline. It installs only the locked source-check tools and
+does not install software on the authoring host or use credentials, live
 services, business inputs, a PDF browser or fonts.
 
-GitHub selects hosted macOS arm64; GitLab selects the owner-associated general
-Linux x64 Runner and its Kubernetes executor. The native lock preserves every
-macOS record and npm sidecar while adding Linux records at the same versions.
-A digest-bound official Node image is selected for Linux. Its official Dockerfiles
-declare the shell, Git and HTTPS bootstrap tools. The exact image was pulled and
-its generated native journey passed under local Linux amd64 emulation, preserving
-all source bytes and modes. Mise installs the selected repository tools into job-local state.
-Runner registration, global settings and services are unchanged.
+GitHub selects hosted macOS arm64, where a checksum-bound official Mise binary
+keeps all tool state in the job under ignored `build/`. GitLab selects the
+owner's local macOS arm64 runners, the arrangement the owner's other
+repositories use: a protected shell runner for the protected `dev` and `main`
+branches and `v*` tags, and a review runner for merge requests and `proposal/`
+branches, each locked to this project under its own account in the CI guest.
+Both peers therefore run the same commands from the same macOS lock records. On
+GitLab the runner supplies Mise as a prerequisite; the job records its version,
+and the runner account's Mise store keeps the locked tools, so a later job
+needs no download. The job keeps that account's own Mise settings and parent
+directories out of resolution.
 
-The private peer's downloads from GitHub release hosts have been slow enough to
-exhaust the job deadline before any check ran. Its job therefore reuses
-downloaded tool archives through the native GitLab job cache, which carries
-Mise's kept archives and its download cache. Installs remain job-local and
-every reused archive is checked against the lock before extraction. A script
-deadline inside the job deadline lets a slow first run save the archives it
-completed, and the key follows the lock and the Mise version. Alternatives
-considered: a mirror needs a chosen third-party or internal host; a longer job
-deadline leaves every job dependent on the slowest download. The cache depends
-on Runner storage that outlives the job; with the pinned Mise one
-`github`-backend archive is still downloaded in every job.
-Each Forge step invokes one native command; checksum manifests bind the bootstrap archives. The existing Just owner checks the actual platform and exact event commit before source verification. Native command steps avoid adding third-party action runtimes. Platform
+The private peer first ran on a department Kubernetes runner, with a
+digest-bound Node image and Linux x64 lock records; the records remain in the
+lock without a consumer. That runner's evening path to public hosts was too
+slow for the tool downloads, and jobs ended before any check. Alternatives
+measured on it on 2026-11-16 and withdrawn: a native job cache, which the
+runner saved and never restored; a public GitHub proxy, which was slower and
+dropped connections. A longer deadline was not tried, because one archive alone
+would have needed over an hour.
+
+Each Forge step invokes one native command; a checksum manifest binds the hosted peer's bootstrap archive. The existing Just owner checks the actual platform and exact event commit before source verification. Native command steps avoid adding third-party action runtimes. Platform
 execution remains unqualified until each peer's actual job passes.
 
 The macOS CUE and exercise tools have bounded risk admission for trusted
-repository configuration and synthetic fixtures. Linux CUE adds eight disclosed
-Go advisory identifiers, and the Node image's SBOM scan timed out. Linux execution
-has bounded owner acceptance for isolated configuration checks and synthetic
-exercises; actual platform qualification remains a separate requirement. Scan limitations and
+repository configuration and synthetic fixtures. The earlier Linux job had its
+own bounded owner acceptance, with eight further disclosed Go advisory
+identifiers in CUE and a Node image whose SBOM scan timed out; it has no
+current use. Scan limitations and
 unresolved dependency advisories remain with the admission evidence; no
 upstream constraints or security settings are changed. Source CI deliberately
 does not replace full publication-input tests, the four ETHOS proof gates or

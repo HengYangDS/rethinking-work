@@ -10,26 +10,26 @@ shared: {
 	tools: ["node", "python", "just", "npm:prettier", "duckdb", "ast-grep", "github:oasdiff/oasdiff", "cue"]
 	publicationTools: list.Concat([tools, ["typst", "npm:@mermaid-js/mermaid-cli"]])
 	miseVersion: "2026.11.7"
+	// Only the hosted peer bootstraps Mise; the private peer's runners supply it.
 	bootstrap: {
-		platform: "macos-arm64" | "linux-x64"
-		checkCommand: {"macos-arm64": "shasum --algorithm 256 --check", "linux-x64": "sha256sum --check"}[platform]
-		// The official installer uses this Linux mirror; checksums stay GitHub-bound.
-		downloadBase: {"macos-arm64": "https://github.com/jdx/mise/releases/download", "linux-x64": "https://mise.jdx.dev"}[platform]
+		platform: "macos-arm64"
 		commands: [
 			"mkdir -p build/runtime/ci/bootstrap",
-			"curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz \(downloadBase)/v\(miseVersion)/mise-v\(miseVersion)-\(platform).tar.gz",
-			"\(checkCommand) publication/supply/ci-mise-\(platform).sha256",
+			"curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v\(miseVersion)/mise-v\(miseVersion)-\(platform).tar.gz",
+			"shasum --algorithm 256 --check publication/supply/ci-mise-\(platform).sha256",
 			"tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise",
 			"build/runtime/ci/bootstrap/mise --version",
 		]
 	}
 	verify: {
-		platform: "macos:aarch64" | "linux:x86_64"
+		platform: "macos:aarch64"
 		commit:   string
+		// The hosted peer runs its bootstrapped binary; the local runners have Mise on PATH.
+		mise: *"build/runtime/ci/bootstrap/mise" | "mise"
 		commands: [
-			"build/runtime/ci/bootstrap/mise install \(strings.Join(tools, " "))",
-			"build/runtime/ci/bootstrap/mise exec \(strings.Join(tools, " ")) -- just --justfile publication/justfile ci-identity \(platform) \"\(commit)\"",
-			"build/runtime/ci/bootstrap/mise exec \(strings.Join(tools, " ")) -- just --justfile publication/justfile ci",
+			"\(mise) install \(strings.Join(tools, " "))",
+			"\(mise) exec \(strings.Join(tools, " ")) -- just --justfile publication/justfile ci-identity \(platform) \"\(commit)\"",
+			"\(mise) exec \(strings.Join(tools, " ")) -- just --justfile publication/justfile ci",
 			"git diff --exit-code -- .config/mise",
 		]
 	}
@@ -126,45 +126,45 @@ compiled: github: {
 
 compiled: gitlab: {
 	path: ".gitlab-ci.yml"
+	// The owner's local macOS arm64 runners supply Mise; each runner account keeps its tools between jobs.
+	_verify: {
+		stage:         "verify"
+		timeout:       "20m"
+		interruptible: true
+		script: [
+			"mise --version",
+			for command in (shared.verify & {mise: "mise", platform: "macos:aarch64", commit: "$CI_COMMIT_SHA"}).commands {command},
+		]
+	}
 	document: {
 		stages: ["verify"]
 		workflow: rules: [
 			{"if": "$CI_PIPELINE_SOURCE == \"merge_request_event\""},
-			{"if": "$CI_PIPELINE_SOURCE == \"push\" && $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS", when: "never"},
-			{"if": "$CI_COMMIT_BRANCH || $CI_COMMIT_TAG"},
+			{"if": "$CI_COMMIT_BRANCH =~ /^proposal\\// && $CI_OPEN_MERGE_REQUESTS", when: "never"},
+			{"if": "$CI_COMMIT_BRANCH == \"dev\" || $CI_COMMIT_BRANCH == \"main\" || $CI_COMMIT_BRANCH =~ /^proposal\\// || $CI_COMMIT_TAG =~ /^v[^\\/]*$/"},
 		]
-		variables: (shared.environment & {workspace: "$CI_PROJECT_DIR"}).variables & {
+		variables: {
 			GIT_DEPTH:              "1"
 			GIT_STRATEGY:           "clone"
 			GIT_SUBMODULE_STRATEGY: "none"
-			// Kept archives and Mise's download cache are the two inputs of the job cache.
-			MISE_ALWAYS_KEEP_DOWNLOAD: "1"
-			// Ending the script inside the job deadline lets a slow run still save its cache.
-			RUNNER_SCRIPT_TIMEOUT: "15m"
-		}
-		"verify:source": {
-			stage: "verify"
-			// The owner-associated general Linux Runner supplies an isolated Kubernetes job.
-			tags: ["platform-general"]
-			image:         "public.ecr.aws/docker/library/node@sha256:6eca1d4ba35cef57a8a41008310420541a2a9ffdcd4883841463ccb39a588bd8"
-			timeout:       "20m"
-			interruptible: true
-			// Installs stay job-local; a reused archive is checked against the lock before extraction.
-			cache: {
-				key: {
-					files: [".config/mise/mise.lock"]
-					prefix: "mise-\(shared.miseVersion)-linux-x64"
-				}
-				paths: [
-					"build/runtime/ci/mise/data/downloads/",
-					"build/runtime/ci/mise/cache/downloads-cas/",
-				]
-				when: "always"
+			// The lock settings are the shared ones; the hosted peer's job-local stores are not used here.
+			for name in ["MISE_LOCKED", "MISE_EXEC_AUTO_INSTALL", "MISE_TRUSTED_CONFIG_PATHS"] {
+				"\(name)": (shared.environment & {workspace: "$CI_PROJECT_DIR"}).variables[name]
 			}
-			script: [
-				for command in (shared.bootstrap & {platform: "linux-x64"}).commands {command},
-				for command in (shared.verify & {platform: "linux:x86_64", commit: "$CI_COMMIT_SHA"}).commands {command},
-			]
+
+			// The runner account's own Mise settings and parent directories stay out of the job.
+			MISE_CONFIG_DIR:    "$CI_PROJECT_DIR/build/runtime/ci/mise/config"
+			MISE_CEILING_PATHS: "$CI_PROJECT_DIR/.."
+			MISE_JOBS:          "1"
+			MISE_YES:           "1"
+		}
+		"verify:macos:review": _verify & {
+			tags: ["ci-macos-arm64-review"]
+			rules: [{"if": "$CI_PIPELINE_SOURCE == \"merge_request_event\" || ($CI_COMMIT_BRANCH =~ /^proposal\\// && $CI_PIPELINE_SOURCE == \"push\")"}]
+		}
+		"verify:macos:protected": _verify & {
+			tags: ["ci-macos-arm64-shell"]
+			rules: [{"if": "$CI_COMMIT_REF_PROTECTED == \"true\" && ($CI_COMMIT_BRANCH == \"dev\" || $CI_COMMIT_BRANCH == \"main\" || $CI_COMMIT_TAG =~ /^v[^\\/]*$/)"}]
 		}
 	}
 }

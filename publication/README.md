@@ -68,51 +68,38 @@ projects the native GitHub and GitLab pipeline files. After changing it, run
 check rejects drift; generated files are not independent policy owners.
 
 The source-check stage installs Node 26.13.1, Python 3.12.16, Just 1.59.0, Prettier 3.10.1,
-DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0 and CUE 0.17.1 from the peer-specific macOS arm64 or Linux x64
-lock. The exact official Mise 2026.11.7 bootstrap is checksum-bound. Tool state
-and downloads belong to the job's `build/runtime/ci/`; the GitLab job also
-carries downloaded archives from one job to the next, as described below. Host
-Homebrew tools are unchanged. Configuration and fixtures are trusted source
-inputs, not credentials
-or business data. CUE and oasdiff retain disclosed unresolved Go advisories;
-DuckDB and ast-grep scans did not establish complete dependency identity.
-The approved macOS use is bounded to configuration checks and synthetic exercises,
-without services, accounts or upstream dependency changes. Linux CUE adds eight
-disclosed Go advisory identifiers, and the Node image's SBOM scan timed out.
-The owner accepted this exact Linux toolchain for isolated configuration checks
-and synthetic exercises; this approval does not establish dependency safety.
+DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0 and CUE 0.17.1 from the macOS arm64
+lock on both peers. On GitHub the exact official Mise 2026.11.7 bootstrap is
+checksum-bound, and tool state and downloads belong to the job's
+`build/runtime/ci/`. On GitLab the runner supplies Mise and each runner account
+keeps its own tool store between jobs, as described below. Host Homebrew tools
+are unchanged. Configuration and fixtures are trusted source inputs, not
+credentials or business data. CUE and oasdiff retain disclosed unresolved Go
+advisories; DuckDB and ast-grep scans did not establish complete dependency
+identity. The approved macOS use is bounded to configuration checks and
+synthetic exercises, without services, accounts or upstream dependency changes.
+The lock keeps its Linux x64 records from the earlier private-peer job; no
+pipeline reads them.
 
 GitHub runs on hosted macOS arm64 for pushes, pull requests and manual dispatch.
-GitLab uses the owner-associated general Linux Runner 84 with an isolated
-Kubernetes executor. It retrieves the checksum-bound official Node image from
-Amazon ECR Public. Its Mise bootstrap uses `mise.jdx.dev`, the official
-installer's primary endpoint, with the exact version, archive checksum,
-HTTPS restrictions and deadline preserved. The Runner's global settings are
-unchanged.
+GitLab runs on the owner's local macOS arm64 runners, as the owner's other
+repositories do. A protected shell runner (tag `ci-macos-arm64-shell`) serves the
+protected `dev` and `main` branches and `v*` tags; a review runner (tag
+`ci-macos-arm64-review`) serves merge requests and `proposal/` branches. Each is
+locked to this project and runs under its own account in the CI guest. The job
+prints the runner's Mise version, installs the locked tools into that account's
+Mise store and finds them there in later jobs. `MISE_CONFIG_DIR` and
+`MISE_CEILING_PATHS` keep the account's own Mise settings and parent directories
+out of the job.
 
-The GitLab job reuses downloaded tool archives through its native job cache.
-On 2026-11-13 and 2026-11-16 this Runner's downloads from GitHub release hosts
-ranged from a 27-second job to jobs still downloading at the 20-minute
-deadline. The cache carries two directories under `build/runtime/ci/mise/`:
-`data/downloads/`, kept by Mise's `always_keep_download` setting, and
-`cache/downloads-cas/`, Mise's own download cache. Installed tools remain
-job-local, and every install checks a reused archive against the lock before
-extraction. The key follows `.config/mise/mise.lock` and the Mise version, so
-a lock change starts from an empty cache. A 15-minute script deadline inside
-the 20-minute job deadline ends a run that is still downloading as a failed
-script, so that GitLab can still save the archives it completed.
-
-With the pinned Mise on macOS arm64, both directories carried over and GitHub
-and nodejs.org unreachable, seven of the eight tools installed: Node, Just,
-DuckDB, ast-grep and CUE from the kept archives, Python from the download
-cache and Prettier from the npm registry. oasdiff uses the `github` backend
-and is downloaded in every job. An altered kept archive failed the install and
-stayed in place; the recovery is **Build > Pipelines > Clear runner caches**.
-An altered download-cache entry was not used and was downloaded again.
-`always_keep_download` is deprecated, with removal announced for Mise
-2027.11.0; retest which directory serves each backend before moving the pin.
-The cache needs Runner cache storage that outlives the job. Hosted reuse
-remains unqualified until a later job on each branch restores the cache.
+Until 2026-11-16 the GitLab job ran on a department Kubernetes runner under
+Linux x64. That runner's evening downloads from public hosts were too slow for
+the tool installation (6 to 12 kB/s per download from GitHub release hosts on
+2026-11-16), so jobs ended before any check. Two remedies were measured on it
+and withdrawn: a job cache, which the runner saved and never restored, and a
+public GitHub proxy, which was slower and dropped connections. The records are
+under `build/evidence/publication-foundation/` on the authoring host, in
+`gitlab-download-cache-20261116/` and `gitlab-mirror-trial-20261116/`.
 
 Hosted acceptance on 2026-11-14 verified all four branch jobs at commit
 `9e293fab29bf079435766b4e21b22c2ab75f136d`. Each passed event and platform identity,
@@ -126,7 +113,8 @@ without changing the locks.
 | GitLab | `dev`  | 15484                  | 70302        | Success |
 | GitLab | `main` | 15485                  | 70303        | Success |
 
-The job records and traces, including predecessor failures, remain under
+The two GitLab rows ran on the earlier Linux runner; the local runners have no
+hosted acceptance yet. The job records and traces, including predecessor failures, remain under
 `build/evidence/publication-foundation/hosted-ci-20261113/` on the authoring
 host. They are not portable source inputs. The initial GitHub `dev` attempt
 failed before a hosted Runner acquired the job; the unchanged-commit rerun

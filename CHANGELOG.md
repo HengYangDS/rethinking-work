@@ -35,10 +35,12 @@ claim editorial acceptance or public publication.
   yet; the 114-page edition of 2026-11-13 remains the delivered one.
 - Configure the third-party release age as `0h` in the repository Mise settings,
   keeping the value explicit and adjustable without changing global policy.
-- Reuse lock-verified tool archives across private-peer source jobs through the
-  native GitLab job cache, with a 15-minute script deadline inside the
-  20-minute job deadline. Installed tools stay job-local and the Runner's
-  settings are unchanged; hosted reuse depends on the Runner's cache storage.
+- Run private-peer source verification on the owner's local macOS arm64
+  runners, as the owner's other repositories do, with one runner for protected
+  refs and one for review. The runner supplies Mise and its account keeps the
+  locked tools between jobs. The earlier Linux job on a department runner, its
+  job cache and its 15-minute script deadline are withdrawn; the lock keeps its
+  Linux x64 records without a consumer.
 - Organized synthetic exercises by teaching case, separating reusable templates
   and transfer assessment while preserving fixture bytes and behavior.
 - Separated publication layout, diagnostics, supply manifests and third-party
