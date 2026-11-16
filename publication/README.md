@@ -104,7 +104,9 @@ under `build/evidence/publication-foundation/` on the authoring host, in
 Hosted acceptance on 2026-11-14 verified all four branch jobs at commit
 `9e293fab29bf079435766b4e21b22c2ab75f136d`. Each passed event and platform identity,
 locked installation, pipeline projections, formatting and all 17 exercises,
-without changing the locks.
+without changing the locks. The two GitLab rows ran on the earlier Linux
+runner. The initial GitHub `dev` attempt failed before a hosted Runner acquired
+the job; the unchanged-commit rerun passed.
 
 | Peer   | Branch | Run or pipeline        | Job          | Result  |
 | ------ | ------ | ---------------------- | ------------ | ------- |
@@ -113,12 +115,22 @@ without changing the locks.
 | GitLab | `dev`  | 15484                  | 70302        | Success |
 | GitLab | `main` | 15485                  | 70303        | Success |
 
-The two GitLab rows ran on the earlier Linux runner; the local runners have no
-hosted acceptance yet. The job records and traces, including predecessor failures, remain under
-`build/evidence/publication-foundation/hosted-ci-20261113/` on the authoring
-host. They are not portable source inputs. The initial GitHub `dev` attempt
-failed before a hosted Runner acquired the job; the unchanged-commit rerun
-passed. Source CI does not render the PDF, launch a browser, certify typography
+Hosted acceptance on 2026-11-17 verified both GitLab branch jobs on the local
+runners at commit `c885a3b8c31c4db253234af3df8528ce76775a23`. Each ran
+`verify:macos:protected` on runner `ci-p1444-macos-arm64-shell-protected` and
+passed the same checks without changing the locks. The first job installed the
+eight tools; the second found them installed. The review runner has not yet
+run a hosted job.
+
+| Branch | Pipeline | Job   | Duration | Result  |
+| ------ | -------- | ----- | -------- | ------- |
+| `dev`  | 16094    | 72276 | 72 s     | Success |
+| `main` | 16095    | 72277 | 7 s      | Success |
+
+The job records and traces, including predecessor failures, remain under
+`build/evidence/publication-foundation/` on the authoring host, in
+`hosted-ci-20261113/` and `gitlab-local-runner-20261116/`. They are not
+portable source inputs. Source CI does not render the PDF, launch a browser, certify typography
 or establish merge protection. The four ETHOS proof gates and
 [publication acceptance](../docs/publication-acceptance.md) remain separate.
 
