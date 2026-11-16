@@ -89,25 +89,59 @@ format:
 
 check: format-check test
 
-# Generate both native peer documents from the shared CUE owner.
-ci-generate:
-    cue export .config/ci/pipeline.cue -e compiled.github.document --out yaml --outfile .github/workflows/verify.yml --force
-    cue export .config/ci/pipeline.cue -e compiled.gitlab.document --out yaml --outfile .gitlab-ci.yml --force
-    prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --write .github/workflows/verify.yml .gitlab-ci.yml
-
-ci-projections:
-    cue vet -c .config/ci/pipeline.cue .github/workflows/verify.yml -d compiled.github.document
-    cue vet -c .config/ci/pipeline.cue .gitlab-ci.yml -d compiled.gitlab.document
-
-# Bind the native job to its declared platform and exact event commit.
-ci-identity platform commit:
-    test "{{os()}}:{{arch()}}" = "{{platform}}"
-    test "{{`git rev-parse HEAD`}}" = "{{commit}}"
-
-# Source CI is deliberately separate from the complete PDF qualification.
-ci: ci-projections format-check exercises
-
 # Hosted macOS builds artifacts; local Poppler acceptance remains separate.
 ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) build practice-pack
     git diff --exit-code -- .config/mise
     shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/practice/rethinking-work-practice.tgz
+
+# Present supply that matches the manifests is kept; only missing or changed supply is fetched.
+# Supply a CI runner's account with the fonts, Typst packages, test environment and PDF tools.
+[script]
+ci-supply:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    export HOMEBREW_NO_AUTO_UPDATE=1
+    manifests="$PWD/publication/supply"
+    work=build/runtime/work/ci-supply
+    rm -rf "$work"
+    mkdir -p "$work" build/runtime/ci/downloads "$HOME/Library/Fonts"
+    faces_match() {
+        for face in Regular Bold Black; do
+            expected=$(awk -v f="fonts/NotoSansCJKsc-$face.otf" '$2 == f {print $1}' "$manifests/typst-inputs.sha256")
+            actual=$(shasum --algorithm 256 "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-$face.otf" 2>/dev/null | cut -d ' ' -f 1 || true)
+            [ -n "$expected" ] && [ "$expected" = "$actual" ] || return 1
+        done
+    }
+    if faces_match; then
+        echo "Noto faces: present"
+    else
+        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output build/runtime/ci/downloads/noto.zip https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip
+        shasum --algorithm 256 --check publication/supply/ci-noto.sha256
+        unzip -q build/runtime/ci/downloads/noto.zip -d "$work/noto"
+        for face in Regular Bold Black; do
+            cp "$work/noto/NotoSansCJKsc-$face.otf" "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-$face.otf"
+        done
+        faces_match
+        echo "Noto faces: installed"
+    fi
+    cache="$HOME/Library/Caches/typst"
+    if (cd "$cache" 2>/dev/null && shasum --algorithm 256 --check --quiet --status "$manifests/typst-packages.sha256"); then
+        echo "Typst packages: present"
+    else
+        for package in algorithmic/1.0.7 codly/2.0.0 codly-languages/0.1.10 elembic/1.1.1 neat-book/0.1.0 octique/0.1.1 showybox/2.0.4 theorion/0.6.0; do
+            archive="$work/${package/\//-}.tar.gz"
+            curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output "$archive" "https://packages.typst.org/preview/${package/\//-}.tar.gz"
+            rm -rf "$cache/packages/preview/$package"
+            mkdir -p "$cache/packages/preview/$package"
+            tar -xzf "$archive" -C "$cache/packages/preview/$package"
+        done
+        (cd "$cache" && shasum --algorithm 256 --check --quiet "$manifests/typst-packages.sha256")
+        echo "Typst packages: installed"
+    fi
+    uv sync --locked --no-python-downloads --python python3.12
+    if env -u HOMEBREW_BUNDLE_CHECK brew bundle check --file publication/brewfile --no-upgrade --quiet; then
+        echo "PDF tools: present"
+    else
+        brew bundle install --file publication/brewfile --no-upgrade
+    fi
+    rm -rf "$work"

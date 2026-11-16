@@ -92,7 +92,7 @@ class BoundTypstReplay(unittest.TestCase):
                     "export",
                     ".config/ci/pipeline.cue",
                     "-e",
-                    "compiled.github.document.jobs.verify.env",
+                    "publicationJob.env",
                     "--out",
                     "json",
                 ],

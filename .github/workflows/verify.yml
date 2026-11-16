@@ -1,26 +1,16 @@
-name: Source verification
-"on":
-  push: null
-  pull_request: null
-  workflow_dispatch: null
-permissions:
-  contents: read
-concurrency:
-  group: source-verification-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 jobs:
-  verify:
+  publication:
     runs-on: macos-15
     timeout-minutes: 20
     env:
-      CHECKOUT_URL: ${{ github.server_url }}/${{ github.repository }}.git
-      CHECKOUT_SHA: ${{ github.sha }}
       MISE_LOCKED: "1"
       MISE_EXEC_AUTO_INSTALL: "0"
       MISE_TRUSTED_CONFIG_PATHS: ${{ github.workspace }}
       MISE_DATA_DIR: ${{ github.workspace }}/build/runtime/ci/mise/data
       MISE_CACHE_DIR: ${{ github.workspace }}/build/runtime/ci/mise/cache
       MISE_STATE_DIR: ${{ github.workspace }}/build/runtime/ci/mise/state
+      CHECKOUT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+      CHECKOUT_SHA: ${{ github.sha }}
       PUPPETEER_EXECUTABLE_PATH: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
       TYPST_IGNORE_SYSTEM_FONTS: "true"
       TYPST_FONT_PATHS: ${{ github.workspace }}/build/runtime/ci/typst/fonts
@@ -43,10 +33,6 @@ jobs:
       - run: shasum --algorithm 256 --check publication/supply/ci-mise-macos-arm64.sha256
       - run: tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise
       - run: build/runtime/ci/bootstrap/mise --version
-      - run: build/runtime/ci/bootstrap/mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue
-      - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci-identity macos:aarch64 "$CHECKOUT_SHA"
-      - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci
-      - run: git diff --exit-code -- .config/mise
       - run: build/runtime/ci/bootstrap/mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue typst npm:@mermaid-js/mermaid-cli
       - run: mkdir -p build/runtime/ci/downloads build/runtime/ci/typst/fonts "$HOME/Library/Fonts"
       - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/downloads/noto.zip https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip
@@ -105,3 +91,53 @@ jobs:
           archive: false
           if-no-files-found: error
           retention-days: 14
+  verify:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b
+        with:
+          version: 2026.11.7
+          install: false
+          cache: false
+      - name: Acquire locked product supply
+        run: mise install --locked --jobs=1
+      - name: Check locked supply
+        run: mise run ci-supply
+      - name: Prepare owned evidence directory
+        shell: bash
+        run: mkdir -p build/evidence/ci
+      - name: Execute installed verification
+        run: mise exec --locked -- ethos prove --host --execute --full --json > build/evidence/ci/verification.json
+        shell: bash
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: verification-${{ matrix.os }}
+          path: build/evidence/ci/verification.json
+          if-no-files-found: error
+name: Repository verification
+"on":
+  push:
+    branches:
+      - dev
+      - main
+      - proposal/**
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - dev
+      - main
+  workflow_dispatch: {}
+permissions:
+  contents: read

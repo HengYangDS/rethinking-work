@@ -41,6 +41,13 @@ claim editorial acceptance or public publication.
   locked tools between jobs. The earlier Linux job on a department runner, its
   job cache and its 15-minute script deadline are withdrawn; the lock keeps its
   Linux x64 records without a consumer.
+- Adopt the verification model of the owner's other repositories: the installed
+  ETHOS release generates both pipelines from `.config/ci/verification.toml`,
+  and each job runs the full proof with ETHOS 0.2.0-beta.10 and uv 0.13.8 locked
+  as tools. A supply task provides the Noto faces, Typst packages, test
+  environment and PDF tools against the repository's manifests. The hosted
+  publication build remains as the repository's own job. The publication-inputs
+  gate's time limit is 300 seconds; 120 seconds was exceeded under host load.
 - Organized synthetic exercises by teaching case, separating reusable templates
   and transfer assessment while preserving fixture bytes and behavior.
 - Separated publication layout, diagnostics, supply manifests and third-party

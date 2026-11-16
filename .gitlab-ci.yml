@@ -1,47 +1,63 @@
-stages:
-  - verify
 workflow:
   rules:
+    - if: $ETHOS_OFFLINE_CANDIDATE && $CI_COMMIT_REF_PROTECTED == "true" && ($CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main") && ($CI_PIPELINE_SOURCE == "api" || $CI_PIPELINE_SOURCE == "web")
+    - if: $ETHOS_OFFLINE_CANDIDATE
+      when: never
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH =~ /^proposal\// && $CI_OPEN_MERGE_REQUESTS
       when: never
     - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^proposal\// || $CI_COMMIT_TAG =~ /^v[^\/]*$/
-variables:
-  MISE_LOCKED: "1"
-  MISE_EXEC_AUTO_INSTALL: "0"
-  MISE_TRUSTED_CONFIG_PATHS: $CI_PROJECT_DIR
-  GIT_DEPTH: "1"
-  GIT_STRATEGY: clone
-  GIT_SUBMODULE_STRATEGY: none
-  MISE_CONFIG_DIR: $CI_PROJECT_DIR/build/runtime/ci/mise/config
-  MISE_CEILING_PATHS: $CI_PROJECT_DIR/..
-  MISE_JOBS: "1"
-  MISE_YES: "1"
+stages:
+  - verify
 verify:macos:review:
+  before_script:
+    - mise install --locked --jobs=1
+    - mise run ci-supply
+    - mkdir -p build/evidence/ci
+  rules:
+    - if: $ETHOS_OFFLINE_CANDIDATE
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_COMMIT_BRANCH =~ /^proposal\// && $CI_PIPELINE_SOURCE == "push")
   stage: verify
   tags:
     - ci-macos-arm64-review
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_COMMIT_BRANCH =~ /^proposal\// && $CI_PIPELINE_SOURCE == "push")
-  timeout: 20m
+  timeout: 45 minutes
   interruptible: true
+  variables:
+    GIT_DEPTH: "0"
+    MISE_CONFIG_DIR: $CI_PROJECT_DIR/build/runtime/work/mise-config
+    MISE_CEILING_PATHS: $CI_PROJECT_DIR/..
+    MISE_TRUSTED_CONFIG_PATHS: $CI_PROJECT_DIR/.config/mise/config.toml
+    MISE_YES: "1"
   script:
-    - mise --version
-    - mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue
-    - mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci-identity macos:aarch64 "$CI_COMMIT_SHA"
-    - mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci
-    - git diff --exit-code -- .config/mise
+    - mise exec --locked -- ethos prove --host --execute --full --json > build/evidence/ci/verification.json
+  artifacts:
+    when: always
+    paths:
+      - build/evidence/ci/verification.json
 verify:macos:protected:
+  before_script:
+    - mise install --locked --jobs=1
+    - mise run ci-supply
+    - mkdir -p build/evidence/ci
+  rules:
+    - if: $ETHOS_OFFLINE_CANDIDATE
+      when: never
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && ($CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG =~ /^v[^\/]*$/)
   stage: verify
   tags:
     - ci-macos-arm64-shell
-  rules:
-    - if: $CI_COMMIT_REF_PROTECTED == "true" && ($CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG =~ /^v[^\/]*$/)
-  timeout: 20m
+  timeout: 45 minutes
   interruptible: true
+  variables:
+    GIT_DEPTH: "0"
+    MISE_CONFIG_DIR: $CI_PROJECT_DIR/build/runtime/work/mise-config
+    MISE_CEILING_PATHS: $CI_PROJECT_DIR/..
+    MISE_TRUSTED_CONFIG_PATHS: $CI_PROJECT_DIR/.config/mise/config.toml
+    MISE_YES: "1"
   script:
-    - mise --version
-    - mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue
-    - mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci-identity macos:aarch64 "$CI_COMMIT_SHA"
-    - mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue -- just --justfile publication/justfile ci
-    - git diff --exit-code -- .config/mise
+    - mise exec --locked -- ethos prove --host --execute --full --json > build/evidence/ci/verification.json
+  artifacts:
+    when: always
+    paths:
+      - build/evidence/ci/verification.json

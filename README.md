@@ -88,15 +88,16 @@ released, rather than being copied into a second archive here.
 
 ## Continuous verification
 
-Both native pipelines consume one [CUE definition](.config/ci/pipeline.cue) and
-the repository's exact platform-specific tool locks. They run
-`just --justfile publication/justfile ci`: pipeline projection checks,
-authored-file formatting and all 17 synthetic exercise contracts.
-The jobs use no business data, accounts, services, PDF fonts or browser.
+Both peers run the verification model of the owner's other repositories. The
+installed ETHOS release writes their pipelines from the repository's
+[verification parameters](.config/ci/verification.toml), and each job runs the
+full proof with the repository's exact macOS arm64 tool lock
+(`mise exec --locked -- ethos prove --host --execute --full`). The jobs use no
+business data, accounts or services.
 
 See [source CI](publication/README.md#source-ci) for the platform bindings,
-passing hosted job records and supply qualifications. Source CI does not replace
-the four ETHOS proof gates, full PDF qualification or human editorial review.
+passing hosted job records and supply qualifications. A passing job does not
+replace full PDF qualification or human editorial review.
 
 ## Repository destinations and license
 

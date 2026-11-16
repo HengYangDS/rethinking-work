@@ -124,26 +124,33 @@ The rebuild invalidates every page, semantic and delivery qualification of earli
 
 ## Native source CI
 
-Local proof and remote publication are separate from hosted verification. One
-CUE definition owns the shared job and projects the two native pipeline files;
-the native `ci-projections` task checks their agreement before formatting and
-the existing synthetic exercise tests. The job checks out the event's exact
-commit, uses read-only public-forge permissions, cancels superseded work and
-has a 20-minute deadline. It installs only the locked source-check tools and
-does not install software on the authoring host or use credentials, live
-services, business inputs, a PDF browser or fonts.
+Local proof and remote publication are separate from hosted verification. Both
+Forges run the verification model of the owner's other repositories: the
+installed ETHOS release owns the common model, the repository supplies its
+parameters (`.config/ci/verification.toml`), runner prerequisites
+(`.config/ci/runners.toml`) and one job of its own (`.config/ci/pipeline.cue`),
+and `ethos lane project` writes both native files and refuses drift. The job
+checks out the event's exact commit, uses read-only public-forge permissions, has
+a 45-minute deadline and runs the repository's full proof with the locked ETHOS
+console. Hosted CI thus proves what local integration proves, on each peer's
+platform. It uses no credentials, live services or business inputs.
 
-GitHub selects hosted macOS arm64, where a checksum-bound official Mise binary
-keeps all tool state in the job under ignored `build/`. GitLab selects the
-owner's local macOS arm64 runners, the arrangement the owner's other
-repositories use: a protected shell runner for the protected `dev` and `main`
-branches and `v*` tags, and a review runner for merge requests and `proposal/`
-branches, each locked to this project under its own account in the CI guest.
-Both peers therefore run the same commands from the same macOS lock records. On
-GitLab the runner supplies Mise as a prerequisite; the job records its version,
-and the runner account's Mise store keeps the locked tools, so a later job
-needs no download. The job keeps that account's own Mise settings and parent
-directories out of resolution.
+Supply is checked, not trusted. Tools come from the macOS arm64 lock, including
+uv and the ETHOS release's own declaration. A native supply task puts the Noto
+faces and the Typst packages into the runner account's own locations against the
+repository's manifests, synchronizes the locked test environment and checks the
+declared PDF tools; it fetches only what is missing or differs. Mermaid's browser
+is stated once in the Mise environment, so local and hosted proofs read the same
+setting.
+
+GitHub selects hosted macOS arm64. GitLab selects the owner's local macOS arm64
+runners, the arrangement of the owner's other repositories: a protected shell
+runner for the protected `dev` and `main` branches and `v*` tags, and a review
+runner for merge requests and `proposal/` branches, each locked to this project
+under its own account in the CI guest. The account's Mise store, font folder and
+package cache keep their supply between jobs. The guest's Homebrew owns Poppler
+and Google Chrome; each runner account holds its own copy of Homebrew's package
+index, which `brew bundle check` needs.
 
 The private peer first ran on a department Kubernetes runner, with a
 digest-bound Node image and Linux x64 lock records; the records remain in the
@@ -152,32 +159,37 @@ slow for the tool downloads, and jobs ended before any check. Alternatives
 measured on it on 2026-11-16 and withdrawn: a native job cache, which the
 runner saved and never restored; a public GitHub proxy, which was slower and
 dropped connections. A longer deadline was not tried, because one archive alone
-would have needed over an hour.
+would have needed over an hour. A hand-written source job of projections,
+formatting and exercises preceded the model on both peers until 2026-11-17.
 
-Each Forge step invokes one native command; a checksum manifest binds the hosted peer's bootstrap archive. The existing Just owner checks the actual platform and exact event commit before source verification. Native command steps avoid adding third-party action runtimes. Platform
-execution remains unqualified until each peer's actual job passes.
+The model's GitHub job uses `actions/checkout` and `jdx/mise-action` at the
+commits the ETHOS release pins; they belong to the shared model, not to this
+repository. The repository's own job keeps native command steps and the
+checksum-bound Mise bootstrap. Platform execution remains unqualified until each
+peer's actual job passes.
 
 The macOS CUE and exercise tools have bounded risk admission for trusted
-repository configuration and synthetic fixtures. The earlier Linux job had its
-own bounded owner acceptance, with eight further disclosed Go advisory
-identifiers in CUE and a Node image whose SBOM scan timed out; it has no
-current use. Scan limitations and
+repository configuration and synthetic fixtures; the full proof applies them to
+the same inputs. The earlier Linux job had its own bounded owner acceptance,
+with eight further disclosed Go advisory identifiers in CUE and a Node image
+whose SBOM scan timed out; it has no current use. Scan limitations and
 unresolved dependency advisories remain with the admission evidence; no
-upstream constraints or security settings are changed. Source CI deliberately
-does not replace full publication-input tests, the four ETHOS proof gates or
-human editorial judgment. Pipeline files alone do not establish hosted success
-or merge enforcement; those are separate platform effects.
+upstream constraints or security settings are changed. A passing job does not
+replace human editorial judgment or publication acceptance. Pipeline files alone
+do not establish hosted success or merge enforcement; those are separate
+platform effects.
 
 ### Hosted publication extension
 
-Extend the existing public macOS job after its source checks rather than add a
-second pipeline or installation controller. The same locked Mise environment
-supplies Typst and Mermaid. Native download, checksum, archive and Just commands
+Add one repository job to the public macOS pipeline rather than a second
+pipeline or installation controller. Its locked Mise environment supplies Typst
+and Mermaid. Native download, checksum, archive and Just commands
 provision complete official publisher packages and Noto fonts in job-local
 state; Typst's supported paths bound discovery. The Runner's Apple fonts stay
 within licensed macOS, and its existing Chrome exercises the unchanged
-Puppeteer configuration with the sandbox enabled. GitLab retains source checks
-because the edition currently depends on Apple font supply.
+Puppeteer configuration with the sandbox enabled. GitLab has no publication
+job; its verification job builds the PDF inside the proof and uploads only the
+proof's report.
 
 The existing Just owner builds the candidate and packages the selected tracked
 teaching inputs as `.tgz`. A separate Chinese entrypoint serves readers without

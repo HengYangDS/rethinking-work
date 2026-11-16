@@ -70,14 +70,17 @@ lesson merely to fill a documentation category.
 
 ## Verify source behavior
 
-For source-only checks, run `just --justfile publication/justfile ci`. It checks
-the shared CUE pipeline projections, formatting and all 17 synthetic exercise
-contracts without PDF or browser supply. After editing the CUE owner, run
-`ci-generate` first. These checks complement the full publication and ETHOS
-gates; they do not approve an edition or configure forge merge protection.
+Hosted CI runs the full proof, the same one that integration requires. Run it
+locally through the host's admission, as the ETHOS guidance describes. For a
+quick check without PDF or browser supply, run
+`just --justfile publication/justfile exercises` for the 17 synthetic exercise
+contracts and `format-check` for formatting. After editing `.config/ci/`, write
+the pipelines with `ethos lane project` (preview, then its printed apply) and
+check them with `ethos lane project --check`. None of these approves an edition
+or configures forge merge protection.
 
-The public macOS pipeline also calls `ci-publication` after source checks. It
-installs the remaining locked publication tools, verifies complete official
+The public macOS pipeline also has a `publication` job that calls
+`ci-publication`. It installs the locked publication tools, verifies complete official
 Typst package trees, supplies checksum-bound Noto fonts and uses the Runner's
 licensed Apple fonts and existing Chrome. It then builds the PDF and the
 `.tgz` practice archive. This path does not install Poppler or replace the

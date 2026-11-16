@@ -137,16 +137,23 @@ Chinese prose SHALL reach its point through a concrete situation and plain words
 
 ### Requirement: Reproducible source verification
 
-Both publication peers SHALL expose native source CI from one shared definition.
-The job SHALL verify the exact event commit with locked tools, check pipeline
-agreement and formatting, and exercise all synthetic companion contracts without
-business data, services or credentials. Hosted execution, full PDF qualification
-and editorial acceptance SHALL remain distinct claims.
+Both publication peers SHALL run the installed verification model of the owner's
+repository family, generated from the repository's declarations. The job SHALL
+verify the exact event commit by the repository's full proof with locked tools,
+including formatting and all synthetic companion contracts, without business
+data, services or credentials. Generated pipeline files SHALL match their
+declarations. Hosted execution, full PDF qualification and editorial acceptance
+SHALL remain distinct claims.
 
 #### Scenario: A source change reaches the public peer
 
 - **WHEN** a push or pull request triggers source CI
-- **THEN** the job reports checks against that event's exact commit, and an invalid pipeline projection, formatting defect or failing exercise makes the job fail.
+- **THEN** the job runs the full proof against that event's exact commit, and any failing gate, formatting defect or failing exercise makes the job fail.
+
+#### Scenario: A pipeline declaration changes without its generated files
+
+- **WHEN** a verification parameter, runner prerequisite or repository job changes and the native pipeline files are not regenerated
+- **THEN** the projection check refuses the drift and names each file that differs.
 
 #### Scenario: A peer lacks a suitable Runner
 

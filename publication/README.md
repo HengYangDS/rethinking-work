@@ -30,24 +30,23 @@ rule. It does not add a publisher framework or modify the pinned package.
 
 Run from the repository root:
 
-| Task                                 | Effect                                                       |
-| ------------------------------------ | ------------------------------------------------------------ |
-| `bootstrap`                          | Print installed executor versions; install nothing           |
-| `pdf-tools-check`                    | Check declared, already-installed PDF inspection tools       |
-| `pdf-tool <command> [arguments]`     | Run PDF inspection in the declared Homebrew environment      |
-| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures                   |
-| `pdf`                                | Compile a candidate using already-rendered figures           |
-| `build`                              | Rebuild figures, then compile the candidate                  |
-| `render`                             | Render all pages for visual inspection                       |
-| `test`                               | Rebuild figures, then check publication and exercises        |
-| `exercises`                          | Check synthetic data, export, search and API contracts       |
-| `practice-pack`                      | Package tracked exercises and Chinese instructions as `.tgz` |
-| `format-check` / `format`            | Check / apply Prettier to declared authored formats          |
-| `check`                              | Run formatting, publication and exercise checks              |
-| `ci-generate` / `ci-projections`     | Generate / verify both native pipelines from CUE             |
-| `ci`                                 | Check pipeline agreement, formatting and 17 exercises        |
-| `typst-package-check supply`         | Check the complete official publisher package trees          |
-| `ci-publication [supply]`            | Check package inputs, build the PDF and practice archive     |
+| Task                                 | Effect                                                        |
+| ------------------------------------ | ------------------------------------------------------------- |
+| `bootstrap`                          | Print installed executor versions; install nothing            |
+| `pdf-tools-check`                    | Check declared, already-installed PDF inspection tools        |
+| `pdf-tool <command> [arguments]`     | Run PDF inspection in the declared Homebrew environment       |
+| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures                    |
+| `pdf`                                | Compile a candidate using already-rendered figures            |
+| `build`                              | Rebuild figures, then compile the candidate                   |
+| `render`                             | Render all pages for visual inspection                        |
+| `test`                               | Rebuild figures, then check publication and exercises         |
+| `exercises`                          | Check synthetic data, export, search and API contracts        |
+| `practice-pack`                      | Package tracked exercises and Chinese instructions as `.tgz`  |
+| `format-check` / `format`            | Check / apply Prettier to declared authored formats           |
+| `check`                              | Run formatting, publication and exercise checks               |
+| `ci-supply`                          | Supply a CI account with fonts, packages, tests and PDF tools |
+| `typst-package-check supply`         | Check the complete official publisher package trees           |
+| `ci-publication [supply]`            | Check package inputs, build the PDF and practice archive      |
 
 The invocation is `just --justfile publication/justfile <task>`.
 `diagram name` produces PNG by default; `diagram name svg` renders the same
@@ -62,39 +61,59 @@ ast-grep and oasdiff; it does not render figures or compile the PDF. See the
 
 ## Source CI
 
-[pipeline.cue](../.config/ci/pipeline.cue) owns shared source verification and
-projects the native GitHub and GitLab pipeline files. After changing it, run
-`just --justfile publication/justfile ci-generate`, then `ci`. The projection
-check rejects drift; generated files are not independent policy owners.
+Source CI follows the verification model of the owner's other repositories. The
+installed ETHOS release owns the common model; this repository supplies its
+parameters in [verification.toml](../.config/ci/verification.toml), the runner
+prerequisites in [runners.toml](../.config/ci/runners.toml) and one job of its
+own in [pipeline.cue](../.config/ci/pipeline.cue). `ethos lane project` writes
+`.github/workflows/verify.yml` and `.gitlab-ci.yml` from them, and
+`ethos lane project --check` refuses drift; the generated files are not edited
+by hand.
 
-The source-check stage installs Node 26.13.1, Python 3.12.16, Just 1.59.0, Prettier 3.10.1,
-DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0 and CUE 0.17.1 from the macOS arm64
-lock on both peers. On GitHub the exact official Mise 2026.11.7 bootstrap is
-checksum-bound, and tool state and downloads belong to the job's
-`build/runtime/ci/`. On GitLab the runner supplies Mise and each runner account
-keeps its own tool store between jobs, as described below. Host Homebrew tools
-are unchanged. Configuration and fixtures are trusted source inputs, not
-credentials or business data. CUE and oasdiff retain disclosed unresolved Go
-advisories; DuckDB and ast-grep scans did not establish complete dependency
-identity. The approved macOS use is bounded to configuration checks and
-synthetic exercises, without services, accounts or upstream dependency changes.
-The lock keeps its Linux x64 records from the earlier private-peer job; no
-pipeline reads them.
+Each verification job installs the locked tools, runs `mise run ci-supply` and
+then the full proof that local integration runs,
+`mise exec --locked -- ethos prove --host --execute --full`. Its report,
+`build/evidence/ci/verification.json`, is kept as the job's artifact. The tools
+come from the macOS arm64 lock: Node 26.13.1, Python 3.12.16, Just 1.59.0,
+Prettier 3.10.1, DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0, CUE 0.17.1,
+Typst 0.15.1, Mermaid CLI 12.2.0, uv 0.13.8 and the ETHOS 0.2.0-beta.10
+console, whose declaration is the release's own file. `ci-supply` puts the
+Regular, Bold and Black faces of Noto Sans CJK SC 2.004 into the account's font
+folder and the eight Typst packages into its package cache, checked against
+[ci-noto.sha256](supply/ci-noto.sha256), the font lines of
+[typst-inputs.sha256](supply/typst-inputs.sha256) and
+[typst-packages.sha256](supply/typst-packages.sha256). It synchronizes the
+locked test environment with uv and checks the PDF tools of [brewfile](brewfile),
+installing them only where the account owns Homebrew. Present supply that
+matches is kept. Mermaid uses Google Chrome at its standard path, stated once in
+the Mise environment.
 
-GitHub runs on hosted macOS arm64 for pushes, pull requests and manual dispatch.
-GitLab runs on the owner's local macOS arm64 runners, as the owner's other
-repositories do. A protected shell runner (tag `ci-macos-arm64-shell`) serves the
-protected `dev` and `main` branches and `v*` tags; a review runner (tag
-`ci-macos-arm64-review`) serves merge requests and `proposal/` branches. Each is
-locked to this project and runs under its own account in the CI guest. The job
-prints the runner's Mise version, installs the locked tools into that account's
-Mise store and finds them there in later jobs. `MISE_CONFIG_DIR` and
-`MISE_CEILING_PATHS` keep the account's own Mise settings and parent directories
-out of the job.
+Configuration and fixtures are trusted source inputs, not credentials or
+business data. CUE and oasdiff retain disclosed unresolved Go advisories; DuckDB
+and ast-grep scans did not establish complete dependency identity. The owner's
+approval of this macOS toolchain was bounded to configuration checks and
+synthetic exercises, without services, accounts or upstream dependency changes;
+the full proof applies the same tools to the same trusted inputs. The lock keeps
+its Linux x64 records from the earlier private-peer job; no pipeline reads them.
 
-Until 2026-11-16 the GitLab job ran on a department Kubernetes runner under
-Linux x64. That runner's evening downloads from public hosts were too slow for
-the tool installation (6 to 12 kB/s per download from GitHub release hosts on
+GitHub runs the verification job on hosted macOS arm64 for pushes to `dev`,
+`main` and `proposal/` branches, `v*` tags, pull requests and manual dispatch.
+GitLab runs it on the owner's local macOS arm64 runners, as the owner's other
+repositories do: a protected shell runner (tag `ci-macos-arm64-shell`) for the
+protected `dev` and `main` branches and `v*` tags, and a review runner (tag
+`ci-macos-arm64-review`) for merge requests and `proposal/` branches. Each is
+locked to this project and runs under its own account in the CI guest, whose
+Mise store, font folder and package cache keep their supply between jobs.
+`MISE_CONFIG_DIR` and `MISE_CEILING_PATHS` keep the account's own Mise settings
+and parent directories out of the job. The guest's Homebrew supplies Poppler and
+Google Chrome. Each runner account holds its own copy of Homebrew's package
+index; without it, `brew bundle check` fails on a lock it cannot write.
+
+Until 2026-11-17 both peers ran a hand-written source job of pipeline
+projections, formatting and the 17 exercises; the full proof replaced it. Until
+2026-11-16 the GitLab job ran on a department Kubernetes runner under Linux x64.
+That runner's evening downloads from public hosts were too slow for the tool
+installation (6 to 12 kB/s per download from GitHub release hosts on
 2026-11-16), so jobs ended before any check. Two remedies were measured on it
 and withdrawn: a job cache, which the runner saved and never restored, and a
 public GitHub proxy, which was slower and dropped connections. The records are
@@ -118,7 +137,7 @@ the job; the unchanged-commit rerun passed.
 Hosted acceptance on 2026-11-17 verified both GitLab branch jobs on the local
 runners at commit `c885a3b8c31c4db253234af3df8528ce76775a23`. Each ran
 `verify:macos:protected` on runner `ci-p1444-macos-arm64-shell-protected` and
-passed the same checks without changing the locks. The first job installed the
+passed the same source checks without changing the locks. The first job installed the
 eight tools; the second found them installed. The review runner has not yet
 run a hosted job.
 
@@ -130,16 +149,19 @@ run a hosted job.
 The job records and traces, including predecessor failures, remain under
 `build/evidence/publication-foundation/` on the authoring host, in
 `hosted-ci-20261113/` and `gitlab-local-runner-20261116/`. They are not
-portable source inputs. Source CI does not render the PDF, launch a browser, certify typography
-or establish merge protection. The four ETHOS proof gates and
-[publication acceptance](../docs/publication-acceptance.md) remain separate.
+portable source inputs. A passing verification job is the full proof at that
+commit on that platform; it does not certify typography, approve an edition or
+establish merge protection.
+[Publication acceptance](../docs/publication-acceptance.md) remains separate.
 
 ## Hosted publication build
 
-The public macOS pipeline extends the source checks with the native
-`ci-publication` task. GitLab retains the source-only Linux job. The extension
-installs locked Typst 0.15.1 and Mermaid CLI 12.2.0 into the same job-local Mise
-state; it does not alter the authoring host or project lockfiles.
+The public macOS pipeline has a second job of the repository's own,
+`publication`, which runs the native `ci-publication` task beside the
+verification job. GitLab has no publication job. It bootstraps the checksum-bound
+official Mise 2026.11.7 and installs the locked tools, Typst 0.15.1 and Mermaid
+CLI 12.2.0 among them, into job-local Mise state; it does not alter the
+authoring host or project lockfiles.
 
 The job fetches the official Noto Sans CJK SC 2.004 archive, verifies
 [ci-noto.sha256](supply/ci-noto.sha256), and makes its Regular, Bold and Black
@@ -167,9 +189,9 @@ exact staging directory on exit. The archive test compares every selected
 file's bytes and mode and runs all 17 exercises after safe extraction.
 
 Official Noto bytes and all 238 listed package files have passed local input
-verification. This is not hosted-build acceptance. Independent-machine
-execution and actual artifact retrieval remain open in task 1.4; successful
-source CI, compilation and author review are distinct evidence boundaries.
+verification. Hosted execution and artifact readback at `ea65454` are recorded
+in task 1.4; successful source CI, compilation and author review are distinct
+evidence boundaries.
 
 ## Supply and reproduction
 
