@@ -54,7 +54,11 @@ class CompanionExercises(unittest.TestCase):
 
     def test_quality_exceptions_match_complete_expected_csv(self):
         result = run(
-            SNAPSHOT, "duckdb", "-no-agent", "-csv", input=(SNAPSHOT / "quality.sql").read_text()
+            SNAPSHOT,
+            "duckdb",
+            "-no-agent",
+            "-csv",
+            input=(SNAPSHOT / "quality.sql").read_text(),
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
@@ -287,6 +291,45 @@ class CompanionExercises(unittest.TestCase):
                 ["EV03", "NULL", "unmapped"],
             ],
         )
+
+    def test_session_query_reproduces_the_first_batch_and_the_universe(self):
+        sql = (SNAPSHOT / "session" / "query.sql").read_text()
+        batch_filter = "    WHERE security_id IN ('S01', 'S02', 'S03')\n"
+        self.assertEqual(sql.count(batch_filter), 1)
+        expected = {
+            "S01": ("0", "5"),
+            "S02": ("-100", "-80"),
+            "S03": ("60", "60"),
+            "S04": ("NULL", "NULL"),
+            "S05": ("NULL", "20"),
+            "S06": ("40", "NULL"),
+        }
+        for query, securities in (
+            (sql, ["S01", "S02", "S03"]),
+            (sql.replace(batch_filter, ""), sorted(expected)),
+        ):
+            with self.subTest(securities=securities):
+                result = run(SNAPSHOT, "duckdb", "-no-agent", "-csv", input=query)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                header, *rows = csv_rows(result.stdout)
+                value = header.index("pit_return_bps")
+                snapshot = header.index("snapshot_return_bps")
+                self.assertEqual(
+                    {row[0]: (row[value], row[snapshot]) for row in rows},
+                    {security: expected[security] for security in securities},
+                )
+
+    def test_agent_instructions_match_the_pack(self):
+        text = (EXERCISES / "AGENTS.md").read_text()
+        count = sum(
+            line.lstrip().startswith("def test_")
+            for line in Path(__file__).read_text().splitlines()
+        )
+        self.assertIn(f"Ran {count} tests", text)
+        for name in ("cases", "templates", "assessment/transfer-cases.json"):
+            with self.subTest(name=name):
+                self.assertIn(name, text)
+                self.assertTrue((EXERCISES / name).exists())
 
     def test_overlapping_mapping_is_reported_not_arbitrarily_selected(self):
         sql = (MAPPING / "entity-mapping.sql").read_text()

@@ -8,6 +8,10 @@ Deliver [artifact] to [consumer] for [decision/action] by [date].
 
 Object: [repository/ref/file/data edition]. Sources: [origin/date/location].
 
+## Definitions with two reasonable readings
+
+[Term]: [the reading to use]. Must pass: [example]. Must fail: [example].
+
 ## Actions and authority
 
 Allowed: [reads and reversible edits]. Human decision: [specific effect]. Excluded: [objects/actions].

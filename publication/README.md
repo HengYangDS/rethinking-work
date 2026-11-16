@@ -45,7 +45,7 @@ Run from the repository root:
 | `format-check` / `format`            | Check / apply Prettier to declared authored formats          |
 | `check`                              | Run formatting, publication and exercise checks              |
 | `ci-generate` / `ci-projections`     | Generate / verify both native pipelines from CUE             |
-| `ci`                                 | Check pipeline agreement, formatting and 15 exercises        |
+| `ci`                                 | Check pipeline agreement, formatting and 17 exercises        |
 | `typst-package-check supply`         | Check the complete official publisher package trees          |
 | `ci-publication [supply]`            | Check package inputs, build the PDF and practice archive     |
 
@@ -90,7 +90,7 @@ unchanged.
 
 Hosted acceptance on 2026-11-14 verified all four branch jobs at commit
 `9e293fab29bf079435766b4e21b22c2ab75f136d`. Each passed event and platform identity,
-locked installation, pipeline projections, formatting and all 15 exercises,
+locked installation, pipeline projections, formatting and all 17 exercises,
 without changing the locks.
 
 | Peer   | Branch | Run or pipeline        | Job          | Result  |
@@ -131,14 +131,14 @@ and select the job-local font and package paths. Embedded fonts remain enabled.
 Mermaid uses the Runner's existing Chrome through its supported executable
 setting and the unchanged Puppeteer configuration; the sandbox stays enabled.
 
-The task rebuilds all seven diagrams and produces
+The task rebuilds all five diagrams and produces
 `build/artifacts/pdf/rethinking-work.pdf` and
 `build/artifacts/practice/rethinking-work-practice.tgz`, then refuses any
 project-lock drift and prints both hashes. The practice archive contains only
 tracked `VERSION`, `LICENSE`, `exercises/` and `tests/test_exercises.py`, plus
 the Chinese `先读.txt`; it excludes untracked exercise files and removes its
 exact staging directory on exit. The archive test compares every selected
-file's bytes and mode and runs all 15 exercises after safe extraction.
+file's bytes and mode and runs all 17 exercises after safe extraction.
 
 Official Noto bytes and all 238 listed package files have passed local input
 verification. This is not hosted-build acceptance. Independent-machine

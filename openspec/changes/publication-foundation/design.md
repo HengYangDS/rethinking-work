@@ -2,7 +2,7 @@
 
 ## Context
 
-See `proposal.md`. The current candidate uses Typst 0.15.1 and unchanged Neat Book 0.1.0. It contains 67 complete raw examples, 42 tables and seven diagrams. The old published edition and original receipts remain outside this repository. Their presence is not current editorial or reader acceptance.
+See `proposal.md`. The publication uses Typst 0.15.1 and unchanged Neat Book 0.1.0. Delivered editions and their original receipts remain outside this repository. Their presence is not current editorial or reader acceptance.
 
 ## Goals / Non-Goals
 
@@ -16,7 +16,7 @@ This Change does not create a publishing engine, a new governance framework or a
 
 `book/` owns the ordered manuscript and metadata; `book/back-matter.typ` owns reader-facing references and case qualifications. `publication/` owns document-level style and diagram rendering configuration. `diagrams/` owns the editable Mermaid inputs. `exercises/` owns synthetic fixtures and portable cards. `docs/` explains contributor procedures only. Generated images, PDFs, previews and diagnostics belong under ignored `build/`.
 
-The manuscript is divided into front matter, judgment, environment, capability roles, end-to-end practice, failure analysis, team learning, longer-term choices and references. This preserves conceptual relationships rather than splitting by page number. Tool-specific submodules can follow when editorial boundaries justify them.
+The manuscript is divided into front matter, one module per chapter under `book/parts/`, and back matter. A module holds one chapter's judgment, so an editor changes one argument without searching the rest; the reading order lives in `book/manuscript.typ` alone.
 
 ### Let directories express responsibilities
 
@@ -52,173 +52,75 @@ Record a complete selected-input manifest and verify exact bytes and modes again
 
 - Installed fonts make byte reproduction platform-dependent. Name the fonts and record the actual build; do not redistribute fonts without rights.
 - Cached publisher packages may require a one-time official download on another workstation. State this supply step separately from offline builds.
-- The imported draft still contains workstation-centric passages. Structural migration does not satisfy the general-reader revision.
+- A rebuilt manuscript has no page, semantic or reader qualification of its own. Structural completion does not satisfy editorial acceptance.
 - Automated compilation and input checks cannot judge teaching effectiveness or taste. Inspect every changed page and retain explicit reader-review limits.
 
 ## Migration Plan
 
-Preserve selected originals, admit exact destination paths, split the manuscript while checking native raw/table/figure parity, build through the declared tasks, and verify metadata and page extraction. Then revise the general-reader narrative and inspect the complete new edition. Promote only a qualified artifact; keep the prior consumer output unchanged until that point. Local source commits, ETHOS landing and public release remain separate effects.
+Preserve selected originals, admit exact destination paths, split the manuscript while checking native raw/table/figure parity, build through the declared tasks, and verify metadata and page extraction. Then rebuild the manuscript for the quant-data reader and inspect the complete new edition. Promote only a qualified artifact; keep the prior consumer output unchanged until that point. Local source commits, ETHOS landing and public release remain separate effects.
 
 ### Reader-led paragraph rhythm
 
 Use flush-left body paragraphs and one complete blank body line, as requested by the reader. The presentation owner defines a 10.5 pt body size, 16 pt baseline and 32 pt paragraph transition; headings, notes, tables and code retain distinct, fixed roles on a 4 pt spacing module. Remove chapter-specific body leading overrides. Larger spacing must not be paid for with smaller type or lost prose: rebalance short spill-only continuations through native page and heading composition, and inspect every final page. This is an authored layout revision, not independent reader approval.
 
-### Teach decisions through worked practice
+### Rebuild the manuscript as the leader's teaching account
 
-The reader rejected the edition's intellectual depth and practical teaching value on 2026-11-08. The earlier editorial, layout, navigation and delivery receipts remain records of that edition; they do not accept its successor. Compilation, source counts and preserved bytes cannot decide whether a reader learns how to reason.
+The owner rejected three successive shapes on 2026-11-14. The 37-chapter edition was organized by the author's tool estate. A first rebuild followed a data work chain and so mistook the setting for the subject. A second restated the owner's phrases as its skeleton without reasoning of its own. The book is about work and team collaboration in the agentic era; one of its main purposes is to coach the team in how to think, act and collaborate; and it must cover principle, method, practice and tooling. The data department is where the book stands and where its cases come from.
 
-Organize the argument around work objects and consequential decisions: business meaning, data representation, research validity, implementation, production, product use, collaboration and capability growth. Tool roles enter at the point where they remove a named obstacle. Installed software is supporting context, not the book's scope model. The department guidelines contribute normative distinctions and explicitly illustrative cases; repository sources contribute bounded mechanisms; historical operation receipts contribute dated observations. None alone establishes department adoption or business benefit.
+The argument starts from one observation: producing a result now outruns understanding it. Understanding used to be a by-product of doing the work; an Agent can now produce the result without anyone having understood it. Unreliable output, review overload and juniors who cannot be coached follow from that.
 
-Each substantial case must expose the initial question, missing facts, serious alternatives, a discriminating check, the changed judgment and its consequences. Give the reader a nearby changed-condition problem and explain why the original answer may no longer hold. Model session guidance as a sequence of increasingly informed decisions, not a perfect opening prompt. Preserve the distinction between reconstructed teaching dialogue and verbatim conversation.
+Four conditions of work cannot be avoided: reality is not ours to set, results are for someone else, the answer is unknown beforehand, and attention is finite. Each gives one principle: fidelity to fact, making the implicit explicit, closing the loop, and spending attention where it matters. The principles are derived, not listed, so that a reader can tell a principle from a present habit and know when one may be relaxed. Accountability resting with people is stated with its reason, the Agent's present inability to bear consequences, not as an axiom.
 
-The selected approach is a case-led revision within the existing modules. Adding a larger brand catalogue would preserve the original selection error; a grand theory chapter without worked decisions would preserve the original teaching gap. Retain useful examples, commands, qualifications and references, while revising repetitive argument and defensive prose. Keep detailed source bindings in the existing evidence owner and portable case qualifications in the existing back matter. No second inventory or progress register is created.
+The four traditional layers are read as rates of change: principle changes over decades, method over years, practice over a year or two, tooling over months. A higher layer judges a lower one; a lower one can be replaced without disturbing the higher. The layers are a reading aid, not the table of contents: a reader works by task, and a part that mixes why, how and practice for one activity keeps what is used together in one place.
 
-Editorial review must follow the whole argument and inspect each load-bearing case against its selected sources. It must answer whether a reader can identify the decision, explain the rejected alternative, choose a next check, and adapt the method when one condition changes. This is an editorial judgment with explicit reasoning, not a measured classroom result or a self-awarded claim of mastery. Changed manuscript meaning invalidates final-page and promotion qualification for the next edition without undoing the earlier delivery.
+| Part               | Modules                                                                                             | Reader question                                                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Root               | `work`, `change`, `invariants`                                                                      | What is work, what did the technology change, what holds?                                                                   |
+| One person         | `question`, `knowing`, `model`, `bounds`, `choice`, `practice-thinking`                             | How does one person come to understand?                                                                                     |
+| The Agent          | `agent`, `first`, `context`, `tools`, `boundaries`, `memory`, `practice-agent`                      | What is the Agent that takes the work, layer by layer, and how is each layer operated?                                      |
+| After handing over | `delegate`, `verify`, `walkthrough`, `run`, `diagnose`, `orchestrate`, `evaluate`, `practice-doing` | How does understanding survive delegation: handing out, taking back, finishing, several Agents, measuring a changed method? |
+| Several people     | `team`, `roles`, `writing`, `review`, `standing`, `improve`, `leading`, `practice-collaborating`    | Why a team exists, and how several people and Agents understand together                                                    |
+| The person         | `growth`, `closing`                                                                                 | What does a person grow by, and what stays with the person?                                                                 |
 
-### A connected reading path
+A role is objective: the work itself determines which judgments must be owned. Its carrier varies: a person, an Agent or a team may carry a role's work, and interchangeability is produced by putting intent, facts and evidence where a successor can read them. Accountability rests with the person who calls the Agent. This follows the Work Guidelines at signed tag v8.0.0.
 
-The reader's 2026-11-08 feedback identifies a substantive coverage defect: two
-brief Open Code Review mentions do not teach when, why or how to use it. Assess
-capabilities by the work decision they support, the complete usable path, the
-result and a changed-condition problem, not by product-name frequency. Keep the
-existing source bindings and request mapping as navigation, never an exhaustive
-teaching certificate or a new inventory authority.
+The manuscript takes positions of its own and says where it differs from received formulations. Ranking system above process above management orders where a remedy should end; discovery runs the other way, and premature systems fix misunderstanding in place. A team of capable individuals with Agents drifts toward soloists, so a team's reason to exist shifts from sharing labour to mutual correction, shared standards and accumulation. Bounding a conclusion is for making it usable; piling on qualifications abdicates the judgment. A chapter states the conditions a method needs where those conditions carry substance; it does not append modest disclaimers. The ideas and practices in the book are the author's own, accumulated from leading the team and doing the work; the department's guidelines, charter and role design were written by the author or formed on the author's thinking, and the back matter says so plainly. The back matter carries no list of doubts.
 
-Practicality does not replace theory or a technical system. The reading path
-starts with an inspectable task, explains its reasoning, locates the required
-technical roles, then uses failure and transfer to test the explanation. Show
-that relationship in the front matter and explain the technical system through
-the existing export case. Tool reference remains available for experienced
-readers; the main path must not require memorizing the whole catalogue.
+The narrator is the department leader and writes as "we". Each chapter opens with a situation from real work, explains the principle, shows it in a case, states what the team does because of it, and names the limit. The owner's own works inform the thinking but are weighed, not restated. Team repositories, reports and meeting notes are raw material and evidence of the present state; a present practice is measured against the intended end state, including the team's own mistakes. Chinese terms follow the wording approved for the Guidelines' film, including 智能体 for Agent.
 
-Use writing techniques only where they perform a teaching job: concrete openings
-show the work object; a sustained case connects chapters; causal transitions
-explain the next decision; serious alternatives reveal the cost of a choice;
-worked outputs show the expected result; changed conditions teach transfer.
-Remove empty elevation, repetitive disclaimers and generic conclusions in their
-original prose owner while preserving distinct facts, qualifications and source
-roles. This is author revision, not AI-detector certification or measured reader
-learning.
+The owner's fourth correction on 2026-11-14 was about voice: keep the effect, drop the sermon. The structure stayed; the prose changed. A chapter's lead line is the plain question or situation it answers, not its conclusion. The text describes what the team does and why, in the first person, instead of issuing commands; a point is stated once in everyday words after the case has made it visible; coined labels, counted frameworks used for show, maxims and closing one-liners are removed. Part names are plain (道理、方法、练习、工具、改变), and the traditional four-layer wording appears once, in chapter 03. Method cards in the practice chapters stay terse because they are reference material.
 
-Open Code Review belongs in the existing quality chapter. Distinguish deterministic
-delegate preparation from a model-backed review, explain the actual target,
-resolved rules, complete diff, findings and acceptance, and use the original
-synthetic export contract for a worked comment. Native version/help and complete
-installed publisher Skills support the command templates; no model call, new
-reviewer, credential read, installation or consumer change is authorized.
+The owner's fifth correction, on reading the 77-page candidate, was that the rebuild had removed almost all teaching of Agent technique, which the earlier handbook carried. The rebuild had filed that material under tooling and argued that the fastest-changing layer should be shortest. That conflated product brands with how an Agent works and is operated. The second changes far more slowly than the first and is what a team uses every day, so it gets its own part after method: the loop of model, host and tools; context and retrieval; the four ways a capability is attached; permissions, credentials and irreversible effects; long tasks, checkpoints and handoff; several Agents; diagnosis by layer; and evaluation, including when prompt, retrieval, tools or training is the thing to change. A fourth practice chapter uses the two companion cases the method chapters did not need. Product names stay out of this part; the tooling part remains short.
 
-### Mechanisms that support transfer
+Adding the Agent part as a third block between method and practice exposed a structural fault: a reader had to cross three parts to learn one activity, delegation was taught five chapters before the chapter that explains what an Agent is, and the split between method and Agent operation was the author's taxonomy, not the reader's task. The book is therefore ordered by the three activities on its cover. Thinking keeps its five method chapters and gains its practice. Doing opens with four chapters on the Agent (loop, context, tools, boundaries), continues with handing out, taking back, long tasks, diagnosis and what to keep, walks one task end to end and ends with two practice chapters. Collaborating adds several Agents and the shared environment to roles, writing and review. Change holds the person, the team, measuring whether a changed method is better, choosing and replacing tools, and how to change.
 
-The reader explicitly retains both theory and the technical system alongside
-practical teaching. Role definitions alone leave a gap: readers cannot yet
-explain how an invocation becomes an observation, why a valid call can violate a
-business contract, or when stable execution should replace dynamic choice.
-Develop those relationships in the existing judgment, interface and data owners,
-using the export and reconciliation cases. Keep theory as explanation and
-condition-sensitive prediction, not an isolated slogan or a mandatory taxonomy.
+After the committee review and the owner's reading of the 120-page candidate, the book was rebuilt around one line. The definition of work (turning uncertainty into a result others can rely on) yields the four conditions word by word, and two working criteria follow from them: reversibility and lossy restatement. The same question, how understanding is reached, is then asked at three scales: one person; after the work is handed to an Agent; several people. Part four opens with why a team still exists; the last part returns to the person and to leading. Thirty-two chapters became twenty-four; practice closes each scale without taking a chapter number; duplicated cases were removed. The owner also corrected the organizing principle of the Agent material: coverage follows the full picture of agentic AI (model, harness, context, tools, boundaries, memory, orchestration, evaluation), and a tool is explained by the layer it sits in and the problem it solves whether or not it was operated while drafting. Reasoned explanation and recorded event are kept distinct; neither is decorated with claims of verification, and versions appear once, in the tool map. A second independent review then ruled on the ending line by line: statements written for the author about his life and motives were removed, the epilogue's closing was rebuilt from the body's own argument (what is handed over, and what stays with the person who did the work), and the afterword states the book's method, reduce then derive, and closes on the author's own phrase without commentary. The picture of agentic AI gained unattended and scheduled work, what a request costs, sandboxes, the conditions under which injected instructions do harm, structured output, computer use, model dispatch within a task, agent-to-agent protocols, and evaluation of results, trajectory and cost.
 
-The selected Hermes source supports one concrete tool-call implementation;
-reading it does not qualify runtime branches or every Agent product. The
-workflow discussion relates fixed dependencies, dynamic investigation and
-durable effects to the existing ECB cancellation case. Preserve examples,
-comparison data and qualifications. Advance the editorial date to November8
-because the manuscript and selected observations changed, while retaining the
-November7 environment snapshot's exact scope. No all-host refresh is implied.
+A third independent review of the 117-page candidate (fact audit, a reader following every command, an editor) found the argument rooted but not derived, the proportions inverted, and case details and commands that the records and the machine did not support. The sixth draft answers all three. Chapter 03 now reads the definition as five components: the technology changed only "turning into"; the other four each give a condition, and the fourth, "can be relied on", carries the argument: someone must answer for the result, answering requires having understood, and one person can understand only so much. Responsibility rests on the consequence having nowhere to land on an Agent and on the organization not having authorized it, not on the Agent lacking memory; understanding therefore stays with people, attention becomes the binding constraint, and producing separates from understanding. Three criteria follow: reversibility, lossy restatement, and being able to check what one answers for. The model is reduced to one sentence, it continues the text with the most plausible next words, from which five properties of an Agent are derived; later chapters name the property or condition they apply. The former third part is split: "the Agent" explains every layer once, with memory and evaluation moved in from the team part and a hands-on section at each chapter's end, run in a scratch repository the reader builds in a new first-session chapter; "after handing over" keeps delegation, verification, long tasks, diagnosis and the walk-through. Leading moves into the team part so that the body ends on the person. Every case was restated from the original record: the two reports in the preface, the vendor comparison, the source selection, the duty bot, the nightly script, the comparison gate, the review timeline, the machine-generated minutes, the handover document, the incident remedies and the two sessions, whose real conditions (inherited standing rules, an added working-directory sentence, leftover files) are now stated. The author's own formulations from the charter, the Work Guidelines and the annual summaries are quoted where the earlier drafts had paraphrased them. Twenty-four chapters became twenty-nine and three practice modules became four.
 
-### Select techniques by the missing work condition
+A reader who followed every command and an editor who read for derivation then reviewed the sixth draft (141 pages), with a line editor. Their findings set the seventh draft. Structure: `orchestrate` and `evaluate` used delegation before it was taught, so they moved to the end of the handing-over part and `walkthrough` moved up to follow `delegate` and `verify`; the Agent part is now the anatomy of one Agent and the handing-over part is its use. Derivation: chapter 03 states that the doer is now also "someone else", that reliance rests on a person who understood or on a check built by one, that the three classes of conclusion someone must understand belong at the root, and that finite attention is an empirical premise; chapter 09 derives six properties from two sentences and names the two added facts; sentences that only labelled a chapter with a condition were replaced by the step itself or removed. Commands: printed shell blocks carry no trailing comments and no line-number gutter, because a bare interactive zsh treats `#` as a command and a PDF copy carried the numbers; short inline commands do not break across lines; the scheduled-run skeleton creates its output directory, allows only read-only queries and records a run with no output, and the chapter gains a model-free exercise that shows a zero exit code beside an empty result. Evidence: the two briefs of the walkthrough were each run three times with the same outcome, under the author's global rules, which the chapter discloses; no rule-free control was run. The companion pack gains two Chinese templates written in the book's own terms, and a fifth exercise for chapter 07.
 
-The source-mechanism explanation still assumes that readers can distinguish a
-model request from an indexed retrieval and model training. Develop these
-mechanisms in the existing technical-system and knowledge owners. Explain
-non-deterministic output and bounded context, then relate retrieval candidates
-to complete sources through the export and CJK cases. Compare prompts, retrieval,
-tool execution and fine-tuning by the object each changes, costs and acceptance,
-not by a technology maturity ladder. Selected current public documentation
-supports technical relationships only; no model, API or training experiment is
-authorized or inferred. Keep all earlier examples, comparison bodies, case
-identities and reader predecessors while extending the explanatory argument.
+The owner then ruled that his personal motto must not appear in the book, asked that the remaining open points be settled by strict derivation, and corrected how decisions had been put to him: a request must carry its cause, facts, options with consequences and a recommendation. The eighth draft follows. The afterword no longer rests on the motto; it applies chapter 26 to the book itself and leaves five lines of reason, the last of which (when to revisit) points to a table (first placed in chapter 03, moved to appendix D in the tenth draft) that binds each conclusion to its premise and to the condition under which it must be rewritten. First-person judgments without a record were replaced by the derivation or by the owner's documented rule (headcount does not remove a position; letting go is a delegation under chapter 15's three conditions). Three gaps named by the editor were derived from the root and written: what the limit of verification measures once verification itself is delegated (reach can be amplified, the rate of understanding a new kind of error cannot); what must stand in for a person before a step runs unattended; and the five stages by which an Agent practice enters department process, restated from the operating model without naming seats. Chapter 21 opens with the book's own three audit rounds, whose counts cannot be compared, in place of a supposed case. Chapter 24 gains a section on asking for a decision, built on the Work Guidelines' order for a decision document and on the exchange that prompted it.
 
-### Put explanation on the actual reading route
+A referee then read the eighth draft for logic alone: the derivations written out step by step, every chapter sorted into derived, locally premised or asserted, contradictions, counterexamples and consequences the root implies but the text omits. The ninth draft repairs the root accordingly. Chapter 03 no longer claims to derive the four conditions from the definition alone: each condition is one component of the definition plus one stated fact (truth is not ours to set; meaning degrades with each handover; doing can err and the error may be invisible; one person can understand only so much). Authority and responsibility are separated: an organization can bound what an automated system may do without it bearing anything, and who decides bears is stated as the team's convention, not as a deduction. Understanding must precede only for four classes that cannot wait for hindsight (irreversible, built upon by others, silent when wrong, met for the first time); otherwise diagnosis after the fact is legitimate, which chapter 19 had shown all along. Chapter 09 says five properties are derived and one is an observed tendency, and that the properties belong to the model while host and rules can alter how some of them show. The team thesis no longer leans on that tendency: an agent a person controls cannot fully correct him because he decides what it is asked and whether its answer is accepted, and one person cannot understand everything that must be understood. The limit after delegated verification is stated as what remains for people, not as a replacement of one limit by another. Thirty cross-chapter inconsistencies and a set of absolutes were corrected; nine consequences of the root were added in a sentence or two each (silent errors as a fourth class, orphaned checks degrade to leads, a ruler's own variance, a floor on headcount from finite understanding, a second reader per position, consequences must land on people too, a model change resets what checks know, downstream status cannot exceed upstream, a decision request carries what was verified).
 
-The chapter07 route currently starts after three unnumbered conceptual sections,
-so following the advertised route can skip the very theory needed for transfer.
-Place the preserved explanation inside chapter07 and give its mechanisms a
-consistent subordinate hierarchy. Preserve complete examples, comparison
-bodies, figures and dated qualifications rather than shorten the theory to fit
-a page. Connect capability growth to a changed work question, quality to fitness
-for the accepted use, and efficiency to the whole path at that quality. These are
-reasoned teaching distinctions, not measured department gains.
+A first-time reader then read the ninth draft once, as a data engineer two years into the job. Chapters 01 and 02 and the epilogue could be followed; chapter 03 could not: it presented the proof and the teaching at the same level, counted things the reader could not hold (fifty-four numbered names against seven in chapter 01), and stated the four classes without an example. The tenth draft changes the presentation and no step of the argument. Chapter 03 now follows its own opening question: why producing and understanding came apart (the two speeds and the four visible troubles), then what does not change (the definition read word by word, each condition introduced by a sentence from the opening case, then the fact it adds, then its name), then responsibility, the four classes as a list with an example each, where attention goes, and the three criteria each with a case from elsewhere in the book. The table of premises moved to appendix D, where every row is known to the reader; chapter 03 keeps the rule and one example. Chapter 09 opens with the two-sentence summary, numbers its six properties and says afterwards which are derived. Terms used before their explanation were glossed or replaced, repeated passages were cut to one occurrence, and back-references of the form "chapter N derived" became "chapter N said".
 
-The current deadline is November10 at 00:00 in the user's Asia/Shanghai time
-zone. Continue within the admitted publication owners; no remote publication,
-operational changes or additional authority follows from the deadline. Source
-organization, every-page composition, exact semantics and delivery remain
-separate acceptance boundaries. A source-level link must lead to the specific
-case, not merely another heading whose label exists.
+The same kind of reader then read parts two, four, five and six once, and judged twelve lists that the book takes from department documents against the root. The places where a reader stopped were almost all lists: four to nine items in one sentence, without an example or an origin. The eleventh draft therefore says, at each list, where it comes from. Where the list follows from the root it gives the two or three steps (the three questions on worth, the decision owner, the five items of a brief, the three distances, the five lines of reason, ranking system above process above management together with its condition that someone keeps the system, the five questions for a metric, the four stages of replacement, the three signs of growth). Where only part follows it says which part is the department's convention or experience (six kinds of statement, nine states, the roles and who decides, five situations in which to stop, the layers of a disagreement, four things that build density, three levels of expertise, the order of tracing an error). Claims that exceeded this were withdrawn, among them that roles are objective, that every layer of a disagreement has its own remedy, and that the earlier layers of error tracing are cheaper to check. The run conditions of the walkthrough moved after the two sessions, with one sentence of disclosure kept in front. One description that could identify a vendor was generalized.
 
-### Reconcile inquiry and chapter hierarchy
+A further review did three things: it re-read the last corrections of the eleventh draft, read part three once as the same first-time reader, and listed every place where the book repeats itself or only announces. The twelfth draft acts on all three. Ten of the last corrections were adjusted, two of them for content (a third-party comparison whose scope had been overstated; a pointer that named the wrong direction). In part three, sentences that interrupted a step with an unexplained aside were reordered, options and commands the reader does not use in the chapter moved to the quick reference together with their conditions, and three statements were tightened to what the root allows ("mostly" restored where chapter 09 says so). Repetitions were cut to one occurrence: the outcome of the walkthrough stated six times, the two reports of the preface restated with their figures, the reason responsibility stays with people restated in four places, the map of the book given five times, and a dozen smaller ones. Disclosures of limits and every conditional sentence were kept. Tool passages the owner asked for were not cut; where a tool is the author's own, the chapter now says what a reader without it does instead.
 
-Chapter08 must also teach work whose question has not yet formed: distinguish
-candidate explanations, choose an observation that could discriminate them,
-and let a responsible reader accept a changed goal. The retention example is
-synthetic teaching, not a new causal finding or business outcome. This extends
-the existing together-thinking mode without turning exploration into a fixed
-execution checklist.
+The thirteenth draft follows three reviews of a different kind: the first whole-book fact audit since the sixth draft, a reader who pasted every command into a bare shell, and an editor who read the book once from cover to cover. The audit found twenty-two groups of sentences that said more than the record, four of them written from corrections earlier reviews had proposed; each was rewritten from the record line itself, and one sentence without any record was replaced by what the tool's own help states. Command blocks became single chains that stop at the first failure, the unattended skeleton creates its output directory and reports an empty result, and the practice pack discloses its repeated runs. The editor's verdict set the direction: the argument holds, but six rounds of repair had left an annotator's voice beside the author's. The draft therefore removes labels and keeps reasons. A derivation stays in the sentence where it does its work; the status of a derivation (derived, convention, experience) is stated once, in the table of premises in appendix D, and no longer beside each list. Chapters cited as authority lost the citation where the sentence stands without it. The missing control run is disclosed once, where the conclusion is drawn, instead of four times. Passages about the making of the book stay where a reader can see or repeat the case; run conditions moved to appendix D, and draft numbers and reviewers' verdicts on the book left the text. Two condition names used once and never again were dropped. Not done, because each needs facts or runs that only the owner can supply: a control run without the rule, hands-on steps for a hook and a skill, a section on configuration shared by the team, and one real cost account.
 
-Repeated unnumbered level1 headings currently compete with actual chapter
-entries in the outline and page header. Keep their complete titles, labels and
-content, but place them at level2 with level3 subtopics. Numbered chapters get a
-new-page opening; short notes stay intact. Preserve body size and rhythm, table
-children, complete commands, figures and historical qualifications. Native
-Typst block composition supplies these changes; no vendor edit or new renderer
-is needed. Every final page remains subject to the existing task2.2 review.
+The owner then authorized a bounded number of real model sessions, and the fourteenth draft replaces three disclosures with results. Seventeen headless sessions were run under a spending cap, each in a scratch directory without the author's rules, settings, hooks, plugins or servers. Chapter 17 gains the control group that it had only disclosed as missing: the one-sentence brief three times without a rule file and three times with a one-line rule to ask first. Without the rule every run opened with a verdict, chose conventions itself and asked at the end; with it every run withheld the verdict and asked first; all six reported the one fault that depends on no convention. The chapter states the size of this evidence (three runs each, one model, one task) and does not compare it with the earlier sub-agent sessions. The five-item brief was run once on the strongest and once on the lightest model of one family: the values agree, the reported cost differs by a factor of about thirty, and the lighter run left a query that had never been executed and a sentence nothing had checked; the text says that a denied first command shaped that run, so the difference is not the model alone. Chapter 12 gains two hands-on items, a hook and a skill, each printed as it was run; a test ties the hook settings and the skill to the practice-pack files and runs the printed hook script on the fixed and the old export. The script is created by the reader from the chapter and is not a tracked file: the repository's locked toolchain has no analyzer for shell sources. A first round of six runs was void because an aliased `ls` printed nothing and returned success; no session doubted the empty listing, and the chapter keeps that as a warning to the reader. Chapters 9, 11, 15 and 21 now point at these results instead of at their absence; the run conditions are in appendix D and the unchanged answers are in the practice pack.
 
-### Compose the preserved material rather than shrink it
+The repository is public. The book names no internal organization scheme, seat count, person, vendor, internal system or performance figure. Cases are restated from real work with names withheld; counts and dates follow the original record, and the back matter says so.
 
-The complete 104-page composition self-review identifies detached note-only
-continuations, a one-row repeated-header table tail and overly short last pages.
-Keep body type, complete paragraph rhythm and publisher source unchanged. Tune
-repeated heading furniture, table-cell inset and note margins in the existing
-presentation owner; move the complete evidence-scope passage to the work-route
-entry, where it belongs beside adoption guidance. Recheck the whole frozen
-edition rather than certify these effects from source or a successful build.
+Six figures carry relationships the prose cannot show as well: the chain from problem to feedback, the three collaboration distances, the work loop, what one request to the model contains, recall checked against current state, and the snapshot reconciliation used by the first practice exercise. The manuscript-specific publication tests bind the chapter navigation, the layer openings, the exercise cases named by the practice chapters and the back-matter sections.
 
-Short field reminders now have an unframed, full-size paragraph role, distinct
-from worked reports and caution callouts. Complete short workflow tables stay
-together. Developed memo, Notebook, TeamAI, data-asset, interface and diagnostic
-sections receive deliberate breaks so their argument occupies a readable page
-rather than a detached tail. The official-link block uses reference spacing.
-These are native composition choices; all protected examples and comparison
-cells remain complete. The final complete visual pass still decides the result.
+Alternatives considered: keeping the data-chain handbook with a framing chapter would leave craft as the spine. Organizing by the department's present process steps would present what exists as what should be. Building the skeleton from the owner's phrases would restate guidance instead of reasoning from it.
 
-### Balance generated navigation
-
-The final contents formerly flowed almost entirely down the left column, leaving
-only three appendix entries on the right. Use two native outline selections
-split at the code-search chapter in a two-column grid. This retains the same
-generated entries, order and destinations, without reducing type or duplicating
-page numbers. Re-freeze the PDF and inspect every page after this change.
-
-### Deadline-bound whole-book refinement
-
-Continue the existing case-led approach instead of adding a tool catalogue or another theory framework. The cold editorial review identifies practical role imbalance, insufficient positive memory reuse, repeated protective qualifications and a false no-new-dependencies exercise claim. Strengthen a synthetic product decision, demonstrate memory-guided reuse through the existing reconciliation contract, retain source roles and limits, and correct exercise prerequisites. The opening and horizon must connect judgment, action, acceptance and shared capability without promising measured gains. Recompose short continuations without shrinking body type or removing required examples. All successor content, navigation and final pages are requalified before exact reader promotion; previous editions remain preserved.
-
-Keep the horizon's capacity calculation, deliverable redesign, adoption choice and learning transfer within the same twelve-topic case. The adoption exercise must weigh the unchanged handoff, material-only assistance and change-focused delivery against the actual bottleneck; it must not restart with an unrelated weekly brief. Consolidate repeated investment and second-use passages with the existing team-learning explanation while retaining distinct time scales, method ownership and members' rights. Reopen successor page, semantic and promotion qualification after changing this argument.
-
-## Quant-data teaching correction
-
-The audience is a quantitative hedge fund's data department. The recruitment
-charter supplies internal responsibility and boundary context, not measured
-achievement or permission to reproduce private organizational detail. Public
-examples remain wholly synthetic. The connected case is a late revision that
-contaminates a frozen research snapshot: distinguish event, publication and
-ingestion time; filter eligibility before ranking revisions; preserve legitimate
-zero and negative returns; report coverage and input quality separately from
-snapshot differences. Do not sum security returns into a portfolio metric.
-Code review, report writing and knowledge reuse continue this same case. Existing
-CI and consumer-state cases retain dated scope and unresolved boundaries.
-Predecessor sources and reader artifacts are preserved under
-`build/evidence/publication-foundation/quant-department-20261109/`.
+The rebuild invalidates every page, semantic and delivery qualification of earlier editions for the successor. The 114-page edition remains the delivered edition until the rebuilt one is qualified. The owner's reading decides whether the account is sound.
 
 ## Native source CI
 

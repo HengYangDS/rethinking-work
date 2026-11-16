@@ -1,0 +1,1 @@
+Task: count the data rows in {{file}} as of the cutoff 2026-11-13 15:00 Asia/Shanghai. Scope: read-only, do not modify any file. Report the count and the exact command you ran.

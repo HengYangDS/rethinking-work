@@ -1,6 +1,7 @@
 """Check the publication's declared inputs through the native Typst reader."""
 
 import json
+import os
 import subprocess
 import tempfile
 import unittest
@@ -112,8 +113,8 @@ class PublicationInputs(unittest.TestCase):
         ns = {"pdf": "http://www.w3.org/1999/xhtml"}
         pages = document.findall(".//pdf:page", ns)
         pairs = (
-            ("前六项实战已经呈现出一个区别", "让Agent真正参与工作"),
-            ("仍以来源评估为例", "工具可以分担检索与表达"),
+            ("一份更换数据源的评估报告", "另一份是服务商交来的系统巡检报告"),
+            ("自己的盲处自己看不见；归他管的智能体", "过去一个人闷头做一个月"),
         )
         for first, second in pairs:
             with self.subTest(paragraph=second):
@@ -158,32 +159,18 @@ class PublicationInputs(unittest.TestCase):
             self.assertTrue(item["alt"], item["source"])
             self.assertTrue((ROOT / item["source"].lstrip("/")).is_file())
 
-    def test_case_references_reach_qualification_records(self):
-        links = evaluate("query(link).map(it => (dest:it.dest, page:it.location().page()))")
-        records = evaluate(
-            'query(metadata).filter(it => type(it.value) == dictionary and "case" in it.value)'
-            ".map(it => (identifier:it.value.case, page:it.location().page()))"
+    def test_sources_and_limits_are_stated_once_in_the_back_matter(self):
+        headings = evaluate(
+            "query(heading).map(it => (level:it.level, page:it.location().page(),"
+            ' text:if it.body.has("text") { it.body.text } else { "" }))'
         )
-        for identifier in (
-            "S1",
-            "S7",
-            "H1",
-            "H2",
-            "L3",
-            "L7",
-            "M1",
-            "X2",
-            "N4",
-            "T2",
-            "I2",
-            "R1",
-        ):
-            with self.subTest(identifier=identifier):
-                references = [item for item in links if item["dest"] == f"<case-{identifier}>"]
-                self.assertTrue(references, f"Case {identifier} is not clickable")
-                targets = [item for item in records if item["identifier"] == identifier]
-                self.assertEqual(len(targets), 1)
-                self.assertGreater(targets[0]["page"], min(item["page"] for item in references))
+        back = evaluate("query(<case-records>).first().location().page()")
+        sections = [
+            item["text"] for item in headings if item["level"] == 2 and item["page"] >= back
+        ]
+        for title in ("案例", "思路的来源"):
+            with self.subTest(title=title):
+                self.assertIn(title, sections)
 
     def test_portable_publication_inputs(self):
         roots = [ROOT / n for n in ("book", "publication", "diagrams", "exercises")]
@@ -195,30 +182,89 @@ class PublicationInputs(unittest.TestCase):
         links = evaluate("query(link).map(it => it.dest)")
         self.assertIn("https://typst.app/docs/", links)
 
-    def test_route_tools_reach_their_explanations(self):
-        route_page = evaluate("query(<route>).first().location().page()")
-        links = evaluate("query(link).map(it => (dest:it.dest, page:it.location().page()))")
-        for destination in (
-            "<research-tools>",
-            "<code-search>",
-            "<quality>",
-            "<data-work>",
-            "<pipeline>",
-            "<hindsight-use>",
-            "<readable-knowledge>",
-            "<reusable-methods>",
-            "<publish>",
-            "<workspace>",
-            "<asset>",
-            "<interface-work>",
+    def test_contents_lists_every_chapter_in_reading_order(self):
+        chapters = evaluate("query(<chapter-navigation>).map(it => it.value.chapter)")
+        expected = [f"{n:02d}" for n in range(1, 30)]
+        for after, mark in (("08", "练一"), ("14", "练二"), ("21", "练三"), ("28", "练四")):
+            expected.insert(expected.index(after) + 1, mark)
+        self.assertEqual(chapters, expected + ["终", "记", "A", "B", "C", "D"])
+        # The contents may run over several pages; it ends where chapter 01 opens.
+        contents_page = evaluate("query(<contents>).first().location().page()")
+        first_chapter = evaluate("query(<work>).first().location().page()")
+        entries = evaluate(
+            "query(link).filter(it => type(it.dest) == location)"
+            ".map(it => (page:it.location().page(), target:it.dest.page()))"
+        )
+        targets = [
+            item["target"] for item in entries if contents_page <= item["page"] < first_chapter
+        ]
+        self.assertEqual(len(targets), len(chapters) + 1)
+        self.assertEqual(targets, sorted(targets))
+
+    def test_each_layer_has_its_chapters(self):
+        marks = evaluate(
+            "query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
+            " page:it.location().page()))"
+        )
+        labels = {
+            "work": "01",
+            "question": "04",
+            "agent": "09",
+            "delegate": "15",
+            "team": "22",
+            "growth": "29",
+            "closing": "终",
+        }
+        pages = {item["chapter"]: item["page"] for item in marks}
+        for label, chapter in labels.items():
+            with self.subTest(label=label):
+                page = evaluate(f"query(<{label}>).first().location().page()")
+                self.assertEqual(page, pages[chapter])
+
+    def test_practice_chapters_name_their_exercise_cases(self):
+        raws = evaluate("query(raw).map(it => (text:it.text, page:it.location().page()))")
+        start = evaluate("query(<practice-thinking>).first().location().page()")
+        end = evaluate("query(<closing>).first().location().page()")
+        named = " ".join(item["text"] for item in raws if start <= item["page"] < end)
+        for case in (
+            "cases/historical-snapshot/",
+            "cases/keyed-reconciliation/",
+            "cases/effective-date-mapping/",
+            "cases/export-regression/",
+            "cases/api-evolution/",
+            "cases/source-selection/",
         ):
-            with self.subTest(destination=destination):
-                self.assertTrue(
-                    any(
-                        item["dest"] == destination and item["page"] == route_page for item in links
-                    ),
-                    f"Route tool has no explanation link: {destination}",
+            with self.subTest(case=case):
+                self.assertIn(case, named)
+                self.assertTrue((ROOT / "exercises" / case).is_dir())
+
+    def test_printed_hook_and_skill_match_the_pack_and_the_hook_script_runs(self):
+        agent = ROOT / "exercises/cases/export-regression/agent"
+        chapter = (ROOT / "book/parts/tools.typ").read_text(encoding="utf-8")
+        printed = chapter.split("```json\n")[2].split("\n```")[0]
+        self.assertEqual(json.loads(printed), json.loads((agent / "settings.json").read_text()))
+        self.assertIn((agent / "SKILL.md").read_text(encoding="utf-8").strip(), chapter)
+        script = chapter.split("<<'EOF'\n")[1].split("\nEOF\n")[0] + "\n"
+        case = agent.parent
+        for module, expected in (("export_fixed.py", 0), ("export_bug.py", 2)):
+            with self.subTest(module=module), tempfile.TemporaryDirectory() as project:
+                work = Path(project)
+                (work / ".claude").mkdir()
+                (work / "check.sh").write_text(script, encoding="utf-8")
+                (work / "export.py").write_bytes((case / module).read_bytes())
+                (work / "test_export.py").write_bytes((case / "test_export.py").read_bytes())
+                result = subprocess.run(
+                    ["sh", str(work / "check.sh")],
+                    cwd=work,
+                    env={**os.environ, "CLAUDE_PROJECT_DIR": str(work)},
+                    stdin=subprocess.DEVNULL,
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
+                    check=False,
                 )
+                self.assertEqual(result.returncode, expected, result.stderr)
+                self.assertEqual(bool(result.stderr), bool(expected))
 
     def test_each_chapter_opener_can_return_to_contents(self):
         openers = evaluate(

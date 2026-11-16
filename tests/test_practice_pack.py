@@ -78,7 +78,7 @@ class PracticePack(unittest.TestCase):
                 timeout=120,
             )
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn("Ran 15 tests", result.stderr)
+            self.assertIn("Ran 17 tests", result.stderr)
             self.assertIn("OK", result.stderr)
             self.assertFalse((root / "build/runtime/work/practice-pack").exists())
 

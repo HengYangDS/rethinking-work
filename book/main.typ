@@ -1,4 +1,4 @@
-#import "@preview/neat-book:0.1.0": neat-book
+#import "@preview/neat-book:0.1.0": neat-book, codly
 #import "/publication/layout/style.typ": *
 #import "metadata.typ": *
 #show: neat-book.with(
@@ -10,6 +10,10 @@
 )
 #set document(title: book-title, author: book-author, description: book-subtitle, keywords: book-keywords, date: book-date)
 #show: publication-design
+// Commands are meant to be copied: no line-number gutter in the text layer,
+// and a short inline command never breaks across lines.
+#show: codly.set_(gutters: ())
+#show raw.where(block: false): it => if it.text.len() <= 44 { box(it) } else { it }
 #context [#metadata((
   title: document.title,
   author: document.author,

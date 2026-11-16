@@ -25,8 +25,8 @@ The main entrypoint assembles the selected publisher and edition. The
 table and caption design. The native date also supplies its human-readable form;
 do not maintain a separate date string in a cover, task or contributor guide.
 
-For a general-reader revision, keep the transferable mechanism in the argument
-and the dated observation in the case qualifications. Do not mechanically replace
+When revising, keep the transferable mechanism in the argument and state a
+case's limit once. Rewrite any internal detail before it enters the manuscript. Do not mechanically replace
 every occurrence of “本机”: that can hide source scope without improving the
 reader's understanding. Never convert package metadata into a claim of actual
 use, or a failed trial into a success story.
@@ -71,7 +71,7 @@ lesson merely to fill a documentation category.
 ## Verify source behavior
 
 For source-only checks, run `just --justfile publication/justfile ci`. It checks
-the shared CUE pipeline projections, formatting and all 15 synthetic exercise
+the shared CUE pipeline projections, formatting and all 17 synthetic exercise
 contracts without PDF or browser supply. After editing the CUE owner, run
 `ci-generate` first. These checks complement the full publication and ETHOS
 gates; they do not approve an edition or configure forge merge protection.
@@ -90,7 +90,7 @@ The supply directory contains `fonts/` and `packages/preview/` as described in
 [publication reproduction](../publication/README.md#hosted-publication-build).
 Run `practice-pack` alone to package the tracked synthetic inputs without
 rendering the book. Its extracted archive is checked by
-`tests/test_practice_pack.py`, including all 15 exercise contracts.
+`tests/test_practice_pack.py`, including all 17 exercise contracts.
 
 The repository keeps Python on the 3.12 line. `VERSION` owns the version;
 the matching literal in `pyproject.toml` is checked against it. Install the

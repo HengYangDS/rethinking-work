@@ -48,6 +48,9 @@
     #text(size: 11pt, fill: teal)[#lead]
   ]
 }
+// Keep a chapter's closing lines with the paragraph before them, so that one
+// or two lines are not stranded on a page of their own.
+#let closing(body) = block(breakable: false, body)
 #let note(title, body) = block(width: 100%, breakable: false, fill: tint,
   stroke: (left: 1.5pt + rust), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
   #set par(first-line-indent: 0pt, justify: false, leading: 5.5pt, spacing: 13.5pt)
@@ -59,13 +62,13 @@
   #set par(first-line-indent: 0pt, justify: false, leading: body-line - body-edges, spacing: 2 * body-line - body-edges)
   #text(weight: "bold", title) #h(.5em) #body
 ]
-#let matrix(columns: (1.05fr, 1.4fr, 1.55fr), ..args) = {
+#let matrix(columns: (1.05fr, 1.4fr, 1.55fr), breakable: false, ..args) = {
   set par(justify: false, first-line-indent: 0pt, leading: 4.5pt, spacing: 2 * space)
   set text(size: 9.5pt)
   let cells = args.pos()
-  table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
+  block(width: 100%, breakable: breakable, table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
     stroke: (x: none, y: .4pt + rule),
-    table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len()))
+    table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len())))
 }
 #let reader-figure(name, caption, description, width: 100%) = figure(
   image("/build/artifacts/diagrams/" + name + ".png", width: width, alt: description.text),

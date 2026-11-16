@@ -27,7 +27,7 @@ diagram name format="png":
     mkdir -p build/artifacts/diagrams
     mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.{{format}} --configFile publication/mermaid.json --scale 2 --backgroundColor white --puppeteerConfigFile publication/puppeteer.json
 
-diagrams: (diagram "collaboration") (diagram "data-chain") (diagram "memory") (diagram "orchestration") (diagram "reconcile") (diagram "runtime") (diagram "work-loop")
+diagrams: (diagram "collaboration") (diagram "context") (diagram "memory") (diagram "reconcile") (diagram "work-chain") (diagram "work-loop")
 
 # Build only; this command grants no editorial approval or publication.
 pdf:

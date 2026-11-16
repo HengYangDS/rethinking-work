@@ -1,0 +1,13 @@
+flowchart LR
+ S["宿主的说明<br/>身份与规矩"] --> C
+ P["项目说明<br/>约定与检查"] --> C
+ T["工具清单<br/>名字、说明、参数"] --> C
+ H["对话到现在<br/>要求与回答"] --> C
+ R["工具带回的<br/>文件与结果"] --> C
+ C["上下文<br/>这一次送进去的全部"] --> M["模型"]
+ M --> O["一段回答<br/>或一个工具调用"]
+
+classDef base fill:#edf2f3,stroke:#82979f,color:#273b46,stroke-width:1px;
+classDef focus fill:#273b46,stroke:#273b46,color:#ffffff,stroke-width:1px;
+class S,P,T,H,R,M,O base;
+class C focus;

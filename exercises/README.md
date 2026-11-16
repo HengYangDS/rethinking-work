@@ -1,5 +1,7 @@
 # Companion exercises
 
+Readers: start with [reader-guide.zh.md](reader-guide.zh.md), the Chinese reader guide. This file is the maintainer's reference.
+
 These are wholly synthetic worked examples and templates for the field guide's data, code, API and work-design sections. They contain no business data and require no credentials or model service.
 
 Each directory under `cases/` owns one runnable example, including its input
@@ -9,10 +11,17 @@ adding a case. Individual commands below name their own working directory.
 
 ## Check all runnable examples
 
-From the repository root, run:
+In the source repository, run from the repository root:
 
 ```sh
 just --justfile publication/justfile exercises
+```
+
+In the unpacked practice pack there is no `publication/` directory. Run the
+same checks from the pack root instead:
+
+```sh
+python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 ```
 
 This uses existing Python 3.12, DuckDB, ast-grep and oasdiff installations.
@@ -123,7 +132,7 @@ Read the contracts first. Explain scope, assumptions and results to a peer. Do n
 ## Working templates and transfer practice
 
 `templates/task-brief.md`, `templates/source-table.csv`,
-`templates/evaluation-card.md` and `templates/team-asset-review.md` are editable templates, not host policy or model-call approval. `assessment/transfer-cases.json` holds author-prepared transfer cases and rubric. These are known synthetic practice cases, not an independently frozen blind benchmark. Use a new authorized real task to assess transfer; preserve the distinction between self-review and independent review.
+`templates/evaluation-card.md` and `templates/team-asset-review.md` are editable templates, not host policy or model-call approval. `templates/task-brief.zh.md` and `templates/long-task-checkpoint.zh.md` are the Chinese templates written in the book's terms; `templates/eval/` holds two model-free evaluation files; `cases/historical-snapshot/session/` holds the two briefs and the returned query of the book's walkthrough, and under `control/` the unchanged answers of the control group and the two-model run; `cases/export-regression/agent/` holds the hook settings and the skill used in the book's chapter 12; the reader creates the hook's check script from the chapter. `assessment/transfer-cases.json` holds author-prepared transfer cases and rubric. These are known synthetic practice cases, not an independently frozen blind benchmark. Use a new authorized real task to assess transfer; preserve the distinction between self-review and independent review.
 
 For the data transfer case, state the reconstruction purpose before choosing
 time filters. Public visibility requires `published_at` at or before the cutoff;

@@ -1,0 +1,26 @@
+description: brief-yardstick
+prompts:
+  - id: file://prompts/baseline.txt
+    label: baseline
+  - id: file://prompts/candidate.txt
+    label: candidate
+providers:
+  - echo
+defaultTest:
+  vars:
+    file: exports/returns.csv
+tests:
+  - description: states cutoff with time zone
+    assert:
+      - type: javascript
+        value: /\d{2}:\d{2} (Asia\/Shanghai|UTC)/.test(output)
+  - description: declares read-only scope
+    assert:
+      - type: icontains
+        value: read-only
+      - type: contains
+        value: exports/returns.csv
+  - description: does not leak the expected answer
+    assert:
+      - type: not-contains
+        value: "4"

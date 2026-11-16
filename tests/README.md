@@ -10,26 +10,20 @@ The checks compare visible attribution, PDF Info and XMP to contextual edition
 metadata, including title, subject, author, keywords, language and date.
 They require native manuscript content,
 resolve the complete declared diagram set with alternative descriptions, and
-reject private host paths in portable inputs. A focused case-reference check requires clickable destinations to the original dated qualification records. They use Python's standard library
-and require no new test environment or model service.
+reject private host paths in portable inputs. Navigation checks require the
+contents to list all twenty-nine chapters and four practice modules, the epilogue, the afterword and four appendices in
+reading order, each layer's opening chapter to carry its number, the practice
+chapters to name exercise cases that exist, the hook settings and skill printed in the
+tools chapter to equal the practice-pack files, the printed hook script to pass on
+the fixed export and fail on the old one, and the back matter to state the
+book's sources and limits. They use Python's standard library and require no
+new test environment or model service.
 
 This is not a full editorial or visual acceptance suite. Migration comparison,
 PDF text and metadata checks, every-page inspection and reader review have
 different scopes; follow [edition acceptance](../docs/publication-acceptance.md).
 The [exercise regression](../exercises/README.md#export-regression) deliberately
 includes a failing old-function control and is not silently changed to pass.
-
-## Rendered diagram relationships
-
-[test_diagrams.py](test_diagrams.py) renders the data-chain figure through the
-actual `diagram data-chain svg` task. It checks the complete node labels, all
-seven directed relationships, solid and dotted edge roles, end markers and
-nondegenerate final tangents pointing toward the target. This guards the observed
-arrow reversal without testing source strings or changing the process meaning.
-The same headless browser is required, with a 60-second subprocess deadline.
-
-The check covers this figure's current straight-line SVG geometry. It does not
-replace visual inspection of the PNG or its legibility on the actual book page.
 
 ## Native raster replay
 
@@ -41,8 +35,7 @@ not source strings or a fixed historical image digest. Each subprocess has a
 60-second deadline; the fixture is removed even on assertion failure.
 
 This guards the task's raster selection and observed repeated bytes on the
-current host. The separate all-seven qualification covers the selected figure
-set. Neither check proves cross-machine rendering or replaces visual review of
+current host. It does not prove cross-machine rendering or replaces visual review of
 a successor edition; no personal browser profile or reader PDF is changed.
 
 ## Companion contracts

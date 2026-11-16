@@ -13,9 +13,28 @@ claim editorial acceptance or public publication.
 
 ### Changed
 
+- **Breaking:** rebuilt the manuscript as a department leader's account of work
+  and team collaboration in the agentic era, in twenty-nine chapters with four
+  practice modules, an epilogue and an afterword. The definition of work yields
+  four unavoidable conditions and three working criteria; responsibility stays
+  with people, so understanding stays with people. The same question, how
+  understanding is reached, is then asked for one person, after work is handed
+  to an Agent, and for several people, before the book returns to the person.
+  The Agent has a part of its own that explains one Agent layer by layer
+  (model, harness, context, tools, boundaries, memory); several Agents and
+  evaluation close the handing-over part, after delegation has been taught.
+  Chapters on the Agent end with a hands-on section, most run in a
+  scratch repository the reader builds in the first-session chapter. Cases are
+  restated from the original records, with names withheld. The figure set is
+  six diagrams; the book gains a one-page quick reference; the companion pack
+  carries two session briefs with the returned query and the conditions those
+  sessions ran under, the unchanged answers of a control group and of one run
+  each on a stronger and a lighter model, the hook and skill files of the tools
+  chapter, two model-free evaluation files and two Chinese templates in the
+  book's own terms, and its self-check has seventeen tests. The rebuilt edition has no editorial or page qualification
+  yet; the 114-page edition of 2026-11-13 remains the delivered one.
 - Configure the third-party release age as `0h` in the repository Mise settings,
   keeping the value explicit and adjustable without changing global policy.
-
 - Organized synthetic exercises by teaching case, separating reusable templates
   and transfer assessment while preserving fixture bytes and behavior.
 - Separated publication layout, diagnostics, supply manifests and third-party
@@ -41,7 +60,6 @@ claim editorial acceptance or public publication.
   Runner; source CI does not replace full PDF qualification or editorial review.
 - Exact macOS arm64 locks for the four CI tools and Linux x64 records for the
   seven native source-CI tools, preserving existing records and npm sidecars.
-
 - A modular Chinese handbook for quantitative data teams, with worked data,
   research, engineering, delivery and team-learning cases, explicit source
   qualifications and decision-led tool guidance.

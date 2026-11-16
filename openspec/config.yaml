@@ -1,10 +1,14 @@
 schema: spec-driven
 
 context: |
-  The product is a Chinese teaching publication for general readers, not a
-  workstation inventory. Book sources own reader meaning; contributor guidance
-  is English. Existing cases retain dates, source roles and unknowns. No remote
-  publication, public license or operational authority is implied.
+  The product is a Chinese book in the voice of a data department's leader at
+  a quantitative hedge fund. It teaches a team how to think, act and
+  collaborate when producing a result has become cheaper than understanding
+  it. Data work supplies its worked cases. It is not a tool catalogue, a
+  workstation inventory or a data-craft manual. Book sources own reader
+  meaning; contributor guidance is English. The repository is public: cases
+  are rewritten and disclose no internal name, vendor, system or figure. No
+  remote publication, public license or operational authority is implied.
 
 rules:
   proposal:

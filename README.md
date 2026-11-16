@@ -1,9 +1,9 @@
 # Rethinking Work
 
-The source publication for **《重新理解工作》**, a Chinese field guide to judgment,
-agent-assisted practice and durable team capability, by **衡阳**. It helps readers
-choose a useful task, assemble the smallest effective toolchain, verify its
-result and leave work another person can continue.
+The source publication for **《重新理解工作》**, a Chinese book on work and team
+collaboration in the agentic era, by **衡阳**. Written from a data department
+leader's position, it teaches a team how to think, act and collaborate when
+producing a result has become cheaper than understanding it.
 
 This is a publication repository, not a workstation manager or a new publishing
 engine. The editable manuscript is Chinese; contributor guidance is English.
@@ -25,9 +25,9 @@ tag or evidence of editorial acceptance.
 | Maintain and qualify an edition       | [Contributor guides](docs/README.md)                                            |
 | Understand active change commitments  | [Official OpenSpec Change](openspec/changes/publication-foundation/proposal.md) |
 
-Reader references and case qualifications belong in
-[book/back-matter.typ](book/back-matter.typ), alongside the manuscript they
-qualify. Machine-specific receipts and private state do not belong in tracked
+The companion-exercise index and the statement of sources and limits belong in
+[book/back-matter.typ](book/back-matter.typ). Cases are rewritten from real work;
+the names of people, vendors and projects are withheld. Machine-specific receipts and private state do not belong in tracked
 publication inputs.
 
 ## Source and output boundaries
@@ -49,8 +49,8 @@ serve reusable work materials and transfer practice respectively.
 | `build/evidence/`                    | Exact-input checks, review and failure receipts                | Retain through their named consumers; not a permanent archive |
 | `build/runtime/`                     | Tool caches and bounded test work                              | Release only known owned residue after its consumers finish   |
 
-Keep these distinctions when adding material. A new tool example belongs under
-the reader problem it solves, not in a new brand directory. A new medium should
+Keep these distinctions when adding material. The manuscript follows one line: the root, then understanding at three scales (one person; the Agent and what happens after handing over; several people), then the person; four practice modules close the first five parts. A tool is named only
+as an example of a role it plays. A new medium should
 consume the same manuscript and identity rather than introduce another editable
 edition. Do not add a generic `scripts/`, raw conversation dump or mirrored
 source tree when the native task interface and topic owners already suffice.
@@ -91,7 +91,7 @@ released, rather than being copied into a second archive here.
 Both native pipelines consume one [CUE definition](.config/ci/pipeline.cue) and
 the repository's exact platform-specific tool locks. They run
 `just --justfile publication/justfile ci`: pipeline projection checks,
-authored-file formatting and all 15 synthetic exercise contracts.
+authored-file formatting and all 17 synthetic exercise contracts.
 The jobs use no business data, accounts, services, PDF fonts or browser.
 
 See [source CI](publication/README.md#source-ci) for the platform bindings,

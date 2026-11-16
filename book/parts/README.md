@@ -1,29 +1,32 @@
 # Manuscript parts
 
-The reader completes a small task before studying its concepts, working
-conditions and tool roles. Practice runs from code behavior through data meaning
-to a research choice; diagnosis, team learning and longer-term choices follow.
-The actual reading order is declared in [manuscript.typ](../manuscript.typ).
+The book argues that producing a result now outruns understanding it, and
+teaches a team how to think, act and collaborate under that condition. One line
+runs through the book: the definition of work yields four unavoidable
+conditions and three working criteria; responsibility stays with people, so
+understanding stays with people; and the same question, how understanding is
+reached, is then asked at three scales (one person, after handing over, several
+people) before returning to the person. The reading order is declared in
+[manuscript.typ](../manuscript.typ).
 
-| Module                                         | Reader question                                                      |
-| ---------------------------------------------- | -------------------------------------------------------------------- |
-| [practice.typ](practice.typ)                   | How does a complete task proceed from brief to checked result?       |
-| [judgment.typ](judgment.typ)                   | What should be delegated, and what makes its result worth using?     |
-| [environment.typ](environment.typ)             | Which layer owns an environment, supply or connection failure?       |
-| [workbench.typ](workbench.typ)                 | Which persistent object and working surface does this task need?     |
-| [research-data.typ](research-data.typ)         | How do sources and data become a reproducible decision?              |
-| [knowledge-quality.typ](knowledge-quality.typ) | How do memory, knowledge, methods and quality checks work together?  |
-| [diagnosis.typ](diagnosis.typ)                 | How can a failure be localized without repeated or unsafe action?    |
-| [team-learning.typ](team-learning.typ)         | What lets another person learn, continue and judge the work?         |
-| [horizon.typ](horizon.typ)                     | Which capabilities remain useful when tools and organization change? |
+| Part               | Modules                                                                                             | Reader question                                                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Root               | `work`, `change`, `invariants`                                                                      | What is work, what did the technology change, what holds?                                                                   |
+| One person         | `question`, `knowing`, `model`, `bounds`, `choice`, `practice-thinking`                             | How does one person come to understand?                                                                                     |
+| The Agent          | `agent`, `first`, `context`, `tools`, `boundaries`, `memory`, `practice-agent`                      | What is the Agent that takes the work, layer by layer, and how is each layer operated?                                      |
+| After handing over | `delegate`, `verify`, `walkthrough`, `run`, `diagnose`, `orchestrate`, `evaluate`, `practice-doing` | How does understanding survive delegation: handing out, taking back, finishing, several Agents, measuring a changed method? |
+| Several people     | `team`, `roles`, `writing`, `review`, `standing`, `improve`, `leading`, `practice-collaborating`    | Why a team exists, and how several people and Agents understand together                                                    |
+| The person         | `growth`, `closing`                                                                                 | What does a person grow by, and what stays with the person?                                                                 |
 
-Brand names identify examples, not the organizing principle. A new tool belongs
-under the reader problem it solves. Dated local experience supports a bounded
-case; it cannot establish a universal recommendation or measured team benefit.
+Each chapter opens with a situation from real work, explains the principle,
+shows it in a case, states what the team does because of it, and names where the
+principle stops holding. Cases are rewritten: no internal person, vendor, system
+or figure appears. Practice chapters name the companion exercise that backs each
+worked example.
 
-The reading path connects a worked result to its explanation and then to the
-technical roles that make it possible. `judgment.typ` explains that system
-through the export case; `knowledge-quality.typ` develops Open Code Review's
-target, rules, evidence and acceptance rather than counting a product mention
-as a usable introduction. Failure and transfer cases test whether readers can
-adapt the explanation when an input or responsibility changes.
+The third part explains agentic AI as a whole: model, harness, context, tools,
+boundaries, memory, orchestration and evaluation. Each of its chapters ends
+with a hands-on section that the reader runs in a scratch repository of their
+own, built in the `first` chapter. A tool is explained by the layer it sits in
+and the problem it solves, whether or not the author operated it; an event is
+told only as the record has it, and numbers in cases follow the record.
