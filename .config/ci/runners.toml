@@ -1,0 +1,12 @@
+# Native runner prerequisites for the installed source-verification model.
+# These declarations own references; they do not prove host availability.
+# The hosted publication job also fetches, checks and unpacks its supply with these executables.
+[[runner]]
+forge = "github"
+executables = ["cp", "curl", "ln", "mise", "mkdir", "shasum", "tar", "unzip"]
+references = ["github"]
+
+[[runner]]
+forge = "gitlab"
+executables = ["mise", "mkdir"]
+references = ["gitlab"]
