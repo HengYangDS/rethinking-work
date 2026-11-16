@@ -70,8 +70,10 @@ check rejects drift; generated files are not independent policy owners.
 The source-check stage installs Node 26.13.1, Python 3.12.16, Just 1.59.0, Prettier 3.10.1,
 DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0 and CUE 0.17.1 from the peer-specific macOS arm64 or Linux x64
 lock. The exact official Mise 2026.11.7 bootstrap is checksum-bound. Tool state
-and downloads belong to the job's `build/runtime/ci/`; host Homebrew tools are
-unchanged. Configuration and fixtures are trusted source inputs, not credentials
+and downloads belong to the job's `build/runtime/ci/`; the GitLab job also
+carries downloaded archives from one job to the next, as described below. Host
+Homebrew tools are unchanged. Configuration and fixtures are trusted source
+inputs, not credentials
 or business data. CUE and oasdiff retain disclosed unresolved Go advisories;
 DuckDB and ast-grep scans did not establish complete dependency identity.
 The approved macOS use is bounded to configuration checks and synthetic exercises,
@@ -87,6 +89,30 @@ Amazon ECR Public. Its Mise bootstrap uses `mise.jdx.dev`, the official
 installer's primary endpoint, with the exact version, archive checksum,
 HTTPS restrictions and deadline preserved. The Runner's global settings are
 unchanged.
+
+The GitLab job reuses downloaded tool archives through its native job cache.
+On 2026-11-13 and 2026-11-16 this Runner's downloads from GitHub release hosts
+ranged from a 27-second job to jobs still downloading at the 20-minute
+deadline. The cache carries two directories under `build/runtime/ci/mise/`:
+`data/downloads/`, kept by Mise's `always_keep_download` setting, and
+`cache/downloads-cas/`, Mise's own download cache. Installed tools remain
+job-local, and every install checks a reused archive against the lock before
+extraction. The key follows `.config/mise/mise.lock` and the Mise version, so
+a lock change starts from an empty cache. A 15-minute script deadline inside
+the 20-minute job deadline ends a run that is still downloading as a failed
+script, so that GitLab can still save the archives it completed.
+
+With the pinned Mise on macOS arm64, both directories carried over and GitHub
+and nodejs.org unreachable, seven of the eight tools installed: Node, Just,
+DuckDB, ast-grep and CUE from the kept archives, Python from the download
+cache and Prettier from the npm registry. oasdiff uses the `github` backend
+and is downloaded in every job. An altered kept archive failed the install and
+stayed in place; the recovery is **Build > Pipelines > Clear runner caches**.
+An altered download-cache entry was not used and was downloaded again.
+`always_keep_download` is deprecated, with removal announced for Mise
+2027.11.0; retest which directory serves each backend before moving the pin.
+The cache needs Runner cache storage that outlives the job. Hosted reuse
+remains unqualified until a later job on each branch restores the cache.
 
 Hosted acceptance on 2026-11-14 verified all four branch jobs at commit
 `9e293fab29bf079435766b4e21b22c2ab75f136d`. Each passed event and platform identity,

@@ -142,6 +142,18 @@ declare the shell, Git and HTTPS bootstrap tools. The exact image was pulled and
 its generated native journey passed under local Linux amd64 emulation, preserving
 all source bytes and modes. Mise installs the selected repository tools into job-local state.
 Runner registration, global settings and services are unchanged.
+
+The private peer's downloads from GitHub release hosts have been slow enough to
+exhaust the job deadline before any check ran. Its job therefore reuses
+downloaded tool archives through the native GitLab job cache, which carries
+Mise's kept archives and its download cache. Installs remain job-local and
+every reused archive is checked against the lock before extraction. A script
+deadline inside the job deadline lets a slow first run save the archives it
+completed, and the key follows the lock and the Mise version. Alternatives
+considered: a mirror needs a chosen third-party or internal host; a longer job
+deadline leaves every job dependent on the slowest download. The cache depends
+on Runner storage that outlives the job; with the pinned Mise one
+`github`-backend archive is still downloaded in every job.
 Each Forge step invokes one native command; checksum manifests bind the bootstrap archives. The existing Just owner checks the actual platform and exact event commit before source verification. Native command steps avoid adding third-party action runtimes. Platform
 execution remains unqualified until each peer's actual job passes.
 

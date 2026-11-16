@@ -35,6 +35,10 @@ claim editorial acceptance or public publication.
   yet; the 114-page edition of 2026-11-13 remains the delivered one.
 - Configure the third-party release age as `0h` in the repository Mise settings,
   keeping the value explicit and adjustable without changing global policy.
+- Reuse lock-verified tool archives across private-peer source jobs through the
+  native GitLab job cache, with a 15-minute script deadline inside the
+  20-minute job deadline. Installed tools stay job-local and the Runner's
+  settings are unchanged; hosted reuse depends on the Runner's cache storage.
 - Organized synthetic exercises by teaching case, separating reusable templates
   and transfer assessment while preserving fixture bytes and behavior.
 - Separated publication layout, diagnostics, supply manifests and third-party

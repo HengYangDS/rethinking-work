@@ -137,6 +137,10 @@ compiled: gitlab: {
 			GIT_DEPTH:              "1"
 			GIT_STRATEGY:           "clone"
 			GIT_SUBMODULE_STRATEGY: "none"
+			// Kept archives and Mise's download cache are the two inputs of the job cache.
+			MISE_ALWAYS_KEEP_DOWNLOAD: "1"
+			// Ending the script inside the job deadline lets a slow run still save its cache.
+			RUNNER_SCRIPT_TIMEOUT: "15m"
 		}
 		"verify:source": {
 			stage: "verify"
@@ -145,6 +149,18 @@ compiled: gitlab: {
 			image:         "public.ecr.aws/docker/library/node@sha256:6eca1d4ba35cef57a8a41008310420541a2a9ffdcd4883841463ccb39a588bd8"
 			timeout:       "20m"
 			interruptible: true
+			// Installs stay job-local; a reused archive is checked against the lock before extraction.
+			cache: {
+				key: {
+					files: [".config/mise/mise.lock"]
+					prefix: "mise-\(shared.miseVersion)-linux-x64"
+				}
+				paths: [
+					"build/runtime/ci/mise/data/downloads/",
+					"build/runtime/ci/mise/cache/downloads-cas/",
+				]
+				when: "always"
+			}
 			script: [
 				for command in (shared.bootstrap & {platform: "linux-x64"}).commands {command},
 				for command in (shared.verify & {platform: "linux:x86_64", commit: "$CI_COMMIT_SHA"}).commands {command},
