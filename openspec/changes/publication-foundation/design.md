@@ -140,8 +140,8 @@ uv and the ETHOS release's own declaration. A native supply task puts the Noto
 faces and the Typst packages into the runner account's own locations against the
 repository's manifests, synchronizes the locked test environment and checks the
 declared PDF tools; it fetches only what is missing or differs. Mermaid's browser
-is stated once in the Mise environment, so local and hosted proofs read the same
-setting.
+is stated once in the task file, so local and hosted proofs read the same
+setting whatever starts them.
 
 GitHub selects hosted macOS arm64. GitLab selects the owner's local macOS arm64
 runners, the arrangement of the owner's other repositories: a protected shell

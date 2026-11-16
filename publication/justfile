@@ -1,5 +1,9 @@
 set working-directory := ".."
 
+# Mermaid drives this browser in every recipe, whatever shell or tool started `just`;
+# a caller may name another one.
+export PUPPETEER_EXECUTABLE_PATH := env("PUPPETEER_EXECUTABLE_PATH", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+
 default:
     @just --justfile publication/justfile --list
 

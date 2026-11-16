@@ -86,7 +86,7 @@ folder and the eight Typst packages into its package cache, checked against
 locked test environment with uv and checks the PDF tools of [brewfile](brewfile),
 installing them only where the account owns Homebrew. Present supply that
 matches is kept. Mermaid uses Google Chrome at its standard path, stated once in
-the Mise environment.
+the task file, so a proof does not depend on the shell that starts it.
 
 Configuration and fixtures are trusted source inputs, not credentials or
 business data. CUE and oasdiff retain disclosed unresolved Go advisories; DuckDB

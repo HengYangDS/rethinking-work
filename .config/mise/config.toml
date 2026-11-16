@@ -42,10 +42,6 @@ macos-arm64 = { url = "https://github.com/HengYangDS/ethos/releases/download/v0.
 windows-arm64 = { url = "https://github.com/HengYangDS/ethos/releases/download/v0.2.0-beta.10/ethos-0.2.0-beta.10-windows-arm64.tar.gz", checksum = "sha256:83da972766ddbe19c78cf38ca2487c55ea0dbcc77c22f91d031b956e67543c72", bin_path = "ethos/bin" }
 windows-x64 = { url = "https://github.com/HengYangDS/ethos/releases/download/v0.2.0-beta.10/ethos-0.2.0-beta.10-windows-x64.tar.gz", checksum = "sha256:7579ac5d119a8039b422a18e4b20db3f3088100e5eb9664d7b4e80131b2c4f81", bin_path = "ethos/bin" }
 
-# Mermaid drives this browser on the authoring host, the CI guest and the hosted macOS runner.
-[env]
-PUPPETEER_EXECUTABLE_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-
 [tasks.ci-supply]
 description = "Supply a CI runner's account with the fonts, Typst packages, test environment and PDF tools the full proof reads"
 run = "just --justfile publication/justfile ci-supply"
