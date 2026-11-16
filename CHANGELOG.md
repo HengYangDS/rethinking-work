@@ -48,6 +48,9 @@ claim editorial acceptance or public publication.
   environment and PDF tools against the repository's manifests. The hosted
   publication build remains as the repository's own job. The publication-inputs
   gate's time limit is 300 seconds; 120 seconds was exceeded under host load.
+  On CI runners Mermaid uses Chrome for Testing's headless shell, which the
+  supply task installs checksum-checked; Google Chrome did not start under the
+  local runner's launch context.
 - Organized synthetic exercises by teaching case, separating reusable templates
   and transfer assessment while preserving fixture bytes and behavior.
 - Separated publication layout, diagnostics, supply manifests and third-party

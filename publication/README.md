@@ -84,9 +84,15 @@ folder and the eight Typst packages into its package cache, checked against
 [typst-inputs.sha256](supply/typst-inputs.sha256) and
 [typst-packages.sha256](supply/typst-packages.sha256). It synchronizes the
 locked test environment with uv and checks the PDF tools of [brewfile](brewfile),
-installing them only where the account owns Homebrew. Present supply that
-matches is kept. Mermaid uses Google Chrome at its standard path, stated once in
-the task file, so a proof does not depend on the shell that starts it.
+installing them only where the account owns Homebrew. It also installs Chrome
+for Testing's headless shell 156.0.8078.47, the build the locked Mermaid CLI
+expects, checked against
+[ci-chrome-headless-shell.sha256](supply/ci-chrome-headless-shell.sha256), into
+Puppeteer's own cache layout. Present supply that matches is kept. The task file
+states Mermaid's browser once, so a proof does not depend on the shell that
+starts it: the headless shell where it is installed, otherwise Google Chrome at
+its standard path. On the local runners Google Chrome stopped at start under the
+runner's launch context, while the headless shell runs.
 
 Configuration and fixtures are trusted source inputs, not credentials or
 business data. CUE and oasdiff retain disclosed unresolved Go advisories; DuckDB
@@ -105,9 +111,9 @@ protected `dev` and `main` branches and `v*` tags, and a review runner (tag
 locked to this project and runs under its own account in the CI guest, whose
 Mise store, font folder and package cache keep their supply between jobs.
 `MISE_CONFIG_DIR` and `MISE_CEILING_PATHS` keep the account's own Mise settings
-and parent directories out of the job. The guest's Homebrew supplies Poppler and
-Google Chrome. Each runner account holds its own copy of Homebrew's package
-index; without it, `brew bundle check` fails on a lock it cannot write.
+and parent directories out of the job. The guest's Homebrew supplies Poppler.
+Each runner account holds its own copy of Homebrew's package index; without it,
+`brew bundle check` fails on a lock it cannot write.
 
 Until 2026-11-17 both peers ran a hand-written source job of pipeline
 projections, formatting and the 17 exercises; the full proof replaced it. Until

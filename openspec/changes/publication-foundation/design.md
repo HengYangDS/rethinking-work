@@ -139,18 +139,20 @@ Supply is checked, not trusted. Tools come from the macOS arm64 lock, including
 uv and the ETHOS release's own declaration. A native supply task puts the Noto
 faces and the Typst packages into the runner account's own locations against the
 repository's manifests, synchronizes the locked test environment and checks the
-declared PDF tools; it fetches only what is missing or differs. Mermaid's browser
-is stated once in the task file, so local and hosted proofs read the same
-setting whatever starts them.
+declared PDF tools; it fetches only what is missing or differs. It also installs
+the headless shell that the locked Mermaid CLI expects, checksum-checked, because
+Google Chrome did not start under the local runner's launch context. The task
+file states the browser once, preferring that headless shell where installed and
+Google Chrome otherwise, so a proof reads the same setting whatever starts it.
 
 GitHub selects hosted macOS arm64. GitLab selects the owner's local macOS arm64
 runners, the arrangement of the owner's other repositories: a protected shell
 runner for the protected `dev` and `main` branches and `v*` tags, and a review
 runner for merge requests and `proposal/` branches, each locked to this project
 under its own account in the CI guest. The account's Mise store, font folder and
-package cache keep their supply between jobs. The guest's Homebrew owns Poppler
-and Google Chrome; each runner account holds its own copy of Homebrew's package
-index, which `brew bundle check` needs.
+package cache keep their supply between jobs. The guest's Homebrew owns Poppler;
+each runner account holds its own copy of Homebrew's package index, which
+`brew bundle check` needs.
 
 The private peer first ran on a department Kubernetes runner, with a
 digest-bound Node image and Linux x64 lock records; the records remain in the

@@ -1,8 +1,12 @@
 set working-directory := ".."
 
-# Mermaid drives this browser in every recipe, whatever shell or tool started `just`;
-# a caller may name another one.
-export PUPPETEER_EXECUTABLE_PATH := env("PUPPETEER_EXECUTABLE_PATH", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+# The headless shell that the locked Mermaid CLI expects, where `ci-supply` installed it in
+# Puppeteer's own cache layout. A CI runner's launch context can stop Google Chrome at start.
+headless_shell := home_directory() / ".cache/puppeteer/chrome-headless-shell/mac_arm-156.0.8078.47/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+
+# Mermaid drives this browser in every recipe, whatever shell or tool started `just`: the headless
+# shell where installed, otherwise Google Chrome. A caller may name another one.
+export PUPPETEER_EXECUTABLE_PATH := env("PUPPETEER_EXECUTABLE_PATH", if path_exists(headless_shell) == "true" { headless_shell } else { "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" })
 
 default:
     @just --justfile publication/justfile --list
@@ -99,7 +103,7 @@ ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) bui
     shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/practice/rethinking-work-practice.tgz
 
 # Present supply that matches the manifests is kept; only missing or changed supply is fetched.
-# Supply a CI runner's account with the fonts, Typst packages, test environment and PDF tools.
+# Supply a CI runner's account with fonts, Typst packages, headless shell, tests and PDF tools.
 [script]
 ci-supply:
     #!/usr/bin/env bash
@@ -141,6 +145,19 @@ ci-supply:
         done
         (cd "$cache" && shasum --algorithm 256 --check --quiet "$manifests/typst-packages.sha256")
         echo "Typst packages: installed"
+    fi
+    shell="{{headless_shell}}"
+    if [ -x "$shell" ] && [ "$("$shell" --version)" = "Google Chrome for Testing 156.0.8078.47" ]; then
+        echo "Headless shell: present"
+    else
+        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output build/runtime/ci/downloads/chrome-headless-shell-mac-arm64.zip https://storage.googleapis.com/chrome-for-testing-public/156.0.8078.47/mac-arm64/chrome-headless-shell-mac-arm64.zip
+        shasum --algorithm 256 --check publication/supply/ci-chrome-headless-shell.sha256
+        target="${shell%/chrome-headless-shell-mac-arm64/chrome-headless-shell}"
+        rm -rf "$target"
+        mkdir -p "$target"
+        unzip -q build/runtime/ci/downloads/chrome-headless-shell-mac-arm64.zip -d "$target"
+        "$shell" --version
+        echo "Headless shell: installed"
     fi
     uv sync --locked --no-python-downloads --python python3.12
     if env -u HOMEBREW_BUNDLE_CHECK brew bundle check --file publication/brewfile --no-upgrade --quiet; then
