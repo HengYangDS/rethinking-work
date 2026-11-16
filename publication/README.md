@@ -152,6 +152,21 @@ run a hosted job.
 | `dev`  | 16094    | 72276 | 72 s     | Success |
 | `main` | 16095    | 72277 | 7 s      | Success |
 
+Hosted acceptance on 2026-11-17 verified the family's verification model at
+commit `3e693f686b97b7ee2f62ccd8a0523fd8aad29cdc` on both peers. Each
+verification job passed all twelve gates of the full proof. On GitLab the two
+jobs ran on runner `ci-p1444-macos-arm64-shell-protected`, with all twelve tools
+and the headless shell already supplied, in 165 s and 153 s. On GitHub the
+publication job also built and uploaded the PDF and the practice archive. The
+review runner has not yet run a hosted job.
+
+| Peer   | Branch | Run or pipeline | Jobs                                          | Result  |
+| ------ | ------ | --------------- | --------------------------------------------- | ------- |
+| GitHub | `dev`  | 43969851081     | verify 133658824993, publication 133658825372 | Success |
+| GitHub | `main` | 43969850935     | verify 133658824363, publication 133658824693 | Success |
+| GitLab | `dev`  | 16118           | 72344                                         | Success |
+| GitLab | `main` | 16119           | 72345                                         | Success |
+
 The job records and traces, including predecessor failures, remain under
 `build/evidence/publication-foundation/` on the authoring host, in
 `hosted-ci-20261113/` and `gitlab-local-runner-20261116/`. They are not
