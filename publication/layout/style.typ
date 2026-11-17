@@ -25,6 +25,12 @@
   show heading.where(level: 2): set text(size: 14pt)
   show heading.where(level: 3): set block(above: 4 * space, below: 2 * space)
   show heading.where(level: 3): set text(size: 11pt)
+  // A section heading starts the next page unless about six body lines fit under it; the
+  // reserved space is taken back afterwards, so spacing on the page is unchanged.
+  show heading.where(level: 2).or(heading.where(level: 3)): it => {
+    block(breakable: false, sticky: true, it + v(96pt))
+    v(-96pt)
+  }
   show table.cell.where(y: 0): set text(font: "Noto Sans CJK SC", weight: "bold", size: 9pt)
   show figure.caption: set text(size: 8.5pt, fill: muted)
   body

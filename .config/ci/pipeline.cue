@@ -7,8 +7,8 @@ import (
 
 // The installed common model (ETHOS `.config/ci/verification.cue`) generates the verification
 // jobs of both Forges from `verification.toml`, and `ethos lane project` writes the native files.
-// This file adds what the model leaves to the repository: the hosted macOS job that builds the
-// PDF and the practice archive and uploads them as artifacts.
+// This file adds what the model leaves to the repository: on each Forge, a macOS job that builds
+// the PDF and the practice archive and keeps them as artifacts for 14 days.
 supply: {
 	tools: ["node", "python", "just", "npm:prettier", "duckdb", "ast-grep", "github:oasdiff/oasdiff", "cue", "typst", "npm:@mermaid-js/mermaid-cli"]
 	miseVersion: "2026.11.7"
@@ -95,3 +95,35 @@ publicationJob: {
 }
 
 compiled: providers: github: jobs: publication: publicationJob
+
+// The private peer builds the same two artifacts on the owner's local macOS runners, after the
+// supply task has given the runner account its fonts, packages and headless shell. Its rules
+// follow the generated verification jobs of the same trust.
+gitlabPublication: {
+	stage:         "verify"
+	timeout:       "30 minutes"
+	interruptible: true
+	variables: {
+		MISE_CONFIG_DIR:           "$CI_PROJECT_DIR/build/runtime/work/mise-config"
+		MISE_CEILING_PATHS:        "$CI_PROJECT_DIR/.."
+		MISE_TRUSTED_CONFIG_PATHS: "$CI_PROJECT_DIR/.config/mise/config.toml"
+		MISE_YES:                  "1"
+	}
+	before_script: ["mise install --locked --jobs=1", "mise run ci-supply"]
+	script: ["mise exec --locked -- just --justfile publication/justfile ci-artifacts"]
+	artifacts: {
+		paths: ["build/artifacts/pdf/rethinking-work.pdf", "build/artifacts/practice/rethinking-work-practice.tgz"]
+		expire_in: "14 days"
+	}
+}
+
+compiled: providers: gitlab: {
+	"publication:macos:review": gitlabPublication & {
+		tags: ["ci-macos-arm64-review"]
+		rules: [{if: "$ETHOS_OFFLINE_CANDIDATE", when: "never"}, {if: "$CI_PIPELINE_SOURCE == \"merge_request_event\" || ($CI_COMMIT_BRANCH =~ /^proposal\\// && $CI_PIPELINE_SOURCE == \"push\")"}]
+	}
+	"publication:macos:protected": gitlabPublication & {
+		tags: ["ci-macos-arm64-shell"]
+		rules: [{if: "$ETHOS_OFFLINE_CANDIDATE", when: "never"}, {if: "$CI_COMMIT_REF_PROTECTED == \"true\" && ($CI_COMMIT_BRANCH == \"dev\" || $CI_COMMIT_BRANCH == \"main\" || $CI_COMMIT_TAG =~ /^v[^\\/]*$/)"}]
+	}
+}

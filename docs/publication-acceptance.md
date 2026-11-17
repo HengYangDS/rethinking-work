@@ -38,8 +38,19 @@ broadly. A single replacement for the English word "secret" would obscure these
 different meanings. Review evidence must show the passage and the resolved
 meaning, not merely a reviewer score, agreement or a list of banned words.
 
+Readability is checked on its own, after the last content or fact edit, because
+fact corrections and compression change sentences that no fact check reads for
+sense. Split the manuscript into parts of about thirty pages and give each part
+to a reader who did not write it, reading every sentence as a member of the
+department: mark where a sentence cannot be understood on first reading, has to
+be reread, or leaves its actor, referent, term or next step unclear. Check
+separately that each term is explained where it first appears and keeps one
+meaning. Fix those findings, then have a different reader read the changed
+passages and verify them against the records. A whole-book impression or a
+fact check does not stand in for this reading.
+
 Follow the argument as a new reader, not as the person who remembers its sources.
-For each consequential case, identify the real work question, uncertainty,
+For each consequential scenario, identify the work question it poses, uncertainty,
 alternatives, distinguishing observation, changed judgment and practical result.
 Check that its transfer problem changes a meaningful condition and that the
 answer explains the effect. Read reconstructed teaching dialogue as instruction,

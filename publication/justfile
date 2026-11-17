@@ -97,10 +97,13 @@ format:
 
 check: format-check test
 
-# Hosted macOS builds artifacts; local Poppler acceptance remains separate.
-ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) build practice-pack
+# Build the PDF and the practice archive and print their identities, as a Forge job keeps them.
+ci-artifacts: build practice-pack
     git diff --exit-code -- .config/mise
     shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/practice/rethinking-work-practice.tgz
+
+# The hosted macOS job first checks the supply it fetched into its own workspace.
+ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) ci-artifacts
 
 # Present supply that matches the manifests is kept; only missing or changed supply is fetched.
 # Supply a CI runner's account with fonts, Typst packages, headless shell, tests and PDF tools.

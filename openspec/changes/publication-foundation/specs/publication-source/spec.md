@@ -47,14 +47,14 @@ A compiled document SHALL NOT be represented as reader-approved or published sol
 - **WHEN** the native build succeeds but editorial revision or visual inspection remains unfinished
 - **THEN** the artifact remains a candidate and the existing reader output is not silently replaced.
 
-### Requirement: Leader's account of work in the agentic era
+### Requirement: An account of work in the agentic era
 
-The manuscript SHALL present, in the department leader's voice, an account of work and team collaboration in the agentic era that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with worked practice drawn from data work.
+The manuscript SHALL present an account of work and team collaboration in the agentic era, set in the business context of a quantitative data team, that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with a worked scenario from data work.
 
 #### Scenario: Reader works through a principle
 
 - **WHEN** a chapter states a principle
-- **THEN** it explains why the principle holds, shows it in a worked case, states what the team does because of it, and states the conditions the method needs where they carry substance.
+- **THEN** it explains why the principle holds, shows it in a worked scenario, states what the team does because of it, and states the conditions the method needs where they carry substance.
 
 #### Scenario: Reader learns to operate an Agent
 
@@ -90,9 +90,9 @@ The manuscript SHALL be organized by how fast each layer changes, from principle
 - **WHEN** the manuscript uses a present practice as material
 - **THEN** it says where that practice falls short of the end state.
 
-### Requirement: Positions of the author's own
+### Requirement: Positions reasoned from conditions
 
-The manuscript SHALL reason from stated conditions to its principles rather than restate guidance, SHALL state its authorship as it is, and SHALL NOT pad its claims with modest disclaimers.
+The manuscript SHALL reason from stated conditions to its principles rather than restate guidance, SHALL present them as the book's own positions without asserting who devised or carried them out, and SHALL NOT pad its claims with modest disclaimers.
 
 #### Scenario: A principle rests on a present condition
 
@@ -101,12 +101,21 @@ The manuscript SHALL reason from stated conditions to its principles rather than
 
 ### Requirement: Public source without internal disclosure
 
-The tracked publication source SHALL NOT disclose an internal organization scheme, person, vendor, internal system or performance figure. Cases SHALL be rewritten from real work and identified as rewritten.
+The tracked publication source SHALL NOT disclose an internal organization scheme, person, vendor, internal system or performance figure. Examples SHALL be scenarios set in the stated business context, and the source SHALL NOT present them as accounts of real events.
 
-#### Scenario: A case comes from an internal incident
+#### Scenario: A scenario is adapted from an internal incident
 
-- **WHEN** a chapter uses an internal incident as a case
-- **THEN** its objects and numbers are replaced, and the back matter states that cases are rewritten.
+- **WHEN** a chapter adapts an internal incident into a scenario
+- **THEN** the scenario keeps only the elements its point needs, carries no name or detail that identifies a vendor, a person or an internal system, keeps its numbers internally consistent, and neither the chapter nor the back matter says that it happened or who took part.
+
+### Requirement: Objective register
+
+Chinese prose SHALL narrate in the third person and an even tone, stating facts and reasoning from them. It SHALL NOT narrate in the first person, stress who did or wrote something, or assert that an example really happened. Hands-on instructions MAY address the reader.
+
+#### Scenario: A passage carries a detail
+
+- **WHEN** a detail does not serve the point of its passage
+- **THEN** the passage leaves it out, even when the detail is true.
 
 ### Requirement: Meaning-led Chinese editorial review
 
@@ -123,17 +132,22 @@ Chinese prose SHALL state what a thing is and does. A scope limit SHALL appear o
 
 #### Scenario: A case has a limited scope
 
-- **WHEN** a retained case supports only what was checked on its date
-- **THEN** the back matter records that limit with the case's date and source role, and the chapter does not repeat it after each paragraph that uses the case.
+- **WHEN** a demonstration or worked result holds only under stated conditions
+- **THEN** those conditions appear once, where the result is used or in the back matter, and the chapter does not repeat them after each paragraph that uses the result.
 
 ### Requirement: Plain prose that leads the reader
 
-Chinese prose SHALL reach its point through a concrete situation and plain words. It SHALL describe what the team does and why rather than instruct the reader, and SHALL NOT use coined labels, maxims or enumerations whose only purpose is to sound systematic.
+Chinese prose SHALL reach its point through a concrete situation and standard written Chinese: every word in its dictionary sense, idiomatic collocations, and punctuation by GB/T 15834. It SHALL describe what the team does and why rather than instruct the reader, and SHALL NOT use coined labels, maxims or enumerations whose only purpose is to sound systematic.
+
+#### Scenario: An idiom says it more exactly
+
+- **WHEN** an established idiom, set phrase or allusion says a thing more exactly or more briefly than plain words
+- **THEN** the prose uses it in its dictionary sense, and never as decoration or as a slogan.
 
 #### Scenario: A chapter introduces a principle
 
 - **WHEN** a chapter states a principle or method
-- **THEN** a case from real work precedes it, the statement appears once in everyday language with its reason, and the chapter's lead line poses the question the chapter answers.
+- **THEN** a scenario precedes it, the statement appears once in everyday language with its reason, and the chapter's lead line poses the question the chapter answers.
 
 ### Requirement: Reproducible source verification
 
@@ -160,10 +174,24 @@ SHALL remain distinct claims.
 - **WHEN** the private peer has no authorized Runner for the locked platform
 - **THEN** its job remains visibly pending, is not represented as passed, and does not prevent independent public-peer verification.
 
+### Requirement: Versioned release
+
+A version SHALL be released as a signed `v` tag on `main` that matches `VERSION`,
+published to both peers through native ETHOS publication. Each peer SHALL carry
+a release for that tag whose assets are the qualified PDF, the practice archive
+and a SHA-256 list of both. A release SHALL NOT by itself establish editorial
+acceptance.
+
+#### Scenario: A qualified edition is released
+
+- **WHEN** the owner approves a qualified edition for release
+- **THEN** the changelog's entries move under that version and date, the signed tag reaches both peers, both peers' tag pipelines build the artifacts independently, and each peer's release carries the delivered PDF and practice archive whose downloaded bytes match the SHA-256 list.
+
 ### Requirement: Independent publication build
 
-The public publication job SHALL build the candidate PDF and a `.tgz` practice
-archive from the exact event commit and complete declared publication inputs.
+Each publication peer SHALL build, in a macOS job of its own, the candidate PDF
+and a `.tgz` practice archive from the exact event commit and complete declared
+publication inputs, and keep both as job artifacts for 14 days.
 It SHALL preserve project locks and exclude credentials, business data and
 standalone restricted fonts from its outputs. A hosted success SHALL NOT
 establish reader delivery or editorial approval.

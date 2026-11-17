@@ -25,9 +25,9 @@ tag or evidence of editorial acceptance.
 | Maintain and qualify an edition       | [Contributor guides](docs/README.md)                                            |
 | Understand active change commitments  | [Official OpenSpec Change](openspec/changes/publication-foundation/proposal.md) |
 
-The companion-exercise index and the statement of sources and limits belong in
-[book/back-matter.typ](book/back-matter.typ). Cases are rewritten from real work;
-the names of people, vendors and projects are withheld. Machine-specific receipts and private state do not belong in tracked
+The companion-exercise index and the statement of run conditions and limits belong in
+[book/back-matter.typ](book/back-matter.typ). Examples are scenarios set in a
+quantitative data team's business context; they name no person, vendor or project. Machine-specific receipts and private state do not belong in tracked
 publication inputs.
 
 ## Source and output boundaries

@@ -1,13 +1,13 @@
 schema: spec-driven
 
 context: |
-  The product is a Chinese book in the voice of a data department's leader at
-  a quantitative hedge fund. It teaches a team how to think, act and
+  The product is a Chinese book set in the business context of a quantitative
+  investment firm's data team, written in an objective third-person register. It teaches a team how to think, act and
   collaborate when producing a result has become cheaper than understanding
-  it. Data work supplies its worked cases. It is not a tool catalogue, a
+  it. Data work supplies its worked scenarios. It is not a tool catalogue, a
   workstation inventory or a data-craft manual. Book sources own reader
-  meaning; contributor guidance is English. The repository is public: cases
-  are rewritten and disclose no internal name, vendor, system or figure. No
+  meaning; contributor guidance is English. The repository is public: examples
+  are scenarios and disclose no internal name, vendor, system or figure. No
   remote publication, public license or operational authority is implied.
 
 rules:

@@ -113,8 +113,8 @@ class PublicationInputs(unittest.TestCase):
         ns = {"pdf": "http://www.w3.org/1999/xhtml"}
         pages = document.findall(".//pdf:page", ns)
         pairs = (
-            ("一份更换数据源的评估报告", "另一份是服务商交来的系统巡检报告"),
-            ("自己的盲处自己看不见；归他管的智能体", "过去一个人闷头做一个月"),
+            ("量化投资机构的数据团队，日常工作是", "以一份数据源替换评估为例"),
+            ("一个人的盲点，自己看不见；归他管的智能体", "过去一个人闷头做一个月"),
         )
         for first, second in pairs:
             with self.subTest(paragraph=second):
@@ -168,7 +168,7 @@ class PublicationInputs(unittest.TestCase):
         sections = [
             item["text"] for item in headings if item["level"] == 2 and item["page"] >= back
         ]
-        for title in ("案例", "思路的来源"):
+        for title in ("会话的条件", "结论靠什么撑着"):
             with self.subTest(title=title):
                 self.assertIn(title, sections)
 

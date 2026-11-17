@@ -86,7 +86,7 @@ A role is objective: the work itself determines which judgments must be owned. I
 
 The manuscript takes positions of its own and says where it differs from received formulations. Ranking system above process above management orders where a remedy should end; discovery runs the other way, and premature systems fix misunderstanding in place. A team of capable individuals with Agents drifts toward soloists, so a team's reason to exist shifts from sharing labour to mutual correction, shared standards and accumulation. Bounding a conclusion is for making it usable; piling on qualifications abdicates the judgment. A chapter states the conditions a method needs where those conditions carry substance; it does not append modest disclaimers. The ideas and practices in the book are the author's own, accumulated from leading the team and doing the work; the department's guidelines, charter and role design were written by the author or formed on the author's thinking, and the back matter says so plainly. The back matter carries no list of doubts.
 
-The narrator is the department leader and writes as "we". Each chapter opens with a situation from real work, explains the principle, shows it in a case, states what the team does because of it, and names the limit. The owner's own works inform the thinking but are weighed, not restated. Team repositories, reports and meeting notes are raw material and evidence of the present state; a present practice is measured against the intended end state, including the team's own mistakes. Chinese terms follow the wording approved for the Guidelines' film, including 智能体 for Agent.
+The prose is objective and third-person, set in a quantitative data team's business context. Each chapter opens with a scenario, explains the principle, shows it in a case, states what the team does because of it, and names the limit. The owner's own works inform the thinking but are weighed, not restated. Team repositories, reports and meeting notes are raw material and evidence of the present state; a present practice is measured against the intended end state, including the team's own mistakes. Chinese terms follow the wording approved for the Guidelines' film, including 智能体 for Agent.
 
 The owner's fourth correction on 2026-11-14 was about voice: keep the effect, drop the sermon. The structure stayed; the prose changed. A chapter's lead line is the plain question or situation it answers, not its conclusion. The text describes what the team does and why, in the first person, instead of issuing commands; a point is stated once in everyday words after the case has made it visible; coined labels, counted frameworks used for show, maxims and closing one-liners are removed. Part names are plain (道理、方法、练习、工具、改变), and the traditional four-layer wording appears once, in chapter 03. Method cards in the practice chapters stay terse because they are reference material.
 
@@ -114,7 +114,9 @@ The thirteenth draft follows three reviews of a different kind: the first whole-
 
 The owner then authorized a bounded number of real model sessions, and the fourteenth draft replaces three disclosures with results. Seventeen headless sessions were run under a spending cap, each in a scratch directory without the author's rules, settings, hooks, plugins or servers. Chapter 17 gains the control group that it had only disclosed as missing: the one-sentence brief three times without a rule file and three times with a one-line rule to ask first. Without the rule every run opened with a verdict, chose conventions itself and asked at the end; with it every run withheld the verdict and asked first; all six reported the one fault that depends on no convention. The chapter states the size of this evidence (three runs each, one model, one task) and does not compare it with the earlier sub-agent sessions. The five-item brief was run once on the strongest and once on the lightest model of one family: the values agree, the reported cost differs by a factor of about thirty, and the lighter run left a query that had never been executed and a sentence nothing had checked; the text says that a denied first command shaped that run, so the difference is not the model alone. Chapter 12 gains two hands-on items, a hook and a skill, each printed as it was run; a test ties the hook settings and the skill to the practice-pack files and runs the printed hook script on the fixed and the old export. The script is created by the reader from the chapter and is not a tracked file: the repository's locked toolchain has no analyzer for shell sources. A first round of six runs was void because an aliased `ls` printed nothing and returned success; no session doubted the empty listing, and the chapter keeps that as a warning to the reader. Chapters 9, 11, 15 and 21 now point at these results instead of at their absence; the run conditions are in appendix D and the unchanged answers are in the practice pack.
 
-The repository is public. The book names no internal organization scheme, seat count, person, vendor, internal system or performance figure. Cases are restated from real work with names withheld; counts and dates follow the original record, and the back matter says so.
+On 2026-11-17 the owner ruled on voice once more: narrate in the third person, even-toned, stating facts and reasoning from them; state the business context instead of the narrator's position; give examples as scenarios without saying that they happened; and do not stress who did or wrote anything. First-person narration had rested points on testimony and carried incidental detail weakly related to them. The manuscript is rewritten in that register. The preface opens on one scenario whose stake is a decision (the same report gives two answers to whether a source can be replaced); appendix D drops the case-provenance and idea-source sections and keeps the sessions' run conditions and the table of premises.
+
+The repository is public. The book names no internal organization scheme, seat count, person, vendor, internal system or performance figure. Examples are scenarios adapted from the team's kind of work; they carry no identifying detail and do not claim to have happened.
 
 Six figures carry relationships the prose cannot show as well: the chain from problem to feedback, the three collaboration distances, the work loop, what one request to the model contains, recall checked against current state, and the snapshot reconciliation used by the first practice exercise. The manuscript-specific publication tests bind the chapter navigation, the layer openings, the exercise cases named by the practice chapters and the back-matter sections.
 
@@ -189,9 +191,17 @@ and Mermaid. Native download, checksum, archive and Just commands
 provision complete official publisher packages and Noto fonts in job-local
 state; Typst's supported paths bound discovery. The Runner's Apple fonts stay
 within licensed macOS, and its existing Chrome exercises the unchanged
-Puppeteer configuration with the sandbox enabled. GitLab has no publication
-job; its verification job builds the PDF inside the proof and uploads only the
-proof's report.
+Puppeteer configuration with the sandbox enabled. GitLab runs the same build
+in a repository job on the owner's local macOS runners, after the supply task
+has given the runner account its fonts, packages and headless shell. Both jobs
+end in the `ci-artifacts` recipe and keep the PDF and `.tgz` for 14 days. The
+private peer once had no such job only because its earlier Linux runner could
+not use the licensed Apple fonts; that reason ended when it moved to macOS.
+A version is released after landing: a signed `v` tag on `main` is published
+to both peers, and each peer's release carries the qualified PDF, the practice
+archive and their SHA-256 list. The owner approved `v0.1.0` on 2026-11-17 on the
+ground that the PDF and the practice archive are the product; a release records
+a version, not editorial acceptance.
 
 The existing Just owner builds the candidate and packages the selected tracked
 teaching inputs as `.tgz`. A separate Chinese entrypoint serves readers without

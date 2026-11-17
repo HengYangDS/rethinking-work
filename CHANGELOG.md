@@ -7,14 +7,19 @@ versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 identity remains in [book/metadata.typ](book/metadata.typ).
 
 Entries under Unreleased describe work awaiting a source release; they do not
-claim editorial acceptance or public publication.
+claim editorial acceptance or public publication. A released version's PDF and
+practice archive are attached to its release on both peers; a release does not
+by itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-17
+
 ### Changed
 
-- **Breaking:** rebuilt the manuscript as a department leader's account of work
-  and team collaboration in the agentic era, in twenty-nine chapters with four
+- **Breaking:** rebuilt the manuscript as an account of work and team
+  collaboration in the agentic era, set in a quantitative data team's business
+  context, in twenty-nine chapters with four
   practice modules, an epilogue and an afterword. The definition of work yields
   four unavoidable conditions and three working criteria; responsibility stays
   with people, so understanding stays with people. The same question, how
@@ -24,15 +29,46 @@ claim editorial acceptance or public publication.
   (model, harness, context, tools, boundaries, memory); several Agents and
   evaluation close the handing-over part, after delegation has been taught.
   Chapters on the Agent end with a hands-on section, most run in a
-  scratch repository the reader builds in the first-session chapter. Cases are
-  restated from the original records, with names withheld. The figure set is
+  scratch repository the reader builds in the first-session chapter. Examples are
+  scenarios in that context. The figure set is
   six diagrams; the book gains a one-page quick reference; the companion pack
   carries two session briefs with the returned query and the conditions those
   sessions ran under, the unchanged answers of a control group and of one run
   each on a stronger and a lighter model, the hook and skill files of the tools
   chapter, two model-free evaluation files and two Chinese templates in the
-  book's own terms, and its self-check has seventeen tests. The rebuilt edition has no editorial or page qualification
-  yet; the 114-page edition of 2026-11-13 remains the delivered one.
+  book's own terms, and its self-check has seventeen tests.
+- Qualified the rebuilt edition of 2026-11-17 for delivery. Details that could
+  identify a vendor, a colleague, an internal system or a schedule were
+  rewritten or dropped, and the practice figures of the second part's fourth
+  exercise were replaced by an invented set; an independent panel read the whole book for argument and teaching, for Chinese
+  prose and for disclosure, and its accepted findings were applied and checked
+  against the records. A readability round then read every sentence in parts of
+  about thirty pages; terms are explained at first use and keep one meaning, and
+  hands-on steps say where to run, what to do and what to expect. The edition
+  acceptance guide now requires this cold read after the last content edit.
+  The whole book was then rewritten for standard written Chinese in the
+  author's register: non-standard words and calques replaced, oral fillers and
+  colon-and-semicolon chains reduced, and fitting idioms used where they say a
+  thing more exactly; verifiers checked every change for meaning, usage and
+  idiom fit, and disagreements between checkers were settled by the checkers
+  themselves. The whole book was then rewritten in an objective third-person
+  register: the business context is stated once, examples are scenarios that do
+  not claim to have happened, nothing stresses who did or wrote what, and
+  details weakly related to a point were cut. The preface opens on one scenario
+  whose stake is a decision; appendix D keeps the run conditions of the
+  demonstrated sessions and the table of premises. Fresh readers read every
+  sentence again in parts, and readers of a different model family read the
+  first three parts, the fifth and sixth, and the whole book once for
+  continuity. A section heading now starts the next page unless about
+  six body lines fit under it. The edition's complete text, code, tables,
+  figures, outline, links and metadata were checked against the native
+  document, every page was reviewed, and the PDF and practice archive were
+  delivered to the reader targets and read back.
+- Build the PDF and the practice archive on both peers. The private peer's
+  local macOS runners now run the same `ci-artifacts` recipe as the hosted job
+  and keep both files as job artifacts for 14 days. The private peer had lacked
+  this job only because its earlier Linux runner could not use the licensed
+  Apple fonts. Each released version carries both files on both peers.
 - Configure the third-party release age as `0h` in the repository Mise settings,
   keeping the value explicit and adjustable without changing global policy.
 - Run private-peer source verification on the owner's local macOS arm64

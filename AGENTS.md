@@ -25,4 +25,5 @@ portable source.
 Use the declared tasks, not a new installer or publication controller. Preserve
 the pinned publisher package without vendor edits. Compilation, semantic checks,
 every-page visual self-review, human acceptance and publication are distinct.
-Carry case dates and unresolved limitations through any prose revision.
+Carry unresolved limitations through any prose revision. Examples are scenarios
+in the stated business context; prose does not claim that they happened.
