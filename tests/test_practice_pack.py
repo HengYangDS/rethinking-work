@@ -1,5 +1,6 @@
 """Read back the native practice archive and run its extracted exercises."""
 
+import re
 import shutil
 import subprocess
 import tarfile
@@ -78,7 +79,12 @@ class PracticePack(unittest.TestCase):
                 timeout=120,
             )
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn("Ran 17 tests", result.stderr)
+            declared = (extracted / PACK_ROOT / "tests/test_exercises.py").read_text(
+                encoding="utf-8"
+            )
+            count = len(re.findall(r"^    def test_", declared, re.MULTILINE))
+            self.assertGreater(count, 0)
+            self.assertIn(f"Ran {count} tests", result.stderr)
             self.assertIn("OK", result.stderr)
             self.assertFalse((root / "build/runtime/work/practice-pack").exists())
 

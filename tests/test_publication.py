@@ -6,6 +6,7 @@ import subprocess
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -108,46 +109,90 @@ class PublicationInputs(unittest.TestCase):
             self.assertIn(str(int(part)), cover)
 
     def test_body_paragraphs_use_aligned_starts_and_visible_spacing(self):
-        result = read_pdf("pdftotext", "-bbox-layout", str(self.pdf), "-")
-        document = ET.fromstring(result.stdout)
+        # Every body paragraph, located natively, starts flush with the text block; lines within a
+        # paragraph step 16 pt and adjacent paragraphs 32 pt. Chapter openings and the cover carry
+        # their own apparatus and are left to the page review.
+        place = (
+            "(page:it.location().page(), x:it.location().position().x.pt(),"
+            " y:it.location().position().y.pt())"
+        )
+        paragraphs = evaluate(f"query(par).map(it => {place})")
+        breaks = evaluate(
+            "(query(heading) + query(figure) + query(raw.where(block: true))"
+            f" + query(table)).map(it => {place})"
+        )
+        openings = {
+            item["page"] for item in evaluate(f"query(heading.where(level: 1)).map(it => {place})")
+        }
+        front = min(openings)
+        margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
+        document = ET.fromstring(read_pdf("pdftotext", "-bbox-layout", str(self.pdf), "-").stdout)
         ns = {"pdf": "http://www.w3.org/1999/xhtml"}
         pages = document.findall(".//pdf:page", ns)
-        pairs = (
-            ("量化投资机构的数据团队，日常工作是", "以一份数据源替换评估为例"),
-            ("一个人的盲点，自己看不见；归他管的智能体", "过去一个人闷头做一个月"),
-        )
-        for first, second in pairs:
-            with self.subTest(paragraph=second):
-                positions = {}
-                for page_number, page in enumerate(pages):
-                    lines = page.findall(".//pdf:line", ns)
-                    for index, line in enumerate(lines):
-                        text = "".join(word.text or "" for word in line.findall("pdf:word", ns))
-                        for prefix in (first, second):
-                            if text.startswith(prefix):
-                                positions[prefix] = (page_number, index, lines)
-                self.assertEqual(set(positions), {first, second})
-                first_page, first_index, first_lines = positions[first]
-                page, index, lines = positions[second]
-                self.assertAlmostEqual(
-                    float(first_lines[first_index].get("xMin")),
-                    float(lines[index].get("xMin")),
-                    delta=0.5,
+
+        def ideograph(text):
+            return bool(text) and "\u4e00" <= text[0] <= "\u9fff"
+
+        def top(line):
+            for word in line.findall("pdf:word", ns):
+                if ideograph(word.text or ""):
+                    return float(word.get("yMin"))
+            return None
+
+        def flush(line):
+            return abs(float(line.get("xMin")) - margin) < 0.6
+
+        starts = defaultdict(list)
+        for item in paragraphs + breaks:
+            starts[item["page"]].append(item["y"])
+        indented, line_steps, paragraph_steps = [], [], []
+        for index, paragraph in enumerate(paragraphs):
+            page = paragraph["page"]
+            if page in openings or page < front or abs(paragraph["x"] - margin) > 0.01:
+                continue
+            lines = pages[page - 1].findall(".//pdf:line", ns)
+            candidates = [
+                (abs(top(line) - paragraph["y"]), position)
+                for position, line in enumerate(lines)
+                if top(line) is not None
+            ]
+            if not candidates or min(candidates)[0] > 8:
+                continue
+            position = min(candidates)[1]
+            first = lines[position]
+            if not flush(first):
+                indented.append(page)
+            bound = min((y for y in starts[page] if y > paragraph["y"] + 1), default=float("inf"))
+            if position + 1 < len(lines):
+                following = lines[position + 1]
+                words = following.findall("pdf:word", ns)
+                if (
+                    words
+                    and ideograph(words[0].text or "")
+                    and flush(following)
+                    and top(following) < bound - 4
+                ):
+                    line_steps.append(top(following) - top(first))
+            previous = paragraphs[index - 1] if index else None
+            if (
+                previous
+                and previous["page"] == page
+                and abs(previous["x"] - margin) < 0.01
+                and not any(
+                    item["page"] == page and previous["y"] < item["y"] < paragraph["y"]
+                    for item in breaks
                 )
-                if page == first_page:
-
-                    def cjk_top(line):
-                        word = next(
-                            word
-                            for word in line.findall("pdf:word", ns)
-                            if any("\u4e00" <= char <= "\u9fff" for char in word.text or "")
-                        )
-                        return float(word.get("yMin"))
-
-                    paragraph_step = cjk_top(lines[index]) - cjk_top(lines[index - 1])
-                    line_step = cjk_top(lines[index + 1]) - cjk_top(lines[index])
-                    self.assertAlmostEqual(line_step, 16, delta=0.5)
-                    self.assertAlmostEqual(paragraph_step, 32, delta=0.5)
+                and position
+                and top(lines[position - 1]) is not None
+            ):
+                paragraph_steps.append(top(first) - top(lines[position - 1]))
+        self.assertEqual(indented, [])
+        self.assertGreater(len(line_steps), 100)
+        self.assertGreater(len(paragraph_steps), 100)
+        for step in line_steps:
+            self.assertAlmostEqual(step, 16, delta=0.5)
+        for step in paragraph_steps:
+            self.assertAlmostEqual(step, 32, delta=0.5)
 
     def test_declared_diagrams_resolve(self):
         sources = {path.stem for path in (ROOT / "diagrams").glob("*.mmd")}
@@ -160,17 +205,15 @@ class PublicationInputs(unittest.TestCase):
             self.assertTrue((ROOT / item["source"].lstrip("/")).is_file())
 
     def test_sources_and_limits_are_stated_once_in_the_back_matter(self):
-        headings = evaluate(
-            "query(heading).map(it => (level:it.level, page:it.location().page(),"
-            ' text:if it.body.has("text") { it.body.text } else { "" }))'
-        )
         back = evaluate("query(<case-records>).first().location().page()")
-        sections = [
-            item["text"] for item in headings if item["level"] == 2 and item["page"] >= back
-        ]
-        for title in ("会话的条件", "结论靠什么撑着"):
-            with self.subTest(title=title):
-                self.assertIn(title, sections)
+        for label in ("run-conditions", "premises"):
+            with self.subTest(label=label):
+                found = evaluate(
+                    f"query(<{label}>).map(it => (level:it.level, page:it.location().page()))"
+                )
+                self.assertEqual(len(found), 1)
+                self.assertEqual(found[0]["level"], 2)
+                self.assertGreaterEqual(found[0]["page"], back)
 
     def test_portable_publication_inputs(self):
         roots = [ROOT / n for n in ("book", "publication", "diagrams", "exercises")]

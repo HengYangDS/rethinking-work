@@ -64,6 +64,11 @@ by itself claim editorial acceptance.
   figures, outline, links and metadata were checked against the native
   document, every page was reviewed, and the PDF and practice archive were
   delivered to the reader targets and read back.
+- Check the edition's layout over every body paragraph: the publication test now
+  joins Typst's own paragraph positions with the PDF's lines and requires flush
+  starts, 16 pt line steps and 32 pt paragraph steps, instead of locating two
+  manuscript sentences. Appendix D's sections are found by label, and the
+  practice-pack test counts the pack's own tests.
 - Build the PDF and the practice archive on both peers. The private peer's
   local macOS runners now run the same `ci-artifacts` recipe as the hosted job
   and keep both files as job artifacts for 14 days. The private peer had lacked
