@@ -144,8 +144,7 @@ Hosted acceptance on 2026-11-17 verified both GitLab branch jobs on the local
 runners at commit `c885a3b8c31c4db253234af3df8528ce76775a23`. Each ran
 `verify:macos:protected` on runner `ci-p1444-macos-arm64-shell-protected` and
 passed the same source checks without changing the locks. The first job installed the
-eight tools; the second found them installed. The review runner has not yet
-run a hosted job.
+eight tools; the second found them installed.
 
 | Branch | Pipeline | Job   | Duration | Result  |
 | ------ | -------- | ----- | -------- | ------- |
@@ -157,8 +156,13 @@ commit `3e693f686b97b7ee2f62ccd8a0523fd8aad29cdc` on both peers. Each
 verification job passed all twelve gates of the full proof. On GitLab the two
 jobs ran on runner `ci-p1444-macos-arm64-shell-protected`, with all twelve tools
 and the headless shell already supplied, in 165 s and 153 s. On GitHub the
-publication job also built and uploaded the PDF and the practice archive. The
-review runner has not yet run a hosted job.
+publication job also built and uploaded the PDF and the practice archive.
+
+The review runner `ci-p1444-macos-arm64-shell-review` ran its first hosted job
+on 2026-11-17 for a `proposal/` push of the same commit: pipeline 16147, job
+72430, passed all twelve gates in 182 s. A merge request whose source adds no
+commit gets no merge-request pipeline from GitLab, so that trigger is exercised
+by a merge request that carries a commit.
 
 | Peer   | Branch | Run or pipeline | Jobs                                          | Result  |
 | ------ | ------ | --------------- | --------------------------------------------- | ------- |
