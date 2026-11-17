@@ -10,7 +10,7 @@ relations:
 
 A candidate becomes a delivered edition only after its meaning, rendered pages
 and target bytes have been checked. The observable requirements belong to the
-[official publication-source specification](../openspec/changes/publication-foundation/specs/publication-source/spec.md).
+[official publication-source specification](../openspec/specs/publication-source/spec.md).
 This guide explains their execution; it is not another acceptance or progress
 register.
 

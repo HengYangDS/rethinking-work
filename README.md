@@ -15,15 +15,15 @@ tag or evidence of editorial acceptance.
 
 ## Read and edit
 
-| Reader task                           | Source owner                                                                    |
-| ------------------------------------- | ------------------------------------------------------------------------------- |
-| Follow the argument and reading order | [Book](book/README.md)                                                          |
-| Change one subject or teaching case   | [Manuscript parts](book/parts/README.md)                                        |
-| Change page design or build settings  | [Publication](publication/README.md)                                            |
-| Explain a relationship visually       | [Editable diagrams](diagrams/README.md)                                         |
-| Practice with public synthetic inputs | [Companion exercises](exercises/README.md)                                      |
-| Maintain and qualify an edition       | [Contributor guides](docs/README.md)                                            |
-| Understand active change commitments  | [Official OpenSpec Change](openspec/changes/publication-foundation/proposal.md) |
+| Reader task                           | Source owner                                                        |
+| ------------------------------------- | ------------------------------------------------------------------- |
+| Follow the argument and reading order | [Book](book/README.md)                                              |
+| Change one subject or teaching case   | [Manuscript parts](book/parts/README.md)                            |
+| Change page design or build settings  | [Publication](publication/README.md)                                |
+| Explain a relationship visually       | [Editable diagrams](diagrams/README.md)                             |
+| Practice with public synthetic inputs | [Companion exercises](exercises/README.md)                          |
+| Maintain and qualify an edition       | [Contributor guides](docs/README.md)                                |
+| Understand the accepted requirements  | [OpenSpec specification](openspec/specs/publication-source/spec.md) |
 
 The companion-exercise index and the statement of run conditions and limits belong in
 [book/back-matter.typ](book/back-matter.typ). Examples are scenarios set in a

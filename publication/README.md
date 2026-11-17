@@ -282,7 +282,7 @@ and the DuckDB official link passed. The owned PDF window and external browser
 tab closed; the remaining Open panel was dismissed, and Preview reported no
 available windows. Original foreground restoration remains unproved because its
 identity was not captured, as recorded in task 2.4 of the
-[active Change](../openspec/changes/publication-foundation/tasks.md). Human
+[archived Change](../openspec/changes/archive/2026-11-17-publication-foundation/tasks.md). Human
 editorial acceptance and measured teaching effectiveness also remain unproved
 in task 2.1. Earlier tool and companion-reference journeys retain their original
 edition bindings. Reuse each result only for its bound edition and demonstrated
@@ -334,7 +334,7 @@ paths. This adoption does not qualify an independent-machine bootstrap. Generate
 Aube YAML remains byte-exact and outside the prose formatter's inputs. Poppler's
 separate Homebrew Bundle binding is
 described above; it is not an exact-version lock. See the
-[active Change](../openspec/changes/publication-foundation/tasks.md) for those
+[archived Change](../openspec/changes/archive/2026-11-17-publication-foundation/tasks.md) for those
 acceptance boundaries rather than treating a configuration file as runtime proof.
 Frozen edition manifests retain the exact state they qualified; later contributor
 documentation changes are not backdated into those manifests.
