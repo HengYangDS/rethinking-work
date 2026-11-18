@@ -119,7 +119,7 @@ class PublicationInputs(unittest.TestCase):
         paragraphs = evaluate(f"query(par).map(it => {place})")
         breaks = evaluate(
             "(query(heading) + query(figure) + query(raw.where(block: true))"
-            f" + query(table)).map(it => {place})"
+            f" + query(table) + query(<closing-block>)).map(it => {place})"
         )
         openings = {
             item["page"] for item in evaluate(f"query(heading.where(level: 1)).map(it => {place})")
@@ -227,8 +227,8 @@ class PublicationInputs(unittest.TestCase):
 
     def test_contents_lists_every_chapter_in_reading_order(self):
         chapters = evaluate("query(<chapter-navigation>).map(it => it.value.chapter)")
-        expected = [f"{n:02d}" for n in range(1, 30)]
-        for after, mark in (("08", "练一"), ("14", "练二"), ("21", "练三"), ("28", "练四")):
+        expected = [f"{n:02d}" for n in range(1, 31)]
+        for after, mark in (("08", "练一"), ("14", "练二"), ("21", "练三"), ("29", "练四")):
             expected.insert(expected.index(after) + 1, mark)
         self.assertEqual(chapters, expected + ["终", "记", "A", "B", "C", "D"])
         # The contents may run over several pages; it ends where chapter 01 opens.
@@ -255,7 +255,8 @@ class PublicationInputs(unittest.TestCase):
             "agent": "09",
             "delegate": "15",
             "team": "22",
-            "growth": "29",
+            "shared": "27",
+            "growth": "30",
             "closing": "终",
         }
         pages = {item["chapter"]: item["page"] for item in marks}

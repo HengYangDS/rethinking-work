@@ -1,8 +1,10 @@
 set working-directory := ".."
 
-# The headless shell that the locked Mermaid CLI expects, where `ci-supply` installed it in
-# Puppeteer's own cache layout. A CI runner's launch context can stop Google Chrome at start.
-headless_shell := home_directory() / ".cache/puppeteer/chrome-headless-shell/mac_arm-156.0.8078.47/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+# The headless shell that the locked Mermaid CLI expects, declared once here; `ci-supply` installs
+# this build in Puppeteer's own cache layout and checks it against the supply manifest.
+# A CI runner's launch context can stop Google Chrome at start.
+headless_shell_version := "156.0.8078.47"
+headless_shell := home_directory() / ".cache/puppeteer/chrome-headless-shell/mac_arm-" + headless_shell_version + "/chrome-headless-shell-mac-arm64/chrome-headless-shell"
 
 # Mermaid drives this browser in every recipe, whatever shell or tool started `just`: the headless
 # shell where installed, otherwise Google Chrome. A caller may name another one.
@@ -32,6 +34,7 @@ pdf-tools-check: (pdf-tool "pdfinfo" "-v") (pdf-tool "pdftotext" "-v")
 
 # Render one editable figure through the installed Mermaid CLI.
 diagram name format="png":
+    @test -x "$PUPPETEER_EXECUTABLE_PATH" || { echo "No browser for Mermaid at $PUPPETEER_EXECUTABLE_PATH: run ci-supply for the headless shell {{headless_shell_version}}, or set PUPPETEER_EXECUTABLE_PATH." >&2; exit 1; }
     mkdir -p build/artifacts/diagrams
     mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.{{format}} --configFile publication/mermaid.json --scale 2 --backgroundColor white --puppeteerConfigFile publication/puppeteer.json
 
@@ -150,10 +153,10 @@ ci-supply:
         echo "Typst packages: installed"
     fi
     shell="{{headless_shell}}"
-    if [ -x "$shell" ] && [ "$("$shell" --version)" = "Google Chrome for Testing 156.0.8078.47" ]; then
+    if [ -x "$shell" ] && [ "$("$shell" --version)" = "Google Chrome for Testing {{headless_shell_version}}" ]; then
         echo "Headless shell: present"
     else
-        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output build/runtime/ci/downloads/chrome-headless-shell-mac-arm64.zip https://storage.googleapis.com/chrome-for-testing-public/156.0.8078.47/mac-arm64/chrome-headless-shell-mac-arm64.zip
+        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output build/runtime/ci/downloads/chrome-headless-shell-mac-arm64.zip https://storage.googleapis.com/chrome-for-testing-public/{{headless_shell_version}}/mac-arm64/chrome-headless-shell-mac-arm64.zip
         shasum --algorithm 256 --check publication/supply/ci-chrome-headless-shell.sha256
         target="${shell%/chrome-headless-shell-mac-arm64/chrome-headless-shell}"
         rm -rf "$target"

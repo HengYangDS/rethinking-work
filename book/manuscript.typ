@@ -28,6 +28,7 @@
 #include "parts/writing.typ"
 #include "parts/review.typ"
 #include "parts/standing.typ"
+#include "parts/shared.typ"
 #include "parts/improve.typ"
 #include "parts/leading.typ"
 #include "parts/practice-collaborating.typ"

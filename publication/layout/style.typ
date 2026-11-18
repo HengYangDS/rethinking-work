@@ -11,6 +11,8 @@
 #let space = 4pt
 #let publication-design(body) = {
   set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
+  // Chinese inside commands and outputs takes the sans face, not the serif body face.
+  show raw: set text(font: ("DejaVu Sans Mono", "Noto Sans CJK SC"))
   set heading(numbering: none)
   show heading.where(level: 1): it => {
     block(above: 6 * space, below: 3 * space, sticky: true)[
@@ -56,7 +58,9 @@
 }
 // Keep a chapter's closing lines with the paragraph before them, so that one
 // or two lines are not stranded on a page of their own.
-#let closing(body) = block(breakable: false, body)
+// The label lets layout checks find a chapter's closing block, whose lone paragraph Typst does not
+// report as a `par`.
+#let closing(body) = [#block(breakable: false, body) <closing-block>]
 #let note(title, body) = block(width: 100%, breakable: false, fill: tint,
   stroke: (left: 1.5pt + rust), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
   #set par(first-line-indent: 0pt, justify: false, leading: 5.5pt, spacing: 13.5pt)

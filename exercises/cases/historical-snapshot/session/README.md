@@ -56,8 +56,10 @@ No file in the case directory was modified by either session.
 ## Control group without the standing rules
 
 On 2026-11-16 the one-sentence brief was run six more times as one group, to
-see what the "ask first" rule changes. `control/` holds the six final answers,
-unchanged.
+see what the "ask first" rule changes, and on 2026-11-18 six times again under
+the same conditions. `control/` holds the twelve final answers, unchanged:
+`no-rule-1..3.txt` and `rule-1..3.txt` from the first round, `no-rule-4..6.txt`
+and `rule-4..6.txt` from the second.
 
 Conditions:
 
@@ -75,7 +77,7 @@ Conditions:
   `对象、口径有歧义，先列出来问，不要自己定。` The other three held no
   instruction file.
 
-What the answers show:
+What the first round's answers show:
 
 | | `no-rule-1..3.txt` | `rule-1..3.txt` |
 | --- | --- | --- |
@@ -84,7 +86,14 @@ What the answers show:
 | Question to the user | At the end: the cutoff in all three, the clock in two | Before any verdict: at the opening in one, after a data summary in one, after a list of confirmed facts in one |
 | Missing S06 | Reported in all three | Reported in all three |
 
-Limits: three runs each, one model, one task. This group is not comparable
+The second round repeated the pattern. Without the rule, all three gave a
+verdict at the opening and asked for the cutoff at the end; one also asked
+which clock to use. With it, none gave a verdict, and all three listed the
+cutoff, the clock and the empty row as questions: one at the opening, one after
+a list of confirmed facts, one after a data summary. Two of these three named
+`AGENTS.md` as the reason. All six reported the missing S06.
+
+Limits: six runs each over two rounds, one model, one task. This group is not comparable
 with the sessions above, which ran as sub-agents on another model under the
 author's full instruction files.
 
@@ -96,26 +105,29 @@ listing shows three files before reading any answer.
 
 ## The five-item brief on two models
 
-`brief-precise.txt` was also run once on a stronger and once on a lighter
-model of the same family (Claude Opus 5.5 and Claude Haiku 5.5), under the
-conditions above with its own allow-list, which adds `Write`, and no
-instruction file. `control/model-strong.txt` and `control/model-light.txt` are
-the final answers; in the second, the absolute path of the scratch directory
-is shortened to the file name, and nothing else is changed.
+On 2026-11-18 `brief-precise.txt` was run once on a stronger and once on a
+lighter model of the same family (Claude Opus 5.5 and Claude Haiku 5.5), under
+the conditions above, with no instruction file and one allow-list for both:
+`Read`, `Glob`, `Grep`, `Edit(query.sql)` and the shell prefixes `cat`, `ls`,
+`head`, `wc`, `duckdb` and `python3`. `control/model-strong.txt` and
+`control/model-light.txt` are the final answers, unchanged.
 `control/model-light-query.sql` is the lighter model's saved query.
 
 | | Strong | Light |
 | --- | --- | --- |
 | S01, S02, S03 | 0, -100, 60 | 0, -100, 60 |
-| Query | Saved and run by the session | Saved, never run; as saved it fails because it reads the three CSV files as existing tables; it also compares the times as text |
-| Report | Says the query was run and that one edit was denied | Says nothing was executed and the values were worked out by reading; adds that no SQL engine was available, which no step had checked |
-| Turns, wall time | 8, 66 s | 6, 137 s |
-| Cost reported by the host | 0.31 USD | under 0.01 USD |
+| Query | Saved, not run by the session; run as saved, it gives the same three values | Saved, not run by the session; as saved it fails (`Table with name universe does not exist`), because it reads the three CSV files as existing tables |
+| Report | Says the query was not run and the table was checked by hand; asks for the query to be run first | Says the query was not run and the values were worked out by reading; asks for the query to be run |
+| Turns, wall time | 6, 45 s | 7, 48 s |
+| Cost reported by the host | 0.16 USD | 0.0085 USD |
 
-The lighter session's first shell command contained a loop and was denied;
-it did not try another command. Every shell command of the stronger
-session was allowed, so part of the difference is that denial, not the model.
-One run each. The cost is the host's estimate at list prices, not a bill.
+The first shell command of both sessions contained a loop, which matches no
+prefix on the list and was refused; neither tried another command, and both
+computed by reading. Both met the same refusal, so the comparison is mainly
+between the models. An earlier run of the pair, on 2026-11-16, is not
+included: there only the lighter session's first command was refused, so part
+of the difference came from that denial. One run each. The cost is the host's
+estimate at list prices, not a bill.
 
 To run the lighter model's query, load the files under the names it assumed:
 
