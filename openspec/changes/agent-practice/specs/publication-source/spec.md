@@ -4,7 +4,7 @@
 
 ### Requirement: An account of work in the agentic era
 
-The manuscript SHALL present an account of work and team collaboration in the agentic era, set in the business context of a quantitative data team, that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with a worked scenario from data work. Each layer of an agentic system SHALL be taught through a named tool the team uses for it, with commands a reader can run and the output they should see.
+The manuscript SHALL present an account of work and team collaboration in the agentic era, set in the business context of a quantitative data team, that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with a worked scenario from data work. Each agent layer SHALL be taught through a named tool the team uses for it, with runnable commands and their expected output.
 
 #### Scenario: Reader works through a principle
 
