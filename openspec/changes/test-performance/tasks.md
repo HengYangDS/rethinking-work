@@ -27,4 +27,4 @@ Scope: the publication tests, the publication task file, the proof profile's tes
 
 ## 6. Qualification
 
-- [ ] 6.1 `just --justfile publication/justfile check` passes in the lane, and the full proof passes on the lane head; the ledger gives before and after per test for both gates (`per-test.md`: on the 0.2.1 base `publication-inputs` 117.2 → 17.0 and 15.4 s, `source-behavior` 134.9 → 16.4 and 16.8 s, 37 tests pass).
+- [x] 6.1 `just --justfile publication/justfile check` passes in the lane, and the full proof passes on the lane head; the ledger gives before and after per test for both gates (`per-test.md`: on the 0.2.1 base `publication-inputs` 117.2 → 17.0 and 15.4 s, `source-behavior` 134.9 → 16.4 and 16.8 s, 37 tests pass). Done 2026-11-19 18:46: the full proof of `df9378c` passes all 12 gates in about 71 s, among them `formatting` and `publication-inputs`, which run `check`'s two steps (`proof/`).
