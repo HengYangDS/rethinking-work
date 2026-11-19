@@ -14,6 +14,15 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Changed
+
+- The publication checks read every document fact from one layout of the book
+  instead of one layout per fact, and each view of the PDF once; the six
+  figures render at the same time. On the author's workstation the
+  `publication-inputs` gate went from 117 s to about 16 s and `source-behavior`
+  from 135 s to about 17 s. Each document check now fails when it spends half of
+  that layout's CPU time, and both test gates' timeouts come down to 180 s.
+
 ## [0.2.1] - 2026-11-19
 
 ### Changed

@@ -6,12 +6,18 @@ repository root. That task renders all declared figures before checking the
 document, including in a checkout containing only source. It requires the
 publication's headless browser; see [supply](../publication/README.md#supply-and-reproduction).
 
+The checks read every document fact from one evaluation of the book, run beside
+the one compile of the PDF, and each view of the PDF once. That evaluation is
+one layout of the book, and each check must spend less than half of its CPU
+time: a check that lays out the book again fails the run. A fact that fails to
+evaluate fails every check, with Typst's message pointing at it.
+
 The checks compare visible attribution, PDF Info and XMP to contextual edition
 metadata, including title, subject, author, keywords, language and date.
 They require native manuscript content,
 resolve the complete declared diagram set with alternative descriptions, and
 reject private host paths in portable inputs. Navigation checks require the
-contents to list all twenty-nine chapters and four practice modules, the epilogue, the afterword and four appendices in
+contents to list all thirty chapters and four practice modules, the epilogue, the afterword and four appendices in
 reading order, each layer's opening chapter to carry its number, the practice
 chapters to name exercise cases that exist, the hook settings and skill printed in the
 tools chapter to equal the exercise files, the printed hook script to pass on

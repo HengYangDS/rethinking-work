@@ -2,14 +2,73 @@
 
 import json
 import os
+import resource
 import subprocess
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+PLACE = (
+    "(page:it.location().page(), x:it.location().position().x.pt(),"
+    " y:it.location().position().y.pt())"
+)
+# Each layer's label and the chapter that opens it.
+LAYERS = {
+    "work": "01",
+    "question": "04",
+    "agent": "09",
+    "delegate": "15",
+    "team": "22",
+    "shared": "27",
+    "growth": "30",
+    "closing": "终",
+}
+BACK_MATTER_SECTIONS = ("run-conditions", "premises")
+
+# Every document fact the checks read, by name. One `typst eval` reads them all from one layout
+# of the book, beside the one compile of the PDF, instead of laying out the book once per fact.
+FACTS = {
+    "identity": "query(<edition-identity>).first().value",
+    **{f"count {kind}": f"query({kind}).len()" for kind in ("heading", "raw", "table", "figure")},
+    "paragraphs": f"query(par).map(it => {PLACE})",
+    "breaks": "(query(heading) + query(figure) + query(raw.where(block: true))"
+    f" + query(table) + query(<closing-block>)).map(it => {PLACE})",
+    "openings": f"query(heading.where(level: 1)).map(it => {PLACE})",
+    "figures": "query(figure).map(it => it.body)",
+    "case records page": "query(<case-records>).first().location().page()",
+    **{
+        f"section {label}": f"query(<{label}>).map(it => (level:it.level,"
+        " page:it.location().page()))"
+        for label in BACK_MATTER_SECTIONS
+    },
+    "link targets": "query(link).map(it => it.dest)",
+    "chapters": "query(<chapter-navigation>).map(it => it.value.chapter)",
+    "contents page": "query(<contents>).first().location().page()",
+    "internal links": "query(link).filter(it => type(it.dest) == location)"
+    ".map(it => (page:it.location().page(), target:it.dest.page()))",
+    "chapter marks": "query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
+    " page:it.location().page()))",
+    **{f"layer {label}": f"query(<{label}>).first().location().page()" for label in LAYERS},
+    "raws": "query(raw).map(it => (text:it.text, page:it.location().page()))",
+    "practice page": "query(<practice-thinking>).first().location().page()",
+    "openers": "query(heading.where(level: 1, outlined: true)).map(it => it.location().page())",
+    "contents returns": "query(link).filter(it => it.dest == <contents>)"
+    ".map(it => it.location().page())",
+}
+
+
+# Every read of the built PDF the checks use, by name, with the PDF's place marked.
+PDF_READS = {
+    "metadata": ("pdfinfo", "-meta", "{pdf}"),
+    "info": ("pdfinfo", "-isodates", "{pdf}"),
+    "cover": ("pdftotext", "-f", "1", "-l", "1", "{pdf}", "-"),
+    "layout": ("pdftotext", "-bbox-layout", "{pdf}", "-"),
+}
 
 
 def read_pdf(*arguments):
@@ -32,9 +91,20 @@ def evaluate(expression):
         capture_output=True,
         text=True,
         timeout=60,
-        check=True,
+        check=False,
     )
+    if result.returncode:
+        raise AssertionError(f"typst eval failed:\n{result.stderr}")
     return json.loads(result.stdout)
+
+
+def cpu_seconds():
+    """CPU time of this process and its finished children; it changes little with host load."""
+    own, children = (
+        resource.getrusage(resource.RUSAGE_SELF),
+        resource.getrusage(resource.RUSAGE_CHILDREN),
+    )
+    return own.ru_utime + own.ru_stime + children.ru_utime + children.ru_stime
 
 
 class PublicationInputs(unittest.TestCase):
@@ -45,37 +115,71 @@ class PublicationInputs(unittest.TestCase):
         cls.scratch = tempfile.TemporaryDirectory(prefix="publication-tests-", dir=workspace)
         cls.addClassCleanup(cls.scratch.cleanup)
         cls.pdf = Path(cls.scratch.name) / "edition.pdf"
-        subprocess.run(
-            [
-                "typst",
-                "compile",
-                "--root",
-                str(ROOT),
-                "book/main.typ",
-                str(cls.pdf),
-            ],
+        # The compile and the evaluation are independent; they run side by side. A fact that fails
+        # to evaluate fails every check here, with Typst's message, which points at that fact.
+        with subprocess.Popen(
+            ["typst", "compile", "--root", str(ROOT), "book/main.typ", str(cls.pdf)],
             cwd=ROOT,
             stdin=subprocess.DEVNULL,
-            capture_output=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
             text=True,
-            timeout=60,
-            check=True,
+        ) as compiling:
+            try:
+                document = "(" + ", ".join(f"{json.dumps(n)}: {e}" for n, e in FACTS.items()) + ")"
+                started = cpu_seconds()
+                cls.facts = evaluate(document)
+                # The CPU time of one layout of the book, which the compile running beside it
+                # does not enter: it is reaped only below.
+                cls.layout = cpu_seconds() - started
+            finally:
+                try:
+                    errors = compiling.communicate(timeout=60)[1]
+                except subprocess.TimeoutExpired:
+                    compiling.kill()
+                    raise
+        if compiling.returncode:
+            raise AssertionError(f"typst compile failed:\n{errors}")
+        # The PDF reads are independent of each other and run at once. A read that fails raises in
+        # the checks that use it, not here.
+        with ThreadPoolExecutor(max_workers=len(PDF_READS)) as reading:
+            cls.reads = {
+                name: reading.submit(read_pdf, *(a.format(pdf=cls.pdf) for a in arguments))
+                for name, arguments in PDF_READS.items()
+            }
+
+    def setUp(self):
+        self.started = cpu_seconds()
+
+    def tearDown(self):
+        # A check that laid out the book again would spend nearly one layout's CPU time; the checks
+        # themselves spend a small fraction of it. Half a layout separates the two on any host.
+        spent = cpu_seconds() - self.started
+        self.assertLess(
+            spent,
+            self.layout / 2,
+            f"spent {spent:.1f} s of CPU; one layout of the book spent {self.layout:.1f} s",
         )
 
+    def fact(self, name):
+        return self.facts[name]
+
+    def read(self, name):
+        return self.reads[name].result().stdout
+
     def test_identity_and_native_content(self):
-        metadata = evaluate("query(<edition-identity>).first().value")
+        metadata = self.fact("identity")
         self.assertEqual(metadata["author"], ["衡阳"])
         self.assertEqual(metadata["title"]["text"], "重新理解工作")
         self.assertRegex(metadata["date"], r"^\d{4}-\d{2}-\d{2}$")
         self.assertTrue(metadata["description"])
         self.assertGreaterEqual(len(metadata["keywords"]), 4)
         for selector in ("heading", "raw", "table", "figure"):
-            self.assertGreater(evaluate(f"query({selector}).len()"), 0)
+            self.assertGreater(self.fact(f"count {selector}"), 0)
 
     def test_built_pdf_identity_matches_visible_attribution(self):
-        identity = evaluate("query(<edition-identity>).first().value")
-        result = read_pdf("pdfinfo", "-meta", str(self.pdf))
-        xmp = ET.fromstring(result.stdout)
+        identity = self.fact("identity")
+        xmp = ET.fromstring(self.read("metadata"))
         namespaces = {
             "dc": "http://purl.org/dc/elements/1.1/",
             "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -94,7 +198,7 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(keywords.text, ", ".join(identity["keywords"]))
         for value in (created, modified):
             self.assertEqual(value.text, identity["date"] + "T00:00:00Z")
-        info = read_pdf("pdfinfo", "-isodates", str(self.pdf)).stdout
+        info = self.read("info")
         fields = dict(line.split(":", 1) for line in info.splitlines() if ":" in line)
         self.assertEqual(fields["Title"].strip(), title.text)
         self.assertEqual(fields["Author"].strip(), author.text)
@@ -102,7 +206,7 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(fields["Keywords"].strip(), keywords.text)
         self.assertEqual(fields["CreationDate"].strip(), created.text)
         self.assertEqual(fields["ModDate"].strip(), modified.text)
-        cover = read_pdf("pdftotext", "-f", "1", "-l", "1", str(self.pdf), "-").stdout
+        cover = self.read("cover")
         self.assertIn(identity["title"]["text"], cover)
         self.assertIn(identity["author"][0], cover)
         for part in identity["date"].split("-"):
@@ -115,21 +219,12 @@ class PublicationInputs(unittest.TestCase):
         # Every body paragraph, located natively, starts flush with the text block; lines within a
         # paragraph step 16 pt and adjacent paragraphs 32 pt. Chapter openings and the cover carry
         # their own apparatus and are left to the page review.
-        place = (
-            "(page:it.location().page(), x:it.location().position().x.pt(),"
-            " y:it.location().position().y.pt())"
-        )
-        paragraphs = evaluate(f"query(par).map(it => {place})")
-        breaks = evaluate(
-            "(query(heading) + query(figure) + query(raw.where(block: true))"
-            f" + query(table) + query(<closing-block>)).map(it => {place})"
-        )
-        openings = {
-            item["page"] for item in evaluate(f"query(heading.where(level: 1)).map(it => {place})")
-        }
+        paragraphs = self.fact("paragraphs")
+        breaks = self.fact("breaks")
+        openings = {item["page"] for item in self.fact("openings")}
         front = min(openings)
         margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
-        document = ET.fromstring(read_pdf("pdftotext", "-bbox-layout", str(self.pdf), "-").stdout)
+        document = ET.fromstring(self.read("layout"))
         ns = {"pdf": "http://www.w3.org/1999/xhtml"}
         pages = document.findall(".//pdf:page", ns)
 
@@ -199,7 +294,7 @@ class PublicationInputs(unittest.TestCase):
 
     def test_declared_diagrams_resolve(self):
         sources = {path.stem for path in (ROOT / "diagrams").glob("*.mmd")}
-        figures = evaluate("query(figure).map(it => it.body)")
+        figures = self.fact("figures")
         rendered = [Path(item["source"]).stem for item in figures]
         self.assertEqual(len(rendered), len(set(rendered)))
         self.assertEqual(set(rendered), sources)
@@ -208,12 +303,10 @@ class PublicationInputs(unittest.TestCase):
             self.assertTrue((ROOT / item["source"].lstrip("/")).is_file())
 
     def test_sources_and_limits_are_stated_once_in_the_back_matter(self):
-        back = evaluate("query(<case-records>).first().location().page()")
-        for label in ("run-conditions", "premises"):
+        back = self.fact("case records page")
+        for label in BACK_MATTER_SECTIONS:
             with self.subTest(label=label):
-                found = evaluate(
-                    f"query(<{label}>).map(it => (level:it.level, page:it.location().page()))"
-                )
+                found = self.fact(f"section {label}")
                 self.assertEqual(len(found), 1)
                 self.assertEqual(found[0]["level"], 2)
                 self.assertGreaterEqual(found[0]["page"], back)
@@ -225,54 +318,35 @@ class PublicationInputs(unittest.TestCase):
                 if path.is_file():
                     text = path.read_text()
                     self.assertNotRegex(text, r"/Users/[^/]+/|/private/tmp/", str(path))
-        links = evaluate("query(link).map(it => it.dest)")
-        self.assertIn("https://typst.app/docs/", links)
+        self.assertIn("https://typst.app/docs/", self.fact("link targets"))
 
     def test_contents_lists_every_chapter_in_reading_order(self):
-        chapters = evaluate("query(<chapter-navigation>).map(it => it.value.chapter)")
+        chapters = self.fact("chapters")
         expected = [f"{n:02d}" for n in range(1, 31)]
         for after, mark in (("08", "练一"), ("14", "练二"), ("21", "练三"), ("29", "练四")):
             expected.insert(expected.index(after) + 1, mark)
         self.assertEqual(chapters, expected + ["终", "记", "A", "B", "C", "D"])
         # The contents may run over several pages; it ends where chapter 01 opens.
-        contents_page = evaluate("query(<contents>).first().location().page()")
-        first_chapter = evaluate("query(<work>).first().location().page()")
-        entries = evaluate(
-            "query(link).filter(it => type(it.dest) == location)"
-            ".map(it => (page:it.location().page(), target:it.dest.page()))"
-        )
+        contents_page = self.fact("contents page")
+        first_chapter = self.fact("layer work")
         targets = [
-            item["target"] for item in entries if contents_page <= item["page"] < first_chapter
+            item["target"]
+            for item in self.fact("internal links")
+            if contents_page <= item["page"] < first_chapter
         ]
         self.assertEqual(len(targets), len(chapters) + 1)
         self.assertEqual(targets, sorted(targets))
 
     def test_each_layer_has_its_chapters(self):
-        marks = evaluate(
-            "query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
-            " page:it.location().page()))"
-        )
-        labels = {
-            "work": "01",
-            "question": "04",
-            "agent": "09",
-            "delegate": "15",
-            "team": "22",
-            "shared": "27",
-            "growth": "30",
-            "closing": "终",
-        }
-        pages = {item["chapter"]: item["page"] for item in marks}
-        for label, chapter in labels.items():
+        pages = {item["chapter"]: item["page"] for item in self.fact("chapter marks")}
+        for label, chapter in LAYERS.items():
             with self.subTest(label=label):
-                page = evaluate(f"query(<{label}>).first().location().page()")
-                self.assertEqual(page, pages[chapter])
+                self.assertEqual(self.fact(f"layer {label}"), pages[chapter])
 
     def test_practice_chapters_name_their_exercise_cases(self):
-        raws = evaluate("query(raw).map(it => (text:it.text, page:it.location().page()))")
-        start = evaluate("query(<practice-thinking>).first().location().page()")
-        end = evaluate("query(<closing>).first().location().page()")
-        named = " ".join(item["text"] for item in raws if start <= item["page"] < end)
+        start = self.fact("practice page")
+        end = self.fact("layer closing")
+        named = " ".join(item["text"] for item in self.fact("raws") if start <= item["page"] < end)
         for case in (
             "cases/historical-snapshot/",
             "cases/keyed-reconciliation/",
@@ -314,13 +388,9 @@ class PublicationInputs(unittest.TestCase):
                 self.assertEqual(bool(result.stderr), bool(expected))
 
     def test_each_chapter_opener_can_return_to_contents(self):
-        openers = evaluate(
-            "query(heading.where(level: 1, outlined: true)).map(it => it.location().page())"
-        )
+        openers = self.fact("openers")
         self.assertTrue(openers)
-        returns = evaluate(
-            "query(link).filter(it => it.dest == <contents>).map(it => it.location().page())"
-        )
+        returns = self.fact("contents returns")
         for page in openers:
             with self.subTest(page=page):
                 self.assertIn(page, returns)

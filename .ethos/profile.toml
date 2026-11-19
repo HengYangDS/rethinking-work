@@ -22,7 +22,12 @@ evidence_class = "proof"
 trust_bearing = true
 writes_files = true
 network_policy = "offline"
-timeout_seconds = 300
+# A hang guard, not an acceptance limit: the gate took 16-17 s locally (2026-11-19, after the
+# test-performance Change). Hosted macOS runners have taken up to twice the local time for the
+# whole proof, and once more than twice for the publication-inputs gate (over 300 s against 142 s
+# at 4b76625); the GitLab guest runners take less than the local time. The document checks bound
+# their own time; see tests/README.md.
+timeout_seconds = 180
 
 [[proof.gates.native_outputs]]
 path = "tests.xml"
@@ -57,9 +62,12 @@ dimensions = ["publication-inputs"]
 evidence_class = "proof"
 trust_bearing = true
 writes_files = true
-# A hang guard, not an acceptance limit: the suite takes about 145 s locally and exceeded 300 s
-# once on a hosted macOS runner (2026-11-19). The test-performance lane brings it back down.
-timeout_seconds = 600
+# A hang guard, not an acceptance limit: the gate took 15-17 s locally (2026-11-19, after the
+# test-performance Change). Hosted macOS runners have taken up to twice the local time for the
+# whole proof, and once more than twice for the publication-inputs gate (over 300 s against 142 s
+# at 4b76625); the GitLab guest runners take less than the local time. The document checks bound
+# their own time; see tests/README.md.
+timeout_seconds = 180
 network_policy = "offline"
 
 [[proof.gates]]
