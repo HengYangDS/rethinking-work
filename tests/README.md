@@ -25,8 +25,10 @@ reading order, each layer's opening chapter to carry its number, the practice
 chapters to name exercise cases that exist, the hook settings and skill printed in the
 tools chapter to equal the exercise files, the printed hook script to pass on
 the fixed export and fail on the old one, and the back matter to state the
-book's sources and limits. They use Python's standard library and require no
-new test environment or model service.
+book's sources and limits. A layout check requires that the page before a table
+or a sample box is short by no more than a whole block allows, leaving out the
+pages that the manuscript ends on purpose. They use Python's standard library
+and require no new test environment or model service.
 
 This is not a full editorial or visual acceptance suite. Migration comparison,
 PDF text and metadata checks, every-page inspection and reader review have

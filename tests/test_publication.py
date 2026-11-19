@@ -39,6 +39,8 @@ FACTS = {
     "breaks": "(query(heading) + query(figure) + query(raw.where(block: true))"
     f" + query(table) + query(<closing-block>)).map(it => {PLACE})",
     "openings": f"query(heading.where(level: 1)).map(it => {PLACE})",
+    "blocks": f"(query(table) + query(<sample-box>)).map(it => {PLACE})",
+    "page turns": "query(<page-turn>).map(it => it.location().page())",
     "figures": "query(figure).map(it => it.body)",
     "case records page": "query(<case-records>).first().location().page()",
     **{
@@ -291,6 +293,40 @@ class PublicationInputs(unittest.TestCase):
             self.assertAlmostEqual(step, 16, delta=0.5)
         for step in paragraph_steps:
             self.assertAlmostEqual(step, 32, delta=0.5)
+
+    def test_no_page_is_left_short_before_a_table_or_a_sample_box(self):
+        # A table or a sample box of at most six body lines moves to the next page whole, and a
+        # taller one continues there. So the page before one that opens a page is short by no more
+        # than a whole block (six lines of 16 pt) and one paragraph step (32 pt). A page the
+        # manuscript ends on purpose is left out, and a chapter never opens with such a block.
+        allowed = 6 * 16 + 32
+        turns = set(self.fact("page turns"))
+        top = min(item["y"] for item in self.fact("breaks"))
+        opened = {item["page"] for item in self.fact("blocks") if item["y"] - top < 1}
+        document = ET.fromstring(self.read("layout"))
+        ns = {"pdf": "http://www.w3.org/1999/xhtml"}
+        ends = {
+            number: sorted(float(line.get("yMax")) for line in page.findall(".//pdf:line", ns))
+            for number, page in enumerate(document.findall(".//pdf:page", ns), 1)
+        }
+        # The page number is the lowest line of nearly every page, at one height; the body of a
+        # page ends with its lowest line above that.
+        number_line = Counter(round(lines[-1]) for lines in ends.values() if lines).most_common(1)
+        footer = number_line[0][0] - 4
+        feet = {
+            number: max(end for end in lines if end < footer)
+            for number, lines in ends.items()
+            if any(end < footer for end in lines)
+        }
+        bottom = max(feet.values())
+        short = {
+            page - 1: round(bottom - feet[page - 1])
+            for page in opened
+            if page - 1 in feet and page - 1 not in turns and bottom - feet[page - 1] > allowed
+        }
+        self.assertTrue(opened)
+        self.assertTrue(turns)
+        self.assertEqual(short, {}, "pages left short before a table or a sample box, in pt")
 
     def test_declared_diagrams_resolve(self):
         sources = {path.stem for path in (ROOT / "diagrams").glob("*.mmd")}

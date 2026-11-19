@@ -25,6 +25,15 @@ itself claim editorial acceptance.
   runs the reader's exercise command outside the locked environment, as a reader
   runs it. pytest takes the same test files as `just test`, which still runs the
   tests locally without the locked environment.
+- The layout leaves fewer page feet empty. A section heading needs room for
+  three body lines under it instead of six. A table or a sample box taller
+  than six body lines continues on the next page instead of moving there whole,
+  a table under a repeated header with each row whole; a code block of more than
+  six lines may continue as well. The same text takes 187 pages instead of 190,
+  and the pages short by six or more lines fall from 29 to 6. The wording does
+  not change; page numbers do. The three pages that an exercise ends on purpose
+  say so through `page-turn()`, and a check fails when the page before a table
+  or a sample box is left emptier than a whole block allows.
 
 ## [0.2.2] - 2026-11-19
 
