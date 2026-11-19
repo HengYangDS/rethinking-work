@@ -97,6 +97,10 @@ Tools that write configuration run with an isolated `HOME` and a local bare repo
 
 The diagram task currently names one browser build's path in three places. It should take the browser from the declared supply in one place and refuse clearly when it is missing.
 
+### Supply moves follow this Change
+
+The supply moves relayed on 2026-11-18 (ast-grep 0.51.3, oasdiff 1.39.0, uv 0.13.9, hosted Mise 2026.11.9) are not part of this Change. Under the owner's 72-hour release age (relayed on 2026-11-18 at 17:55; the tracked Mise `minimum_release_age` becomes "72h" as configuration, never a number held in a test or script; uv's `exclude-newer = "72 hours"` only with a same-commit relock once every locked artifact is 72 hours old) the earliest of them is admissible on 2026-11-19 and the last on 2026-11-20. They go in their own lane with its own Change and proof, after this Change lands; appendix C's oasdiff version follows what that lane admits.
+
 ## Risks / Trade-offs
 
 - Tool versions move within weeks; the tool map's versions bound every printed output, and a reprint reruns the experiment.

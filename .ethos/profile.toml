@@ -57,7 +57,9 @@ dimensions = ["publication-inputs"]
 evidence_class = "proof"
 trust_bearing = true
 writes_files = true
-timeout_seconds = 300
+# A hang guard, not an acceptance limit: the suite takes about 145 s locally and exceeded 300 s
+# once on a hosted macOS runner (2026-11-19). The test-performance lane brings it back down.
+timeout_seconds = 600
 network_policy = "offline"
 
 [[proof.gates]]

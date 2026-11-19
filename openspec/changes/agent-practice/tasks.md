@@ -32,8 +32,7 @@ Scope: the manuscript, its companion pack, appendices, publication tests and tas
 ## 4. Publication
 
 - [x] 4.1 Take the diagram browser from one declared place and drop the stale change path from the supply manifest; the build and the CI projection check pass.
-- [ ] 4.2 The supply moves relayed on 2026-11-18 (ast-grep 0.51.3, oasdiff 1.39.0, uv 0.13.9, hosted Mise 2026.11.9) are out of this Change: they go in their own small lane with its own proof, after this Change lands. Under the owner's 72-hour release age, relayed on 2026-11-18 17:55 (the tracked Mise `minimum_release_age` moves from "0h" to "72h" as configuration, never a number held in a test or script; uv's `exclude-newer = "72 hours"` only with a same-commit relock once every locked artifact is 72 hours old), the earliest of them is admissible on 2026-11-19 (ast-grep, published 2026-11-16) and the last on 2026-11-20 (oasdiff, published 2026-11-17 21:20 UTC), so they can no longer precede this Change's proof. Appendix C's oasdiff version follows what that lane admits.
-- [x] 4.3 Align the publication tests with the new structure by labels and positions, not prose; `just --justfile publication/justfile check` passes. Done 2026-11-18: the layout test also counts a chapter's closing block as a break (label `closing-block`); `check` passed at 23:43 (37 tests, `build/evidence/agent-practice/check/check-20261118-2307.log`).
+- [x] 4.2 Align the publication tests with the new structure by labels and positions, not prose; `just --justfile publication/justfile check` passes. Done 2026-11-18: the layout test also counts a chapter's closing block as a break (label `closing-block`); `check` passed at 23:43 (37 tests, `build/evidence/agent-practice/check/check-20261118-2307.log`).
 
 ## 5. Qualification
 

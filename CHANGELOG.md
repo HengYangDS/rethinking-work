@@ -13,6 +13,50 @@ by itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-19
+
+### Changed
+
+- **Breaking:** part five gains chapter 27 「共用的环境」, on a team's shared
+  skills, rules and instruction files: one team repository is the authority,
+  copies on each host are derived and checked, taught through TeamAI. Chapters
+  27 to 29 become 28 to 30.
+- Each Agent layer is now taught through the tool the team uses for it, with a
+  hands-on section whose commands and outputs come from recorded runs: model
+  and host (AIGW, Ollama, Claude Code, Codex), context (instruction-file
+  discovery, semble, code-review-graph), tools (MCP with mcporter, skills with
+  skills-manager and skill-scanner, hooks, RTK), boundaries (permission modes,
+  path-scoped allow rules, the Codex sandbox, a `PreToolUse` hook, the
+  Bitwarden CLI), memory (Hindsight), unattended runs and diagnosis (Hermes
+  scheduled jobs, a port conflict), and several Agents (sub-agents, Git
+  worktrees and Orca, Hermes kanban, Multica, Paperclip).
+- Statements about how an Agent behaves rest on headless runs of 2026-11-16
+  and 2026-11-18. Where a run did not reproduce a statement, the passage now
+  describes a risk to check rather than a regular behaviour; where a run
+  contradicted it, the statement was corrected. Appendix D states every run's
+  conditions and counts once.
+- Chapter 17's rule experiment rests on two rounds of six runs each, and the
+  strong and light models were rerun under the same refusals.
+- Appendix A lists install lines and the commands each chapter needs, appendix
+  B the commands the chapters teach, appendix C every tool with its version.
+- Readers of two model families read the changed chapters sentence by
+  sentence, then the revised passages again; disagreements between readers
+  were settled by the readers. The hands-on material was then compressed from
+  208 to 190 pages without dropping an argument, a run's conclusion or a
+  command a reader needs, and every compressed file was checked against its
+  previous version and the run records.
+- The diagram browser build is declared once, and the diagram task refuses
+  clearly when no browser is available. Chinese inside commands and outputs
+  uses the sans face. The layout test counts a chapter's closing block as a
+  break between paragraphs.
+- The publication-inputs gate's time limit is 600 s, a guard against a hung
+  run; the suite exceeded 300 s once on a hosted macOS runner.
+
+### Added
+
+- The companion pack holds the second round of control answers and the strong
+  and light models' answers of the rerun, with the light model's saved query.
+
 ## [0.1.0] - 2026-11-17
 
 ### Changed
