@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-19
+
 ### Changed
 
 - **Breaking:** the edition archive is now a gzipped tar,
@@ -28,6 +30,19 @@ itself claim editorial acceptance.
   `publication-inputs` gate went from 117 s to about 16 s and `source-behavior`
   from 135 s to about 17 s. Each document check now fails when it spends half of
   that layout's CPU time, and both test gates' timeouts come down to 180 s.
+- The repository declares a 24-hour release age for its supply: Mise's
+  `minimum_release_age` (it was "0h") and uv's `exclude-newer`, whose span the
+  lock records. ast-grep moves to 0.51.3, oasdiff to 1.39.0, uv to 0.13.9 and
+  the hosted Mise that the GitHub jobs bootstrap to 2026.11.9, each the newest
+  release at least 24 hours old on 2026-11-19.
+
+### Fixed
+
+- `exercises/reader-guide.zh.md` names the exercises folder as the edition
+  archive lays it out (`重新理解工作/实战练习`); the 0.2.1 archive still carried
+  the earlier folder name in that line.
+- `publication/README.md` no longer says the private peer has no publication
+  job; its `publication:macos` jobs have built the artifacts since 2026-11-17.
 
 ## [0.2.1] - 2026-11-19
 

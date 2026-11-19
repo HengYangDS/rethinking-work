@@ -12,7 +12,7 @@
 
 ## 3. Records
 
-- [ ] 3.1 State the new versions in `publication/README.md` and add the CHANGELOG entry; done when the format check passes.
+- [x] 3.1 State the new versions in `publication/README.md` and add the CHANGELOG entry; done when the format check passes.
 
 ## 4. Qualification
 
