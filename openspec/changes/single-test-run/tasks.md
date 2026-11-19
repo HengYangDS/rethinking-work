@@ -20,4 +20,4 @@ Scope: the proof profile's test gates, one new test, the archive test's environm
 ## 4. Qualification
 
 - [x] 4.1 In one host ticket, measure the two test-gate commands of `254958f` and the lane's `test-proof`, two interleaved runs each. All tests pass in every run, and the lane's run takes no longer than the base's `test-proof`, beyond run-to-run noise. Done 2026-11-19 23:58 (`measure-1/`): base `test` 21.8 and 17.9 s, base `test-proof` 18.4 and 22.1 s, lane `test-proof` 19.0 and 18.9 s; every run passes.
-- [ ] 4.2 The full proof passes on the lane head with one test gate. Its gate timeline is compared with the proof of `254958f`, whose gates finished after 71.1 s.
+- [x] 4.2 The full proof passes on the lane head with one test gate. Its gate timeline is compared with the proof of `254958f`, whose gates finished after 71.1 s. Done 2026-11-20 05:31: the proof of `b2102b3` passes all 11 gates, `source-behavior` the only test gate (113 test results, 28.9 s); the gates finished after 57.4 s (`proof/`).
