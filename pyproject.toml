@@ -8,6 +8,8 @@ dependencies = []
 [tool.uv]
 package = false
 default-groups = ["test"]
+# The repository's own release age for Python packages; the lock records the span, not a date.
+exclude-newer = "24 hours"
 
 [dependency-groups]
 test = [

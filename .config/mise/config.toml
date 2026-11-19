@@ -15,7 +15,7 @@ description = "Render every PDF page for visual review"
 run = "just --justfile publication/justfile render"
 [settings]
 locked = true
-minimum_release_age = "0h"
+minimum_release_age = "24h"
 
 [tools]
 node = "26.13.1"
@@ -25,11 +25,11 @@ just = "1.59.0"
 "npm:@mermaid-js/mermaid-cli" = "12.2.0"
 "npm:prettier" = "3.10.1"
 duckdb = "2.0.0"
-ast-grep = "0.51.2"
-"github:oasdiff/oasdiff" = "1.37.0"
+ast-grep = "0.51.3"
+"github:oasdiff/oasdiff" = "1.39.0"
 cue = "0.17.1"
 # The test environment is synchronized and run by the locked uv, never by one found on PATH.
-uv = "0.13.8"
+uv = "0.13.9"
 
 # The ETHOS release declaration as published with v0.2.0-beta.10.
 [tools."http:ethos"]

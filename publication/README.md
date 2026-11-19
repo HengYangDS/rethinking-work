@@ -75,8 +75,8 @@ then the full proof that local integration runs,
 `mise exec --locked -- ethos prove --host --execute --full`. Its report,
 `build/evidence/ci/verification.json`, is kept as the job's artifact. The tools
 come from the macOS arm64 lock: Node 26.13.1, Python 3.12.16, Just 1.59.0,
-Prettier 3.10.1, DuckDB 2.0.0, ast-grep 0.51.2, oasdiff 1.37.0, CUE 0.17.1,
-Typst 0.15.1, Mermaid CLI 12.2.0, uv 0.13.8 and the ETHOS 0.2.0-beta.10
+Prettier 3.10.1, DuckDB 2.0.0, ast-grep 0.51.3, oasdiff 1.39.0, CUE 0.17.1,
+Typst 0.15.1, Mermaid CLI 12.2.0, uv 0.13.9 and the ETHOS 0.2.0-beta.10
 console, whose declaration is the release's own file. `ci-supply` puts the
 Regular, Bold and Black faces of Noto Sans CJK SC 2.004 into the account's font
 folder and the eight Typst packages into its package cache, checked against
@@ -183,10 +183,11 @@ establish merge protection.
 
 The public macOS pipeline has a second job of the repository's own,
 `publication`, which runs the native `ci-publication` task beside the
-verification job. GitLab has no publication job. It bootstraps the checksum-bound
-official Mise 2026.11.7 and installs the locked tools, Typst 0.15.1 and Mermaid
-CLI 12.2.0 among them, into job-local Mise state; it does not alter the
-authoring host or project lockfiles.
+verification job. It bootstraps the checksum-bound official Mise 2026.11.9 and
+installs the locked tools, Typst 0.15.1 and Mermaid CLI 12.2.0 among them, into
+job-local Mise state; it does not alter the authoring host or project lockfiles.
+The private peer's `publication:macos` jobs run the native `ci-artifacts` task
+on the project's macOS runners with the Mise those runners carry.
 
 The job fetches the official Noto Sans CJK SC 2.004 archive, verifies
 [ci-noto.sha256](supply/ci-noto.sha256), and makes its Regular, Bold and Black

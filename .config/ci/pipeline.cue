@@ -11,7 +11,7 @@ import (
 // the PDF and the practice archive and keeps them as artifacts for 14 days.
 supply: {
 	tools: ["node", "python", "just", "npm:prettier", "duckdb", "ast-grep", "github:oasdiff/oasdiff", "cue", "typst", "npm:@mermaid-js/mermaid-cli"]
-	miseVersion: "2026.11.7"
+	miseVersion: "2026.11.9"
 	packages: ["algorithmic/1.0.7", "codly/2.0.0", "codly-languages/0.1.10", "elembic/1.1.1", "neat-book/0.1.0", "octique/0.1.1", "showybox/2.0.4", "theorion/0.6.0"]
 	bootstrap: [
 		"mkdir -p build/runtime/ci/bootstrap",

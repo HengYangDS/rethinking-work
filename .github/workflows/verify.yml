@@ -29,7 +29,7 @@ jobs:
       - name: Check out the fetched commit
         run: git -c core.hooksPath=/dev/null checkout --detach FETCH_HEAD
       - run: mkdir -p build/runtime/ci/bootstrap
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.7/mise-v2026.11.7-macos-arm64.tar.gz
+      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.9/mise-v2026.11.9-macos-arm64.tar.gz
       - run: shasum --algorithm 256 --check publication/supply/ci-mise-macos-arm64.sha256
       - run: tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise
       - run: build/runtime/ci/bootstrap/mise --version
@@ -106,7 +106,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b
         with:
-          version: 2026.11.7
+          version: 2026.11.9
           install: false
           cache: false
       - name: Acquire locked product supply
