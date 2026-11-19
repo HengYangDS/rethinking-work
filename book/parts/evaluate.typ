@@ -101,7 +101,7 @@ accuracy  0.667
 先安装 promptfoo 和 Inspect（见#link(<companion>)[附录 A]），把练习包的 `templates/eval/` 复制一份，进入副本：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 cp -R "$PACK/exercises/templates/eval" ~/eval-practice && cd ~/eval-practice
 ```
 

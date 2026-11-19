@@ -89,7 +89,7 @@ AI_AGENT=1 duckdb -csv -c "select 1 as a, 'x' as b" | cat
 技能多了，需要一处统一管理。skills-manager 维护一个技能库，再按需部署给各个宿主：库在 `~/.skills-manager/` 下，部署就是在宿主的技能目录，比如 `~/.claude/skills/` 里，建一个指向库中那份技能的符号链接。两处都在家目录中，对这台机器上的每个会话都生效。初次试用时，把 `HOME` 指向一个临时目录，真正的技能库和宿主都不受影响。下面把练习包里的那份技能装进库中，再部署给 Claude Code：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 T=$(mktemp -d) && mkdir "$T/.claude"
 HOME="$T" skills-manager-cli skills install \
   "$PACK/exercises/cases/export-regression/agent" | jq -c '{ok, name}'
@@ -194,7 +194,7 @@ Bash	grep -rn "export_rows" --include=*.py . ; cat -n cases/export-re
 接着安装一条钩子和一份技能。这两项在 `first-session` 的一份副本里进行，因为后面几章还要使用原来的目录，那里不应有钩子和技能。钩子的设置和技能都在练习包中，复制到副本里：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 A="$PACK/exercises/cases/export-regression/agent"
 mkdir ~/tools-practice && cp -R ~/first-session/. ~/tools-practice/ &&
   cd ~/tools-practice &&

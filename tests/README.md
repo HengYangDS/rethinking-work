@@ -14,7 +14,7 @@ reject private host paths in portable inputs. Navigation checks require the
 contents to list all twenty-nine chapters and four practice modules, the epilogue, the afterword and four appendices in
 reading order, each layer's opening chapter to carry its number, the practice
 chapters to name exercise cases that exist, the hook settings and skill printed in the
-tools chapter to equal the practice-pack files, the printed hook script to pass on
+tools chapter to equal the exercise files, the printed hook script to pass on
 the fixed export and fail on the old one, and the back matter to state the
 book's sources and limits. They use Python's standard library and require no
 new test environment or model service.

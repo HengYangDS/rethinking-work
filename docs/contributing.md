@@ -91,9 +91,10 @@ and package paths and Mermaid's browser executable, then run
 `just --justfile publication/justfile ci-publication /path/to/supply`.
 The supply directory contains `fonts/` and `packages/preview/` as described in
 [publication reproduction](../publication/README.md#hosted-publication-build).
-Run `practice-pack` alone to package the tracked synthetic inputs without
-rendering the book. Its extracted archive is checked by
-`tests/test_practice_pack.py`, including all 17 exercise contracts.
+Run `edition-archive` after `build` to package the PDF and the tracked
+synthetic inputs as one versioned zip. Its extracted archive is checked by
+`tests/test_practice_pack.py`, including the reader notes' version, every
+checksum and all 17 exercise contracts.
 
 The repository keeps Python on the 3.12 line. `VERSION` owns the version;
 the matching literal in `pyproject.toml` is checked against it. Install the

@@ -6,10 +6,10 @@
 需要准备的有：一个已经安装并登录的宿主，git，Python，jq，以及随册的练习包。宿主的安装和登录，按其官方说明进行；使用哪个账号、接入哪个模型，以所在团队当前的安排为准。本章的命令以 Claude Code 为准；用 Codex 的读者，交出任务、查看差异、运行测试的步骤相同，只是启动方式、询问的时机和会话记录有所不同，见“换一个宿主：Codex”一节。
 
 == 准备一个可以随意修改的目录
-把#link(<agent>)[上一章]那个导出函数及其测试复制到一个新目录，并提交一次。第一行等号后面的路径，请换成你解压练习包的目录：
+把#link(<agent>)[上一章]那个导出函数及其测试复制到一个新目录，并提交一次。第一行等号后面的路径，请换成压缩包解开后其中“实战练习”目录的位置：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 mkdir ~/first-session && cd ~/first-session &&
   cp "$PACK/exercises/cases/export-regression/export_bug.py" export.py &&
   cp "$PACK/exercises/cases/export-regression/test_export.py" . &&

@@ -116,10 +116,10 @@ codex sandbox -c 'sandbox_mode="workspace-write"' -- sh probe.sh
 
 两档的输出与上文“沙箱”一节所说的一致：`read-only` 下四行都是“被拒”；`workspace-write` 下前两行是“可写”，后两行是“被拒”。试验时，写在 `~/.codex/config.toml` 里的 `sandbox_mode` 对 `codex sandbox` 不起作用，所以档位用 `-c` 指定。试完用 `cd /tmp && rm -rf /tmp/sandbox-probe /tmp/probe-b` 删除留下的文件。
 
-最后看宿主怎样拒绝。新建一个目录，放进一个待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行等号后面的路径，按#link(<first>)[第十章]换成你解压练习包的目录：
+最后看宿主怎样拒绝。新建一个目录，放进一个待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行等号后面的路径，按#link(<first>)[第十章]换成“实战练习”目录的位置：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 mkdir -p ~/guard-practice/.claude/hooks ~/guard-practice/work &&
   cd ~/guard-practice && echo keep > notes.txt &&
   cp "$PACK/exercises/cases/export-regression/export_bug.py" work/export.py

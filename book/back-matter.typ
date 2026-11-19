@@ -1,9 +1,9 @@
 #import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("附录", "A", "随册练习", "练一到练四和各章的“上手”，如何在自己的机器上运行。")<companion>
-练习包随本书一同分发。解压后，先阅读其中的“先读.txt”和 `exercises/reader-guide.zh.md`。全部数据都是合成的小规模数据，不含业务数据；读取数据、运行检查都不需要账号。
+本书和随书的练习包装在同一个压缩包里。解开后得到“重新理解工作”文件夹，其中有全书的 PDF、练习包所在的“实战练习”目录和一份校验清单，三者的版本号相同。先阅读文件夹中的“先读.txt”，再阅读“实战练习”中的“先读.txt”和 `exercises/reader-guide.zh.md`。全部数据都是合成的小规模数据，不含业务数据；读取数据、运行检查都不需要账号。
 
-练习包本身不安装任何软件。要运行它自带的全部检查，机器上须已安装 Python 3.12、DuckDB、`ast-grep` 和 oasdiff；缺少其中某一项时，对应的练习仍然可以读取数据、预测结果。在解压后的目录中运行：
+练习包本身不安装任何软件。要运行它自带的全部检查，机器上须已安装 Python 3.12、DuckDB、`ast-grep` 和 oasdiff；缺少其中某一项时，对应的练习仍然可以读取数据、预测结果。在“实战练习”目录中运行：
 
 ```sh
 python3.12 -B -m unittest discover -s tests -p test_exercises.py -v

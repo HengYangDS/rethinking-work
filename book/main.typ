@@ -19,6 +19,7 @@
   author: document.author,
   description: document.description,
   date: document.date.display("[year]-[month]-[day]"),
+  version: book-version,
   keywords: document.keywords,
 ))<edition-identity>]
 #include "manuscript.typ"

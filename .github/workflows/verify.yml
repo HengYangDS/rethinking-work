@@ -84,10 +84,10 @@ jobs:
           archive: false
           if-no-files-found: error
           retention-days: 14
-      - name: Upload Practice package without re-archiving
+      - name: Upload Edition archive without re-archiving
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          path: build/artifacts/practice/rethinking-work-practice.tgz
+          path: build/artifacts/edition/rethinking-work-*.zip
           archive: false
           if-no-files-found: error
           retention-days: 14

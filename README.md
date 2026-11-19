@@ -9,9 +9,10 @@ This is a publication repository, not a workstation manager or a new publishing
 engine. The editable manuscript is Chinese; contributor guidance is English.
 The edition identity lives in [book/metadata.typ](book/metadata.typ).
 The repository version comes only from [VERSION](VERSION); its source changes
-are recorded in [CHANGELOG.md](CHANGELOG.md). Repository versions and PDF
-editorial editions have separate identities. A version file is not a release
-tag or evidence of editorial acceptance.
+are recorded in [CHANGELOG.md](CHANGELOG.md). The edition reads the version
+from `VERSION`, so the cover, the PDF's file name and both reader notes of the
+edition archive state the version that the release tag names. A version is not
+evidence of editorial acceptance.
 
 ## Read and edit
 

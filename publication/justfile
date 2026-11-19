@@ -78,19 +78,39 @@ test-proof output: diagrams pdf-tools-check
 exercises:
     python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 
-# Package only tracked teaching inputs, with a Chinese reader entrypoint.
+# One edition archive: the PDF, the tracked teaching inputs and a checksum list, in one folder whose
+# reader notes are filled from VERSION and the edition date. Entries are sorted, dated to the edition
+# and written by Python's own zip writer, which marks names as UTF-8 for every unpacker.
 [script]
-practice-pack:
+edition-archive:
     #!/usr/bin/env bash
     set -euo pipefail
-    mkdir -p build/artifacts/practice build/runtime/work
-    mkdir build/runtime/work/practice-pack
-    trap 'rm -r build/runtime/work/practice-pack' EXIT
-    mkdir build/runtime/work/practice-pack/重新理解工作-实战练习
-    git ls-files -z VERSION LICENSE exercises tests/test_exercises.py | tar --null -T - -cf - | tar -xf - -C build/runtime/work/practice-pack/重新理解工作-实战练习
-    cp publication/reader-start.zh.txt build/runtime/work/practice-pack/重新理解工作-实战练习/先读.txt
-    find build/runtime/work/practice-pack -type f -exec chmod 644 {} +
-    COPYFILE_DISABLE=1 tar -czf build/artifacts/practice/rethinking-work-practice.tgz -C build/runtime/work/practice-pack 重新理解工作-实战练习
+    export TZ=UTC
+    pdf=build/artifacts/pdf/rethinking-work.pdf
+    test -f "$pdf" || { echo "No PDF at $pdf: build it first." >&2; exit 1; }
+    version=$(tr -d '[:space:]' < VERSION)
+    identity() { typst eval --root . "import \"/book/metadata.typ\": book-date, book-date-text; $1" --format json | python3.12 -c 'import json, sys; print(json.load(sys.stdin))'; }
+    date_text=$(identity book-date-text)
+    stamp=$(identity 'book-date.display("[year][month][day]")')0000
+    commit=$(git rev-parse HEAD)
+    git diff --quiet HEAD -- VERSION LICENSE exercises tests/test_exercises.py book publication || commit="${commit}（工作区有未提交的改动）"
+    work=build/runtime/work/edition-archive
+    rm -rf "$work"; mkdir -p "$work" build/artifacts/edition
+    trap 'rm -r "$work"' EXIT
+    folder="$work/重新理解工作"
+    mkdir -p "$folder/实战练习"
+    git ls-files -z VERSION LICENSE exercises tests/test_exercises.py | tar --null -T - -cf - | tar -xf - -C "$folder/实战练习"
+    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@DATE@|$date_text|g" -e "s|@COMMIT@|$commit|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
+    fill publication/reader-start.zh.txt "$folder/实战练习/先读.txt"
+    fill publication/archive-start.zh.txt "$folder/先读.txt"
+    cp "$pdf" "$folder/重新理解工作-$version.pdf"
+    (cd "$folder" && find . -type f ! -name SHA256SUMS | sed 's|^\./||' | LC_ALL=C sort | tr '\n' '\0' | xargs -0 shasum --algorithm 256 > SHA256SUMS)
+    find "$work" -type f -exec chmod 644 {} +
+    find "$work" -type d -exec chmod 755 {} +
+    find "$work" -exec touch -t "$stamp" {} +
+    archive="build/artifacts/edition/rethinking-work-$version.zip"
+    rm -f build/artifacts/edition/rethinking-work-*.zip
+    (cd "$work" && python3.12 -I -m zipfile -c "$OLDPWD/$archive" 重新理解工作)
 
 format-check:
     prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --check .
@@ -100,10 +120,10 @@ format:
 
 check: format-check test
 
-# Build the PDF and the practice archive and print their identities, as a Forge job keeps them.
-ci-artifacts: build practice-pack
+# Build the PDF and the edition archive and print their identities, as a Forge job keeps them.
+ci-artifacts: build edition-archive
     git diff --exit-code -- .config/mise
-    shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/practice/rethinking-work-practice.tgz
+    shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/edition/rethinking-work-*.zip
 
 # The hosted macOS job first checks the supply it fetched into its own workspace.
 ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) ci-artifacts

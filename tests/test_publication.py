@@ -107,6 +107,9 @@ class PublicationInputs(unittest.TestCase):
         self.assertIn(identity["author"][0], cover)
         for part in identity["date"].split("-"):
             self.assertIn(str(int(part)), cover)
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        self.assertEqual(identity["version"], version)
+        self.assertIn(version, cover)
 
     def test_body_paragraphs_use_aligned_starts_and_visible_spacing(self):
         # Every body paragraph, located natively, starts flush with the text block; lines within a

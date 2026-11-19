@@ -41,12 +41,12 @@ Run from the repository root:
 | `render`                             | Render all pages for visual inspection                        |
 | `test`                               | Rebuild figures, then check publication and exercises         |
 | `exercises`                          | Check synthetic data, export, search and API contracts        |
-| `practice-pack`                      | Package tracked exercises and Chinese instructions as `.tgz`  |
+| `edition-archive`                    | Package the PDF and tracked exercises as one versioned `.zip` |
 | `format-check` / `format`            | Check / apply Prettier to declared authored formats           |
 | `check`                              | Run formatting, publication and exercise checks               |
 | `ci-supply`                          | Supply a CI account with fonts, packages, tests and PDF tools |
 | `typst-package-check supply`         | Check the complete official publisher package trees           |
-| `ci-publication [supply]`            | Check package inputs, build the PDF and practice archive      |
+| `ci-publication [supply]`            | Check package inputs, build the PDF and edition archive       |
 
 The invocation is `just --justfile publication/justfile <task>`.
 `diagram name` produces PNG by default; `diagram name svg` renders the same
@@ -206,12 +206,17 @@ setting and the unchanged Puppeteer configuration; the sandbox stays enabled.
 
 The task rebuilds all five diagrams and produces
 `build/artifacts/pdf/rethinking-work.pdf` and
-`build/artifacts/practice/rethinking-work-practice.tgz`, then refuses any
-project-lock drift and prints both hashes. The practice archive contains only
-tracked `VERSION`, `LICENSE`, `exercises/` and `tests/test_exercises.py`, plus
-the Chinese `先读.txt`; it excludes untracked exercise files and removes its
-exact staging directory on exit. The archive test compares every selected
-file's bytes and mode and runs all 17 exercises after safe extraction.
+`build/artifacts/edition/rethinking-work-<version>.zip`, then refuses any
+project-lock drift and prints both hashes. The edition archive holds one folder
+`重新理解工作/` with a Chinese `先读.txt`, the PDF named with its version, the
+exercises under `实战练习/` (only tracked `VERSION`, `LICENSE`, `exercises/` and
+`tests/test_exercises.py`, plus their own `先读.txt`) and a `SHA256SUMS` of every
+other file. Both reader notes are filled from `VERSION` and the edition date in
+`book/metadata.typ`; a leftover token fails the task. Entries are sorted, dated
+to the edition and written by Python's zip writer with UTF-8 names, so a rebuild
+of the same commit yields the same bytes. The archive test checks the layout,
+every checksum, both notes' version and reproducibility, and runs all 17
+exercises after extraction.
 
 Official Noto bytes and all 238 listed package files have passed local input
 verification. Hosted execution and artifact readback at `ea65454` are recorded

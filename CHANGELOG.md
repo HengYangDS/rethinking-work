@@ -7,11 +7,32 @@ versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 identity remains in [book/metadata.typ](book/metadata.typ).
 
 Entries under Unreleased describe work awaiting a source release; they do not
-claim editorial acceptance or public publication. A released version's PDF and
-practice archive are attached to its release on both peers; a release does not
-by itself claim editorial acceptance.
+claim editorial acceptance or public publication. From 0.2.1, a released
+version's edition archive (the PDF and the exercises in one folder, with their
+checksums) is attached to its release on both peers; a release does not by
+itself claim editorial acceptance.
 
 ## [Unreleased]
+
+## [0.2.1] - 2026-11-19
+
+### Changed
+
+- **Breaking:** a release now carries one edition archive,
+  `rethinking-work-<version>.zip`, and its SHA-256, instead of a separate PDF
+  and practice archive. The archive holds one folder `重新理解工作/` with a
+  reader note, `重新理解工作-<version>.pdf`, the exercises under `实战练习/` and
+  a `SHA256SUMS` of every file, so the book and its exercises stay paired after
+  download. Names are stored as UTF-8 for Windows and macOS unpackers, and a
+  rebuild of the same commit gives the same bytes.
+- The cover prints the version from `VERSION` beside the edition date, and the
+  edition identity carries it; the publication test checks both against
+  `VERSION`.
+- Both reader notes are generated from `VERSION` and the edition date; the
+  exercises' note no longer claims to pair with the 2026-11-15 manuscript.
+- Appendix A and the hands-on example path `PACK=` follow the archive layout.
+- The `practice-pack` task is replaced by `edition-archive`; both forges keep
+  the edition archive as the publication job's artifact.
 
 ## [0.2.0] - 2026-11-19
 

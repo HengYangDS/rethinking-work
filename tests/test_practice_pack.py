@@ -1,65 +1,131 @@
-"""Read back the native practice archive and run its extracted exercises."""
+"""Build the edition archive from a minimal copy, read it back and run its extracted exercises."""
 
+import hashlib
+import os
 import re
 import shutil
 import subprocess
-import tarfile
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PACK_ROOT = "重新理解工作-实战练习"
+FOLDER = "重新理解工作"
+EXERCISES = f"{FOLDER}/实战练习"
+NOTES = ("publication/reader-start.zh.txt", "publication/archive-start.zh.txt")
 
 
-class PracticePack(unittest.TestCase):
-    def test_archive_preserves_selected_source_and_runs_extracted_exercises(self):
+def run(arguments, cwd, **options):
+    return subprocess.run(
+        arguments,
+        cwd=cwd,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        text=True,
+        timeout=options.pop("timeout", 60),
+        **options,
+    )
+
+
+class EditionArchive(unittest.TestCase):
+    def test_archive_pairs_the_pdf_and_exercises_under_one_version(self):
         workspace = ROOT / "build/runtime/work"
         workspace.mkdir(parents=True, exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix="practice-tests-", dir=workspace) as tmp:
+        with tempfile.TemporaryDirectory(prefix="edition-tests-", dir=workspace) as tmp:
             root = Path(tmp)
-            selected = subprocess.run(
+            selected = run(
                 ["git", "ls-files", "VERSION", "LICENSE", "exercises", "tests/test_exercises.py"],
-                cwd=ROOT,
-                capture_output=True,
-                text=True,
+                ROOT,
                 check=True,
-                timeout=30,
             ).stdout.splitlines()
-            for relative in selected + ["publication/justfile", "publication/reader-start.zh.txt"]:
+            for relative in selected + ["publication/justfile", "book/metadata.typ", *NOTES]:
                 target = root / relative
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT / relative, target)
-            subprocess.run(["git", "init", "--quiet"], cwd=root, check=True, timeout=30)
-            subprocess.run(["git", "add", "--", *selected], cwd=root, check=True, timeout=30)
-            (root / "exercises/untracked.txt").write_text("Not a publication input\n")
-            result = subprocess.run(
-                ["just", "--justfile", "publication/justfile", "practice-pack"],
-                cwd=root,
-                stdin=subprocess.DEVNULL,
-                capture_output=True,
-                text=True,
-                timeout=60,
+            pdf = root / "build/artifacts/pdf/rethinking-work.pdf"
+            pdf.parent.mkdir(parents=True)
+            pdf.write_bytes(b"%PDF-1.7 stand-in for the built edition\n")
+            identity = {
+                "GIT_AUTHOR_NAME": "Test",
+                "GIT_AUTHOR_EMAIL": "test@example.invalid",
+                "GIT_COMMITTER_NAME": "Test",
+                "GIT_COMMITTER_EMAIL": "test@example.invalid",
+                "GIT_CONFIG_GLOBAL": "/dev/null",
+                "GIT_CONFIG_NOSYSTEM": "1",
+                "PATH": os.environ["PATH"],
+            }
+            run(["git", "init", "--quiet"], root, check=True, env=identity)
+            run(
+                ["git", "add", "--", *selected, "publication", "book"],
+                root,
+                check=True,
+                env=identity,
             )
-            self.assertEqual(result.returncode, 0, result.stderr)
-            expected = {f"{PACK_ROOT}/{name}": (root / name).read_bytes() for name in selected}
-            expected[f"{PACK_ROOT}/先读.txt"] = (
-                root / "publication/reader-start.zh.txt"
-            ).read_bytes()
-            archive = root / "build/artifacts/practice/rethinking-work-practice.tgz"
+            run(
+                ["git", "commit", "--quiet", "--no-gpg-sign", "-m", "fixture"],
+                root,
+                check=True,
+                env=identity,
+            )
+            commit = run(["git", "rev-parse", "HEAD"], root, check=True).stdout.strip()
+            (root / "exercises/untracked.txt").write_text("Not a publication input\n")
+
+            built = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
+            self.assertEqual(built.returncode, 0, built.stderr)
+            version = (root / "VERSION").read_text().strip()
+            archive = root / f"build/artifacts/edition/rethinking-work-{version}.zip"
+            first = archive.read_bytes()
+            rebuilt = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
+            self.assertEqual(rebuilt.returncode, 0, rebuilt.stderr)
+            self.assertEqual(archive.read_bytes(), first, "the archive is not reproducible")
+
             extracted = root / "extracted"
-            extracted.mkdir()
-            with tarfile.open(archive, "r:gz") as package:
-                files = {item.name: item for item in package.getmembers() if item.isfile()}
-                self.assertEqual(set(files), set(expected))
-                for item in package.getmembers():
-                    self.assertTrue(item.isfile() or item.isdir(), item.name)
-                    self.assertTrue(item.name == PACK_ROOT or item.name.startswith(PACK_ROOT + "/"))
-                for name, item in files.items():
-                    self.assertEqual(item.mode, 0o644, name)
-                    self.assertEqual(package.extractfile(item).read(), expected[name], name)
-                package.extractall(extracted, filter="data")
-            result = subprocess.run(
+            with zipfile.ZipFile(archive) as package:
+                for item in package.infolist():
+                    self.assertTrue(item.filename.startswith(FOLDER + "/"), item.filename)
+                    self.assertTrue(
+                        item.flag_bits & 0x800, f"name not marked UTF-8: {item.filename}"
+                    )
+                package.extractall(extracted)
+            folder = extracted / FOLDER
+            files = {p.relative_to(folder).as_posix() for p in folder.rglob("*") if p.is_file()}
+            expected = {f"实战练习/{name}" for name in selected}
+            expected |= {
+                "实战练习/先读.txt",
+                "先读.txt",
+                f"重新理解工作-{version}.pdf",
+                "SHA256SUMS",
+            }
+            self.assertEqual(files, expected)
+            for name in selected:
+                self.assertEqual(
+                    (folder / "实战练习" / name).read_bytes(), (root / name).read_bytes(), name
+                )
+            self.assertEqual(
+                (folder / f"重新理解工作-{version}.pdf").read_bytes(), pdf.read_bytes()
+            )
+
+            listed = {}
+            for line in (folder / "SHA256SUMS").read_text(encoding="utf-8").splitlines():
+                digest, name = line.split("  ", 1)
+                listed[name] = digest
+            self.assertEqual(set(listed), expected - {"SHA256SUMS"})
+            for name, digest in listed.items():
+                self.assertEqual(
+                    hashlib.sha256((folder / name).read_bytes()).hexdigest(), digest, name
+                )
+
+            for note in (folder / "先读.txt", folder / "实战练习/先读.txt"):
+                text = note.read_text(encoding="utf-8")
+                self.assertIn(f"{version} 版", text, note.name)
+                self.assertNotRegex(text, r"@[A-Z]+@")
+            self.assertIn(commit, (folder / "先读.txt").read_text(encoding="utf-8"))
+            self.assertIn(
+                f"重新理解工作-{version}.pdf", (folder / "先读.txt").read_text(encoding="utf-8")
+            )
+
+            result = run(
                 [
                     "python3.12",
                     "-B",
@@ -72,21 +138,16 @@ class PracticePack(unittest.TestCase):
                     "test_exercises.py",
                     "-v",
                 ],
-                cwd=extracted / PACK_ROOT,
-                stdin=subprocess.DEVNULL,
-                capture_output=True,
-                text=True,
+                folder / "实战练习",
                 timeout=120,
             )
             self.assertEqual(result.returncode, 0, result.stderr)
-            declared = (extracted / PACK_ROOT / "tests/test_exercises.py").read_text(
-                encoding="utf-8"
-            )
+            declared = (folder / "实战练习/tests/test_exercises.py").read_text(encoding="utf-8")
             count = len(re.findall(r"^    def test_", declared, re.MULTILINE))
             self.assertGreater(count, 0)
             self.assertIn(f"Ran {count} tests", result.stderr)
             self.assertIn("OK", result.stderr)
-            self.assertFalse((root / "build/runtime/work/practice-pack").exists())
+            self.assertFalse((root / "build/runtime/work/edition-archive").exists())
 
 
 if __name__ == "__main__":

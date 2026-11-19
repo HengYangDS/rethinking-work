@@ -59,10 +59,10 @@
 亲手核验一只。打开 `source-observations.csv`，S02 有两行：第一版 10 月 30 日公布并入库，值为 −100；第二版 11 月 1 日公布，11 月 3 日才入库，值为 −80。11 月 2 日 09:00，库里只有第一版，与它的结果一致。再核对一条探针。S01 的第二版 11 月 3 日才公布，所以在 11 月 2 日，无论查询怎样写，正确的结果都必须是 0。这样的探针，应当在交出任务之前就选好。
 
 == 放手做其余部分
-样品验收通过，就放开范围。其余三只可以由你自己来查，办法是在案例目录的副本中，去掉查询里只放 S01 到 S03 的那一行条件，再运行查询。下面命令的第一行与#link(<first>)[第十章]相同，把其中的路径换成你解压练习包的目录：
+样品验收通过，就放开范围。其余三只可以由你自己来查，办法是在案例目录的副本中，去掉查询里只放 S01 到 S03 的那一行条件，再运行查询。下面命令的第一行与#link(<first>)[第十章]相同，把其中的路径换成“实战练习”目录的位置：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 cd "$PACK/exercises" &&
   cp -R cases/historical-snapshot ~/snapshot-copy && cd ~/snapshot-copy &&
   grep -v "security_id IN ('S01'" session/query.sql > full.sql &&
@@ -109,7 +109,7 @@ cd "$PACK/exercises" &&
 两次会话都可以重做。给它的目录中只放三个 csv，因为案例目录里还有答案，不能让它看到。下面一次建好三个目录，第三个目录里另放一份只写一句规则的 `AGENTS.md`，最后打印两份委托：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 cd "$PACK/exercises/cases/historical-snapshot" &&
   for d in vague precise rule; do
     mkdir ~/snapshot-$d &&

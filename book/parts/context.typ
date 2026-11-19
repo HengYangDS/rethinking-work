@@ -80,7 +80,7 @@ Claude Code 会话中有两条斜杠命令，处理的正是这一章所讲的�
 按意思查找代码，书中使用的是 semble。它是可选的（#link(<companion>)[附录 A]）：已安装的读者可以照着运行，未安装的读下面的输出即可。第一次运行时，它从网上下载一个小型向量模型，再为给定的目录建立索引；模型和索引都存放在用户的缓存目录中，不写入仓库。下一节的工具要在目录里写入文件，所以这一节和下一节都在练习包的一份副本里进行。复制之后，用一句英文搜索“丢掉收益为空的行”这个意思：
 
 ```sh
-PACK=~/Downloads/重新理解工作-实战练习
+PACK=~/Downloads/重新理解工作/实战练习
 cp -R "$PACK/exercises" ~/search-practice && cd ~/search-practice
 semble search "drop rows whose return is missing" cases \
   --top-k 3 --max-snippet-lines 6 --format text
