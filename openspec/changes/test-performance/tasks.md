@@ -23,7 +23,7 @@ Scope: the publication tests, the publication task file, the proof profile's tes
 
 ## 5. Edition archive
 
-- [ ] 5.1 Build the edition archive as a reproducible `rethinking-work-<version>.tgz` (sorted entries, no owner, no extended attributes, no gzip timestamp); the archive test reads it with `tarfile`, keeps every layout, checksum, note, reproducibility and exercise check, and checks UTF-8 pax names and the absence of a host user; both forges' CI files are regenerated from the CUE source; the publication notes and CHANGELOG follow.
+- [x] 5.1 Build the edition archive as a reproducible `rethinking-work-<version>.tgz` (sorted entries, no owner, no extended attributes, no gzip timestamp); the archive test reads it with `tarfile`, keeps every layout, checksum, note, reproducibility and exercise check, and checks UTF-8 pax names and the absence of a host user; both forges' CI files are regenerated from the CUE source; the publication notes and CHANGELOG follow. Done 2026-11-19 17:4x: the archive test passes on the `.tgz` (light run), two builds give the same bytes, and the projection check reports both CI files conforming.
 
 ## 6. Qualification
 

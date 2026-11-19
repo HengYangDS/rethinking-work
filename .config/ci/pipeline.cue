@@ -80,7 +80,7 @@ publicationJob: {
 	], [for command in supply.bootstrap {run: command}], [for command in supply.build {run: command}], [
 		for artifact in [
 			{label: "PDF", path: "build/artifacts/pdf/rethinking-work.pdf"},
-			{label: "Edition archive", path: "build/artifacts/edition/rethinking-work-*.zip"},
+			{label: "Edition archive", path: "build/artifacts/edition/rethinking-work-*.tgz"},
 		] {
 			name: "Upload \(artifact.label) without re-archiving"
 			uses: "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9"
@@ -112,7 +112,7 @@ gitlabPublication: {
 	before_script: ["mise install --locked --jobs=1", "mise run ci-supply"]
 	script: ["mise exec --locked -- just --justfile publication/justfile ci-artifacts"]
 	artifacts: {
-		paths: ["build/artifacts/pdf/rethinking-work.pdf", "build/artifacts/edition/rethinking-work-*.zip"]
+		paths: ["build/artifacts/pdf/rethinking-work.pdf", "build/artifacts/edition/rethinking-work-*.tgz"]
 		expire_in: "14 days"
 	}
 }

@@ -41,7 +41,7 @@ Run from the repository root:
 | `render`                             | Render all pages for visual inspection                        |
 | `test`                               | Rebuild figures, then check publication and exercises         |
 | `exercises`                          | Check synthetic data, export, search and API contracts        |
-| `edition-archive`                    | Package the PDF and tracked exercises as one versioned `.zip` |
+| `edition-archive`                    | Package the PDF and tracked exercises as one versioned `.tgz` |
 | `format-check` / `format`            | Check / apply Prettier to declared authored formats           |
 | `check`                              | Run formatting, publication and exercise checks               |
 | `ci-supply`                          | Supply a CI account with fonts, packages, tests and PDF tools |
@@ -206,15 +206,16 @@ setting and the unchanged Puppeteer configuration; the sandbox stays enabled.
 
 The task rebuilds all five diagrams and produces
 `build/artifacts/pdf/rethinking-work.pdf` and
-`build/artifacts/edition/rethinking-work-<version>.zip`, then refuses any
+`build/artifacts/edition/rethinking-work-<version>.tgz`, then refuses any
 project-lock drift and prints both hashes. The edition archive holds one folder
 `重新理解工作/` with a Chinese `先读.txt`, the PDF named with its version, the
 exercises under `实战练习/` (only tracked `VERSION`, `LICENSE`, `exercises/` and
 `tests/test_exercises.py`, plus their own `先读.txt`) and a `SHA256SUMS` of every
 other file. Both reader notes are filled from `VERSION` and the edition date in
-`book/metadata.typ`; a leftover token fails the task. Entries are sorted, dated
-to the edition and written by Python's zip writer with UTF-8 names, so a rebuild
-of the same commit yields the same bytes. The archive test checks the layout,
+`book/metadata.typ`; a leftover token fails the task. The archive is a gzipped
+tar, the format of the owner's other repositories: entries are sorted, dated to
+the edition, owned by no host user and carry their names as UTF-8 in pax
+headers, so a rebuild of the same commit yields the same bytes. The archive test checks the layout,
 every checksum, both notes' version and reproducibility, and runs all 17
 exercises after extraction.
 

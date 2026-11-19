@@ -16,6 +16,12 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- **Breaking:** the edition archive is now a gzipped tar,
+  `rethinking-work-<version>.tgz`, the format of the owner's other
+  repositories, instead of a zip. Its folder, reader notes, PDF, exercises and
+  `SHA256SUMS` are unchanged; a rebuild of the same commit still gives the same
+  bytes, names beyond ASCII travel as UTF-8, and no host user name enters the
+  archive.
 - The publication checks read every document fact from one layout of the book
   instead of one layout per fact, and each view of the PDF once; the six
   figures render at the same time. On the author's workstation the

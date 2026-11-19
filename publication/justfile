@@ -81,8 +81,10 @@ exercises:
     python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 
 # One edition archive: the PDF, the tracked teaching inputs and a checksum list, in one folder whose
-# reader notes are filled from VERSION and the edition date. Entries are sorted, dated to the edition
-# and written by Python's own zip writer, which marks names as UTF-8 for every unpacker.
+# reader notes are filled from VERSION and the edition date. A gzipped tar, the format of the owner's
+# other repositories: entries sorted, dated to the edition, owned by no host user, without extended
+# attributes, and names beyond ASCII in pax headers as UTF-8, so a rebuild of one commit gives the
+# same bytes.
 [script]
 edition-archive:
     #!/usr/bin/env bash
@@ -110,9 +112,9 @@ edition-archive:
     find "$work" -type f -exec chmod 644 {} +
     find "$work" -type d -exec chmod 755 {} +
     find "$work" -exec touch -t "$stamp" {} +
-    archive="build/artifacts/edition/rethinking-work-$version.zip"
-    rm -f build/artifacts/edition/rethinking-work-*.zip
-    (cd "$work" && python3.12 -I -m zipfile -c "$OLDPWD/$archive" 重新理解工作)
+    archive="build/artifacts/edition/rethinking-work-$version.tgz"
+    rm -f build/artifacts/edition/rethinking-work-*.tgz build/artifacts/edition/rethinking-work-*.zip
+    (cd "$work" && find 重新理解工作 | LC_ALL=C sort) | COPYFILE_DISABLE=1 tar --create --gzip --file "$archive" --directory "$work" --no-recursion --files-from - --uid 0 --gid 0 --uname '' --gname '' --no-xattrs --no-acls --no-fflags --no-mac-metadata --options gzip:!timestamp
 
 format-check:
     prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --check .
@@ -125,7 +127,7 @@ check: format-check test
 # Build the PDF and the edition archive and print their identities, as a Forge job keeps them.
 ci-artifacts: build edition-archive
     git diff --exit-code -- .config/mise
-    shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/edition/rethinking-work-*.zip
+    shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/edition/rethinking-work-*.tgz
 
 # The hosted macOS job first checks the supply it fetched into its own workspace.
 ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) ci-artifacts

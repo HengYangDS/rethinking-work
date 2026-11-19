@@ -5,9 +5,9 @@ import os
 import re
 import shutil
 import subprocess
+import tarfile
 import tempfile
 import unittest
-import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -74,20 +74,29 @@ class EditionArchive(unittest.TestCase):
             built = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
             self.assertEqual(built.returncode, 0, built.stderr)
             version = (root / "VERSION").read_text().strip()
-            archive = root / f"build/artifacts/edition/rethinking-work-{version}.zip"
+            archive = root / f"build/artifacts/edition/rethinking-work-{version}.tgz"
             first = archive.read_bytes()
             rebuilt = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
             self.assertEqual(rebuilt.returncode, 0, rebuilt.stderr)
             self.assertEqual(archive.read_bytes(), first, "the archive is not reproducible")
 
             extracted = root / "extracted"
-            with zipfile.ZipFile(archive) as package:
-                for item in package.infolist():
-                    self.assertTrue(item.filename.startswith(FOLDER + "/"), item.filename)
+            with tarfile.open(archive, "r:gz") as package:
+                members = package.getmembers()
+                self.assertEqual(
+                    [item.name for item in members], sorted(item.name for item in members)
+                )
+                for item in members:
+                    self.assertTrue(item.isfile() or item.isdir(), item.name)
                     self.assertTrue(
-                        item.flag_bits & 0x800, f"name not marked UTF-8: {item.filename}"
+                        item.name == FOLDER or item.name.startswith(FOLDER + "/"), item.name
                     )
-                package.extractall(extracted)
+                    # A name beyond ASCII travels as UTF-8 in a pax header; no host user enters.
+                    if not item.name.isascii():
+                        self.assertEqual(item.pax_headers.get("path", "").rstrip("/"), item.name)
+                    self.assertEqual((item.uid, item.gid, item.uname, item.gname), (0, 0, "", ""))
+                    self.assertEqual(item.mode, 0o755 if item.isdir() else 0o644, item.name)
+                package.extractall(extracted, filter="data")
             folder = extracted / FOLDER
             files = {p.relative_to(folder).as_posix() for p in folder.rglob("*") if p.is_file()}
             expected = {f"实战练习/{name}" for name in selected}

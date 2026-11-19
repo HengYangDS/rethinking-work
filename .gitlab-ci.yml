@@ -21,7 +21,7 @@ publication:macos:review:
   artifacts:
     paths:
       - build/artifacts/pdf/rethinking-work.pdf
-      - build/artifacts/edition/rethinking-work-*.zip
+      - build/artifacts/edition/rethinking-work-*.tgz
     expire_in: 14 days
 publication:macos:protected:
   stage: verify
@@ -46,7 +46,7 @@ publication:macos:protected:
   artifacts:
     paths:
       - build/artifacts/pdf/rethinking-work.pdf
-      - build/artifacts/edition/rethinking-work-*.zip
+      - build/artifacts/edition/rethinking-work-*.tgz
     expire_in: 14 days
 workflow:
   rules:

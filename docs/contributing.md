@@ -92,7 +92,7 @@ and package paths and Mermaid's browser executable, then run
 The supply directory contains `fonts/` and `packages/preview/` as described in
 [publication reproduction](../publication/README.md#hosted-publication-build).
 Run `edition-archive` after `build` to package the PDF and the tracked
-synthetic inputs as one versioned zip. Its extracted archive is checked by
+synthetic inputs as one versioned `.tgz`. Its extracted archive is checked by
 `tests/test_practice_pack.py`, including the reader notes' version, every
 checksum and all 17 exercise contracts.
 
