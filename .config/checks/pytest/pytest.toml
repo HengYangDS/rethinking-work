@@ -1,4 +1,6 @@
 [pytest]
 testpaths = ["tests"]
+# The file pattern of unittest discovery, so that pytest and `just test` run the same files.
+python_files = ["test*.py"]
 addopts = ["-ra"]
 cache_dir = "build/runtime/tool-cache/pytest"

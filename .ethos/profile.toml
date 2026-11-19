@@ -6,7 +6,7 @@ material_paths = [
 ]
 
 [proof]
-code_correctness_gates = ["source-behavior", "source-static-analysis", "publication-inputs", "formatting"]
+code_correctness_gates = ["source-behavior", "source-static-analysis", "formatting"]
 
 [proof.code_correctness_map]
 behavior = "source-behavior"
@@ -17,16 +17,19 @@ id = "source-behavior"
 kind = "test"
 command = ["just", "--justfile", "publication/justfile", "test-proof", "{native_output}"]
 verification_providers = ["ethos.adapters.gates.python_quality:behavior_report"]
-dimensions = ["behavior", "test", "coverage"]
+# The proof's one run of the publication tests: its reports serve behavior, coverage and the
+# publication-input checks. The tests hold their own imports to the standard library and run the
+# reader's exercise command outside the locked environment; see tests/README.md.
+dimensions = ["behavior", "test", "coverage", "publication-inputs"]
 evidence_class = "proof"
 trust_bearing = true
 writes_files = true
 network_policy = "offline"
 # A hang guard, not an acceptance limit: the gate took 16-17 s locally (2026-11-19, after the
 # test-performance Change). Hosted macOS runners have taken up to twice the local time for the
-# whole proof, and once more than twice for the publication-inputs gate (over 300 s against 142 s
-# at 4b76625); the GitLab guest runners take less than the local time. The document checks bound
-# their own time; see tests/README.md.
+# whole proof, and once more than twice for the former publication-inputs gate, which ran the same
+# tests (over 300 s against 142 s at 4b76625); the GitLab guest runners take less than the local
+# time. The document checks bound their own time; see tests/README.md.
 timeout_seconds = 180
 
 [[proof.gates.native_outputs]]
@@ -52,22 +55,6 @@ dimensions = ["static-analysis"]
 evidence_class = "proof"
 trust_bearing = true
 writes_files = false
-network_policy = "offline"
-
-[[proof.gates]]
-id = "publication-inputs"
-kind = "test"
-command = ["just", "--justfile", "publication/justfile", "test"]
-dimensions = ["publication-inputs"]
-evidence_class = "proof"
-trust_bearing = true
-writes_files = true
-# A hang guard, not an acceptance limit: the gate took 15-17 s locally (2026-11-19, after the
-# test-performance Change). Hosted macOS runners have taken up to twice the local time for the
-# whole proof, and once more than twice for the publication-inputs gate (over 300 s against 142 s
-# at 4b76625); the GitLab guest runners take less than the local time. The document checks bound
-# their own time; see tests/README.md.
-timeout_seconds = 180
 network_policy = "offline"
 
 [[proof.gates]]

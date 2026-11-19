@@ -5,6 +5,9 @@ actual document. Run it with `just --justfile publication/justfile test` from th
 repository root. That task renders all declared figures before checking the
 document, including in a checkout containing only source. It requires the
 publication's headless browser; see [supply](../publication/README.md#supply-and-reproduction).
+The proof runs the same tests once, through `test-proof` under pytest with
+coverage, as its `source-behavior` gate; see
+[standard library only](#standard-library-only).
 
 The checks read every document fact from one evaluation of the book, run beside
 the one compile of the PDF, and each view of the PDF once. That evaluation is
@@ -62,6 +65,20 @@ database file. Each subprocess has a 60-second deadline.
 
 Passing these known cases demonstrates repeatability of the teaching examples,
 not independent reader learning, production root cause or investment validity.
+
+## Standard library only
+
+[test_standard_library.py](test_standard_library.py) reads the imports of every
+Python file under `tests/` and `exercises/cases/`. Each must name a module of
+Python's standard library or a module in the importing file's own directory.
+The proof runs the tests in the locked test environment, where pytest and its
+plugins can be imported, while readers run the exercise contracts with a plain
+Python. A module named at run time is not read here. The archive test covers
+that case: it runs the reader's exercise command in the extracted edition with
+the locked environment removed from `PATH`, so the contracts run under the
+host's Python as they do for a reader. `exercises/templates/` is outside both
+checks: readers run those files with tools they install for the purpose, and no
+test runs them.
 
 ## Bound-input task regression
 

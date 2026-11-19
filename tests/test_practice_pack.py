@@ -5,6 +5,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tarfile
 import tempfile
 import unittest
@@ -26,6 +27,24 @@ def run(arguments, cwd, **options):
         timeout=options.pop("timeout", 60),
         **options,
     )
+
+
+def reader_environment():
+    """Return this environment without the test environment's own programs.
+
+    Under the proof the tests run inside the locked test environment, whose interpreter would
+    otherwise answer `python3.12` and could import the test packages. A reader has neither.
+    """
+    environment = dict(os.environ)
+    if sys.prefix != sys.base_prefix:
+        own = os.path.realpath(Path(sys.prefix, "bin"))
+        environment["PATH"] = os.pathsep.join(
+            entry
+            for entry in environment["PATH"].split(os.pathsep)
+            if os.path.realpath(entry) != own
+        )
+        environment.pop("VIRTUAL_ENV", None)
+    return environment
 
 
 class EditionArchive(unittest.TestCase):
@@ -149,6 +168,7 @@ class EditionArchive(unittest.TestCase):
                 ],
                 folder / "实战练习",
                 timeout=120,
+                env=reader_environment(),
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             declared = (folder / "实战练习/tests/test_exercises.py").read_text(encoding="utf-8")

@@ -14,6 +14,18 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Changed
+
+- The proof runs the publication tests once instead of twice. The
+  `publication-inputs` gate, which ran them under the host's plain Python, is
+  removed; `source-behavior` runs them with coverage, and its reports serve the
+  publication-input checks as well. Two checks replace the plain-Python run. A
+  test fails when a file under `tests/` or `exercises/cases/` imports anything
+  beyond Python's standard library and its own directory. The archive test now
+  runs the reader's exercise command outside the locked environment, as a reader
+  runs it. pytest takes the same test files as `just test`, which still runs the
+  tests locally without the locked environment.
+
 ## [0.2.2] - 2026-11-19
 
 ### Changed
