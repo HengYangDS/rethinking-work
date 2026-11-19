@@ -15,6 +15,12 @@
 // What is read as one piece stays on one page while it is short: a block of at most this many
 // body lines moves to the next page whole, and a taller one continues there.
 #let whole-lines = 6
+#let whole-height = whole-lines * body-line
+// The most a page is left short when such a block moves whole: the block and the step from the
+// paragraph above it. Layout checks read the bound from here.
+#let whole-allowance = whole-height + par-space + body-edges
+// A section heading stays on a page while this many body lines fit under it.
+#let heading-lines = 3
 #let publication-design(body) = {
   set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
   // Chinese inside commands and outputs takes the sans face, not the serif body face.
@@ -33,11 +39,12 @@
   show heading.where(level: 2): set text(size: 14pt)
   show heading.where(level: 3): set block(above: 4 * space, below: 2 * space)
   show heading.where(level: 3): set text(size: 11pt)
-  // A section heading starts the next page unless three body lines fit under it; the
+  // A section heading starts the next page unless `heading-lines` body lines fit under it; the
   // reserved space is taken back afterwards, so spacing on the page is unchanged.
   show heading.where(level: 2).or(heading.where(level: 3)): it => {
-    block(breakable: false, sticky: true, it + v(3 * body-line))
-    v(-3 * body-line)
+    let reserve = heading-lines * body-line
+    block(breakable: false, sticky: true, it + v(reserve))
+    v(-reserve)
   }
   // A command is copied from one place, so a code block stays whole up to `whole-lines` lines;
   // a longer one may continue on the next page.
@@ -56,7 +63,7 @@
 #let flow-block(body, above: auto, below: auto, mark: none, ..args) = block(
   above: above, below: below, width: 100%,
   layout(size => {
-    let whole = measure(width: size.width, block(..args, body)).height <= whole-lines * body-line
+    let whole = measure(width: size.width, block(..args, body)).height <= whole-height
     [#block(breakable: not whole, ..args, body)#mark]
   }),
 )
@@ -94,7 +101,7 @@
 ]
 // Compact one-paragraph field reminders keep meaning without a framed callout.
 #let takeaway(title, body) = block(above: 2 * space, below: 2 * space)[
-  #set par(first-line-indent: 0pt, justify: false, leading: body-line - body-edges, spacing: 2 * body-line - body-edges)
+  #set par(first-line-indent: 0pt, justify: false, leading: body-line - body-edges, spacing: par-space)
   #text(weight: "bold", title) #h(.5em) #body
 ]
 #let matrix(columns: (1.05fr, 1.4fr, 1.55fr), ..args) = {

@@ -66,7 +66,7 @@ Typst cannot locate a plain `pagebreak`, so a check cannot tell a page ended on 
 
 ### The check
 
-The check reads the facts and the PDF layout that the suite already has. For each page whose following page begins with a table or a sample box, it compares the empty foot with what the rule allows: a whole block (96 pt) and one paragraph step (32 pt), 128 pt in all. A chapter's last page and a declared page turn are left out. It does not count pages or name any text. Before it is trusted it is shown failing on a copy in which sample boxes are unbreakable again.
+The check reads the facts and the PDF layout that the suite already has. For each page whose following page begins with a table or a sample box, it compares the empty foot with what the rule allows: a whole block and one paragraph step, 128 pt with the present values. The layout declares that bound once, beside the threshold it follows from, and the check evaluates it from there; it holds no number of its own. A chapter's last page and a declared page turn are left out. It does not count pages or name any text. Before it is trusted it is shown failing on a copy in which sample boxes are unbreakable again.
 
 ## Risks / Trade-offs
 

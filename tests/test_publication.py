@@ -41,6 +41,9 @@ FACTS = {
     "openings": f"query(heading.where(level: 1)).map(it => {PLACE})",
     "blocks": f"(query(table) + query(<sample-box>)).map(it => {PLACE})",
     "page turns": "query(<page-turn>).map(it => it.location().page())",
+    # The layout's own bound for a page left short by a block that moved whole, in pt.
+    "whole allowance": '{ import "/publication/layout/style.typ": whole-allowance;'
+    " whole-allowance.pt() }",
     "figures": "query(figure).map(it => it.body)",
     "case records page": "query(<case-records>).first().location().page()",
     **{
@@ -295,11 +298,11 @@ class PublicationInputs(unittest.TestCase):
             self.assertAlmostEqual(step, 32, delta=0.5)
 
     def test_no_page_is_left_short_before_a_table_or_a_sample_box(self):
-        # A table or a sample box of at most six body lines moves to the next page whole, and a
-        # taller one continues there. So the page before one that opens a page is short by no more
-        # than a whole block (six lines of 16 pt) and one paragraph step (32 pt). A page the
+        # A short table or sample box moves to the next page whole, and a tall one continues
+        # there. So the page before one that opens a page is short by no more than the bound the
+        # layout declares for a whole block; the check holds no number of its own. A page the
         # manuscript ends on purpose is left out, and a chapter never opens with such a block.
-        allowed = 6 * 16 + 32
+        allowed = self.fact("whole allowance")
         turns = set(self.fact("page turns"))
         top = min(item["y"] for item in self.fact("breaks"))
         opened = {item["page"] for item in self.fact("blocks") if item["y"] - top < 1}
