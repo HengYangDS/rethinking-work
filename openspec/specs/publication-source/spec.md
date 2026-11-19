@@ -49,7 +49,7 @@ A compiled document SHALL NOT be represented as reader-approved or published sol
 
 ### Requirement: An account of work in the agentic era
 
-The manuscript SHALL present an account of work and team collaboration in the agentic era, set in the business context of a quantitative data team, that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with a worked scenario from data work.
+The manuscript SHALL present an account of work and team collaboration in the agentic era, set in the business context of a quantitative data team, that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with a worked scenario from data work. Each agent layer SHALL be taught through a named tool the team uses for it, with runnable commands and their expected output.
 
 #### Scenario: Reader works through a principle
 
@@ -60,6 +60,16 @@ The manuscript SHALL present an account of work and team collaboration in the ag
 
 - **WHEN** a reader finishes the Agent part
 - **THEN** they can explain the layers of an agentic system (model, harness, context, tools, boundaries, memory, orchestration, evaluation), place a named tool in its layer, and have run a first session of their own and read its record; after the part on handing over they can hand out, take back, checkpoint, diagnose and close a piece of work.
+
+#### Scenario: Reader operates a layer's tool
+
+- **WHEN** a chapter teaches a layer that the team serves with a named tool
+- **THEN** it states what the tool is for, gives the commands for a first use, shows what the output looks like, says how to tell that it worked and how it fails, and the back matter states the version the commands were run on.
+
+#### Scenario: Reader shares a team's configuration
+
+- **WHEN** a reader finishes the part on several people
+- **THEN** they can say where the team's skills, rules and instruction files live, how a change to them is reviewed, how they reach each member's hosts, and how to tell that a member's host has the current version.
 
 #### Scenario: A worked example can be recomputed
 
@@ -78,12 +88,17 @@ The manuscript SHALL present an account of work and team collaboration in the ag
 
 ### Requirement: Invariants before tools and current practice
 
-The manuscript SHALL be organized by how fast each layer changes, from principle to tooling, not by tools, products or present process steps. A present practice used as material SHALL be weighed against the end state the manuscript argues for.
+The manuscript SHALL be organized by how fast each layer changes, from principle to tooling, not by tools, products or present process steps. Tool material SHALL be placed in the layer it serves and SHALL be retained where it teaches practice. A present practice used as material SHALL be weighed against the end state the manuscript argues for.
 
 #### Scenario: Material describes only a tool or a procedure
 
-- **WHEN** a topic bears on no principle, method or deliberate change
+- **WHEN** a topic bears on no principle, method, practice or deliberate change
 - **THEN** it is left out of the manuscript.
+
+#### Scenario: A tool's details teach practice
+
+- **WHEN** a passage teaches how to operate a layer and a review proposes cutting its tool name, command, configuration or output as weakly related
+- **THEN** the detail stays, because it is the substance of the practice.
 
 #### Scenario: A present practice falls short
 
@@ -205,3 +220,17 @@ establish reader delivery or editorial approval.
 
 - **WHEN** a reader safely extracts the archive in an environment with the declared exercise tools
 - **THEN** the selected tracked teaching files and Chinese entrypoint retain their complete bytes, all 15 synthetic exercise contracts run, and no installation, business-data access or service startup is performed.
+
+### Requirement: Behaviour claims grounded in runs
+
+A statement about what a tool, a host or an Agent does SHALL rest on a run recorded on the stated version, on a primary source, or on reasoning presented as reasoning. A claim about an Agent's tendency SHALL state the conditions and the number of runs where the result is used, once.
+
+#### Scenario: A tendency is stated
+
+- **WHEN** a chapter states that an Agent tends to do something
+- **THEN** a recorded experiment with stated model, host, conditions and number of runs supports it, or the chapter derives it from how the model works and says so, or the statement is removed.
+
+#### Scenario: A tool changes after the edition
+
+- **WHEN** a later version of a named tool changes a command or an output printed in the manuscript
+- **THEN** the back matter's version for that tool identifies which version the printed command and output belong to, and the next edition reruns the experiment before reprinting them.
