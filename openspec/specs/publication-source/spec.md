@@ -255,3 +255,12 @@ The publication checks SHALL lay out the book a fixed number of times per run, h
 
 - **WHEN** a test gate runs past its declared timeout
 - **THEN** the proof stops the gate and fails, and the timeout's stated reason names the measurements it came from.
+
+### Requirement: Declared supply release age
+
+The repository SHALL declare, in each resolver's own configuration, the minimum age a tool or package release must have before it enters the locked supply, and SHALL admit a newer version only when it is at least that old. The age SHALL NOT be restated as a number in a test or script.
+
+#### Scenario: A locked tool is moved
+
+- **WHEN** a locked tool or Python package is moved to a newer version
+- **THEN** the resolver refuses a release younger than the declared age, and the lock, the pipeline declarations with their generated files and the contributor documents state the new version in the same commit.
