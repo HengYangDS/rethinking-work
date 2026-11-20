@@ -5,8 +5,8 @@ actual document. Run it with `just --justfile publication/justfile test` from th
 repository root. That task renders all declared figures before checking the
 document, including in a checkout containing only source. It requires the
 publication's headless browser; see [supply](../publication/README.md#supply-and-reproduction).
-The proof runs the same tests once, through `test-proof` under pytest with
-coverage, as its `source-behavior` gate; see
+The proof runs them through the gate that
+[the proof profile](../.ethos/profile.toml) declares; see also
 [standard library only](#standard-library-only).
 
 The checks read every document fact from one evaluation of the book, run beside
@@ -27,8 +27,9 @@ tools chapter to equal the exercise files, the printed hook script to pass on
 the fixed export and fail on the old one, and the back matter to state the
 book's sources and limits. A layout check requires that the page before a table
 or a sample box is short by no more than a whole block allows, leaving out the
-pages that the manuscript ends on purpose. They use Python's standard library
-and require no new test environment or model service.
+pages that the manuscript ends on purpose. They require no new test environment
+or model service, and import only what
+[standard library only](#standard-library-only) allows.
 
 This is not a full editorial or visual acceptance suite. Migration comparison,
 PDF text and metadata checks, every-page inspection and reader review have

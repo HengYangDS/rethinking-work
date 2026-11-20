@@ -1,6 +1,6 @@
 """Hold what the tests run with Python to the standard library.
 
-The proof runs the tests once, in the locked test environment, where the test packages can be
+Under the proof the tests run in the locked test environment, where the test packages can be
 imported. Readers run the exercise contracts with a plain Python. A module that only the locked
 environment provides would pass the proof and fail for the reader, so the imports are read here.
 """

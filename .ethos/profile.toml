@@ -17,9 +17,7 @@ id = "source-behavior"
 kind = "test"
 command = ["just", "--justfile", "publication/justfile", "test-proof", "{native_output}"]
 verification_providers = ["ethos.adapters.gates.python_quality:behavior_report"]
-# The proof's one run of the publication tests: its reports serve behavior, coverage and the
-# publication-input checks. The tests hold their own imports to the standard library and run the
-# reader's exercise command outside the locked environment; see tests/README.md.
+# What this test run holds the tests to: tests/README.md.
 dimensions = ["behavior", "test", "coverage", "publication-inputs"]
 evidence_class = "proof"
 trust_bearing = true

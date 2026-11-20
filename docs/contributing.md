@@ -103,11 +103,9 @@ locked test environment with `uv sync --locked --no-build
 
 Run `just --justfile publication/justfile test-proof build/ethos/local-tests`
 for JUnit results and subprocess-aware coverage from the same execution.
-Pytest runs the existing unittest cases in `tests/` only. This is the proof's
-one test run, its `source-behavior` gate. `just test` runs the same files under
-a plain Python 3.12 for local checking. A test holds the tests and the exercise
-cases to the standard library, and the archive test runs the reader's exercise
-command outside the locked environment. The intentionally
+Pytest runs the existing unittest cases in `tests/` only. How the proof and the
+local tasks run these tests, and what the tests hold themselves to, is
+described in [the test notes](../tests/README.md). The intentionally
 failing `exercises/cases/export-regression/export_bug.py` is a teaching control, not a passing test
 suite; the parent tests verify both its failure and the corrected export.
 

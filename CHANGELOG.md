@@ -16,6 +16,9 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- The contributor notes and the proof profile's gate comment point to the test
+  notes for how the tests run and what they hold themselves to, instead of
+  restating it beside them.
 - The proof runs the publication tests once instead of twice. The
   `publication-inputs` gate, which ran them under the host's plain Python, is
   removed; `source-behavior` runs them with coverage, and its reports serve the
