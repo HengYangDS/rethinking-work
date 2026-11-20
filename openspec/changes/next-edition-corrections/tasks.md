@@ -15,5 +15,5 @@ Scope: the statements about host behaviour that the checks of 2026-11-20 and 21 
 
 - [x] 2.1 Search the whole lane for the old forms of each corrected statement; keep the result in the evidence. Done 2026-11-21 07:07 (`next-edition-corrections/sweep-after-third-reader.txt`; every hit kept, with its reason).
 - [x] 2.2 A reader who has not seen the edits reads every changed Chinese passage against the records; what is found is corrected. Done 2026-11-21 07:16: four rounds, each on the previous round's corrections (`next-edition-corrections/second-reader-1.md` to `fifth-reader-1.md`, each with its disposition).
-- [ ] 2.3 Look at the pages around the changed passages, and at the two pages short before a chapter's closing lines.
-- [ ] 2.4 The light gates and the printed-block check pass.
+- [x] 2.3 Look at the pages around the changed passages, and at the two pages short before a chapter's closing lines. Done 2026-11-21 07:47 (`next-edition-corrections/pages-final/README.md`; the two short pages kept, `pages-looked-at/README.md`).
+- [x] 2.4 The light gates and the printed-block check pass. Done 2026-11-21 on `62f6010`: nine light gates 07:39 (`next-edition-corrections/light-gates/`), printed-block check 07:27.
