@@ -263,7 +263,7 @@ The repository SHALL declare, in each resolver's own configuration, the minimum 
 #### Scenario: A locked tool is moved
 
 - **WHEN** a locked tool or Python package is moved to a newer version
-- **THEN** the resolver refuses a release younger than the declared age, and the lock, the pipeline declarations with their generated files and the contributor documents state the new version in the same commit.
+- **THEN** the resolver refuses a release younger than the declared age, the lock and the pipeline declarations with their generated files state the new version in the same commit, and contributor documents name those declarations instead of stating the version.
 
 ### Requirement: One test run per proof
 
@@ -272,7 +272,7 @@ The proof SHALL run the publication tests once per run, taking every test file t
 #### Scenario: A full proof runs
 
 - **WHEN** the repository's full proof runs
-- **THEN** the six diagrams are rendered and the publication tests run once, and the proof passes only if that run passes and leaves its coverage report.
+- **THEN** the complete declared diagram set is rendered and the publication tests run once, and the proof passes only if that run passes and leaves its coverage report.
 
 ### Requirement: Tests and exercises need only the standard library
 
