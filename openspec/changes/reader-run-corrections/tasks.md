@@ -1,6 +1,6 @@
 # Tasks
 
-Scope: the printed commands and the statements beside them that the reader run of 0.2.2 found wrong, appendix D's record of that run, one check, and the release of 0.2.3. New scope enters as a task here before it is worked. Evidence is in `build/evidence/reader-run-0.2.2/` (the run) and `build/evidence/reader-run-corrections/` (this Change).
+Scope: the printed commands and the statements beside them that the reader run of 0.2.2 found wrong, appendix D's record of that run, one check, and the preparation of release 0.2.3. The steps after this Change is archived (landing, publication of `dev`, `main` and the tag, the edition archive on both forges, delivery beside 0.2.2) are recorded by Git, the tag and the forges' releases, as for 0.2.2. New scope enters as a task here before it is worked. Evidence is in `build/evidence/reader-run-0.2.2/` (the run) and `build/evidence/reader-run-corrections/` (this Change).
 
 ## 1. Corrections
 
@@ -31,7 +31,3 @@ Scope: the printed commands and the statements beside them that the reader run o
 ## 5. Release 0.2.3
 
 - [x] 5.1 Set `VERSION`, the CHANGELOG section and the edition's date. Done 2026-11-20 on the owner's 「可以发布」: 0.2.3, dated 2026-11-20.
-- [ ] 5.2 Archive the Change; the proof of the archive head passes; land and close out.
-- [ ] 5.3 Publish `dev`, then `main`, then the tag, each after the previous pipeline has ended with every job successful.
-- [ ] 5.4 Build the edition archive from the release head, create the release on both forges, and read both back by hash.
-- [ ] 5.5 Deliver the archive beside 0.2.2 without replacing it, and retire the lane.
