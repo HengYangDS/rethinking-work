@@ -9,4 +9,4 @@ Scope: the contributor notes and the gate comment that restate facts about the p
 
 ## 2. Qualification
 
-- [ ] 2.1 The light gates pass on the lane, and the full proof passes on the lane head.
+- [x] 2.1 The light gates pass on the lane, and the full proof passes on the lane head. Done 2026-11-20 10:44: the proof of `4463955` passes all 11 gates (`proof/`); nine light gates pass (`light-gates/`).
