@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-11-20
+
 ### Fixed
 
 - Corrections from running every printed command of 0.2.2 as a reader, with a

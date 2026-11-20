@@ -26,11 +26,11 @@ Scope: the printed commands and the statements beside them that the reader run o
 - [x] 4.2 A reader who has not seen the edits reads every changed Chinese passage; what is found is corrected. Done 2026-11-20 12:15: one reader, four rounds over the changed passages against the evidence list; 17 findings, then 13, then 3, then 4 on three sentences shortened for the page; each taken or settled against the record (`changed-passages*.md`, `facts-for-the-reader.md`).
 - [x] 4.3 The reader-run session runs the changed blocks from the committed text with its scratch home: the model-free ones at once, the paid ones under the owner's cap. Done 2026-11-20 12:46 on `129e587` (`build/evidence/reader-run-0.2.2/recheck-corrected-text/RECHECK.md`): the six changed places match; 0.51 USD of the 2 USD cap. Its five prose findings were corrected in the passages of 1.2, 1.3 and 1.7 (13:25, then rewritten from the raw screens after two second readings, `second-reader-*.md`); no shell block changed.
 - [x] 4.4 The light gates pass (done 2026-11-20 12:27, nine gates, `light-gates-3.json`). The publication tests run in the proof of task 4.5, not in a ticket of their own: the proof's test gate runs every test, and each ticket waited up to half an hour on 2026-11-20. Before the proof, the new check ran on the corrected text through its driver (`check-driver.py`).
-- [ ] 4.5 The full proof passes on the lane head.
+- [x] 4.5 The full proof passes on the lane head. Done 2026-11-20 18:08 on `ecd5b8b`, the final text: 11 of 11 gates (`proof/proof-ecd5b8b….json`); the earlier proofs of `129e587` (12:42) and `6aa4725` (15:11) passed on text that later changed.
 
 ## 5. Release 0.2.3
 
-- [ ] 5.1 Set `VERSION`, the CHANGELOG section and the edition's date.
+- [x] 5.1 Set `VERSION`, the CHANGELOG section and the edition's date. Done 2026-11-20 on the owner's 「可以发布」: 0.2.3, dated 2026-11-20.
 - [ ] 5.2 Archive the Change; the proof of the archive head passes; land and close out.
 - [ ] 5.3 Publish `dev`, then `main`, then the tag, each after the previous pipeline has ended with every job successful.
 - [ ] 5.4 Build the edition archive from the release head, create the release on both forges, and read both back by hash.
