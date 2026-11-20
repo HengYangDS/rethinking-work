@@ -74,19 +74,17 @@ Each verification job installs the locked tools, runs `mise run ci-supply` and
 then the full proof that local integration runs,
 `mise exec --locked -- ethos prove --host --execute --full`. Its report,
 `build/evidence/ci/verification.json`, is kept as the job's artifact. The tools
-come from the macOS arm64 lock: Node 26.13.1, Python 3.12.16, Just 1.59.0,
-Prettier 3.10.1, DuckDB 2.0.0, ast-grep 0.51.3, oasdiff 1.39.0, CUE 0.17.1,
-Typst 0.15.1, Mermaid CLI 12.2.0, uv 0.13.9 and the ETHOS 0.2.0-beta.10
-console, whose declaration is the release's own file. `ci-supply` puts the
-Regular, Bold and Black faces of Noto Sans CJK SC 2.004 into the account's font
-folder and the eight Typst packages into its package cache, checked against
+and their versions come from [config.toml](../.config/mise/config.toml) and its
+macOS arm64 lock; the ETHOS console is declared there by the release's own file.
+`ci-supply` puts the Regular, Bold and Black faces of Noto Sans CJK SC into the
+account's font folder and the Typst packages into its package cache, checked against
 [ci-noto.sha256](supply/ci-noto.sha256), the font lines of
 [typst-inputs.sha256](supply/typst-inputs.sha256) and
 [typst-packages.sha256](supply/typst-packages.sha256). It synchronizes the
 locked test environment with uv and checks the PDF tools of [brewfile](brewfile),
 installing them only where the account owns Homebrew. It also installs Chrome
-for Testing's headless shell 156.0.8078.47, the build the locked Mermaid CLI
-expects, checked against
+for Testing's headless shell of `headless_shell_version` in the task file, the
+build the locked Mermaid CLI expects, checked against
 [ci-chrome-headless-shell.sha256](supply/ci-chrome-headless-shell.sha256), into
 Puppeteer's own cache layout. Present supply that matches is kept. The task file
 states Mermaid's browser once, so a proof does not depend on the shell that
@@ -183,13 +181,13 @@ establish merge protection.
 
 The public macOS pipeline has a second job of the repository's own,
 `publication`, which runs the native `ci-publication` task beside the
-verification job. It bootstraps the checksum-bound official Mise 2026.11.9 and
-installs the locked tools, Typst 0.15.1 and Mermaid CLI 12.2.0 among them, into
-job-local Mise state; it does not alter the authoring host or project lockfiles.
+verification job. It bootstraps the checksum-bound official Mise that
+[pipeline.cue](../.config/ci/pipeline.cue) names and installs the locked tools
+into job-local Mise state; it does not alter the authoring host or project lockfiles.
 The private peer's `publication:macos` jobs run the native `ci-artifacts` task
 on the project's macOS runners with the Mise those runners carry.
 
-The job fetches the official Noto Sans CJK SC 2.004 archive, verifies
+The job fetches the official Noto Sans CJK SC archive, verifies
 [ci-noto.sha256](supply/ci-noto.sha256), and makes its Regular, Bold and Black
 faces available to Typst and the disposable Runner's browser. Songti SC,
 Charter and Apple Color Emoji remain native Apple-system inputs, referenced
@@ -197,7 +195,7 @@ only inside the licensed macOS job. No standalone Apple font is included in
 the outputs. The exact browser version and font hashes are recorded in the
 job log; differing Apple fonts or Chrome versions can change the rendered PDF.
 
-Eight complete official Typst package trees are provisioned under
+The complete official Typst package trees of the package manifest are provisioned under
 `build/runtime/ci/typst/packages/preview/` and checked against
 [typst-packages.sha256](supply/typst-packages.sha256) before compilation.
 Typst's supported environment settings disable ambient system-font discovery
@@ -205,7 +203,7 @@ and select the job-local font and package paths. Embedded fonts remain enabled.
 Mermaid uses the Runner's existing Chrome through its supported executable
 setting and the unchanged Puppeteer configuration; the sandbox stays enabled.
 
-The task rebuilds all five diagrams and produces
+The task rebuilds every diagram of the `diagrams` recipe and produces
 `build/artifacts/pdf/rethinking-work.pdf` and
 `build/artifacts/edition/rethinking-work-<version>.tgz`, then refuses any
 project-lock drift and prints both hashes. The edition archive holds one folder
@@ -213,12 +211,13 @@ project-lock drift and prints both hashes. The edition archive holds one folder
 exercises under `实战练习/` (only tracked `VERSION`, `LICENSE`, `exercises/` and
 `tests/test_exercises.py`, plus their own `先读.txt`) and a `SHA256SUMS` of every
 other file. Both reader notes are filled from `VERSION` and the edition date in
-`book/metadata.typ`; a leftover token fails the task. The archive is a gzipped
+`book/metadata.typ`, and the exercises' note with the number of checks in
+`tests/test_exercises.py`; a leftover token fails the task. The archive is a gzipped
 tar, the format of the owner's other repositories: entries are sorted, dated to
 the edition, owned by no host user and carry their names as UTF-8 in pax
 headers, so a rebuild of the same commit yields the same bytes. The archive test checks the layout,
-every checksum, both notes' version and reproducibility, and runs all 17
-exercises after extraction.
+every checksum, both notes' version and reproducibility, and runs every
+exercise check after extraction.
 
 Official Noto bytes and all 238 listed package files have passed local input
 verification. Hosted execution and artifact readback at `ea65454` are recorded
@@ -228,12 +227,11 @@ evidence boundaries.
 ## Supply and reproduction
 
 Homebrew remains the host installation owner. The native tasks install nothing
-and run the executors selected by their invocation environment. The current
-project Mise environment uses Node 26.13.1, Python 3.12.16, Typst 0.15.1, Just
-1.59.0, Mermaid CLI 12.2.0 and Prettier 3.10.1, plus the four source-CI tools
-listed above. Version checks and the native
-`check` pass on the authoring host; coverage 7.17.3 also passes its pytest-cov
-consumer checks. The earlier isolated six-tool qualification used Prettier
+and run the executors selected by their invocation environment. The project
+Mise environment uses the tools and versions of
+[config.toml](../.config/mise/config.toml). Version checks and the native
+`check` pass on the authoring host; coverage, as locked in `uv.lock`, also passes
+its pytest-cov consumer checks. The earlier isolated six-tool qualification used Prettier
 3.9.10. Neither journey qualifies an independent-machine bootstrap.
 [toolchain.json](supply/toolchain.json) retains its original edition's supply and
 font binding rather than describing later tool updates.
@@ -300,13 +298,13 @@ The renderer-specific observations above do not qualify the prose. Running
 The current PDF uses the following font supply. The diagram browser has a
 separate selection; it does not need every Typst family.
 
-| Family            | Publication use                         | Supply                                      |
-| ----------------- | --------------------------------------- | ------------------------------------------- |
-| Songti SC         | Chinese body text                       | Existing macOS system font                  |
-| Charter           | Latin body text                         | Existing macOS system font                  |
-| Noto Sans CJK SC  | Headings, tables and Mermaid labels     | Existing Homebrew font cask, version 2.004  |
-| DejaVu Sans Mono  | Code                                    | Embedded font in Typst 0.15.1, version 2.37 |
-| Apple Color Emoji | Observed fallback for the memory credit | Existing macOS system font                  |
+| Family            | Publication use                         | Supply                            |
+| ----------------- | --------------------------------------- | --------------------------------- |
+| Songti SC         | Chinese body text                       | Existing macOS system font        |
+| Charter           | Latin body text                         | Existing macOS system font        |
+| Noto Sans CJK SC  | Headings, tables and Mermaid labels     | Existing Homebrew font cask       |
+| DejaVu Sans Mono  | Code                                    | Embedded font of the locked Typst |
+| Apple Color Emoji | Observed fallback for the memory credit | Existing macOS system font        |
 
 DejaVu Sans Mono does not require a separate host installation with the current
 Typst binary. [mermaid.json](mermaid.json) selects Noto Sans CJK SC; that family
@@ -332,10 +330,10 @@ packages and diagram inputs before assessing reproduction.
 
 The Mise declaration exposes the same tasks. The native lock at
 `.config/mise/mise.lock` and its `aube-lock.yaml` and `package.json` sidecars bind
-the ten declared tools. The scoped Prettier 3.10.1 update regenerated its two
+the declared tools. The scoped Prettier 3.10.1 update regenerated its two
 sidecars through native Mise; Mermaid CLI 12.2.0 and all other tool records remain
-unchanged. All ten tools have macOS arm64 records; the seven native source-CI tools
-also have Linux x64 records, while Prettier uses its portable npm sidecar.
+unchanged. Each native tool has a macOS arm64 record, and the lock shows which
+also have Linux x64 records; Prettier and Mermaid CLI use their npm sidecars.
 Native resolution recognizes the installed tools and their sidecar-derived
 paths. This adoption does not qualify an independent-machine bootstrap. Generated
 Aube YAML remains byte-exact and outside the prose formatter's inputs. Poppler's
@@ -348,8 +346,8 @@ documentation changes are not backdated into those manifests.
 
 ## Bound Typst input replay
 
-`supply/typst-inputs.sha256` binds the existing compiler executable, six font files
-and every file in the eight resolved publisher package roots. It contains no
+`supply/typst-inputs.sha256` binds the existing compiler executable, the font files
+it names and every file in the resolved publisher package roots. It contains no
 font binaries, package source, credentials or private paths. The executable
 binding also fixes its embedded fonts; this does not separately verify their
 source provenance.
@@ -359,8 +357,8 @@ Provide these already-admitted inputs in one local supply directory:
 ```text
 supply/
   bin/typst
-  fonts/                     # The six named files in the checksum manifest
-  packages/preview/          # The eight complete, unmodified package roots
+  fonts/                     # The font files named in the checksum manifest
+  packages/preview/          # The complete, unmodified package roots it names
 ```
 
 Use the native checksum and compiler tasks from the repository root:
@@ -379,7 +377,7 @@ distribution rights. Keep Apple fonts local to a licensed Apple environment;
 review the [font terms](rights/third-party-notices.md#authored-publication-fonts).
 
 The output is `build/artifacts/pdf-isolated/rethinking-work.pdf`; this task never
-replaces the reader edition. It consumes the seven diagram images currently in
+replaces the reader edition. It consumes the diagram images currently in
 `build/artifacts/diagrams/`. The checksum task does not bind those images, and
 `pdf-isolated` neither freezes nor restores them. For an exact edition replay,
 restore their bytes from that edition's qualification bindings before compiling.
@@ -408,11 +406,12 @@ identities and machines; it does not retroactively qualify the default path.
 
 ## Reader spacing rhythm
 
-The body uses aligned paragraph starts, 10.5 pt type and a 16 pt baseline.
-Paragraph transitions are 32 pt: one complete empty body line, not a manually
-inserted blank text object. A 4 pt module relates heading, note and table
-spacing. Tables retain a compact 14 pt row-text baseline; notes retain body
-line leading with a smaller internal paragraph interval. Contents and code
+The body uses aligned paragraph starts, with the type size `body-size` and the
+baseline `body-line` of [style.typ](layout/style.typ). A paragraph transition is
+one complete empty body line (`par-space`), not a manually inserted blank text
+object. The module `space` relates heading, note and table spacing. Tables keep
+a compact row baseline of their own; notes keep body line leading with a smaller
+internal paragraph interval. Contents and code
 keep their own native roles. No manuscript chapter overrides body leading.
 
 Numbered chapters begin on a new page. Unnumbered topic sections remain inside
@@ -421,9 +420,9 @@ entries rather than treating every topic as a second chapter. Short notes stay
 intact. Sticky headings and repeated table headers preserve navigation; a
 full-page visual pass remains required after changing the rhythm.
 
-Matrix cells use a 6 pt vertical inset; note margins use 12 pt and their
-vertical inset uses 10 pt. These repeated furniture spaces can be tuned without
-shrinking body type or changing the 16/32 pt paragraph rhythm. Evidence-scope
+Matrix cells, note margins and note insets are multiples of `space`, declared
+in `matrix` and `note` of the same file. These repeated furniture spaces can be
+tuned without shrinking body type or changing the paragraph rhythm. Evidence-scope
 guidance follows the work-route matrix rather than orphaning the reading entry.
 
 Worked reports retain framed notes. Short field reminders use an unframed

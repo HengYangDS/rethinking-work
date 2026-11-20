@@ -14,6 +14,17 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Changed
+
+- Counts and values written beside their owners now name the owner instead:
+  the number of exercise checks, diagrams, chapters, Typst packages, font files
+  and locked tools, and each locked tool's version, in the contributor notes and
+  the accepted spec. Three of them had gone stale (the diagram count twice, the
+  tool count once). The pipeline declaration states the artifact retention once.
+- The book's appendix and the exercise notes state the expected result of the
+  exercise checks without their number; the reader note in the edition archive
+  is filled with it at build time from the test file.
+
 ## [0.2.3] - 2026-11-20
 
 ### Fixed

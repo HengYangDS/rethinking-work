@@ -50,7 +50,7 @@ serve reusable work materials and transfer practice respectively.
 | `build/evidence/`                    | Exact-input checks, review and failure receipts                | Retain through their named consumers; not a permanent archive |
 | `build/runtime/`                     | Tool caches and bounded test work                              | Release only known owned residue after its consumers finish   |
 
-Keep these distinctions when adding material. The manuscript follows one line: the root, then understanding at three scales (one person; the Agent and what happens after handing over; several people), then the person; four practice modules close the first five parts. A tool is named only
+Keep these distinctions when adding material. The manuscript follows one line: the root, then understanding at three scales (one person; the Agent and what happens after handing over; several people), then the person; a practice module closes each part from the second to the fifth. A tool is named only
 as an example of a role it plays. A new medium should
 consume the same manuscript and identity rather than introduce another editable
 edition. Do not add a generic `scripts/`, raw conversation dump or mirrored

@@ -23,7 +23,8 @@ Run from the directory above this one:
 
     python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 
-Expected: `Ran 17 tests` and `OK`. Run DuckDB as `duckdb -no-agent`.
+Expected: a line `Ran … tests` with the number of checks, then `OK`. Run DuckDB as
+`duckdb -no-agent`.
 
 ## Do not
 

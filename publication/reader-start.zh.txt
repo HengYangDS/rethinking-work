@@ -6,5 +6,5 @@
 完整检查需要已安装的 Python 3.12、DuckDB、ast-grep 和 oasdiff；本包不会安装软件。
 在本目录运行：
 python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
-预期：Ran 17 tests / OK，其中包含对故意错误的检查。
+预期：Ran @CHECKS@ tests / OK，其中包含对故意错误的检查。
 示例通过不代表生产、投资或交易验收。

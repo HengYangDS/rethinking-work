@@ -8,7 +8,9 @@ import (
 // The installed common model (ETHOS `.config/ci/verification.cue`) generates the verification
 // jobs of both Forges from `verification.toml`, and `ethos lane project` writes the native files.
 // This file adds what the model leaves to the repository: on each Forge, a macOS job that builds
-// the PDF and the practice archive and keeps them as artifacts for 14 days.
+// the PDF and the practice archive and keeps them as artifacts for `artifactDays`.
+artifactDays: 14
+
 supply: {
 	tools: ["node", "python", "just", "npm:prettier", "duckdb", "ast-grep", "github:oasdiff/oasdiff", "cue", "typst", "npm:@mermaid-js/mermaid-cli"]
 	miseVersion: "2026.11.9"
@@ -88,7 +90,7 @@ publicationJob: {
 				path:                artifact.path
 				archive:             false
 				"if-no-files-found": "error"
-				"retention-days":    14
+				"retention-days":    artifactDays
 			}
 		},
 	]])
@@ -113,7 +115,7 @@ gitlabPublication: {
 	script: ["mise exec --locked -- just --justfile publication/justfile ci-artifacts"]
 	artifacts: {
 		paths: ["build/artifacts/pdf/rethinking-work.pdf", "build/artifacts/edition/rethinking-work-*.tgz"]
-		expire_in: "14 days"
+		expire_in: "\(artifactDays) days"
 	}
 }
 

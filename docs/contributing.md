@@ -73,7 +73,7 @@ lesson merely to fill a documentation category.
 Hosted CI runs the full proof, the same one that integration requires. Run it
 locally through the host's admission, as the ETHOS guidance describes. For a
 quick check without PDF or browser supply, run
-`just --justfile publication/justfile exercises` for the 17 synthetic exercise
+`just --justfile publication/justfile exercises` for the synthetic exercise
 contracts and `format-check` for formatting. After editing `.config/ci/`, write
 the pipelines with `ethos lane project` (preview, then its printed apply) and
 check them with `ethos lane project --check`. None of these approves an edition
@@ -94,7 +94,7 @@ The supply directory contains `fonts/` and `packages/preview/` as described in
 Run `edition-archive` after `build` to package the PDF and the tracked
 synthetic inputs as one versioned `.tgz`. Its extracted archive is checked by
 `tests/test_practice_pack.py`, including the reader notes' version, every
-checksum and all 17 exercise contracts.
+checksum and every exercise contract.
 
 The repository keeps Python on the 3.12 line. `VERSION` owns the version;
 the matching literal in `pyproject.toml` is checked against it. Install the

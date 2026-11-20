@@ -81,10 +81,10 @@ exercises:
     python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 
 # One edition archive: the PDF, the tracked teaching inputs and a checksum list, in one folder whose
-# reader notes are filled from VERSION and the edition date. A gzipped tar, the format of the owner's
-# other repositories: entries sorted, dated to the edition, owned by no host user, without extended
-# attributes, and names beyond ASCII in pax headers as UTF-8, so a rebuild of one commit gives the
-# same bytes.
+# reader notes are filled from VERSION, the edition date and the number of exercise checks. A
+# gzipped tar, the format of the owner's other repositories: entries sorted, dated to the edition,
+# owned by no host user, without extended attributes, and names beyond ASCII in pax headers as
+# UTF-8, so a rebuild of one commit gives the same bytes.
 [script]
 edition-archive:
     #!/usr/bin/env bash
@@ -97,6 +97,7 @@ edition-archive:
     date_text=$(identity book-date-text)
     stamp=$(identity 'book-date.display("[year][month][day]")')0000
     commit=$(git rev-parse HEAD)
+    checks=$(grep -c '^    def test_' tests/test_exercises.py)
     git diff --quiet HEAD -- VERSION LICENSE exercises tests/test_exercises.py book publication || commit="${commit}（工作区有未提交的改动）"
     work=build/runtime/work/edition-archive
     rm -rf "$work"; mkdir -p "$work" build/artifacts/edition
@@ -104,7 +105,7 @@ edition-archive:
     folder="$work/重新理解工作"
     mkdir -p "$folder/实战练习"
     git ls-files -z VERSION LICENSE exercises tests/test_exercises.py | tar --null -T - -cf - | tar -xf - -C "$folder/实战练习"
-    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@DATE@|$date_text|g" -e "s|@COMMIT@|$commit|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
+    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@DATE@|$date_text|g" -e "s|@COMMIT@|$commit|g" -e "s|@CHECKS@|$checks|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
     fill publication/reader-start.zh.txt "$folder/实战练习/先读.txt"
     fill publication/archive-start.zh.txt "$folder/先读.txt"
     cp "$pdf" "$folder/重新理解工作-$version.pdf"

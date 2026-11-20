@@ -176,6 +176,9 @@ class EditionArchive(unittest.TestCase):
             self.assertGreater(count, 0)
             self.assertIn(f"Ran {count} tests", result.stderr)
             self.assertIn("OK", result.stderr)
+            self.assertIn(
+                f"Ran {count} tests", (folder / "实战练习/先读.txt").read_text(encoding="utf-8")
+            )
             self.assertFalse((root / "build/runtime/work/edition-archive").exists())
 
 

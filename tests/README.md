@@ -20,7 +20,7 @@ metadata, including title, subject, author, keywords, language and date.
 They require native manuscript content,
 resolve the complete declared diagram set with alternative descriptions, and
 reject private host paths in portable inputs. Navigation checks require the
-contents to list all thirty chapters and four practice modules, the epilogue, the afterword and four appendices in
+contents to list every chapter, practice module and appendix of `book/manuscript.typ`, the epilogue and the afterword in
 reading order, each layer's opening chapter to carry its number, the practice
 chapters to name exercise cases that exist, the hook settings and skill printed in the
 tools chapter to equal the exercise files, the printed hook script to pass on
