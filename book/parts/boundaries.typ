@@ -32,7 +32,7 @@ Codex 把“能触及什么”和“何时询问人”拆成两个选项。`--sa
 
 #matrix(columns: (1.3fr, 1.2fr, 1.4fr), [*要做的事*], [*Claude Code*], [*Codex*], [只让它查看，提出一个方案], [`plan`], [`read-only`], [在自己的工作副本中修改代码], [`acceptEdits`], [`workspace-write` 加 `on-request`], [涉及共享的仓库和数据], [`default`], [`read-only`，需要写入的那一步由人来做], [无人值守的定时任务], [`dontAsk` 配一张清单], [`never` 加 `read-only` 或 `workspace-write`], [在隔离的、可以随时丢弃的环境中运行批量任务], [`bypassPermissions`], [`--dangerously-bypass-approvals-and-sandbox`])
 
-初次使用时宜选 `default`：这一档询问频繁，便于看清智能体每一步在做什么。不指定档位、也没有个人设置时，本书所用的 Claude Code 2.1.311 在终端里交互启动，起始于 `auto` 档；用 `claude -p` 启动，起始于 `default`。个人设置文件 `~/.claude/settings.json` 中的 `permissions.defaultMode` 还可以改变起始的档位；所以启动时应明确指定档位。
+初次使用时宜选 `default`：这一档询问频繁，便于看清智能体每一步在做什么。不指定档位、也没有个人设置时，本书所用的 Claude Code 2.1.311 在终端里交互启动，起始于 `auto` 档（这一条只在一种登录方式下看到过，见#link(<first>)[第十章]）；用 `claude -p` 启动，起始于 `default`。个人设置文件 `~/.claude/settings.json` 中的 `permissions.defaultMode` 还可以改变起始的档位；所以启动时应明确指定档位。
 
 两个宿主都有一个“全部跳过”的启动开关，名称中带有 `dangerously`：Claude Code 是 `--dangerously-skip-permissions`，Codex 是 `--dangerously-bypass-approvals-and-sandbox`。在自己的机器上、针对共享的仓库打开它们，等于把三个圈全部抹去。Codex 的 `danger-full-access` 与此不同：它只取消沙箱，不改变何时询问。Claude Code 的 `auto` 省去了询问人这一步，放行与否由一个分类模型决定；分类模型和其他模型一样会出错，只要错放一次，收不回的事就可能已经发生。
 
@@ -181,7 +181,7 @@ claude --permission-mode default
 智能体写 `notes.txt` 有两条路。一是请求运行一条 shell 命令：宿主会来问你，回答不同意；钩子只匹配写文件的两个工具，管不到这条路，要由你来挡。二是用写文件的工具：调用被钩子拒绝，宿主不会来问你，智能体收到的是下面这条报错，路径有删节：
 
 ```
-PreToolUse:Write hook error: [sh "$CLAUDE_PROJECT_DIR"/.claude/hooks/guard.sh]: refused by guard.sh: edits are allowed only under work/ (got …/notes.txt)
+PreToolUse:Edit hook error: [sh "$CLAUDE_PROJECT_DIR"/.claude/hooks/guard.sh]: refused by guard.sh: edits are allowed only under work/ (got …/notes.txt)
 ```
 
 这里不用 `acceptEdits`，是因为第一条路在那一档下无人把守。#link(<case-records>)[附录 D]所记的两次运行都以那一档启动，智能体两次都用一条 `echo` 命令把那一行追加进了 `notes.txt`；宿主没有询问，钩子没有触发。按官方文档，那一档下不询问的文件命令是 `mkdir`、`touch`、`rm`、`rmdir`、`mv`、`cp` 和 `sed`，并没有 `echo`：文档所列，不等于实际放行的全部。
