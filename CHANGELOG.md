@@ -25,6 +25,21 @@ itself claim editorial acceptance.
   exercise checks without their number; the reader note in the edition archive
   is filled with it at build time from the test file.
 
+### Fixed
+
+- Statements about how the hosts behave now say what they rest on. The starting
+  permission mode is stated as the vendor documents it (from Claude Code 2.1.283,
+  `auto` for an interactive session with no mode in the settings, Manual when
+  `auto` is unavailable; `default` for `claude -p` from 2.1.302). Chapter 13 states what
+  `acceptEdits` lets through as run on 2.1.311 and 2.1.329: output redirection
+  into the working directory passes, and `sed` asks when it edits a file in place
+  on macOS. Appendix D records these runs and the helper types, which rested on
+  documentation alone in 0.2.3, and the reader run of 0.2.3's final text.
+  Chapter 14 describes what the second recall may return, and chapter 12 how the
+  hook's report varied. The reader is told of the first-launch screens, the LSP
+  plugin offer when a session is continued, where `none.duckdb` is left, and a
+  second Ollama install.
+
 ## [0.2.3] - 2026-11-20
 
 ### Fixed

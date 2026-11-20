@@ -116,7 +116,7 @@ ast-grep run --lang python --pattern 'row["return_bps"]' export_bug.py
 参考答案：
 
 + 只读：`plan`，或者 Codex 的 `read-only`；它不能改动任何东西；允许它查看哪些数据，仍按#link(<boundaries>)[第十三章]的边界来确定。
-+ 收得回：`acceptEdits`，或者 `workspace-write`；修改文件无须询问，运行命令时再确认一下。
++ 收得回：`acceptEdits`，或者 Codex 的 `workspace-write` 加 `on-request`；修改文件无须询问。`acceptEdits` 下，在工作目录内运行常见的文件命令（包括 `rm`），或者用重定向把输出写进工作目录里的文件，也不询问；只读命令以外的其余命令，宿主运行前仍会询问（见#link(<boundaries>)[第十三章]）。
 + 涉及共享的原件：`default`，而且不同意那一句“顺手修掉”。核对和修改是两件事，修改需要另外获得批准；这里应让它把有问题的行列出来，而不改动原件。
 + 无人值守：`dontAsk` 加一张只允许读取和查询的清单，写文件的位置限定在一个目录内，再加上花费上限（`--max-budget-usd`，只在 `-p` 下有效，见#link(<quickref>)[附录 B]）。
 
