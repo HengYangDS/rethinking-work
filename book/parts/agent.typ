@@ -89,7 +89,7 @@
 模型会越来越强：一次能连续完成的步骤更多，错误更少，价格更低。宿主会替人承担更多工作：自行拆分任务、派出帮手、保存进度。今天需要人照看的环节，有一些今后会改由宿主处理。
 
 == 上手
-这一节查看自己的机器上每个宿主接入了哪个模型，再预览一次更换。机器上需要装有 AIGW；最后一步需要装有 Ollama。
+这一节查看自己的机器上每个宿主接入了哪个模型，再预览一次更换。机器上需要装有 AIGW，并且已经用 `aigw setup` 配置过服务商和模型；只安装、没有配置时，下面第一条命令输出 `Not configured`，并提示先运行 `aigw setup`。最后一步需要装有 Ollama。
 
 先看每个宿主当前接入的模型：
 
@@ -130,7 +130,7 @@ Credential reader
   ✓ Nothing was written: configuration, credentials and client files are unchanged
 ```
 
-预览中要核对三项。一是它要改写哪个文件，这里是 `~/.claude/settings.json`。二是凭据从哪里来：这里还没有保存，去掉 `--dry-run` 正式运行时，AIGW 会在终端里要求输入，并加以验证。三是它要在本机安装一个读取凭据的程序。最后一行说明这一次什么也没有写。改错了，`aigw config rollback` 可以把配置和宿主的设置文件恢复回来。
+预览中要核对三项。一是它要改写哪个文件，这里是 `~/.claude/settings.json`。二是凭据从哪里来：这里还没有保存，去掉 `--dry-run` 正式运行时，AIGW 会在终端里要求输入，并加以验证。三是它要在本机安装一个读取凭据的程序。后两项不一定出现：一次运行中，在已经配置好的机器上，输出里没有 `Token` 和 `Credential reader` 这两处，要核对的只剩第一项。最后一行说明这一次什么也没有写。改错了，`aigw config rollback` 可以把配置和宿主的设置文件恢复回来。
 
 要确认一个模型在 Claude Code 里能否使用，运行 `aigw check claude --depth client`，再看输出中的 `session.scope`；这一级可能消耗额度。
 

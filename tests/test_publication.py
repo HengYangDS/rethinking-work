@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 import resource
 import subprocess
 import tempfile
@@ -59,7 +60,8 @@ FACTS = {
     "chapter marks": "query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
     " page:it.location().page()))",
     **{f"layer {label}": f"query(<{label}>).first().location().page()" for label in LAYERS},
-    "raws": "query(raw).map(it => (text:it.text, page:it.location().page()))",
+    "raws": "query(raw).map(it => (text:it.text, lang:it.lang, block:it.block,"
+    " page:it.location().page()))",
     "practice page": "query(<practice-thinking>).first().location().page()",
     "openers": "query(heading.where(level: 1, outlined: true)).map(it => it.location().page())",
     "contents returns": "query(link).filter(it => it.dest == <contents>)"
@@ -101,6 +103,32 @@ def evaluate(expression):
     if result.returncode:
         raise AssertionError(f"typst eval failed:\n{result.stderr}")
     return json.loads(result.stdout)
+
+
+def bare_comment_lines(script):
+    """Lines of a shell text with a word beginning with `#` outside quotes and here-documents."""
+    found, quote, until = [], None, None
+    for number, line in enumerate(script.split("\n"), 1):
+        if until is not None:
+            until = None if line.strip() == until else until
+            continue
+        index, previous = 0, " "
+        while index < len(line):
+            char = line[index]
+            if char == "\\" and quote != "'":
+                index += 1
+            elif quote:
+                quote = None if char == quote else quote
+            elif char in "'\"":
+                quote = char
+            elif char == "#" and previous.isspace():
+                found.append(number)
+                break
+            previous = char
+            index += 1
+        document = None if quote else re.search(r"<<-?\s*['\"]?(\w+)", line)
+        until = document.group(1) if document else None
+    return found
 
 
 def cpu_seconds():
@@ -330,6 +358,38 @@ class PublicationInputs(unittest.TestCase):
         self.assertTrue(opened)
         self.assertTrue(turns)
         self.assertEqual(short, {}, "pages left short before a table or a sample box, in pt")
+
+    def test_printed_commands_work_when_pasted_whole(self):
+        # A reader pastes a printed block into an interactive shell with default options. There a
+        # trailing `#` is no comment (zsh hands it to the command), a request sent right after a
+        # background start arrives before the process listens, and a registered scheduled job
+        # runs by itself until it is removed. A block that is a script's text begins with `#!`.
+        raws = self.fact("raws")
+        blocks = [
+            (index, item)
+            for index, item in enumerate(raws)
+            if item["block"] and item["lang"] == "sh" and not item["text"].startswith("#!")
+        ]
+        self.assertGreater(len(blocks), 50)
+        commented, unwaited = {}, []
+        for _, item in blocks:
+            marks = bare_comment_lines(item["text"])
+            if marks:
+                commented[item["page"]] = marks
+            lines = item["text"].split("\n")
+            for line, following in zip(lines, lines[1:], strict=False):
+                if line.rstrip().endswith(" &") and not following.startswith("sleep "):
+                    unwaited.append(item["page"])
+        self.assertEqual(commented, {}, "pages with a `#` word in a command, by line of the block")
+        self.assertEqual(unwaited, [], "pages where a background start is not followed by a wait")
+        registered = [index for index, item in blocks if "hermes cron create" in item["text"]]
+        self.assertTrue(registered)
+        kept = [
+            raws[start]["page"]
+            for start, end in zip(registered, registered[1:] + [len(raws)], strict=True)
+            if not any("hermes cron remove" in item["text"] for item in raws[start:end])
+        ]
+        self.assertEqual(kept, [], "pages that register a scheduled job which nothing removes")
 
     def test_declared_diagrams_resolve(self):
         sources = {path.stem for path in (ROOT / "diagrams").glob("*.mmd")}

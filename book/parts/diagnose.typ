@@ -97,11 +97,12 @@ Server response:
 排查结束后，值得留下的不是一串修复它的命令，而是以下几项：什么情况下会出现这个错误，关键的差别在哪里，排除过哪些解释，哪个观察支持了最后的结论，还有哪些尚未查明。有了这些，下一个遇到类似情况的人，才能判断是照此办理，还是另行排查。
 
 == 上手
-“连上的是谁”那一例，可以在本机用 Python 和 `curl` 重演一遍，不调用模型。先让一个什么也不回答的进程占住 8765 端口，再像客户端那样去请求它：
+“连上的是谁”那一例，可以在本机用 Python 和 `curl` 重演一遍，不调用模型。先让一个什么也不回答的进程占住 8765 端口，等一秒让它开始监听，再像客户端那样去请求它：
 
 ```sh
 mkdir -p ~/port-demo && cd ~/port-demo
 python3 -c 'import socket, time; s = socket.socket(); s.bind(("127.0.0.1", 8765)); s.listen(); time.sleep(3600)' &
+sleep 1
 curl -sS -m 5 -o /dev/null -w '%{http_code} %{time_total}\n' http://127.0.0.1:8765/
 ```
 
@@ -128,11 +129,12 @@ ps -o lstart=,command= -p "$(lsof -t -iTCP:8765 -sTCP:LISTEN)"
 Wed Nov 18 15:41:03 2026     …/Python -c import socket, time; s = socket.socket(); s.bind(("127.0.0.1", 8765)); s.listen(); time.sleep(3600)
 ```
 
-第一行是进程号，第二行是它的启动时间和命令（有删节，略去了 Python 的安装路径）。只停掉这一个进程，再启动服务、再请求一次：
+第一行是进程号，第二行是它的启动时间和命令（有删节，略去了 Python 的安装路径）。只停掉这一个进程，再启动服务，同样等一秒，再请求一次：
 
 ```sh
 kill "$(lsof -t -iTCP:8765 -sTCP:LISTEN)"
 python3 -m http.server 8765 --bind 127.0.0.1 &
+sleep 1
 curl -sS -m 5 -o /dev/null -w '%{http_code} %{time_total}\n' http://127.0.0.1:8765/
 ```
 

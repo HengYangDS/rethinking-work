@@ -70,7 +70,13 @@ hermes cron create "30 7 * * 1-5" --name reconcile --no-agent \
   --script reconcile.sh --deliver local
 ```
 
-这份骨架中，调用模型的那一步没有实际运行过；其余几步用一个只输出固定内容的替身代替 `claude` 试过，四种结果都与下文所述相符。
+登记之后，这项任务就生效了：只要网关在运行，每个工作日 7:30 它都会自己启动，运行一遍脚本中的 `claude -p`，花费以其中的 `--max-budget-usd 1` 为限。网关不一定是你有意启动的：#link(<orchestrate>)[第二十章]派出看板卡片时，Hermes 会顺带启动它。只是照着做一遍的读者，看到输出中有 `Created job:` 一行，就知道登记已经成功，随后把这项任务删掉；需要它长期运行时再登记。编号就在那一行里，也可以用 `hermes cron list` 查到：
+
+```sh
+hermes cron remove <编号>
+```
+
+`reconcile.sh` 这份骨架，先用一个只输出固定内容的替身代替 `claude` 试过，四种结果都与下文所述相符。调用模型的那一步，#link(<case-records>)[附录 D]记有两次运行，所用的委托很短，两次都正常结束，各花费不到 0.2 美元。
 
 表中的五项，这里各有一个最简做法。“谁触发它”，是任务的时刻表，由网关按时启动。“它能花多少”，由花费上限约束。“它够得着什么”，由一张清单限定，只放开读文件和只读查询。“结果存放在哪里，由谁来读”：模型交回的结果写进 `runs/today.json`，脚本输出的那一句由 Hermes 送到 `--deliver` 指定的地方。`local` 只写进 `~/.hermes/cron/output/` 下的一个文件，要让人收到，就改成 Hermes 已接入的即时通讯。“什么算失败”：没有产出、结果标记为出错、连目录都进不去，脚本都输出一句并以 1 退出，Hermes 把这一次记为失败。成功时也输出一句，因为成功时如果什么都不说，某天没有收到任何消息，就分不清是一切正常，还是这项任务根本没有运行。
 
@@ -82,7 +88,7 @@ hermes cron create "30 7 * * 1-5" --name reconcile --no-agent \
 
 这两处有前车之鉴。#link(<bounds>)[第七章]提到过一个每晚同步数据的脚本：定时环境的搜索路径中，没有它要用的那条命令。命令找不到，脚本却没有停止，照样运行到底，每晚报告“失败数为零”，接连几个晚上什么也没有同步。
 
-登记之后，还要确认这项任务到点真的会运行。`hermes cron create` 只是把任务写进列表，到点启动它的是网关。网关没有运行时，`create` 的输出末尾会提示调度器尚未就绪，`hermes cron status` 说得更直白：`✗ No scheduler is serving profile 'default' — its cron jobs will NOT fire`。网关在运行时，同一条命令的输出中有一行 `✓ Gateway is running — cron jobs will fire automatically`。
+要让这项任务长期运行，登记之后还要确认它到点真的会运行。`hermes cron create` 只是把任务写进列表，到点启动它的是网关。网关没有运行时，`create` 的输出末尾会提示调度器尚未就绪，`hermes cron status` 说得更直白：`✗ No scheduler is serving profile 'default' — its cron jobs will NOT fire`。网关在运行时，同一条命令的输出中有一行 `✓ Gateway is running — cron jobs will fire automatically`。
 
 另一件要事先想好的，是错过的那一次。机器关着或者网关停着的时候，到点的任务不会运行；恢复以后补不补跑，由登记时的 `--catch-up` 决定：`on` 补跑一次，`off` 不补，只在 `hermes cron runs` 中把那一次记为 missed。补跑过的任务，`hermes cron list` 会在那一项下注明。下面是一项每天 9:00 运行的检查（有删节）：
 

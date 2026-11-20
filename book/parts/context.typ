@@ -99,7 +99,7 @@ export-regression/export_bug.py:1-2
 
 排在第一的是一份时点查询，其中有“没有可用版本”这样的字眼，与所问的事只是略有关联。修复后的那份排第二，有错的那份排第三。检索把你引到相关内容附近，哪一份才是你要的，还得自己读。
 
-没有找到，也不等于不存在：索引可能根本没有收录那份文件。semble 默认只检索代码。问“空值能不能补成零”，答案写在 `AGENTS.md` 里，默认的检索却找不到它。下面这条命令在整个副本（`.`）中检索，末尾的 `--content docs` 让它检索文档；去掉这一项，就是默认的检索，排在前三的是一个 Python 文件和两份 SQL 查询，没有 `AGENTS.md`。输出有删节，只保留第一行：
+没有找到，也不等于不存在：索引可能根本没有收录那份文件。semble 默认只检索代码。问“空值能不能补成零”，答案写在 `AGENTS.md` 里，默认的检索却找不到它。下面这条命令在整个副本（`.`）中检索，末尾的 `--content docs` 让它检索文档；去掉这一项，就是默认的检索，排在前三的是两个 Python 文件和一份 SQL 查询，没有 `AGENTS.md`。输出有删节，只保留第一行：
 
 ```sh
 semble search "may an empty return be filled with zero" . \
@@ -121,7 +121,7 @@ AGENTS.md:1-19
 code-review-graph build --repo .
 ```
 
-它在标准错误上打印若干行日志，在标准输出上只打印一行 `Full build: 16 files, 112 nodes, 169 edges (postprocess=full)`：解析了 16 个文件，图中有 112 个节点、169 条边。图存放在目录里新建的 `.code-review-graph/` 中。
+它在标准错误上打印若干行日志，在标准输出上只打印一行 `Full build: 16 files, 111 nodes, 165 edges (postprocess=full)`：解析了 16 个文件，图中有 111 个节点、165 条边。图存放在目录里新建的 `.code-review-graph/` 中。
 
 问 `export_rows` 被谁调用。它的回答是 JSON，下面用 `jq` 取出其中几项；输出有删节，只保留第一行和末两行：
 
@@ -186,9 +186,9 @@ mkdir -p ~/discover/repo/sub && cd ~/discover &&
   git -C repo init -q && cd repo/sub
 ```
 
-在这里启动会话，只问一句：“Without reading any file or running any command, list every code word that appears in the instructions you were given at startup. If none, say NONE.”安装了 Codex 的，先用 `/exit` 退出 Claude Code，再在同一个目录里运行 `codex`，问同一句。两个宿主的回答，可以对照上文“说明文件：每次都读的那一页”一节记下的结果。
+在这里启动会话（`claude --permission-mode default`），只问一句：“Without reading any file or running any command, list every code word that appears in the instructions you were given at startup. If none, say NONE.”安装了 Codex 的，先用 `/exit` 退出 Claude Code，再在同一个目录里运行 `codex`，问同一句。两个宿主的回答，可以对照上文“说明文件：每次都读的那一页”一节记下的结果。
 
-最后看压缩。回到 `~/first-session`，再启动一次 Claude Code 会话。先说一句说明文件里没有的话，比如“这次会话里，报告都用英文写”。运行 `/context`，看清是什么占满了上下文；运行 `/compact`，再运行一次 `/context`，看清留下了什么。然后问它两件事：说明文件中关于空值处理的那一条，以及你只说过一遍的那句话。退出之后，按第十章的办法重新取得 `f`，看压缩前后记录了什么：
+最后看压缩。回到 `~/first-session`，再启动一次 Claude Code 会话（`claude --permission-mode default`）。先说一句说明文件里没有的话，比如“这次会话里，报告都用英文写”。运行 `/context`，看清是什么占满了上下文；运行 `/compact`，再运行一次 `/context`，看清留下了什么。然后问它两件事：说明文件中关于空值处理的那一条，以及你只说过一遍的那句话。退出之后，按第十章的办法重新取得 `f`，看压缩前后记录了什么：
 
 ```sh
 jq -r 'if .subtype == "compact_boundary"

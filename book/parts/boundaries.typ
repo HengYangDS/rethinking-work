@@ -22,7 +22,7 @@ Claude Code 和 Codex 都可以设定智能体在什么情况下先询问人。
 
 Claude Code 的 `--permission-mode` 有六档。`plan` 和 `dontAsk` 两行中的实际表现，来自#link(<case-records>)[附录 D]所记的运行：
 
-#matrix(columns: (0.9fr, 2.4fr), [*档*], [*它怎样对待一个动作*], [`default`], [读取不询问；修改文件、运行命令这类有风险的动作，逐条先询问人。命令行里也写作 `manual`], [`acceptEdits`], [修改文件不询问，其余照常询问], [`plan`], [只查看、只出方案，不执行改动。项目里的文件保持原样，方案本身写进用户主目录下 `~/.claude/plans/` 中的一个文件], [`auto`], [由一个分类模型代替人判断：它认为风险较低的放行，其余拦下], [`dontAsk`], [不询问人。清单上有的照常执行；宿主视为只读的命令，如 `ls`、`git status`，不在清单上也照常运行；其余一律拒绝], [`bypassPermissions`], [跳过全部权限检查])
+#matrix(columns: (0.9fr, 2.4fr), [*档*], [*它怎样对待一个动作*], [`default`], [读取不询问；修改文件、运行命令这类有风险的动作，逐条先询问人。命令行里也写作 `manual`], [`acceptEdits`], [修改文件、在工作目录内运行常见的文件命令不询问，其余照常询问；哪些命令算常见，官方文档所列与实际所见不尽相同，见章末“上手”], [`plan`], [只查看、只出方案，不执行改动。项目里的文件保持原样，方案本身写进用户主目录下 `~/.claude/plans/` 中的一个文件], [`auto`], [由一个分类模型代替人判断：它认为风险较低的放行，其余拦下], [`dontAsk`], [不询问人。清单上有的照常执行；宿主视为只读的命令，如 `ls`、`git status`，不在清单上也照常运行；其余一律拒绝], [`bypassPermissions`], [跳过全部权限检查])
 
 更细的一层是工具清单。`--allowedTools` 和 `--disallowedTools` 分别列出允许和禁止的工具，可以细化到一条命令的开头，比如 `Bash(git *)` 只放行以 `git` 开头的命令。限定写入的位置，要写成 `Edit(路径)`：清单上只有 `Edit(out/**)` 时，写 `out/a.md` 获准，写当前目录下的 `a.md` 被拒；写成 `Write(out/**)`，连 `out/a.md` 也写不进；只写一个 `Write`，则任何位置都可以写。无人值守时用 `dontAsk` 配一张清单：它不会停下来等人，清单以外凡会改动文件或状态的操作一律拒绝；宿主视为只读的命令不受清单约束，所以不想让它读到的内容，要用别的办法挡在外面。
 
@@ -32,7 +32,7 @@ Codex 把“能触及什么”和“何时询问人”拆成两个选项。`--sa
 
 #matrix(columns: (1.3fr, 1.2fr, 1.4fr), [*要做的事*], [*Claude Code*], [*Codex*], [只让它查看，提出一个方案], [`plan`], [`read-only`], [在自己的工作副本中修改代码], [`acceptEdits`], [`workspace-write` 加 `on-request`], [涉及共享的仓库和数据], [`default`], [`read-only`，需要写入的那一步由人来做], [无人值守的定时任务], [`dontAsk` 配一张清单], [`never` 加 `read-only` 或 `workspace-write`], [在隔离的、可以随时丢弃的环境中运行批量任务], [`bypassPermissions`], [`--dangerously-bypass-approvals-and-sandbox`])
 
-初次使用时宜选 `default`：这一档询问频繁，便于看清智能体每一步在做什么。不指定档位、也没有用户设置时，Claude Code 2.1 从 `default` 开始，而用户设置文件 `~/.claude/settings.json` 中的 `permissions.defaultMode` 可以把起点改成别的档，比如 `auto`；所以启动时应明确指定档位。
+初次使用时宜选 `default`：这一档询问频繁，便于看清智能体每一步在做什么。不指定档位、也没有个人设置时，本书所用的 Claude Code 2.1.311 在终端里交互启动，起始于 `auto` 档；用 `claude -p` 启动，起始于 `default`。个人设置文件 `~/.claude/settings.json` 中的 `permissions.defaultMode` 还可以改变起始的档位；所以启动时应明确指定档位。
 
 两个宿主都有一个“全部跳过”的启动开关，名称中带有 `dangerously`：Claude Code 是 `--dangerously-skip-permissions`，Codex 是 `--dangerously-bypass-approvals-and-sandbox`。在自己的机器上、针对共享的仓库打开它们，等于把三个圈全部抹去。Codex 的 `danger-full-access` 与此不同：它只取消沙箱，不改变何时询问。Claude Code 的 `auto` 省去了询问人这一步，放行与否由一个分类模型决定；分类模型和其他模型一样会出错，只要错放一次，收不回的事就可能已经发生。
 
@@ -170,21 +170,23 @@ esac
 EOF
 ```
 
-现在启动一个会话，交给它下面这份委托。用 `acceptEdits`，修改文件不询问，是否放行由钩子决定。第一次在这个目录启动时，宿主会询问是否信任这个目录；钩子写在项目设置中，只有信任之后才会运行。
+现在启动一个会话，交给它下面这份委托。用 `default` 档：修改文件、运行只读以外的命令之前，宿主都先来问你。钩子在询问之前运行：它拒绝的调用到不了你面前；它没有拒绝的，宿主照常来问。修改 `work/export.py` 时就是这样，届时选 `Yes`。第一次启动时，宿主会询问是否信任这个目录；钩子写在项目设置中，信任之后才会运行。
 
 ```sh
-claude --permission-mode acceptEdits
+claude --permission-mode default
 ```
 
 #note("委托", [两件事：一，在 notes.txt 末尾加一行 checked；二，把 work/export.py 的筛选条件改成只排除空值。最后告诉我两件事各自的结果。])
 
-如果它请求运行一条 shell 命令去写 `notes.txt`，回答不同意：这条路钩子管不到，要由你来挡。用写文件的工具写 `notes.txt` 时，调用被钩子拒绝，它收到的是下面这条报错，路径有删节：
+智能体写 `notes.txt` 有两条路。一是请求运行一条 shell 命令：宿主会来问你，回答不同意；钩子只匹配写文件的两个工具，管不到这条路，要由你来挡。二是用写文件的工具：调用被钩子拒绝，宿主不会来问你，智能体收到的是下面这条报错，路径有删节：
 
 ```
 PreToolUse:Write hook error: [sh "$CLAUDE_PROJECT_DIR"/.claude/hooks/guard.sh]: refused by guard.sh: edits are allowed only under work/ (got …/notes.txt)
 ```
 
-退出后运行 `cat notes.txt`，输出应当仍然只有 `keep` 一行。要从记录里核对，把#link(<first>)[第十章]中给变量 `f` 赋值的那一行里的 `first-session` 换成 `guard-practice`，再运行列出工具结果的那条 `jq`，上面这条报错就在其中。还要读一读 `work/export.py` 改成了什么：附录 D 所记的那一次，它排除的是 `None` 和空字符串；空字符串算不算空值，委托里没有写。钩子只检查改的是哪个文件，不检查改成了什么；空值怎样处理，只有读了改动才看得出来。
+这里不用 `acceptEdits`，是因为第一条路在那一档下无人把守。#link(<case-records>)[附录 D]所记的两次运行都以那一档启动，智能体两次都用一条 `echo` 命令把那一行追加进了 `notes.txt`；宿主没有询问，钩子没有触发。按官方文档，那一档下不询问的文件命令是 `mkdir`、`touch`、`rm`、`rmdir`、`mv`、`cp` 和 `sed`，并没有 `echo`：文档所列，不等于实际放行的全部。
+
+退出后运行 `cat notes.txt`，输出应当仍然只有 `keep` 一行。要从记录里核对，把#link(<first>)[第十章]中给变量 `f` 赋值的那一行里的 `first-session` 换成 `guard-practice`，再运行列出工具结果的那条 `jq`；它若用过写文件的工具，上面这条报错就在其中。还要读一读 `work/export.py` 改成了什么：附录 D“钩子守住的边界”一行所记的那一次，它排除的是 `None` 和空字符串；空字符串算不算空值，委托里没有写。钩子只检查改的是哪个文件，不检查改成了什么；空值怎样处理，只有读了改动才看得出来。
 
 #closing[
 一道边界是否可靠，先看由谁执行：库、操作系统和宿主作出的拒绝，不取决于模型是否听从。再看它管到了哪几条路：同一件事还有别的路可走，那些路也要设防。

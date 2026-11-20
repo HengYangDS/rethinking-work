@@ -45,7 +45,7 @@ claude --permission-mode default
 
 它在哪个目录启动，就在哪个目录里工作。第一次在一个目录里启动时，它先问你是否信任这个目录：提示以“Quick safety check: Is this a project you created or one you trust?”开头。这个目录是你刚建的，选择“Yes, I trust this folder”。别人交给你的目录，先看过其中的文件再决定：目录里的设置可以预先放行一些操作，也可以带有#link(<tools>)[第十二章]讲的钩子。这一选择记在 `~/.claude.json` 中，以后在这个目录里启动不再询问。
 
-选项 `--permission-mode` 决定它何时停下来征询你，可选的几种称为档位。初次使用宜选 `default`，`--help` 中列出的 `manual` 是它的别名。在这一档下，读取文件，以及 `ls`、`cat`、`git status` 这类只读的命令，它直接执行；修改文件、运行其他命令之前，先停下来询问。个人设置可以改变起始的档位，所以第一次就在命令中写明。各档的区别见#link(<boundaries>)[第十三章]。
+选项 `--permission-mode` 决定它何时停下来征询你，可选的几种称为档位。初次使用宜选 `default`，`--help` 中列出的 `manual` 是它的别名。在这一档下，读取文件，以及 `ls`、`cat`、`git status` 这类只读的命令，它直接执行；修改文件、运行其他命令之前，先停下来询问。不写这个选项时，起始的档位未必是 `default`。本书所用的 Claude Code 2.1.311，在终端里交互启动而又没有个人设置时，起始于 `auto` 档：由一个分类模型代替你判断放行与否，不再逐项来问。个人设置也可以改变起始的档位；所以每次启动都在命令中写明档位。各档的区别见#link(<boundaries>)[第十三章]。
 
 在会话里输入上一章那份委托，只是另外写明了文件名：
 
@@ -54,7 +54,7 @@ claude --permission-mode default
 == 它停下来询问时
 它停下来询问你，实际上是宿主在问，而不是模型在问。是否放行，由你决定；#link(<boundaries>)[第十三章]讲的边界，在这里第一次用到。
 
-先读它要执行的那一项：是哪条命令，修改哪个文件的哪一行。看懂了再同意。同意有两种选择：`Yes` 只同意这一次；以 `Yes, and don't ask again` 开头的那一项，同意这一类操作以后不再询问，对命令而言，是在这个目录里不再询问。本章一律选 `Yes`。看不懂的不要同意：选以 `No` 开头的那一项，可以在对话中问它为什么要这样做，或者告诉它换一种做法。
+先读它要执行的那一项：是哪条命令，修改哪个文件的哪一行。看懂了再同意。同意的选项不止一种。`Yes` 只同意这一次。其余以 `Yes, and` 开头的几项，同意之外各附带一项改变：对命令，是 `Yes, and don't ask again for` 加上这条命令，此后在这个目录里运行这条命令不再询问；对修改文件，是 `Yes, and switch to accept edits`，本次会话余下的修改和常见的文件命令都不再询问；有的提示里还有一项 `Yes, and switch to auto mode`，把档位换成 `auto`。本章一律选 `Yes`。看不懂的不要同意：选以 `No` 开头的那一项，可以在对话中问它为什么要这样做，或者告诉它换一种做法。
 
 它完成后会交回一段报告。先不要读，输入 `/exit` 退出会话；报告保存在会话记录里，稍后再读。
 
@@ -130,11 +130,16 @@ git tag fix
 codex
 ```
 
-已经用 Claude Code 做完的读者，也可以用 Codex 再做一遍，两相对照。两条命令分两次运行，开始前运行第一条，恢复有错的那一版；做完之后运行第二条，恢复修复后的那一版：
+已经用 Claude Code 做完的读者，也可以用 Codex 再做一遍，两相对照。开始之前，先恢复有错的那一版：
 
 ```sh
-git checkout fix~1 -- export.py   # 开始前
-git checkout fix -- export.py     # 做完之后
+git checkout fix~1 -- export.py
+```
+
+做完之后，再恢复修复后的那一版：
+
+```sh
+git checkout fix -- export.py
 ```
 
 第一次在一个目录里启动时，Codex 同样先问是否信任这个目录（Trust this folder?），并提醒目录里的设置可以在没有模型请求的情况下自动运行代码，你的选择会被保存下来。
@@ -162,11 +167,11 @@ jq -r 'select(.type=="response_item") | .payload
 第二条命令应当打印 `first-session` 所在的完整路径；若不是，就把 `f` 换成同一日期目录中的另一个文件。第三条每行是一次工具调用：工具的名称和参数的开头，名称和参数的写法随 Codex 的版本而变。第四条提取它写的文字，最后一段就是报告。第五条每行打印一项工具带回的结果，只取前 90 个字符。对照报告的办法与上面相同。
 
 == 接续会话与非交互运行
-会话保存在磁盘上，之后可以接续。需要接着做时，从下面三条中选用一条。Claude Code 用前两条：`--continue` 接续这个目录里最近的一次会话，`--resume` 从列表中选择一次。Codex 用第三条，它只在当前目录的会话中找最近的一次，加 `--all` 则不限目录：
+会话保存在磁盘上，之后可以接续。需要接着做时，从下面三条中选用一条。Claude Code 用前两条：`--continue` 接续这个目录里最近的一次会话，`--resume` 从列表中选择一次；接续时档位同样要写明：不写，又没有个人设置，也起始于 `auto` 档。Codex 用第三条，它只在当前目录的会话中找最近的一次，加 `--all` 则不限目录：
 
 ```sh
-claude --continue
-claude --resume
+claude --continue --permission-mode default
+claude --resume --permission-mode default
 codex resume --last
 ```
 
