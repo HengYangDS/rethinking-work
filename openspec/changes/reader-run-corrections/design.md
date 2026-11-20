@@ -2,7 +2,7 @@
 
 ## Context
 
-The reader run of 0.2.2 (2026-11-20, `build/evidence/reader-run-0.2.2/`) ran the 90 printed shell blocks in a scratch account: Claude Code 2.1.311 and Codex 0.170 in interactive sessions typed into a terminal, Hermes 0.23.2 in a fresh data directory, `zsh -f` for model-free blocks. Its table names each differing block with the source line and the effect on a reader. The experiments the book rested on until then (appendix D, second kind) were headless `claude -p` runs in the `dontAsk` mode. Three of the book's statements were true of those runs and wrong as generalised to an interactive session: the starting mode, the hook exercise's mode, and what a helper reads.
+The reader run of 0.2.2 (2026-11-20, `build/evidence/reader-run-0.2.2/`) ran the 90 printed shell blocks with a scratch home directory under the same system user: Claude Code 2.1.311 and Codex 0.170 in interactive sessions typed into a terminal, Hermes 0.23.2 in a fresh data directory, `zsh -f` for model-free blocks. Its table names each differing block with the source line and the effect on a reader. The experiments the book rested on until then (appendix D, second kind) were headless `claude -p` runs in the `dontAsk` mode. Three of the book's statements were true of those runs and wrong as generalised to an interactive session: the starting mode, the hook exercise's mode, and what a helper reads.
 
 ## Goals / Non-Goals
 
@@ -34,7 +34,7 @@ The book's experiment used a general-purpose helper, which read `AGENTS.md`. The
 
 ### The starting mode and the commands that continue a session
 
-An interactive session without `--permission-mode` and without a setting starts in `auto` on the book's version (three reads in the clean account; the vendor's documentation says the same for 2.1.283 and later); `claude -p` starts in `default`. The chapter says so, and the printed `--continue` and `--resume` commands carry the option, as the first start already does. Chapter 13 held the old statement in a second place and is corrected with it, and the three later exercises that start a session without printing the command now print it.
+An interactive session without `--permission-mode` and with no mode in the personal settings starts in `auto` on the book's version (three reads with the scratch home, under one sign-in through a gateway with usage billing; the vendor's documentation says the same for 2.1.283 and later); `claude -p` starts in `default`. The chapter says so, and the printed `--continue` and `--resume` commands carry the option, as the first start already does. Chapter 13 held the old statement in a second place and is corrected with it, and the three later exercises that start a session without printing the command now print it.
 
 ### The check reads the printed blocks from the laid-out document
 
@@ -42,19 +42,19 @@ Three rules, each a property of commands, none a sentence: a shell block holds n
 
 ### What rests on what
 
-| Correction                                   | Basis                                                                      |
-| -------------------------------------------- | -------------------------------------------------------------------------- |
-| Job is live; dispatch starts the gateway     | reader run, once; the gateway's start log, three seconds after dispatch    |
-| `acceptEdits` writes through the shell       | reader run, two of two; vendor documentation                               |
-| The exercise in `default`                    | vendor documentation; not yet run as printed                               |
-| Trailing comments                            | reader run; repeated here in `zsh -f -i`                                   |
-| Wait before the request                      | reader run, 0 of 5 without it; run here with it                            |
-| Starting mode                                | reader run, three reads; vendor documentation                              |
-| Helpers by type                              | the book's run (general), reader run (Explore, once); vendor documentation |
-| AIGW items, graph numbers, observation delay | reader run, once each                                                      |
+| Correction                                   | Basis                                                                        |
+| -------------------------------------------- | ---------------------------------------------------------------------------- |
+| Job is live; dispatch starts the gateway     | reader run, once; the gateway's start log, three seconds after dispatch      |
+| `acceptEdits` writes through the shell       | reader run, two of two; vendor documentation                                 |
+| The exercise in `default`                    | vendor documentation; run as printed in the re-check, two of two             |
+| Trailing comments                            | reader run; repeated here in `zsh -f -i`                                     |
+| Wait before the request                      | reader run, 1 timeout and 25 immediate failures without it; run here with it |
+| Starting mode                                | reader run, three reads, one sign-in; vendor documentation                   |
+| Helpers by type                              | the book's run (general), reader run (Explore, once); vendor documentation   |
+| AIGW items, graph numbers, observation delay | reader run, once each                                                        |
 
 ## Risks / Trade-offs
 
-- The chapter 13 exercise in `default`, the helper exercise and the continued session's mode are corrected from documentation and are run as printed only in the re-check that follows this Change's commit. The paid part of that re-check needs the owner's cap. If it does not happen before the release, appendix D says that these three rest on documentation.
+- The chapter 13 exercise in `default`, the helper exercise and the continued session's mode were corrected from documentation. The re-check of the committed text (2026-11-20 12:46, under the owner's cap of 2 USD) ran the first and the third as printed; appendix D names what still rests on documentation alone.
 - The edition carries the layout rules landed since 0.2.2, so its page numbers differ from 0.2.2 by up to four pages; the heading-by-heading map is in `build/evidence/page-foot-gaps/`.
 - A vendor may change a mode's behaviour again. The back matter names the versions the statements belong to.
