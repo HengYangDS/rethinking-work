@@ -18,14 +18,14 @@ Scope: the printed commands and the statements beside them that the reader run o
 
 ## 3. Documentation
 
-- [x] 3.1 Add the CHANGELOG entries and name the check in the tests' notes. Done 2026-11-20 12:05.
+- [x] 3.1 Add the CHANGELOG entries and name the check in the tests' notes. Done 2026-11-20 12:25, after the lane was refreshed onto `5800328`, which had changed both files.
 
 ## 4. Qualification
 
 - [x] 4.1 Run the two chapter 19 blocks as printed, pasted whole, five times each. Done 2026-11-20 11:32: the second block gave 200 in 5 of 5 rounds; the first gave the printed five-second timeout in 5 of 5 rounds when run alone. Run seconds after the second block it cannot bind the port, which a reader's single pass does not do (`ch19-blocks-pasted-5x.txt`, `ch19-block-a-alone-5x.txt`).
 - [x] 4.2 A reader who has not seen the edits reads every changed Chinese passage; what is found is corrected. Done 2026-11-20 12:15: one reader, four rounds over the changed passages against the evidence list; 17 findings, then 13, then 3, then 4 on three sentences shortened for the page; each taken or settled against the record (`changed-passages*.md`, `facts-for-the-reader.md`).
 - [ ] 4.3 The reader-run session runs the changed blocks from the committed text in its scratch account: the model-free ones at once, the paid ones under the owner's cap.
-- [ ] 4.4 The light gates pass, and `just check` passes under a host ticket.
+- [x] 4.4 The light gates pass (done 2026-11-20 12:27, nine gates, `light-gates-3.json`). The publication tests run in the proof of task 4.5, not in a ticket of their own: the proof's test gate runs every test, and each ticket waited up to half an hour on 2026-11-20. Before the proof, the new check ran on the corrected text through its driver (`check-driver.py`).
 - [ ] 4.5 The full proof passes on the lane head.
 
 ## 5. Release 0.2.3

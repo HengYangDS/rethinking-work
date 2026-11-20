@@ -14,6 +14,33 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Fixed
+
+- Corrections from running every printed command of 0.2.2 as a reader, in a
+  clean account (2026-11-20: 80 of 90 blocks matched, 9 differed, 1 was only
+  dry-run). Chapter 18 now says that the registered `reconcile` job is live
+  and prints its removal; chapter 20 says that dispatching a card starts the
+  gateway. The boundary exercise of chapter 13 starts in the `default` mode:
+  in `acceptEdits` the host wrote the protected file through a shell command
+  without asking and the hook never fired. Chapter 10 drops two trailing `#`
+  comments that an interactive zsh passes to the command, states that an
+  interactive session without `--permission-mode` starts in `auto`, and names
+  the mode in the commands that continue a session; chapter 13, which held
+  the old statement too, is corrected with it, and three later exercises now
+  print the command that starts their session. Both blocks of chapter 19
+  wait a second before requesting a process they start. Chapters 9, 11 and 14
+  correct a prerequisite, two items a configured machine does not show, two
+  numbers and the delay before an observation appears. Chapter 20 and the
+  appendices state that only a helper of the general type reads the project's
+  instruction files; Explore and Plan helpers do not. Appendix D records the
+  run.
+
+### Added
+
+- A check of the printed shell blocks fails on a `#` word outside quotes and
+  here-documents, on a background start without a wait, and on a registered
+  scheduled job that nothing removes.
+
 ### Changed
 
 - The contributor notes and the proof profile's gate comment point to the test

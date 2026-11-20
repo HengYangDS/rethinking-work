@@ -27,8 +27,11 @@ tools chapter to equal the exercise files, the printed hook script to pass on
 the fixed export and fail on the old one, and the back matter to state the
 book's sources and limits. A layout check requires that the page before a table
 or a sample box is short by no more than a whole block allows, leaving out the
-pages that the manuscript ends on purpose. They require no new test environment
-or model service, and import only what
+pages that the manuscript ends on purpose. A check of the printed shell blocks
+requires what a reader's pasting needs: no word beginning with `#` outside
+quotes and here-documents, a wait after a line that starts a background
+process, and a removal command after each registered scheduled job. They
+require no new test environment or model service, and import only what
 [standard library only](#standard-library-only) allows.
 
 This is not a full editorial or visual acceptance suite. Migration comparison,
