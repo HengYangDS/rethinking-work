@@ -122,7 +122,10 @@ Status: succeeded
 
 ```sh
 hermes kanban boards create book-exp
-BODY='只读问答，不读文件、不执行命令。数据两行：S02 第1版 入库 2026-10-30T18:05Z 值 -100；第2版 公布 2026-11-01T08:00Z 入库 2026-11-03T08:05Z 值 -80。问：2026-11-02 09:00 UTC 按入库时间可用的最新版本值是多少？完成时交回：数值和一句理由。'
+BODY='只读问答，不读文件、不执行命令。数据两行：S02 第1版 入库 2026-10-30T18:05Z 值 -100；'
+BODY="$BODY"'第2版 公布 2026-11-01T08:00Z 入库 2026-11-03T08:05Z 值 -80。'
+BODY="$BODY"'问：2026-11-02 09:00 UTC 按入库时间可用的最新版本值是多少？'
+BODY="$BODY"'完成时交回：数值和一句理由。'
 hermes kanban --board book-exp create "Book experiment: one bounded answer" \
   --body "$BODY" --assignee default --workspace scratch --max-retries 1
 hermes kanban --board book-exp dispatch --dry-run

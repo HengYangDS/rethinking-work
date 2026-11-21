@@ -61,6 +61,14 @@ itself claim editorial acceptance.
   reviewed text had opened with a semicolon). A test checks every body line.
 - Figure 2 no longer breaks words inside its boxes, and figure 1's return arrow
   points to the judgement it changes, as its caption says.
+- Printed commands survive copying from the PDF, which turns a visual line break
+  into a newline. The clean-up after the sandbox trial is two short commands, so
+  no copied line reads `rm -rf /tmp/`. Nine shell lines that wrapped (among them
+  the hook setting's JSON, an appended rule and a jq filter) are rewritten to
+  print on one line and do exactly what they did; the tools table gives each
+  command a line of its own; inline code is kept whole by its display width, so
+  short commands with Chinese words no longer break. A test checks every line of
+  a code block with a declared language.
 
 ## [0.2.3] - 2026-11-20
 

@@ -107,7 +107,8 @@ Server response:
 
 ```sh
 mkdir -p ~/port-demo && cd ~/port-demo
-python3 -c 'import socket, time; s = socket.socket(); s.bind(("127.0.0.1", 8765)); s.listen(); time.sleep(3600)' &
+code='import socket, time; s = socket.socket(); s.bind(("127.0.0.1", 8765))'
+python3 -c "$code; s.listen(); time.sleep(3600)" &
 sleep 1
 curl -sS -m 5 -o /dev/null -w '%{http_code} %{time_total}\n' http://127.0.0.1:8765/
 ```

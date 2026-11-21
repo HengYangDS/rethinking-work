@@ -13,8 +13,10 @@
 // Commands are meant to be copied: no line-number gutter in the text layer,
 // and a short inline command never breaks across lines. A box may break on either side, so the word
 // joiner keeps a closing mark that follows the command on its line: no line opens with one.
+// Short is measured in display width: a Chinese character is set about twice as wide as a code letter.
 #show: codly.set_(gutters: ())
-#show raw.where(block: false): it => if it.text.len() <= 44 { box(it) + sym.wj } else { it }
+#let display-width(text) = text.clusters().map(c => if c.match(regex("[\\p{Han}\\p{Hiragana}\\p{Katakana}\\p{Hangul}\u{3000}-\u{303F}\u{FF00}-\u{FFEF}]")) != none { 2 } else { 1 }).sum(default: 0)
+#show raw.where(block: false): it => if display-width(it.text) <= 44 { box(it) + sym.wj } else { it }
 #context [#metadata((
   title: document.title,
   author: document.author,

@@ -39,7 +39,7 @@ TeamAI 是一个开源工具（MIT 许可），做的正是这几件事：团队
 送到机器上的是文件。文件到了，不等于规则的内容进了会话；是否读入，要在实际使用的宿主里检验，方法同#link(<context>)[第十一章]的“上手”：就规则里写着的一件事向它提问，再查这次会话的记录。
 
 == 改动先进分支
-一位成员自己写了一个技能 `freeze-asof`，想让全组都用上，就运行 `teamai push --skill .claude/skills/freeze-asof`。技能不直接进 `main`，而是推到一个新分支 `teamai/push/<用户名>/<时间>`。初始化时 `--provider` 选的是 `git`（见本章“上手”中的 `init` 命令），即普通的 Git 仓库，所以它推上分支之后，不发起合并请求，并以退出码 1 结束；按它的帮助说明，选 GitLab、GitHub 等平台时，它会发起合并请求。评审人读过分支上的 `SKILL.md`，再合并进 `main`。成员们下一次 `pull` 或开始会话时，这个技能就送到了每个人的机器上，两个宿主各有一份。合并之前，它在作者的工作目录和那个待评审的分支上，其他成员运行 `pull` 时取不到它。#link(<standing>)[上一章]说，个人的空间留作试验，试验成功了，再迁到按事情划分的地方；在这里，迁过去就是一次经过评审的合并。
+一位成员自己写了一个技能 `freeze-asof`，想让全组都用上，就用 `teamai push --skill` 推送它所在的目录 `.claude/skills/freeze-asof`。技能不直接进 `main`，而是推到一个新分支 `teamai/push/<用户名>/<时间>`。初始化时 `--provider` 选的是 `git`（见本章“上手”中的 `init` 命令），即普通的 Git 仓库，所以它推上分支之后，不发起合并请求，并以退出码 1 结束；按它的帮助说明，选 GitLab、GitHub 等平台时，它会发起合并请求。评审人读过分支上的 `SKILL.md`，再合并进 `main`。成员们下一次 `pull` 或开始会话时，这个技能就送到了每个人的机器上，两个宿主各有一份。合并之前，它在作者的工作目录和那个待评审的分支上，其他成员运行 `pull` 时取不到它。#link(<standing>)[上一章]说，个人的空间留作试验，试验成功了，再迁到按事情划分的地方；在这里，迁过去就是一次经过评审的合并。
 
 == 副本不是第二个原件
 #link(<standing>)[上一章]说，同一内容只有一个权威的存放处，别处要用，就指向它；确实需要副本时，副本要从权威的那一份生成，并且能与它核对。TeamAI 用的正是副本：同一条规则，每台机器上各有一份。
@@ -119,7 +119,8 @@ teamai status
 
 ```sh
 cd $S/admin
-echo '- A result that cannot be recomputed from its query is not a result.' >> rules/data-conventions.md
+echo '- A result that cannot be recomputed from its query is not a result.' \
+  >> rules/data-conventions.md
 git commit -q -a -m "Rule: results must be recomputable" && git push -q
 cd $S/ws && teamai pull
 ```

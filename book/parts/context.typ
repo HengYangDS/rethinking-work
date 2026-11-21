@@ -193,7 +193,7 @@ mkdir -p ~/discover/repo/sub && cd ~/discover &&
 
 ```sh
 jq -r 'if .subtype == "compact_boundary"
-  then "compact \(.compactMetadata.trigger) \(.compactMetadata.preTokens) -> \(.compactMetadata.postTokens)"
+  then .compactMetadata | "compact \(.trigger) \(.preTokens) -> \(.postTokens)"
   elif .attachment.type? == "instructions"
   then "instructions: " + (.attachment.files | map(.path | split("/")[-1]) | join(" "))
   else empty end' "$f"
