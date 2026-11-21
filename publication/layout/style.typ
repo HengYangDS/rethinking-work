@@ -93,6 +93,8 @@
 // The label lets layout checks find a chapter's closing block, whose lone paragraph Typst does not
 // report as a `par`.
 #let closing(body) = [#block(breakable: false, body) <closing-block>]
+// A practice card's title keeps to the items under it, so that it never ends a page alone.
+#let card(title) = block(sticky: true, spacing: par-space, strong(title))
 #let note(title, body) = flow-block(width: 100%, fill: tint, mark: <sample-box>,
   stroke: (left: 1.5pt + rust), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
   #set par(first-line-indent: 0pt, justify: false, leading: 5.5pt, spacing: 13.5pt)

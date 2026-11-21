@@ -78,7 +78,7 @@ hindsight bank create "$BANK" -n "rethinking-work scratch for the memory chapter
 hindsight memory retain "$BANK" "…" -t 2026-11-10 -o json
 ```
 
-第二条命令的响应中，`"is_async": false` 表示事实条目已经存好，这一步没有在后台排队；由事实条目归纳出观察，另由服务端在后台进行，见下文。接着按问题取回。响应是一大段 JSON，先定义一个 `jq` 筛选表达式，只留下类别、日期、来源编号和正文；命令中的“…”换成你的问题，比如“空值为什么不补零？”，写入纠正之后再取回时，仍用同一个问题：
+`hindsight memory retain` 的响应中，`"is_async": false` 表示事实条目已经存好，这一步没有在后台排队；由事实条目归纳出观察，另由服务端在后台进行，见下文。接着按问题取回。响应是一大段 JSON，先定义一个 `jq` 筛选表达式，只留下类别、日期、来源编号和正文；命令中的“…”换成你的问题，比如“空值为什么不补零？”，写入纠正之后再取回时，仍用同一个问题：
 
 ```sh
 F='.results[] | "\(.type) \(.mentioned_at[0:10]) \(.document_id // "")", "  \(.text)"'
