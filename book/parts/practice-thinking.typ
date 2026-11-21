@@ -53,7 +53,7 @@
 
 #reader-figure(width: 62%, "reconcile", [六只证券的快照核验：先按公布时间和入库时间筛出当时可用的版本，再逐只与快照比较。单位是基点。], [原始观测先检查标识与公布、入库两个时间，再选公布和入库都不晚于冻结时刻的最新版本，得到四个可用值；与快照逐只核对，得到两处数值不一致、一处不应纳入、一处漏行；空值、当时还没有数据的和范围外的另行报告。])
 
-用下面两条命令核对。`reconcile.sql` 列出快照与冻结时刻结果不一致的证券，`quality.sql` 列出没有纳入核对的证券及原因：值为空、冻结时刻还没有数据、不在研究范围内。命令中的 `-csv` 规定了输出格式；`-no-agent` 的作用见#link(<tools>)[第十二章]。两条命令的输出，连同表头在内，应当与 `expected-differences.csv`、`expected-quality.csv` 逐行一致：
+用下面两条命令核对。`reconcile.sql` 列出快照与冻结时刻结果不一致的证券，`quality.sql` 列出来源自身的问题：值为空、冻结时刻还没有数据、不在研究范围内。命令中的 `-csv` 规定了输出格式；`-no-agent` 的作用见#link(<tools>)[第十二章]。两条命令的输出，连同表头在内，应当与 `expected-differences.csv`、`expected-quality.csv` 逐行一致：
 
 ```sh
 duckdb -no-agent -csv < reconcile.sql

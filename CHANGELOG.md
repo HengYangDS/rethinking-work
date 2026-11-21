@@ -16,6 +16,18 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- The whole book was reviewed and repaired. Each part was read by two readers
+  under one written standard (logic and reliability; wording and flow) and the
+  whole book by a structure reader; twelve editors repaired every finding, and
+  readers who had not seen the edits read every changed passage. A reviewer of
+  another model family then read every file; the findings the editors did not
+  adopt in full were settled with it to one wording each. The prose beside each
+  printed command was read against the reader-run records.
+- Book-wide terms are fixed once and used alike in every chapter; names that one
+  chapter defines (the record's five fields, the conditions for handing work
+  over, the role names, the stop conditions) are copied verbatim elsewhere.
+- Chapter 3 states the responsibility convention as the owner approved it:
+  responsibility follows the decision that let an error through, not rank.
 - Counts and values written beside their owners now name the owner instead:
   the number of exercise checks, diagrams, chapters, Typst packages, font files
   and locked tools, and each locked tool's version, in the contributor notes and
