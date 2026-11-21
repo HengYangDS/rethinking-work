@@ -79,6 +79,10 @@ itself claim editorial acceptance.
   and the `is_async` reference say what the text around them says, practice-card
   titles keep to their items, and an ordinal, a direct question and a status
   value follow the book's punctuation and type.
+- The errors that a second sample by another model family found are corrected:
+  chapter 4 names both of its deviations as behaviours, chapter 5 states the
+  limit of ingest time as its example shows, and three questions, two
+  percentage-point figures and one colon follow the book's convention.
 
 ## [0.2.3] - 2026-11-20
 
