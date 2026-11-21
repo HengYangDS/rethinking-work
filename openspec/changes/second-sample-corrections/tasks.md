@@ -10,4 +10,4 @@ here before it is worked.
 
 ## 2. Qualification
 
-- [ ] 2.1 The light gates pass, the changed pages are looked at, and the reader-run session confirms the corrections.
+- [x] 2.1 The light gates pass, the changed pages are looked at, and the reader-run session confirms the corrections.
