@@ -19,11 +19,10 @@ mkdir ~/first-session && cd ~/first-session &&
 
 复制到新目录、不直接在练习包里修改，是因为练习包自带的检查要求原件 `export_bug.py` 仍然漏掉零收益的行。先提交一次，是为了稍后能看清智能体改了什么，改错了也能恢复。
 
-如果提交时报错，提示无法确定你的身份，先设置用户名和邮箱，再重新执行最后那条 `git commit`。引号里换成你自己的名字和邮箱：
+提交时若提示无法确定身份，先运行下面的命令，把引号里换成你自己的名字和邮箱，再重新提交：
 
 ```sh
-git config --global user.name "你的名字"
-git config --global user.email "你的邮箱"
+git config --global user.name "你的名字" && git config --global user.email "你的邮箱"
 ```
 
 这两条命令写入的是当前用户的全局设置，对没有单独设定的其他仓库同样生效。提交成功后，自己运行一遍测试，查看测试当前的结果：
@@ -204,8 +203,6 @@ claude -p "列出这个目录里每个文件的用途，一行一个" --output-f
 codex exec "列出这个目录里每个文件的用途，一行一个" --json -o /tmp/codex-last.txt
 ```
 
-第一条返回的 JSON 中，`total_cost_usd` 是宿主按标价估算的本次花费。这条命令没有写档位：按官方文档，用 `-p` 启动时，2.1.302 及以后的版本，只要设置文件中没有设定档位，就以 `default` 档启动（见#link(<boundaries>)[第十三章]）。`-p` 不会询问是否信任目录，所以只在自己信任的目录里使用。Codex 的 `exec` 对应 `-p`。`--json` 逐行打印事件，其中 `turn.completed` 一行记有消耗的 token 数，但不记花费。`-o` 把最后一条回复另存在 `/tmp` 下，练习目录里不会新增文件。
+第一条返回的 JSON 中，`total_cost_usd` 是宿主按标价估算的本次花费。这条命令没有写档位：按官方文档，用 `-p` 启动时，2.1.302 及以后的版本，只要设置文件中没有设定档位，就以 `default` 档启动（见#link(<boundaries>)[第十三章]）。`-p` 不会询问是否信任目录，所以只在自己信任的目录里使用。Codex 的 `exec` 对应 `-p`。`--json` 逐行打印事件，其中 `turn.completed` 一行记有消耗的 token 数，但不记花费。`-o` 把最后一条回复另存在 `/tmp` 下，练习目录里不会新增文件。Claude Code 的常用选项见下表，其余见#link(<quickref>)[附录 B]。
 
 #matrix(columns: (1.2fr, 2fr), [*选项（Claude Code）*], [*作用*], [`-c`, `--continue` / `-r`, `--resume`], [接续会话：最近一次，或从列表中选择], [`-p`, `--print`], [以非交互方式运行，回答完毕即退出], [`--output-format text|json|stream-json`], [`text` 供人阅读；`json` 在运行结束时输出一份结果，供程序读取；`stream-json` 在运行过程中逐行输出过程记录，须同时加 `--verbose`])
-
-其余选项列在#link(<quickref>)[附录 B]。
