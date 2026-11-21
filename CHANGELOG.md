@@ -26,6 +26,8 @@ itself claim editorial acceptance.
   is filled with it at build time from the test file.
 - The repository runs ETHOS 0.2.0-beta.11, from the release's own declaration;
   the generated pipelines keep hosted artifacts for 14 days.
+- The hosted jobs bootstrap Mise 2026.11.10, which runs the pinned npm under
+  `mise exec`; the pipeline declaration states the Mise release once.
 
 ### Fixed
 
