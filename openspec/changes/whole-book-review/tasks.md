@@ -21,8 +21,8 @@ Evidence paths are under the local `build/evidence/whole-book-review/`.
 ## 3. Qualification
 
 - [x] 3.1 Readers who have not seen the edits read the changed passages; what they find is corrected.
-- [ ] 3.2 The printed-block check passes with every command block unchanged except the one decided change (ch11's
+- [x] 3.2 The printed-block check passes with every command block unchanged except the one decided change (ch11's
       sample instruction file no longer states the test count), and the light gates pass.
-- [ ] 3.3 The pages are rebuilt and looked at.
-- [ ] 3.4 The reader-run session compares the prose beside each printed block with the run records; what contradicts a
+- [x] 3.3 The pages are rebuilt and looked at.
+- [x] 3.4 The reader-run session compares the prose beside each printed block with the run records; what contradicts a
       record is corrected before the proof.
