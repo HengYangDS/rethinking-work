@@ -11,6 +11,6 @@ Scope: release 0.2.4 from what `dev` holds since 0.2.3. New scope enters as a ta
 
 ## 2. Version
 
-- [ ] 2.1 Set `VERSION` to 0.2.4 and the edition date to the release day, and move the Changelog's Unreleased entries
+- [x] 2.1 Set `VERSION` to 0.2.4 and the edition date to the release day, and move the Changelog's Unreleased entries
       under `[0.2.4]` with that date; done when the light gates pass and the reader-run session has read the cover,
       the colophon and the printed blocks in the PDF of this commit.
