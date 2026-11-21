@@ -11,9 +11,10 @@
 #set document(title: book-title, author: book-author, description: book-subtitle, keywords: book-keywords, date: book-date)
 #show: publication-design
 // Commands are meant to be copied: no line-number gutter in the text layer,
-// and a short inline command never breaks across lines.
+// and a short inline command never breaks across lines. A box may break on either side, so the word
+// joiner keeps a closing mark that follows the command on its line: no line opens with one.
 #show: codly.set_(gutters: ())
-#show raw.where(block: false): it => if it.text.len() <= 44 { box(it) } else { it }
+#show raw.where(block: false): it => if it.text.len() <= 44 { box(it) + sym.wj } else { it }
 #context [#metadata((
   title: document.title,
   author: document.author,

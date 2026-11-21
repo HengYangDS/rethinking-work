@@ -248,6 +248,24 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(identity["version"], version)
         self.assertIn(version, cover)
 
+    def test_no_body_line_opens_with_a_closing_mark(self):
+        # Chinese typesetting never opens a line with a closing mark. A short inline command is set
+        # whole in a box, and a box may break on either side, so the layout must keep the mark that
+        # follows it on the same line. Lines flush with the text block are body lines.
+        paragraphs = self.fact("paragraphs")
+        margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
+        document = ET.fromstring(self.read("layout"))
+        ns = {"pdf": "http://www.w3.org/1999/xhtml"}
+        closing = "，。、；：？！）」』”’》"
+        opened = [
+            (number, "".join(word.text or "" for word in line.findall("pdf:word", ns))[:20])
+            for number, page in enumerate(document.findall(".//pdf:page", ns), 1)
+            for line in page.findall(".//pdf:line", ns)
+            if abs(float(line.get("xMin")) - margin) < 0.6
+            and (line.findtext("pdf:word", "", ns) or " ")[0] in closing
+        ]
+        self.assertEqual(opened, [])
+
     def test_body_paragraphs_use_aligned_starts_and_visible_spacing(self):
         # Every body paragraph, located natively, starts flush with the text block; lines within a
         # paragraph step 16 pt and adjacent paragraphs 32 pt. Chapter openings and the cover carry

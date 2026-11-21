@@ -55,6 +55,12 @@ itself claim editorial acceptance.
   hook's report varied. The reader is told of the first-launch screens, the LSP
   plugin offer when a session is continued, where `none.duckdb` is left, and a
   second Ollama install.
+- No body line opens with a closing punctuation mark. A short inline command is
+  set whole in a box, and a box may break on either side; a word joiner after
+  the box now keeps the mark that follows it on its line (two lines of the
+  reviewed text had opened with a semicolon). A test checks every body line.
+- Figure 2 no longer breaks words inside its boxes, and figure 1's return arrow
+  points to the judgement it changes, as its caption says.
 
 ## [0.2.3] - 2026-11-20
 
