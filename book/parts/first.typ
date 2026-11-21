@@ -19,7 +19,14 @@ mkdir ~/first-session && cd ~/first-session &&
 
 复制到新目录、不直接在练习包里修改，是因为练习包自带的检查要求原件 `export_bug.py` 仍然漏掉零收益的行。先提交一次，是为了稍后能看清智能体改了什么，改错了也能恢复。
 
-如果提交时报错，提示无法确定你的身份，先用 `git config --global user.name "你的名字"` 和 `git config --global user.email "你的邮箱"` 设置用户名和邮箱，再重新执行最后那条 `git commit`。这两条命令写入的是当前用户的全局设置，对没有单独设定的其他仓库同样生效。提交成功后，自己运行一遍测试，查看测试当前的结果：
+如果提交时报错，提示无法确定你的身份，先设置用户名和邮箱，再重新执行最后那条 `git commit`。引号里换成你自己的名字和邮箱：
+
+```sh
+git config --global user.name "你的名字"
+git config --global user.email "你的邮箱"
+```
+
+这两条命令写入的是当前用户的全局设置，对没有单独设定的其他仓库同样生效。提交成功后，自己运行一遍测试，查看测试当前的结果：
 
 ```sh
 EXPORT_MODULE=export python3 -B -m unittest -v test_export.py
