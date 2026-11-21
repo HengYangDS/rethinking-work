@@ -106,21 +106,25 @@ def evaluate(expression):
     return json.loads(result.stdout)
 
 
+def normalized(line):
+    return re.sub(r"\s+", " ", line).strip()
+
+
 def code_lines_not_whole(raws, text):
     """Lines of code blocks with a declared language that do not print whole on one line.
 
-    A PDF viewer copies a visual line break as a newline, so such a line cannot be copied as printed. A line counts
-    as whole when it appears on one line of its page, or of the next page, where a block may continue.
+    A PDF viewer copies a visual line break as a newline, so such a line cannot be copied as
+    printed. A line counts as whole when it appears on one line of its page, or of the next page,
+    where a block may continue.
     """
-    norm = lambda line: re.sub(r"\s+", " ", line).strip()
-    pages = [[norm(line) for line in page.splitlines()] for page in text.split("\f")]
+    pages = [[normalized(line) for line in page.splitlines()] for page in text.split("\f")]
     found = []
     for raw in raws:
         if not raw["block"] or not raw["lang"]:
             continue
         for line in filter(str.strip, raw["text"].split("\n")):
             near = pages[raw["page"] - 1 : raw["page"] + 1]
-            if not any(norm(line) in printed for page in near for printed in page):
+            if not any(normalized(line) in printed for page in near for printed in page):
                 found.append((raw["page"], line))
     return found
 
@@ -269,8 +273,8 @@ class PublicationInputs(unittest.TestCase):
         self.assertIn(version, cover)
 
     def test_code_lines_print_whole(self):
-        # Commands are copied from the PDF: every line of a code block with a declared language prints whole on one
-        # line. Output blocks carry no language and are left to the page review.
+        # Commands are copied from the PDF: every line of a code block with a declared language
+        # prints whole on one line. Output blocks carry no language and are left to the page review.
         self.assertEqual(code_lines_not_whole(self.fact("raws"), self.read("text")), [])
 
     def test_no_body_line_opens_with_a_closing_mark(self):
