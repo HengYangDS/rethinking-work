@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-11-22
+
 ### Changed
 
 - The whole book was reviewed and repaired. Each part was read by two readers
