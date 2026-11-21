@@ -18,5 +18,5 @@ Scope: printed commands survive copying from the PDF. New scope enters as a task
 
 ## 3. Qualification
 
-- [ ] 3.1 The light gates pass, the pages are rebuilt and the changed pages looked at, and the reader-run session
+- [x] 3.1 The light gates pass, the pages are rebuilt and the changed pages looked at, and the reader-run session
       confirms that the rewritten commands match the run records.
