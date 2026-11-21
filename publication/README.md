@@ -182,7 +182,8 @@ establish merge protection.
 The public macOS pipeline has a second job of the repository's own,
 `publication`, which runs the native `ci-publication` task beside the
 verification job. It bootstraps the checksum-bound official Mise that
-[pipeline.cue](../.config/ci/pipeline.cue) names and installs the locked tools
+[verification.toml](../.config/ci/verification.toml) names, as the verification
+job does, and installs the locked tools
 into job-local Mise state; it does not alter the authoring host or project lockfiles.
 The private peer's `publication:macos` jobs run the native `ci-artifacts` task
 on the project's macOS runners with the Mise those runners carry.

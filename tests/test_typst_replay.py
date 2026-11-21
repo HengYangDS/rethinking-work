@@ -6,6 +6,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -85,19 +86,22 @@ class BoundTypstReplay(unittest.TestCase):
         self.assertEqual(text.strip(), "Bound input replay")
 
     def test_hosted_typst_environment_compiles_pdf_through_native_task(self):
+        # Evaluate the pipeline as `ethos lane project` does: the declared inputs of
+        # .config/checks/ci-projection/policy.toml are appended as `_inputs`.
+        policy = tomllib.loads(
+            (ROOT / ".config/checks/ci-projection/policy.toml").read_text(encoding="utf-8")
+        )
+        compiler = policy["compiler"]
+        inputs = {
+            name: tomllib.loads((ROOT / path).read_text(encoding="utf-8"))
+            for name, path in compiler["inputs"].items()
+        }
+        source = (ROOT / compiler["source"]).read_text(encoding="utf-8")
         environment = json.loads(
             subprocess.run(
-                [
-                    "cue",
-                    "export",
-                    ".config/ci/pipeline.cue",
-                    "-e",
-                    "publicationJob.env",
-                    "--out",
-                    "json",
-                ],
+                ["cue", "export", "-", "-e", "publicationJob.env", "--out", "json"],
                 cwd=ROOT,
-                stdin=subprocess.DEVNULL,
+                input=f"{source}\n_inputs: {json.dumps(inputs)}",
                 capture_output=True,
                 text=True,
                 timeout=60,

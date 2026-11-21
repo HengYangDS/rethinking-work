@@ -21,6 +21,9 @@ inputs the same way (`_inputs.mise.tools.uv`).
 - Derive `supply.miseVersion` in `pipeline.cue` from `_inputs.ci.supply.mise_version`. The bootstrap checksum stays
   a file of its own: it pins the archive's bytes, a different fact, and is read from the release's `SHASUMS256.txt`
   and the forge's asset digest, which agree.
+- The repository's own reader of `pipeline.cue`, `tests/test_typst_replay.py`, evaluates it the same way: it appends the
+  inputs that `policy.toml` declares as `_inputs`. Read on its own, the file no longer evaluates (the first proof of
+  this lane failed there).
 - Make the move as the second Change of the beta.11 rebind lane, so that one proof and one pair of hosted runs cover
   both moves.
 
