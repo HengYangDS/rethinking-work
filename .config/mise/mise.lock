@@ -71,13 +71,17 @@ url = "https://github.com/oasdiff/oasdiff/releases/download/v1.39.0/oasdiff_1.39
 url_api = "https://api.github.com/repos/oasdiff/oasdiff/releases/assets/760679349"
 
 [[tools."http:ethos"]]
-version = "0.2.0-beta.10"
+version = "0.2.0-beta.11"
 backend = "http:ethos"
-specifiers = ["0.2.0-beta.10"]
+specifiers = ["0.2.0-beta.11"]
+
+[tools."http:ethos"."platforms.linux-x64"]
+checksum = "sha256:d8eb1d563015d624fee5d4fbf3b3f50e952e8e9cf603262bbd5d337ff808c30d"
+url = "https://github.com/HengYangDS/ethos/releases/download/v0.2.0-beta.11/ethos-0.2.0-beta.11-linux-x64.tar.gz"
 
 [tools."http:ethos"."platforms.macos-arm64"]
-checksum = "sha256:d2b0823b9fa9eee14e3e1552be3dd1e08ddef0805da4413f9dc89754fb4a1771"
-url = "https://github.com/HengYangDS/ethos/releases/download/v0.2.0-beta.10/ethos-0.2.0-beta.10-macos-arm64.tar.gz"
+checksum = "sha256:59a2b154e82b9fb5a5f94f12cba6eb5825102235a7e4e802b60bafe82f8b966e"
+url = "https://github.com/HengYangDS/ethos/releases/download/v0.2.0-beta.11/ethos-0.2.0-beta.11-macos-arm64.tar.gz"
 
 [[tools.just]]
 version = "1.59.0"

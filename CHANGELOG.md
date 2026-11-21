@@ -24,6 +24,8 @@ itself claim editorial acceptance.
 - The book's appendix and the exercise notes state the expected result of the
   exercise checks without their number; the reader note in the edition archive
   is filled with it at build time from the test file.
+- The repository runs ETHOS 0.2.0-beta.11, from the release's own declaration;
+  the generated pipelines keep hosted artifacts for 14 days.
 
 ### Fixed
 

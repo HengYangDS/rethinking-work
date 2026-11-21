@@ -85,6 +85,7 @@ verify:macos:review:
     when: always
     paths:
       - build/evidence/ci/verification.json
+    expire_in: 14 days
 verify:macos:protected:
   before_script:
     - mise install --locked --jobs=1
@@ -111,3 +112,4 @@ verify:macos:protected:
     when: always
     paths:
       - build/evidence/ci/verification.json
+    expire_in: 14 days
