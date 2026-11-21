@@ -28,6 +28,10 @@ itself claim editorial acceptance.
   over, the role names, the stop conditions) are copied verbatim elsewhere.
 - Chapter 3 states the responsibility convention as the owner approved it:
   responsibility follows the decision that let an error through, not rank.
+- Chapter 24 states 信、达、雅 as the owner's one definition does: 信 is
+  fidelity, 达 is clarity on which the reader can act, and 雅 is grace on top
+  of both, with restraint and concision as means to it, not its definition; the
+  order is a precedence when they conflict. Exercise four measures 雅 the same way.
 - Counts and values written beside their owners now name the owner instead:
   the number of exercise checks, diagrams, chapters, Typst packages, font files
   and locked tools, and each locked tool's version, in the contributor notes and
@@ -70,6 +74,11 @@ itself claim editorial acceptance.
   own; inline code is kept whole by its display width, so short commands with
   Chinese words no longer break. A test checks every line of a code block with a
   declared language.
+- The errors that the error-rate sample found are corrected, each with its kind
+  across the book: figure 6 matches chapter 15, the Hermes `--no-agent` sentence
+  and the `is_async` reference say what the text around them says, practice-card
+  titles keep to their items, and an ordinal, a direct question and a status
+  value follow the book's punctuation and type.
 
 ## [0.2.3] - 2026-11-20
 

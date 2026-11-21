@@ -9,6 +9,8 @@ a task here before it is worked.
       says; done when each matches the reader-run session's proposed meaning.
 - [x] 1.2 Practice-card titles keep to their items, ordinals take 「、」, direct questions end with 「？」, and status
       values are in code type; done when a search of the book finds no other instance of these kinds.
+- [x] 1.3 Chapter 24 and exercise four state 信、达、雅 as the owner's definition does; done when no passage of the book
+      reads 雅 as concision or the order as a working sequence.
 
 ## 2. Qualification
 

@@ -38,7 +38,7 @@ FACTS = {
     **{f"count {kind}": f"query({kind}).len()" for kind in ("heading", "raw", "table", "figure")},
     "paragraphs": f"query(par).map(it => {PLACE})",
     "breaks": "(query(heading) + query(figure) + query(raw.where(block: true))"
-    f" + query(table) + query(<closing-block>)).map(it => {PLACE})",
+    f" + query(table) + query(<closing-block>) + query(<card-title>)).map(it => {PLACE})",
     "openings": f"query(heading.where(level: 1)).map(it => {PLACE})",
     "blocks": f"(query(table) + query(<sample-box>)).map(it => {PLACE})",
     "page turns": "query(<page-turn>).map(it => it.location().page())",
