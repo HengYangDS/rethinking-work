@@ -23,8 +23,13 @@
 #let heading-lines = 3
 #let publication-design(body) = {
   set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
-  // Chinese inside commands and outputs takes the sans face, not the serif body face.
-  show raw: set text(font: ("DejaVu Sans Mono", "Noto Sans CJK SC"))
+  // Chinese inside commands and outputs takes the sans face, not the serif body face. A symbol that
+  // neither face holds, such as ℹ, takes Typst's own Libertinus Serif, declared as a fallback here
+  // rather than reached by accident.
+  show raw: set text(font: ("DejaVu Sans Mono", "Noto Sans CJK SC", "Libertinus Serif"))
+  // A paragraph does not end with a character alone on its last line: the line breaker weighs such
+  // a runt heavily against the other breaks it can choose.
+  set text(costs: (runt: 200%))
   set heading(numbering: none)
   show heading.where(level: 1): it => {
     block(above: 6 * space, below: 3 * space, sticky: true)[

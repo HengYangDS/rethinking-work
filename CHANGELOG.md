@@ -14,6 +14,25 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Added
+
+- The accepted specification declares what qualifies an edition for release
+  (fresh readers under chapter 24's 信、达、雅, a cold read after the last
+  content edit, printed commands read as copied from the PDF, every page looked
+  at, and an error-rate sample of the final text), and the acceptance guide
+  describes each stage.
+- Tests check that the PDF embeds only the declared fonts, compiles without
+  warnings, and ends no body paragraph with a single character alone.
+
+### Fixed
+
+- Typst's own Libertinus Serif, which draws the ℹ of one printed output, is
+  declared in the toolchain and the notices instead of being reached unnamed.
+- No body paragraph ends with one character alone on its last line: eight are
+  gone, by a runt cost in line breaking. One paragraph on page 118 sets two
+  lines of quoted output with wider spaces as a result. Table cells and sample
+  boxes are left to the page review.
+
 ## [0.2.4] - 2026-11-22
 
 ### Changed

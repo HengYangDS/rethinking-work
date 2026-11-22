@@ -4,9 +4,16 @@
   "repository_resolution": "The native Mise lock binds ten exact tools on macOS arm64 and the seven native source-CI tools on Linux x64; Prettier retains its portable npm sidecar. Source CI selects eight tools and excludes Typst and Mermaid; the earlier six-tool publication qualification remains dated evidence. The four CI records were added through a scoped native lock without changing existing tool records or npm sidecars. Native tasks install nothing; the isolated CI bootstrap installs only its selected locked tools under job-local build/runtime/ci. Independent-machine PDF bootstrap remains unqualified. Poppler has a qualified Homebrew Bundle declaration/check/execution binding described in pdf_inspection, not an exact-version lock. Homebrew remains the host installation owner.",
   "python_compatibility": ">=3.12,<3.13",
   "typst_package": "@preview/neat-book:0.1.0",
-  "fonts": ["Songti SC", "Noto Sans CJK SC", "Charter", "DejaVu Sans Mono", "Apple Color Emoji"],
+  "fonts": [
+    "Songti SC",
+    "Noto Sans CJK SC",
+    "Charter",
+    "DejaVu Sans Mono",
+    "Libertinus Serif",
+    "Apple Color Emoji"
+  ],
   "font_supply": {
-    "typst": "Songti SC and Charter from macOS; Noto Sans CJK SC from its existing Homebrew cask; DejaVu Sans Mono embedded in Typst 0.15.1; Apple Color Emoji from macOS as the observed emoji fallback.",
+    "typst": "Songti SC and Charter from macOS; Noto Sans CJK SC from its existing Homebrew cask; DejaVu Sans Mono and Libertinus Serif embedded in Typst 0.15.1 (Libertinus as the declared fallback for symbols in code that neither code face holds); Apple Color Emoji from macOS as the observed emoji fallback.",
     "mermaid_browser": "publication/mermaid.json selects Noto Sans CJK SC, which must be available to the selected headless browser. The other Typst families are not declared diagram requirements.",
     "closure": "The bound replay checks six actual font files, the exact compiler with its embedded fonts, and all eight complete package roots through publication/supply/typst-inputs.sha256. Typst inputs.json still omits font reads. Same-host, network-disabled replay equals the delivered PDF byte-for-byte with exact edition-bound diagram bytes; extra supplied files and second-machine reproduction remain unqualified.",
     "rights": "No standalone font binaries are included in repository source. Delivered PDFs embed used font faces; each font retains its own terms. See publication/rights/third-party-notices.md."

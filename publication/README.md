@@ -299,15 +299,16 @@ The renderer-specific observations above do not qualify the prose. Running
 The current PDF uses the following font supply. The diagram browser has a
 separate selection; it does not need every Typst family.
 
-| Family            | Publication use                         | Supply                            |
-| ----------------- | --------------------------------------- | --------------------------------- |
-| Songti SC         | Chinese body text                       | Existing macOS system font        |
-| Charter           | Latin body text                         | Existing macOS system font        |
-| Noto Sans CJK SC  | Headings, tables and Mermaid labels     | Existing Homebrew font cask       |
-| DejaVu Sans Mono  | Code                                    | Embedded font of the locked Typst |
-| Apple Color Emoji | Observed fallback for the memory credit | Existing macOS system font        |
+| Family            | Publication use                          | Supply                            |
+| ----------------- | ---------------------------------------- | --------------------------------- |
+| Songti SC         | Chinese body text                        | Existing macOS system font        |
+| Charter           | Latin body text                          | Existing macOS system font        |
+| Noto Sans CJK SC  | Headings, tables and Mermaid labels      | Existing Homebrew font cask       |
+| DejaVu Sans Mono  | Code                                     | Embedded font of the locked Typst |
+| Libertinus Serif  | Symbols in code that the code faces lack | Embedded font of the locked Typst |
+| Apple Color Emoji | Observed fallback for the memory credit  | Existing macOS system font        |
 
-DejaVu Sans Mono does not require a separate host installation with the current
+DejaVu Sans Mono and Libertinus Serif do not require a separate host installation with the current
 Typst binary. [mermaid.json](mermaid.json) selects Noto Sans CJK SC; that family
 must be available to the selected headless browser. The actual delivered PDF's
 font list can be inspected with Poppler's `pdffonts`. The

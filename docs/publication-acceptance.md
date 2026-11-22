@@ -16,6 +16,10 @@ register.
 
 ## Check complete meaning
 
+Prose is judged under 信、达、雅 as [chapter 24](../book/parts/writing.typ) states them, which is the owner's one
+definition: fidelity is the root, clarity comes before elegance, and when they conflict fidelity prevails over clarity
+and clarity over elegance. A review brief cites that definition instead of wording its own.
+
 Read the complete changed prose and its qualifications. Verify that examples
 teach the stated mechanism, sources support material claims, and conditions or
 unknowns have not vanished during polishing. In a structural migration, compare
@@ -93,12 +97,23 @@ closer judgment. Record that selection and the review scale. This is a page and
 layout review, not a requirement to capture every changed paragraph separately.
 Automated geometry checks complement this judgment rather than replacing it.
 
+Read every printed command as a reader copies it from the PDF, not only in the source: a viewer turns a visual line
+break into a newline. Compare the prose beside each printed command with the run records on that copied text.
+
 Check all logical links, destinations and clickable text coverage in the PDF.
 For an affected reader application, use a bounded journey covering the reported
 defect and distinct link behaviors: for example, a contents jump near each end
 of the book, a cross-reference and an external link. Record the actual destination
 and return behavior. Structural validation is not a click journey; clicking
 every structurally equivalent link is not a separate requirement.
+
+## Sample the error rate
+
+Before an edition is released, sample its final text for errors. Read at least 100,000 consecutive layout characters,
+with the cover, title page, copyright page and contents, from a PDF whose body text equals the release's; count errors
+by the classes of CY/T 266; the edition qualifies at no more than one error per 10,000 characters. A judgement that
+counts two points goes to a second reader before it is counted. Correct every error found, and its kind across the
+book, before the release; a model's sample is a self-test, not a publisher's check, and is reported as such.
 
 ## Reuse evidence and stop completed checks
 

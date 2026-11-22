@@ -45,6 +45,10 @@ FACTS = {
     # The layout's own bound for a page left short by a block that moved whole, in pt.
     "whole allowance": '{ import "/publication/layout/style.typ": whole-allowance;'
     " whole-allowance.pt() }",
+    # The farthest one line of a block is set below the one above it: a body line and one unit of
+    # space, which a sample box's looser leading takes.
+    "line bound": '{ import "/publication/layout/style.typ": body-line, space;'
+    " (body-line + space).pt() }",
     "figures": "query(figure).map(it => it.body)",
     "case records page": "query(<case-records>).first().location().page()",
     **{
@@ -76,6 +80,7 @@ PDF_READS = {
     "cover": ("pdftotext", "-f", "1", "-l", "1", "{pdf}", "-"),
     "layout": ("pdftotext", "-bbox-layout", "{pdf}", "-"),
     "text": ("pdftotext", "-layout", "{pdf}", "-"),
+    "fonts": ("pdffonts", "{pdf}"),
 }
 
 
@@ -197,6 +202,7 @@ class PublicationInputs(unittest.TestCase):
                     raise
         if compiling.returncode:
             raise AssertionError(f"typst compile failed:\n{errors}")
+        cls.warnings = errors
         # The PDF reads are independent of each other and run at once. A read that fails raises in
         # the checks that use it, not here.
         with ThreadPoolExecutor(max_workers=len(PDF_READS)) as reading:
@@ -277,21 +283,66 @@ class PublicationInputs(unittest.TestCase):
         # prints whole on one line. Output blocks carry no language and are left to the page review.
         self.assertEqual(code_lines_not_whole(self.fact("raws"), self.read("text")), [])
 
+    def test_compile_has_no_warnings(self):
+        # A warning names what the PDF hides: a missing glyph, an unknown font, a dropped reference.
+        self.assertEqual(self.warnings.strip(), "")
+
+    def test_embedded_fonts_are_the_declared_ones(self):
+        # The toolchain declares the publication's fonts once; the PDF embeds no other. A face's
+        # PostScript name holds its family's name once case, spaces and punctuation are dropped.
+        def letters(name):
+            return re.sub(r"[^a-z]", "", name.lower())
+
+        declared = json.loads((ROOT / "publication/supply/toolchain.json").read_text())["fonts"]
+        families = [letters(name) for name in declared]
+        embedded = {
+            line.split()[0].split("+")[-1] for line in self.read("fonts").splitlines()[2:] if line
+        }
+        stray = sorted(name for name in embedded if not any(f in letters(name) for f in families))
+        self.assertEqual(stray, [])
+
+    def layout_lines(self):
+        """Every line of the built PDF as (page, text, left, top), and the left edge of the body."""
+        ns = {"pdf": "http://www.w3.org/1999/xhtml"}
+        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", ns)
+        lines = [
+            (number, "".join(word.text or "" for word in line.findall("pdf:word", ns)))
+            + (float(line.get("xMin")), float(line.get("yMin")))
+            for number, page in enumerate(pages, 1)
+            for line in page.findall(".//pdf:line", ns)
+        ]
+        paragraphs = self.fact("paragraphs")
+        return lines, Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
+
+    def test_no_body_paragraph_ends_with_a_single_character_alone(self):
+        # A body paragraph does not end with one character alone on its last line: one Han
+        # character, with any closing marks, flush with the text block and set directly under a
+        # line that starts there too. Table cells and sample boxes are narrow, and are left to the
+        # page review.
+        lines, margin = self.layout_lines()
+        bound = self.fact("line bound")
+        alone = re.compile("[\u4e00-\u9fff][，。、；：？！）」』”’》]*")
+        found = [
+            (page, text)
+            for page, text, left, top in lines
+            if alone.fullmatch(text)
+            and abs(left - margin) < 0.6
+            and any(
+                other == page and abs(x - left) < 1 and 0 < top - y <= bound
+                for other, _, x, y in lines
+            )
+        ]
+        self.assertEqual(found, [])
+
     def test_no_body_line_opens_with_a_closing_mark(self):
         # Chinese typesetting never opens a line with a closing mark. A short inline command is set
         # whole in a box, and a box may break on either side, so the layout must keep the mark that
         # follows it on the same line. Lines flush with the text block are body lines.
-        paragraphs = self.fact("paragraphs")
-        margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
-        document = ET.fromstring(self.read("layout"))
-        ns = {"pdf": "http://www.w3.org/1999/xhtml"}
-        closing = "，。、；：？！）」』”’》"
+        lines, margin = self.layout_lines()
         opened = [
-            (number, "".join(word.text or "" for word in line.findall("pdf:word", ns))[:20])
-            for number, page in enumerate(document.findall(".//pdf:page", ns), 1)
-            for line in page.findall(".//pdf:line", ns)
-            if abs(float(line.get("xMin")) - margin) < 0.6
-            and (line.findtext("pdf:word", "", ns) or " ")[0] in closing
+            (page, text[:20])
+            for page, text, left, _ in lines
+            if abs(left - margin) < 0.6 and text and text[0] in "，。、；：？！）」』”’》"
         ]
         self.assertEqual(opened, [])
 
