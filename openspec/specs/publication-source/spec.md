@@ -390,7 +390,7 @@ An edition SHALL be qualified before its release is approved, through the stages
 
 ### Requirement: Typeset output keeps to its declared supply
 
-The PDF SHALL embed only the fonts that the toolchain declares, SHALL compile without warnings, and SHALL end no body paragraph with a single character alone on its last line.
+The PDF SHALL embed only the fonts that the toolchain declares, SHALL compile without warnings, SHALL end no wrapped line of a body paragraph, a table cell or a sample box with a single character alone, and SHALL leave on each page of a table or sample box that continues on the next page at least the least part the layout declares.
 
 #### Scenario: A glyph is missing from the declared fonts
 
@@ -399,8 +399,13 @@ The PDF SHALL embed only the fonts that the toolchain declares, SHALL compile wi
 
 #### Scenario: A change leaves a character alone on a line
 
-- **WHEN** a change makes a body paragraph end with a single character on its own line
+- **WHEN** a change makes a body paragraph, a table cell or a sample box wrap with a single character on its last line
 - **THEN** a check fails and names the page.
+
+#### Scenario: A block splits with too little on one page
+
+- **WHEN** a table or sample box continues on the next page and one of its two parts is shorter than the least part the layout declares
+- **THEN** a check fails and names the page and the part's height.
 
 ### Requirement: Talent judged by a stated standard
 
