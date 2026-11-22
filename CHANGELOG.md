@@ -16,6 +16,27 @@ itself claim editorial acceptance.
 
 ### Added
 
+- Chapter 29, 「怎样评一个人的表现」, states how the department judges work and
+  a member's performance: a work score for one piece, a tier S to E for one
+  period at the member's own grade, and a professional sequence of eight grades
+  in four bands (器、术、法、道), joined by one chain of evidence; where the
+  evidence comes from, five steps of assessment, a worked judgement, promotion
+  with its two crossings, and hiring. It is derived from the department's
+  guidelines and written so that a reader without them can apply it. Former
+  chapters 29 and 30 are now 30 and 31.
+- The layout declares a page ceiling of 200 pages, and a test fails when the PDF
+  exceeds it.
+
+### Changed
+
+- To hold the book at 200 pages with the new chapter, chapters 1, 3, 7, 13, 17,
+  21, 25, 26 and 28 were rewritten more concisely and chapter 11 lost one
+  repeated clause: second statements of what a chapter or a table already says
+  were cut or merged, the closing blocks of chapters 3, 25 and 28 lost their
+  headings as the other chapters' do, and chapter 26's section 「苗头」 joined
+  the section before it. No printed command, output, case date, qualification
+  or exercise changed; readers who had not edited the passages read every
+  change, and their findings were repaired.
 - The accepted specification declares what qualifies an edition for release
   (fresh readers under chapter 24's 信、达、雅, a whole-book cold read with
   later changes read again, the prose beside printed commands against the run

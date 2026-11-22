@@ -9,14 +9,14 @@ reached, is then asked at three scales (one person, after handing over, several
 people) before returning to the person. The reading order is declared in
 [manuscript.typ](../manuscript.typ).
 
-| Part               | Modules                                                                                             | Reader question                                                                                                             |
-| ------------------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Root               | `work`, `change`, `invariants`                                                                      | What is work, what did the technology change, what holds?                                                                   |
-| One person         | `question`, `knowing`, `model`, `bounds`, `choice`, `practice-thinking`                             | How does one person come to understand?                                                                                     |
-| The Agent          | `agent`, `first`, `context`, `tools`, `boundaries`, `memory`, `practice-agent`                      | What is the Agent that takes the work, layer by layer, and how is each layer operated?                                      |
-| After handing over | `delegate`, `verify`, `walkthrough`, `run`, `diagnose`, `orchestrate`, `evaluate`, `practice-doing` | How does understanding survive delegation: handing out, taking back, finishing, several Agents, measuring a changed method? |
-| Several people     | `team`, `roles`, `writing`, `review`, `standing`, `improve`, `leading`, `practice-collaborating`    | Why a team exists, and how several people and Agents understand together                                                    |
-| The person         | `growth`, `closing`                                                                                 | What does a person grow by, and what stays with the person?                                                                 |
+| Part               | Modules                                                                                                              | Reader question                                                                                                             |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Root               | `work`, `change`, `invariants`                                                                                       | What is work, what did the technology change, what holds?                                                                   |
+| One person         | `question`, `knowing`, `model`, `bounds`, `choice`, `practice-thinking`                                              | How does one person come to understand?                                                                                     |
+| The Agent          | `agent`, `first`, `context`, `tools`, `boundaries`, `memory`, `practice-agent`                                       | What is the Agent that takes the work, layer by layer, and how is each layer operated?                                      |
+| After handing over | `delegate`, `verify`, `walkthrough`, `run`, `diagnose`, `orchestrate`, `evaluate`, `practice-doing`                  | How does understanding survive delegation: handing out, taking back, finishing, several Agents, measuring a changed method? |
+| Several people     | `team`, `roles`, `writing`, `review`, `standing`, `shared`, `improve`, `talent`, `leading`, `practice-collaborating` | Why a team exists, and how several people and Agents understand together                                                    |
+| The person         | `growth`, `closing`                                                                                                  | What does a person grow by, and what stays with the person?                                                                 |
 
 Each chapter opens with a situation from real work, explains the principle,
 shows it in a case, states what the team does because of it, and names where the

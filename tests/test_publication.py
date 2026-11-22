@@ -26,7 +26,7 @@ LAYERS = {
     "delegate": "15",
     "team": "22",
     "shared": "27",
-    "growth": "30",
+    "growth": "31",
     "closing": "终",
 }
 BACK_MATTER_SECTIONS = ("run-conditions", "premises")
@@ -49,6 +49,7 @@ FACTS = {
     # space, which a sample box's looser leading takes.
     "line bound": '{ import "/publication/layout/style.typ": body-line, space;'
     " (body-line + space).pt() }",
+    "page ceiling": '{ import "/publication/layout/style.typ": page-ceiling; page-ceiling }',
     "figures": "query(figure).map(it => it.body)",
     "case records page": "query(<case-records>).first().location().page()",
     **{
@@ -269,6 +270,8 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(fields["Keywords"].strip(), keywords.text)
         self.assertEqual(fields["CreationDate"].strip(), created.text)
         self.assertEqual(fields["ModDate"].strip(), modified.text)
+        pages, ceiling = int(fields["Pages"]), self.fact("page ceiling")
+        self.assertLessEqual(pages, ceiling, "pages over the ceiling the layout declares")
         cover = self.read("cover")
         self.assertIn(identity["title"]["text"], cover)
         self.assertIn(identity["author"][0], cover)
@@ -519,8 +522,8 @@ class PublicationInputs(unittest.TestCase):
 
     def test_contents_lists_every_chapter_in_reading_order(self):
         chapters = self.fact("chapters")
-        expected = [f"{n:02d}" for n in range(1, 31)]
-        for after, mark in (("08", "练一"), ("14", "练二"), ("21", "练三"), ("29", "练四")):
+        expected = [f"{n:02d}" for n in range(1, 32)]
+        for after, mark in (("08", "练一"), ("14", "练二"), ("21", "练三"), ("30", "练四")):
             expected.insert(expected.index(after) + 1, mark)
         self.assertEqual(chapters, expected + ["终", "记", "A", "B", "C", "D"])
         # The contents may run over several pages; it ends where chapter 01 opens.

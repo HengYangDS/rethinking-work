@@ -21,6 +21,8 @@
 #let whole-allowance = whole-height + par-space + body-edges
 // A section heading stays on a page while this many body lines fit under it.
 #let heading-lines = 3
+// The most pages the edition holds, cover and back matter included (owner, 2026-11-22).
+#let page-ceiling = 200
 #let publication-design(body) = {
   set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
   // Chinese inside commands and outputs takes the sans face, not the serif body face. A symbol that

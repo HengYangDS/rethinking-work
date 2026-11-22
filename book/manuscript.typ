@@ -30,6 +30,7 @@
 #include "parts/standing.typ"
 #include "parts/shared.typ"
 #include "parts/improve.typ"
+#include "parts/talent.typ"
 #include "parts/leading.typ"
 #include "parts/practice-collaborating.typ"
 #include "parts/growth.typ"
