@@ -22,9 +22,9 @@ Claude Code 的 `--permission-mode` 有六档。下表 `plan` 和 `dontAsk` 两�
 
 #matrix(columns: (0.9fr, 2.4fr), [*档*], [*它怎样对待一个动作*], [`default`], [读取文件和只读命令不询问；修改文件、运行其他命令，逐条先询问人。命令行里也写作 `manual`], [`acceptEdits`], [修改文件、在工作目录内运行常见的文件命令不询问，其余照常询问；哪些命令算常见，官方文档所列与实际所见不尽相同，见章末“上手”], [`plan`], [只查看、只出方案，不执行改动。项目里的文件保持原样，方案本身写进用户主目录下 `~/.claude/plans/` 中的一个文件], [`auto`], [由一个分类模型代替人判断：它认为风险较低的放行，其余拦下], [`dontAsk`], [不询问人。放行清单（见下文）上有的照常执行；宿主视为只读的命令，如 `ls`、`git status`，不在清单上也照常运行；其余一律拒绝], [`bypassPermissions`], [跳过全部权限检查])
 
-更细的一层是放行清单：`--allowedTools` 列出允许的工具，`--disallowedTools` 列出禁止的工具。清单中的一项可以按命令的开头限定，比如 `Bash(git *)` 只放行以 `git` 开头的命令。限定写入的位置，要写成 `Edit(路径)`。清单上只有 `Edit(out/**)` 时，写 `out/a.md` 获准，写当前目录下的 `a.md` 被拒。写成 `Write(out/**)`，连 `out/a.md` 也写不进。只写一个 `Write`，就不限制写入的位置。无人值守时，用 `dontAsk` 档并给出一张放行清单；宿主视为只读的命令不受清单约束，所以不想让智能体读到的内容，要另用办法挡住。
+更细的一层是放行清单：`--allowedTools` 列出允许的工具；另有 `--disallowedTools` 列出禁止的工具。清单中的一项可以按命令开头限定，比如 `Bash(git *)` 只放行以 `git` 开头的命令。限定写入的位置，要写成 `Edit(路径)`。清单上只有 `Edit(out/**)` 时，写 `out/a.md` 获准，写当前目录下的 `a.md` 被拒。写成 `Write(out/**)`，连 `out/a.md` 也写不进。只写一个 `Write`，就不限制写入的位置。无人值守时，用 `dontAsk` 档加一张放行清单；宿主视为只读的命令不受清单约束，所以不想让它读到的，要另行设法挡住。
 
-Codex 把“能触及什么”和“何时询问人”拆成两个选项。`--sandbox`（沙箱，下一节讲）决定智能体能触及什么：`read-only`、`workspace-write`、`danger-full-access`。`--ask-for-approval` 决定何时询问人：`on-request`，由模型自己判断何时询问；`never`，从不询问，命令失败的结果直接交回模型。两项也可以写进 `~/.codex/config.toml`，键名是 `sandbox_mode` 和 `approval_policy`。两种设计解决同一问题，按任务选择：
+Codex 把“能触及什么”和“何时询问人”拆成两个选项。`--sandbox`（沙箱，下一节讲）决定智能体能触及什么：`read-only`、`workspace-write`、`danger-full-access`。`--ask-for-approval` 决定何时询问人：`on-request`，由模型自己判断何时询问；`never`，从不询问，命令失败的结果直接交回模型。两项也可以写进 `~/.codex/config.toml`，键名是 `sandbox_mode` 和 `approval_policy`。两家的设计解决同一问题，按任务选择：
 
 #matrix(columns: (1.3fr, 1.2fr, 1.4fr), [*要做的事*], [*Claude Code*], [*Codex*], [只让它查看，提出一个方案], [`plan`], [`read-only`], [在自己的工作副本中修改代码], [`acceptEdits`], [`workspace-write` 加 `on-request`], [涉及共享的仓库和数据], [`default`], [`read-only`，需要写入的那一步由人来做], [无人值守的定时任务], [`dontAsk` 加一张放行清单], [`never` 加 `read-only` 或 `workspace-write`], [在隔离的、可以随时丢弃的环境中运行批量任务], [`bypassPermissions`], [`--dangerously-bypass-approvals-and-sandbox`])
 

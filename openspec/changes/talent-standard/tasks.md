@@ -28,3 +28,5 @@ is worked.
 
 - [x] 5.1 The light gates pass, the changed passages have a cold read under 信、达、雅, the changed pages are looked at,
       and no printed command block changed.
+- [x] 5.2 The edits made after the cold read (repairs, page fits, chapter 29 to r4) have a fresh read; done when its
+      findings are repaired and the book still holds the ceiling.
