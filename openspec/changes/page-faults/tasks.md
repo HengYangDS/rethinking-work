@@ -22,7 +22,7 @@ page, and a guard on the proof ticket. New scope enters as a task here before it
 
 ## 4. Guard
 
-- [ ] 4.1 The local proof ticket refuses a head whose book text has no reading record; done when it refuses a head
+- [x] 4.1 The local proof ticket refuses a head whose book text has no reading record; done when it refuses a head
       without one and queues one with it.
 
 ## 5. Qualification
