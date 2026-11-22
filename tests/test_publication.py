@@ -50,6 +50,8 @@ FACTS = {
     "line bound": '{ import "/publication/layout/style.typ": body-line, space;'
     " (body-line + space).pt() }",
     "page ceiling": '{ import "/publication/layout/style.typ": page-ceiling; page-ceiling }',
+    "split least": '{ import "/publication/layout/style.typ": split-least; split-least.pt() }',
+    **{f"block {end}s": f"query(<block-{end}>).map(it => {PLACE})" for end in ("start", "end")},
     "figures": "query(figure).map(it => it.body)",
     "case records page": "query(<case-records>).first().location().page()",
     **{
@@ -73,6 +75,8 @@ FACTS = {
     ".map(it => it.location().page())",
 }
 
+
+NS = {"pdf": "http://www.w3.org/1999/xhtml"}
 
 # Every read of the built PDF the checks use, by name, with the PDF's place marked.
 PDF_READS = {
@@ -163,10 +167,8 @@ def bare_comment_lines(script):
 
 def cpu_seconds():
     """CPU time of this process and its finished children; it changes little with host load."""
-    own, children = (
-        resource.getrusage(resource.RUSAGE_SELF),
-        resource.getrusage(resource.RUSAGE_CHILDREN),
-    )
+    own = resource.getrusage(resource.RUSAGE_SELF)
+    children = resource.getrusage(resource.RUSAGE_CHILDREN)
     return own.ru_utime + own.ru_stime + children.ru_utime + children.ru_stime
 
 
@@ -306,34 +308,28 @@ class PublicationInputs(unittest.TestCase):
 
     def layout_lines(self):
         """Every line of the built PDF as (page, text, left, top), and the left edge of the body."""
-        ns = {"pdf": "http://www.w3.org/1999/xhtml"}
-        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", ns)
+        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
         lines = [
-            (number, "".join(word.text or "" for word in line.findall("pdf:word", ns)))
+            (number, "".join(word.text or "" for word in line.findall("pdf:word", NS)))
             + (float(line.get("xMin")), float(line.get("yMin")))
             for number, page in enumerate(pages, 1)
-            for line in page.findall(".//pdf:line", ns)
+            for line in page.findall(".//pdf:line", NS)
         ]
         paragraphs = self.fact("paragraphs")
         return lines, Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
 
-    def test_no_body_paragraph_ends_with_a_single_character_alone(self):
-        # A body paragraph does not end with one character alone on its last line: one Han
-        # character, with any closing marks, flush with the text block and set directly under a
-        # line that starts there too. Table cells and sample boxes are narrow, and are left to the
-        # page review.
-        lines, margin = self.layout_lines()
+    def test_no_wrapped_line_ends_with_a_single_character_alone(self):
+        # No paragraph, table cell or sample box wraps with one character alone on its last line:
+        # one Han character, with any closing marks, set directly under a line that starts at the
+        # same left edge. A cell that holds one character has no such line above it.
+        lines, _ = self.layout_lines()
         bound = self.fact("line bound")
         alone = re.compile("[\u4e00-\u9fff][，。、；：？！）」』”’》]*")
         found = [
             (page, text)
-            for page, text, left, top in lines
+            for page, text, x0, top in lines
             if alone.fullmatch(text)
-            and abs(left - margin) < 0.6
-            and any(
-                other == page and abs(x - left) < 1 and 0 < top - y <= bound
-                for other, _, x, y in lines
-            )
+            and any(o == page and abs(x - x0) < 1 and 0 < top - y <= bound for o, _, x, y in lines)
         ]
         self.assertEqual(found, [])
 
@@ -358,15 +354,13 @@ class PublicationInputs(unittest.TestCase):
         openings = {item["page"] for item in self.fact("openings")}
         front = min(openings)
         margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
-        document = ET.fromstring(self.read("layout"))
-        ns = {"pdf": "http://www.w3.org/1999/xhtml"}
-        pages = document.findall(".//pdf:page", ns)
+        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
 
         def ideograph(text):
             return bool(text) and "\u4e00" <= text[0] <= "\u9fff"
 
         def top(line):
-            for word in line.findall("pdf:word", ns):
+            for word in line.findall("pdf:word", NS):
                 if ideograph(word.text or ""):
                     return float(word.get("yMin"))
             return None
@@ -382,7 +376,7 @@ class PublicationInputs(unittest.TestCase):
             page = paragraph["page"]
             if page in openings or page < front or abs(paragraph["x"] - margin) > 0.01:
                 continue
-            lines = pages[page - 1].findall(".//pdf:line", ns)
+            lines = pages[page - 1].findall(".//pdf:line", NS)
             candidates = [
                 (abs(top(line) - paragraph["y"]), position)
                 for position, line in enumerate(lines)
@@ -397,7 +391,7 @@ class PublicationInputs(unittest.TestCase):
             bound = min((y for y in starts[page] if y > paragraph["y"] + 1), default=float("inf"))
             if position + 1 < len(lines):
                 following = lines[position + 1]
-                words = following.findall("pdf:word", ns)
+                words = following.findall("pdf:word", NS)
                 if (
                     words
                     and ideograph(words[0].text or "")
@@ -426,25 +420,25 @@ class PublicationInputs(unittest.TestCase):
         for step in paragraph_steps:
             self.assertAlmostEqual(step, 32, delta=0.5)
 
-    def test_no_page_is_left_short_before_a_table_or_a_sample_box(self):
+    def test_tables_and_sample_boxes_meet_page_ends_cleanly(self):
         # A short table or sample box moves to the next page whole, and a tall one continues
         # there. So the page before one that opens a page is short by no more than the bound the
         # layout declares for a whole block; the check holds no number of its own. A page the
         # manuscript ends on purpose is left out, and a chapter never opens with such a block.
+        # A block that continues keeps at least the declared least part on each page: from its
+        # start mark to the lowest line of that page, and from the top of the next to its end mark.
         allowed = self.fact("whole allowance")
         turns = set(self.fact("page turns"))
         top = min(item["y"] for item in self.fact("breaks"))
         opened = {item["page"] for item in self.fact("blocks") if item["y"] - top < 1}
-        document = ET.fromstring(self.read("layout"))
-        ns = {"pdf": "http://www.w3.org/1999/xhtml"}
+        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
         ends = {
-            number: sorted(float(line.get("yMax")) for line in page.findall(".//pdf:line", ns))
-            for number, page in enumerate(document.findall(".//pdf:page", ns), 1)
+            number: sorted(float(line.get("yMax")) for line in page.findall(".//pdf:line", NS))
+            for number, page in enumerate(pages, 1)
         }
         # The page number is the lowest line of nearly every page, at one height; the body of a
         # page ends with its lowest line above that.
-        number_line = Counter(round(lines[-1]) for lines in ends.values() if lines).most_common(1)
-        footer = number_line[0][0] - 4
+        footer = Counter(round(ys[-1]) for ys in ends.values() if ys).most_common(1)[0][0] - 4
         feet = {
             number: max(end for end in lines if end < footer)
             for number, lines in ends.items()
@@ -456,9 +450,16 @@ class PublicationInputs(unittest.TestCase):
             for page in opened
             if page - 1 in feet and page - 1 not in turns and bottom - feet[page - 1] > allowed
         }
-        self.assertTrue(opened)
-        self.assertTrue(turns)
+        thin = [
+            (start["page"], round(part))
+            for start, end in zip(self.fact("block starts"), self.fact("block ends"), strict=True)
+            if start["page"] != end["page"]
+            for part in (feet[start["page"]] - start["y"], end["y"] - top)
+            if part < self.fact("split least")
+        ]
+        self.assertTrue(opened and turns)
         self.assertEqual(short, {}, "pages left short before a table or a sample box, in pt")
+        self.assertEqual(thin, [], "split blocks with a part below the declared least, in pt")
 
     def test_printed_commands_work_when_pasted_whole(self):
         # A reader pastes a printed block into an interactive shell with default options. There a

@@ -52,8 +52,15 @@ itself claim editorial acceptance.
   declared in the toolchain and the notices instead of being reached unnamed.
 - No body paragraph ends with one character alone on its last line: eight are
   gone, by a runt cost in line breaking. One paragraph on page 118 sets two
-  lines of quoted output with wider spaces as a result. Table cells and sample
-  boxes are left to the page review.
+  lines of quoted output with wider spaces as a result.
+- No line of a table cell or a sample box ends with one character alone either,
+  and no table or sample box that continues on the next page leaves less than
+  three body lines on a page. Twenty-seven such lines and three such splits
+  are gone: fourteen tables have new column widths, one time keeps its time
+  zone on its line, and one paragraph of chapter 17, three of chapter 25, a
+  field and a card item of practice 2 and three cells of appendix D's
+  「结论的依据」 say the same in fewer words. Tests hold both rules over the
+  whole book.
 
 ## [0.2.4] - 2026-11-22
 

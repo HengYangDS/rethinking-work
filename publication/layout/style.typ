@@ -21,6 +21,9 @@
 #let whole-allowance = whole-height + par-space + body-edges
 // A section heading stays on a page while this many body lines fit under it.
 #let heading-lines = 3
+// A table or sample box that continues on the next page leaves at least this much of itself on
+// each page: a header with one row, or a box's last two lines, is less. Layout checks read it here.
+#let split-least = 3 * body-line
 // The most pages the edition holds, cover and back matter included (owner, 2026-11-22).
 #let page-ceiling = 200
 #let publication-design(body) = {
@@ -71,7 +74,8 @@
   above: above, below: below, width: 100%,
   layout(size => {
     let whole = measure(width: size.width, block(..args, body)).height <= whole-height
-    [#block(breakable: not whole, ..args, body)#mark]
+    // Zero-size marks at the start and end of the content let layout checks see where it splits.
+    [#block(breakable: not whole, ..args, [#metadata(none)<block-start>#body#metadata(none)<block-end>])#mark]
   }),
 )
 // A page the manuscript ends on purpose, as when an exercise asks for an answer before the reader
