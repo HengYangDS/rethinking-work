@@ -26,5 +26,5 @@ it is worked.
 
 ## 4. Qualification
 
-- [ ] 4.1 The light gates pass, the changed pages are looked at, and the reader-run session confirms no printed block
+- [x] 4.1 The light gates pass, the changed pages are looked at, and the reader-run session confirms no printed block
       changed.
