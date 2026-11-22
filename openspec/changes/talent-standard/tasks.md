@@ -10,19 +10,19 @@ is worked.
 
 ## 2. Check
 
-- [ ] 2.1 The layout declares the page ceiling and a test reads it; done when the test fails on the book with the new
+- [x] 2.1 The layout declares the page ceiling and a test reads it; done when the test fails on the book with the new
       chapter and no cuts.
 
 ## 3. Chapter
 
-- [ ] 3.1 The chapter is in the manuscript after chapter 28; done when the contents and layer tests pass and a search
+- [x] 3.1 The chapter is in the manuscript after chapter 28; done when the contents and layer tests pass and a search
       finds no stale printed chapter number.
 - [x] 3.2 Chapters 28 and 29 point to the new chapter where they meet its subject; done when the leading chapter's
       incentive passage no longer sends grade changes to 达成度 alone.
 
 ## 4. Room
 
-- [ ] 4.1 Redundant passages are cut or reduced to pointers by the saved readings; done when the page test passes.
+- [x] 4.1 Redundant passages are cut or reduced to pointers by the saved readings; done when the page test passes.
 
 ## 5. Qualification
 
