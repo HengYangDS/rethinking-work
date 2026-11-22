@@ -21,7 +21,7 @@ it is worked.
 - [x] 3.1 Every embedded face is declared; done when the font test passes.
 - [x] 3.2 Line breaking ends no body paragraph with a single character alone; done when the lone-character test
       passes.
-- [x] 3.3 The acceptance guide states the definition reviews cite, the copied-text reading and the error-rate sample;
+- [x] 3.3 The acceptance guide states the definition reviews cite, the check of printed commands and the error-rate sample;
       done when the requirement "Qualified edition" names each stage the guide describes.
 
 ## 4. Qualification

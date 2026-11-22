@@ -17,10 +17,11 @@ itself claim editorial acceptance.
 ### Added
 
 - The accepted specification declares what qualifies an edition for release
-  (fresh readers under chapter 24's 信、达、雅, a cold read after the last
-  content edit, printed commands read as copied from the PDF, every page looked
-  at, and an error-rate sample of the final text), and the acceptance guide
-  describes each stage.
+  (fresh readers under chapter 24's 信、达、雅, a whole-book cold read with
+  later changes read again, the prose beside printed commands against the run
+  records and every command whole in the PDF, every page looked at, and an
+  error-rate sample of the final text), and the acceptance guide describes each
+  stage as it was run for 0.2.4.
 - Tests check that the PDF embeds only the declared fonts, compiles without
   warnings, and ends no body paragraph with a single character alone.
 

@@ -7,7 +7,7 @@ An edition SHALL be qualified before its release is approved, through the stages
 #### Scenario: The stages of qualification
 
 - **WHEN** an edition is qualified
-- **THEN** readers who did not edit a passage have read it under 信、达、雅 as chapter 24 states them, a sentence-level cold read has covered the whole book after the last content edit, the prose beside each printed command has been compared with the run records on the text as copied from the PDF, every page of the built PDF has been looked at, and a sample of the final text has met the national error-rate bar.
+- **THEN** readers who did not edit a passage have read it under 信、达、雅 as chapter 24 states them, a sentence-level cold read has covered the whole book and any passage changed after it has been read again, the prose beside each printed command has been compared with the run records and each command prints whole in the PDF, every page of the built PDF has been looked at, and a sample of the final text has met the national error-rate bar.
 
 #### Scenario: A release is recommended
 

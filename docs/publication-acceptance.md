@@ -97,8 +97,10 @@ closer judgment. Record that selection and the review scale. This is a page and
 layout review, not a requirement to capture every changed paragraph separately.
 Automated geometry checks complement this judgment rather than replacing it.
 
-Read every printed command as a reader copies it from the PDF, not only in the source: a viewer turns a visual line
-break into a newline. Compare the prose beside each printed command with the run records on that copied text.
+Extract each printed command and the prose beside it from the source at the commit being qualified, pair the commands
+with the last run's by text, and compare the prose with the run records. Run every changed command, old against new,
+without a model. On the built PDF, check that each command prints whole and that its first line is in the PDF's text:
+a viewer copies a visual line break as a newline, so a command that wraps cannot be copied as printed.
 
 Check all logical links, destinations and clickable text coverage in the PDF.
 For an affected reader application, use a bounded journey covering the reported
@@ -112,8 +114,12 @@ every structurally equivalent link is not a separate requirement.
 Before an edition is released, sample its final text for errors. Read at least 100,000 consecutive layout characters,
 with the cover, title page, copyright page and contents, from a PDF whose body text equals the release's; count errors
 by the classes of CY/T 266; the edition qualifies at no more than one error per 10,000 characters. A judgement that
-counts two points goes to a second reader before it is counted. Correct every error found, and its kind across the
-book, before the release; a model's sample is a self-test, not a publisher's check, and is reported as such.
+counts two points goes to a second reader before it is counted. The second reader does not see the first reader's
+reason, and the stricter figure decides. The sample's pages are drawn from the commit hash, and a later sample avoids
+the pages already read; layout characters count the running head and page number as lines, and repeated errors are
+capped, both by CY/T 266. The bar is that of Article 5 of 《图书质量管理规定》. The cover and the edition line are read on
+the release commit's PDF before the tag. Correct every error found, and its kind across the book, before the release; a
+model's sample is a self-test, not a publisher's check, and is reported as such.
 
 ## Reuse evidence and stop completed checks
 
