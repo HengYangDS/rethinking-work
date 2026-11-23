@@ -45,6 +45,12 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- A sentence-level cold read of the whole book, by seven readers who had not
+  written it, found 188 places where a reader would stop, reread or be misled;
+  195 repairs restore missing premises and referents, narrow overstatements to
+  what the book and its records support, explain terms where they first appear
+  and keep each in one sense, and split crowded sentences. Chapter 19 keeps its
+  six pages through cuts reviewed for it earlier.
 - Every reference to a chapter, a practice or an appendix by its number is
   derived from the number the chapter's opening declares (`chapref`,
   `chapnum`), so a renumbering changes them with it; the printed book is

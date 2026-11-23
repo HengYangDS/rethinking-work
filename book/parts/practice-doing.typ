@@ -1,7 +1,7 @@
 #import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("四 / 交出去以后", "练三", "交与收的练习", "三个练习：把一句话写成一份委托，核验一处改动，排查一次失败。")<practice-doing>
-下面三个练习，分别练#chaprun(<delegate>, <verify>, <diagnose>, link: false)的方法，按做一件事的先后顺序排列；#chapref(<walkthrough>)末尾让读者自己运行一遍的那一节，可以作为第四个练习。委托和检查点的模板在练习包 `exercises/` 目录下的 `templates/` 中。
+下面三个练习，分别练#chaprun(<delegate>, <verify>, <diagnose>, link: false)的方法，按做一件事的先后顺序排列；#chapref(<walkthrough>)末尾“自己重做一遍”一节，可以作为第四个练习。委托和检查点的模板在练习包 `exercises/` 目录下的 `templates/` 中。
 
 == 练习一：把一句话写成一份委托
 对应#chapref(<delegate>)。下面是一句常见的委托：
@@ -73,7 +73,7 @@ def export_rows(rows):
 
 一只证券当天收益为零，是一个确切的事实：它既未上涨也未下跌。收益为空，则表示未知。把两者混为一谈，下游的横截面中就少了一只证券，而且没有任何报错。
 
-现在核验这处改动。#chapref(<bounds>)说过，新写的检查，要先让它失败一次。所以在 `cases/export-regression/` 中分两步运行：
+现在核验这处改动。#chapref(<bounds>)说过，一项检查若从未失败过，就无从知道它是否真的在查。所以在 `cases/export-regression/` 中分两步运行：
 
 ```sh
 EXPORT_MODULE=export_bug python3 -B -m unittest -v test_export.py
