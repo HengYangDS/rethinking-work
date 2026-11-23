@@ -18,3 +18,5 @@ Scope: the cold read of the 0.2.5 candidate and its repairs. New scope enters as
 
 - [x] 2.1 A reader who did not write the repairs reads every changed sentence, the commands reviewer reviews the head,
       and both are recorded in `publication/acceptance/reviews.toml`.
+- [x] 2.2 Five readers look at every page of the candidate; done when each fault the repairs caused is repaired
+      and the faults already in the base are named in the decisions for a layout change of their own.

@@ -24,7 +24,10 @@ carries the cold read's repairs for 0.2.5.
 - Repairs that would change chapter 3's responsibility passage, which the owner settled, are not applied and are put to
   him; two diagram texts wait for a change that re-renders diagrams.
 - The repairs pushed chapter 19 to a seventh page; the reviewed reserve of cuts written for it on 2026-11-22 folds it
-  back. The book is 199 pages.
+  back.
+- Five readers looked at every page. The repairs had pushed the fourth practice to a sixth page holding two lines
+  and loosened one line in chapter 19; both are repaired, and the book is 198 pages with every chapter on the pages it
+  had at `6e2eb9e`. The layout faults the base already had are left for a layout change of their own.
 
 ## Capabilities
 
