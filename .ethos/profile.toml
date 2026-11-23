@@ -6,7 +6,8 @@ material_paths = [
 ]
 
 [proof]
-code_correctness_gates = ["source-behavior", "source-static-analysis", "formatting"]
+# The repository gates a proof runs; a gate declared below and not listed here never runs.
+code_correctness_gates = ["source-behavior", "source-static-analysis", "formatting", "book-prose"]
 
 [proof.code_correctness_map]
 behavior = "source-behavior"

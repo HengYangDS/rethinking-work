@@ -36,7 +36,8 @@ were not adopted (runtimes, stale Chinese rules, Markdown only, or models that d
   by `TokenIgnores` in the configuration, and a project case shows that the prose after it is still read. ETHOS refuses
   Vale's in-file switches as weakening a shared floor; the book follows the same stance. Where the book only repeated a
   speaker's word in its own voice (practice 3's 「靠不靠谱」), the sentence says it in written words instead.
-- One gate, `book-prose`, runs `vale test` and then Vale over `book/` through one `publication/justfile` task, so the
+- One gate, `book-prose`, listed in `code_correctness_gates`, the profile's proof sets (a declared gate that is not
+  listed never runs; the first proof of this Change found that), runs `vale test` and then Vale over `book/` through one `publication/justfile` task, so the
   proof and the CIs run the same command; `--no-global` keeps a host's own Vale configuration out.
 
 ## Risks / Trade-offs

@@ -19,8 +19,9 @@ here before it is worked.
 ## 4. Gate
 
 - [x] 4.1 Vale is in the locked toolchain and a proof gate runs the cases and the rules; done when `prose-check` passes
-      with the locked Vale and ETHOS's profile reader lists the `book-prose` gate. The full proof of the archive head
-      runs it.
+      with the locked Vale, ETHOS's profile reader lists the `book-prose` gate in the proof sets, and the full proof's log
+      shows it run. The first proof (of `601fbca`) did not run it: the gate was declared but not listed in
+      `code_correctness_gates`.
 
 ## 5. Qualification
 
