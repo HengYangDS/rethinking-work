@@ -15,6 +15,9 @@ New scope enters as a task here before it is worked.
       chapter; done when it fails with one reference pointed wrongly, and with one left plain, and passes restored.
 - [x] 2.4 The appendix, practice, range and list references the first pass missed are derived, and the rules cover
       them; done when Vale reports nothing over `book/` and the PDF's text equals `d85751f`'s.
+- [x] 2.5 A reference that was plain at `d85751f` stays plain, and the word 练 is not a reference; done when the PDF
+      keeps its 663 links and adds only the 11 of the `relref` words, and the practice rule's cases pass for 训练一遍,
+      再练一个, 熟练一点 and 演练一次 and fail for a reference at a line's start.
 - [x] 2.3 The acceptance guide asks a reader whether a replaced word is a term another chapter defines.
 
 ## 3. Qualification

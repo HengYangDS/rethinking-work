@@ -232,7 +232,7 @@ EOF
 
 完成后退出，先打开 `.claude/hook.log` 查看：钩子每运行一次记录一行，`exit=` 后面是测试的退出码。再用 `git diff` 查看改动，应当只多出那一行文档字符串；不想保留，就运行 `git checkout export.py`。
 
-#chapref(<case-records>)表中“钩子”一行记录了两次单独运行的试验，做的是同一个练习，以 `claude -p` 启动、不进入交互，其余条件见#chapref(<case-records>)。两次中智能体都修改了三次文件，日志也都是三行。下面是其中一次的日志：
+#chapref(<case-records>)表中“钩子”一行记录了两次单独运行的试验，做的是同一个练习，以 `claude -p` 启动、不进入交互，其余条件见#chapref(<case-records>, link: false)。两次中智能体都修改了三次文件，日志也都是三行。下面是其中一次的日志：
 
 ```
 08:41:03 exit=0
