@@ -7,7 +7,7 @@ message: "'%s' is written by hand; derive it with #chapref(<label>)."
 level: error
 nonword: true
 tokens:
-  - '第[一二三四五六七八九十]{1,3}章'
+  - "第[一二三四五六七八九十]{1,3}章"
 tests:
   - name: a written chapter reference is found
     input: 见第十三章的试验，以及第九、第十章。
