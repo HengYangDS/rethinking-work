@@ -25,7 +25,7 @@ Possible causes:
   • The server is running on a different address than http://localhost:8888
 ```
 
-若把这段输出概括为“记忆服务不可用”，下一步很容易以为服务没有运行，去重启它。原文中却写着地址：命令连接的是默认的 8888 端口，而服务实际运行在 9077 端口上，这正是#chapref(<memory>, link: false)写进 `HINDSIGHT_API_URL` 的地址；原文列出的第二种可能，说的正是这种情况。把地址改正以后，`health` 报告 `Status: healthy`。再列出记忆库的页面，这次不提供密钥（输出有删节）：
+若把这段输出概括为“记忆服务不可用”，下一步很容易以为服务没有运行，去重启它。原文中却写着地址：命令连接的是默认的 8888 端口，而服务实际运行在 9077 端口上，也就是#chapref(<memory>, link: false)写进 `HINDSIGHT_API_URL` 的地址；原文列出的第二种可能，说的正是这种情况。把地址改正以后，`health` 报告 `Status: healthy`。再列出记忆库的页面，这次不提供密钥（输出有删节）：
 
 ```sh
 hindsight pages tree coding-agent::rethinking-work
