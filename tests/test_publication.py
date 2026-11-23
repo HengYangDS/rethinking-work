@@ -1,134 +1,16 @@
-"""Check the publication's declared inputs through the native Typst reader."""
+"""Check the publication's declared inputs and identity through the native Typst reader."""
 
 import json
 import os
 import re
-import resource
 import subprocess
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
-from collections import Counter, defaultdict
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-
-PLACE = (
-    "(page:it.location().page(), x:it.location().position().x.pt(),"
-    " y:it.location().position().y.pt())"
-)
-# Each layer's label and the chapter that opens it.
-LAYERS = {
-    "work": "01",
-    "question": "04",
-    "agent": "09",
-    "delegate": "15",
-    "team": "22",
-    "shared": "27",
-    "growth": "31",
-    "closing": "终",
-}
-BACK_MATTER_SECTIONS = ("run-conditions", "premises")
-
-# Every document fact the checks read, by name. One `typst eval` reads them all from one layout
-# of the book, beside the one compile of the PDF, instead of laying out the book once per fact.
-FACTS = {
-    "identity": "query(<edition-identity>).first().value",
-    **{f"count {kind}": f"query({kind}).len()" for kind in ("heading", "raw", "table", "figure")},
-    "paragraphs": f"query(par).map(it => {PLACE})",
-    "breaks": "(query(heading) + query(figure) + query(raw.where(block: true))"
-    f" + query(table) + query(<closing-block>) + query(<card-title>)).map(it => {PLACE})",
-    "openings": f"query(heading.where(level: 1)).map(it => {PLACE})",
-    "blocks": f"(query(table) + query(<sample-box>)).map(it => {PLACE})",
-    "page turns": "query(<page-turn>).map(it => it.location().page())",
-    # The layout's own bound for a page left short by a block that moved whole, in pt.
-    "whole allowance": '{ import "/publication/layout/style.typ": whole-allowance;'
-    " whole-allowance.pt() }",
-    # The farthest one line of a block is set below the one above it: a body line and one unit of
-    # space, which a sample box's looser leading takes.
-    "line bound": '{ import "/publication/layout/style.typ": body-line, space;'
-    " (body-line + space).pt() }",
-    "page ceiling": '{ import "/publication/layout/style.typ": page-ceiling; page-ceiling }',
-    "split least": '{ import "/publication/layout/style.typ": split-least; split-least.pt() }',
-    "open most": '{ import "/publication/layout/style.typ": open-most; open-most.em }',
-    "body size": '{ import "/publication/layout/style.typ": body-size; body-size.pt() }',
-    **{f"block {end}s": f"query(<block-{end}>).map(it => {PLACE})" for end in ("start", "end")},
-    "figures": "query(figure).map(it => it.body)",
-    "case records page": "query(<case-records>).first().location().page()",
-    **{
-        f"section {label}": f"query(<{label}>).map(it => (level:it.level,"
-        " page:it.location().page()))"
-        for label in BACK_MATTER_SECTIONS
-    },
-    "link targets": "query(link).map(it => it.dest)",
-    "chapters": "query(<chapter-navigation>).map(it => it.value.chapter)",
-    "contents page": "query(<contents>).first().location().page()",
-    "internal links": "query(link).filter(it => type(it.dest) == location)"
-    ".map(it => (page:it.location().page(), target:it.dest.page()))",
-    "chapter marks": "query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
-    " page:it.location().page()))",
-    **{f"layer {label}": f"query(<{label}>).first().location().page()" for label in LAYERS},
-    "raws": "query(raw).map(it => (text:it.text, lang:it.lang, block:it.block,"
-    " page:it.location().page()))",
-    "practice page": "query(<practice-thinking>).first().location().page()",
-    "openers": "query(heading.where(level: 1, outlined: true)).map(it => it.location().page())",
-    "contents returns": "query(link).filter(it => it.dest == <contents>)"
-    ".map(it => it.location().page())",
-}
-
-
-NS = {"pdf": "http://www.w3.org/1999/xhtml"}
-
-# Every read of the built PDF the checks use, by name, with the PDF's place marked.
-PDF_READS = {
-    "metadata": ("pdfinfo", "-meta", "{pdf}"),
-    "info": ("pdfinfo", "-isodates", "{pdf}"),
-    "cover": ("pdftotext", "-f", "1", "-l", "1", "{pdf}", "-"),
-    "layout": ("pdftotext", "-bbox-layout", "{pdf}", "-"),
-    "text": ("pdftotext", "-layout", "{pdf}", "-"),
-    "fonts": ("pdffonts", "{pdf}"),
-}
-
-
-# How every tool here runs: no input, its output kept as text, at most a minute.
-QUIET = {"stdin": subprocess.DEVNULL, "capture_output": True, "text": True, "timeout": 60}
-
-
-def read_pdf(*arguments):
-    tool = ["just", "--justfile", "publication/justfile", "pdf-tool", *arguments]
-    return subprocess.run(tool, cwd=ROOT, **QUIET, check=True)
-
-
-def evaluate(expression):
-    command = ["typst", "eval", "--root", str(ROOT), "--in", "book/main.typ", expression]
-    result = subprocess.run(command, cwd=ROOT, **QUIET, check=False)
-    if result.returncode:
-        raise AssertionError(f"typst eval failed:\n{result.stderr}")
-    return json.loads(result.stdout)
-
-
-def normalized(line):
-    return re.sub(r"\s+", " ", line).strip()
-
-
-def code_lines_not_whole(raws, text):
-    """Lines of code blocks with a declared language that do not print whole on one line.
-
-    A PDF viewer copies a visual line break as a newline, so such a line cannot be copied as
-    printed. A line counts as whole when it appears on one line of its page, or of the next page,
-    where a block may continue.
-    """
-    pages = [[normalized(line) for line in page.splitlines()] for page in text.split("\f")]
-    found = []
-    for raw in raws:
-        if not raw["block"] or not raw["lang"]:
-            continue
-        for line in filter(str.strip, raw["text"].split("\n")):
-            near = pages[raw["page"] - 1 : raw["page"] + 1]
-            if not any(normalized(line) in printed for page in near for printed in page):
-                found.append((raw["page"], line))
-    return found
+import edition
+from edition import BACK_MATTER_SECTIONS, LAYERS, QUIET, ROOT
 
 
 def bare_comment_lines(script):
@@ -157,74 +39,7 @@ def bare_comment_lines(script):
     return found
 
 
-def cpu_seconds():
-    """CPU time of this process and its finished children; it changes little with host load."""
-    own = resource.getrusage(resource.RUSAGE_SELF)
-    children = resource.getrusage(resource.RUSAGE_CHILDREN)
-    return own.ru_utime + own.ru_stime + children.ru_utime + children.ru_stime
-
-
-class PublicationInputs(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        workspace = ROOT / "build/runtime/work"
-        workspace.mkdir(parents=True, exist_ok=True)
-        cls.scratch = tempfile.TemporaryDirectory(prefix="publication-tests-", dir=workspace)
-        cls.addClassCleanup(cls.scratch.cleanup)
-        cls.pdf = Path(cls.scratch.name) / "edition.pdf"
-        # The compile and the evaluation are independent; they run side by side. A fact that fails
-        # to evaluate fails every check here, with Typst's message, which points at that fact.
-        with subprocess.Popen(
-            ["typst", "compile", "--root", str(ROOT), "book/main.typ", str(cls.pdf)],
-            cwd=ROOT,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.PIPE,
-            text=True,
-        ) as compiling:
-            try:
-                document = "(" + ", ".join(f"{json.dumps(n)}: {e}" for n, e in FACTS.items()) + ")"
-                started = cpu_seconds()
-                cls.facts = evaluate(document)
-                # The CPU time of one layout of the book, which the compile running beside it
-                # does not enter: it is reaped only below.
-                cls.layout = cpu_seconds() - started
-            finally:
-                try:
-                    errors = compiling.communicate(timeout=60)[1]
-                except subprocess.TimeoutExpired:
-                    compiling.kill()
-                    raise
-        if compiling.returncode:
-            raise AssertionError(f"typst compile failed:\n{errors}")
-        cls.warnings = errors
-        # The PDF reads are independent of each other and run at once. A read that fails raises in
-        # the checks that use it, not here.
-        with ThreadPoolExecutor(max_workers=len(PDF_READS)) as reading:
-            cls.reads = {
-                name: reading.submit(read_pdf, *(a.format(pdf=cls.pdf) for a in arguments))
-                for name, arguments in PDF_READS.items()
-            }
-
-    def setUp(self):
-        self.started = cpu_seconds()
-
-    def tearDown(self):
-        # A check that laid out the book again would spend nearly one layout's CPU time; the checks
-        # themselves spend a small fraction of it. Half a layout separates the two on any host.
-        spent = cpu_seconds() - self.started
-        self.assertLess(
-            spent,
-            self.layout / 2,
-            f"spent {spent:.1f} s of CPU; one layout of the book spent {self.layout:.1f} s",
-        )
-
-    def fact(self, name):
-        return self.facts[name]
-
-    def read(self, name):
-        return self.reads[name].result().stdout
-
+class PublicationInputs(edition.Edition):
     def test_identity_and_native_content(self):
         metadata = self.fact("identity")
         self.assertEqual(metadata["author"], ["衡阳"])
@@ -272,14 +87,9 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(identity["version"], version)
         self.assertIn(version, cover)
 
-    def test_code_lines_print_whole(self):
-        # Commands are copied from the PDF: every line of a code block with a declared language
-        # prints whole on one line. Output blocks carry no language and are left to the page review.
-        self.assertEqual(code_lines_not_whole(self.fact("raws"), self.read("text")), [])
-
     def test_compile_has_no_warnings(self):
         # A warning names what the PDF hides: a missing glyph, an unknown font, a dropped reference.
-        self.assertEqual(self.warnings.strip(), "")
+        self.assertEqual(self.edition.warnings.strip(), "")
 
     def test_embedded_fonts_are_the_declared_ones(self):
         # The toolchain declares the publication's fonts once; the PDF embeds no other. A face's
@@ -294,187 +104,6 @@ class PublicationInputs(unittest.TestCase):
         }
         stray = sorted(name for name in embedded if not any(f in letters(name) for f in families))
         self.assertEqual(stray, [])
-
-    def layout_lines(self):
-        """Every line of the built PDF as (page, text, left, top), and the left edge of the body."""
-        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
-        lines = [
-            (number, "".join(word.text or "" for word in line.findall("pdf:word", NS)))
-            + (float(line.get("xMin")), float(line.get("yMin")))
-            for number, page in enumerate(pages, 1)
-            for line in page.findall(".//pdf:line", NS)
-        ]
-        paragraphs = self.fact("paragraphs")
-        return lines, Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
-
-    def test_no_wrapped_line_ends_with_a_single_character_alone(self):
-        # No paragraph, table cell or sample box wraps with one character alone on its last line:
-        # one Han character, with any closing marks, set directly under a line that starts at the
-        # same left edge. A cell that holds one character has no such line above it.
-        lines, _ = self.layout_lines()
-        bound = self.fact("line bound")
-        alone = re.compile("[\u4e00-\u9fff][，。、；：？！）」』”’》]*")
-        found = [
-            (page, text)
-            for page, text, x0, top in lines
-            if alone.fullmatch(text)
-            and any(o == page and abs(x - x0) < 1 and 0 < top - y <= bound for o, _, x, y in lines)
-        ]
-        self.assertEqual(found, [])
-
-    def test_justified_lines_keep_chinese_characters_close(self):
-        # Justification opens the space between two Chinese characters of the body text by no more
-        # than the layout declares: past it a line reads as letter-spaced. Each ideograph is one em
-        # wide, so a run of them gives the opening by its width, and two words that meet at
-        # ideographs give it by their gap. Body text is told by its size; code keeps its spaces.
-        size, run = self.fact("body size"), re.compile("[\u4e00-\u9fff]+")
-        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
-        found = []
-        for number, page in enumerate(pages, 1):
-            for line in page.findall(".//pdf:line", NS):
-                words = [
-                    (float(w.get("xMin")), float(w.get("xMax")), w.text or "")
-                    if abs(float(w.get("yMax")) - float(w.get("yMin")) - size) < 0.1
-                    else (0, 0, "")
-                    for w in line.findall("pdf:word", NS)
-                ]
-                opened = [
-                    (b - a - size) / (len(t) - 1) - size
-                    for a, b, t in words
-                    if len(t) > 1 and run.fullmatch(t)
-                ]
-                opened += [
-                    c - b
-                    for (_, b, t), (c, _, u) in zip(words, words[1:], strict=False)
-                    if run.match(u) and run.match(t[-1:])
-                ]
-                if opened and max(opened) > self.fact("open most") * size:
-                    found.append((number, "".join(w[-1] for w in words)[:24]))
-        self.assertEqual(found, [], "lines opened past the declared bound")
-
-    def test_no_body_line_opens_with_a_closing_mark(self):
-        # Chinese typesetting never opens a line with a closing mark. A short inline command is set
-        # whole in a box, and a box may break on either side, so the layout must keep the mark that
-        # follows it on the same line. Lines flush with the text block are body lines.
-        lines, margin = self.layout_lines()
-        opened = [
-            (page, text[:20])
-            for page, text, left, _ in lines
-            if abs(left - margin) < 0.6 and text and text[0] in "，。、；：？！）」』”’》"
-        ]
-        self.assertEqual(opened, [])
-
-    def test_body_paragraphs_use_aligned_starts_and_visible_spacing(self):
-        # Every body paragraph, located natively, starts flush with the text block; lines within a
-        # paragraph step 16 pt and adjacent paragraphs 32 pt. Chapter openings and the cover carry
-        # their own apparatus and are left to the page review.
-        paragraphs = self.fact("paragraphs")
-        breaks = self.fact("breaks")
-        openings = {item["page"] for item in self.fact("openings")}
-        front = min(openings)
-        margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
-        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
-
-        def ideograph(text):
-            return bool(text) and "\u4e00" <= text[0] <= "\u9fff"
-
-        def top(line):
-            words = line.findall("pdf:word", NS)
-            return next((float(w.get("yMin")) for w in words if ideograph(w.text or "")), None)
-
-        def flush(line):
-            return abs(float(line.get("xMin")) - margin) < 0.6
-
-        starts = defaultdict(list)
-        for item in paragraphs + breaks:
-            starts[item["page"]].append(item["y"])
-        indented, line_steps, paragraph_steps = [], [], []
-        for index, paragraph in enumerate(paragraphs):
-            page = paragraph["page"]
-            if page in openings or page < front or abs(paragraph["x"] - margin) > 0.01:
-                continue
-            lines = pages[page - 1].findall(".//pdf:line", NS)
-            candidates = [
-                (abs(top(line) - paragraph["y"]), position)
-                for position, line in enumerate(lines)
-                if top(line) is not None
-            ]
-            if not candidates or min(candidates)[0] > 8:
-                continue
-            position = min(candidates)[1]
-            first = lines[position]
-            if not flush(first):
-                indented.append(page)
-            bound = min((y for y in starts[page] if y > paragraph["y"] + 1), default=float("inf"))
-            if position + 1 < len(lines):
-                following = lines[position + 1]
-                words = following.findall("pdf:word", NS)
-                if (
-                    words
-                    and ideograph(words[0].text or "")
-                    and flush(following)
-                    and top(following) < bound - 4
-                ):
-                    line_steps.append(top(following) - top(first))
-            previous = paragraphs[index - 1] if index else None
-            if (
-                previous
-                and previous["page"] == page
-                and abs(previous["x"] - margin) < 0.01
-                and not any(
-                    item["page"] == page and previous["y"] < item["y"] < paragraph["y"]
-                    for item in breaks
-                )
-                and position
-                and top(lines[position - 1]) is not None
-            ):
-                paragraph_steps.append(top(first) - top(lines[position - 1]))
-        self.assertEqual(indented, [])
-        self.assertGreater(len(line_steps), 100)
-        self.assertGreater(len(paragraph_steps), 100)
-        self.assertEqual([step for step in line_steps if abs(step - 16) > 0.5], [])
-        self.assertEqual([step for step in paragraph_steps if abs(step - 32) > 0.5], [])
-
-    def test_tables_and_sample_boxes_meet_page_ends_cleanly(self):
-        # A short table or sample box moves to the next page whole, and a tall one continues
-        # there. So the page before one that opens a page is short by no more than the bound the
-        # layout declares for a whole block; the check holds no number of its own. A page the
-        # manuscript ends on purpose is left out, and a chapter never opens with such a block.
-        # A block that continues keeps at least the declared least part on each page: from its
-        # start mark to the lowest line of that page, and from the top of the next to its end mark.
-        allowed = self.fact("whole allowance")
-        turns = set(self.fact("page turns"))
-        top = min(item["y"] for item in self.fact("breaks"))
-        opened = {item["page"] for item in self.fact("blocks") if item["y"] - top < 1}
-        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
-        ends = {
-            number: sorted(float(line.get("yMax")) for line in page.findall(".//pdf:line", NS))
-            for number, page in enumerate(pages, 1)
-        }
-        # The page number is the lowest line of nearly every page, at one height; the body of a
-        # page ends with its lowest line above that.
-        footer = Counter(round(ys[-1]) for ys in ends.values() if ys).most_common(1)[0][0] - 4
-        feet = {
-            number: max(end for end in lines if end < footer)
-            for number, lines in ends.items()
-            if any(end < footer for end in lines)
-        }
-        bottom = max(feet.values())
-        short = {
-            page - 1: round(bottom - feet[page - 1])
-            for page in opened
-            if page - 1 in feet and page - 1 not in turns and bottom - feet[page - 1] > allowed
-        }
-        thin = [
-            (start["page"], round(part))
-            for start, end in zip(self.fact("block starts"), self.fact("block ends"), strict=True)
-            if start["page"] != end["page"]
-            for part in (feet[start["page"]] - start["y"], end["y"] - top)
-            if part < self.fact("split least")
-        ]
-        self.assertTrue(opened and turns)
-        self.assertEqual(short, {}, "pages left short before a table or a sample box, in pt")
-        self.assertEqual(thin, [], "split blocks with a part below the declared least, in pt")
 
     def test_printed_commands_work_when_pasted_whole(self):
         # A reader pastes a printed block into an interactive shell with default options. There a

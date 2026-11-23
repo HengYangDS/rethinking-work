@@ -45,6 +45,11 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- The checks of the built edition are split by what they read it for:
+  `tests/test_publication.py` keeps identity, inputs, navigation and printed
+  commands, `tests/test_layout.py` takes how the edition is set, and
+  `tests/edition.py` builds the edition once per test process for both. No
+  check changed.
 - To hold the book at 200 pages with the new chapter, chapters 1, 3, 7, 13, 17,
   21, 25, 26 and 28 were rewritten more concisely and chapter 11 lost one
   repeated clause: second statements of what a chapter or a table already says

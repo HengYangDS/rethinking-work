@@ -1,7 +1,10 @@
 # Publication-input checks
 
-[test_publication.py](test_publication.py) uses the installed Typst reader on the
-actual document. Run it with `just --justfile publication/justfile test` from the
+[test_publication.py](test_publication.py) checks the edition's identity, inputs,
+navigation and printed commands, and [test_layout.py](test_layout.py) how it is
+set: lines, paragraphs, tables, sample boxes and code. Both use the installed
+Typst reader on the actual document through [edition.py](edition.py), which
+builds it once per test process. Run them with `just --justfile publication/justfile test` from the
 repository root. That task renders all declared figures before checking the
 document, including in a checkout containing only source. It requires the
 publication's headless browser; see [supply](../publication/README.md#supply-and-reproduction).
