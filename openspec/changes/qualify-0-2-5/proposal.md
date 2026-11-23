@@ -13,6 +13,11 @@ carries the cold read's repairs for 0.2.5.
 - 195 of the 202 proposed repairs are applied across 37 book files, with the cuts that keep the pages: missing premises and referents restored, overstatements narrowed to
   what the book and the records support, terms explained at first use and kept in one sense, crowded sentences split,
   and spoken words replaced by the book's decided ones. Each repair keeps its facts, figures and limits.
+- A reader who wrote none of the repairs read every changed sentence; the faults found there (a claim made
+  exclusive, an option split in two, a correction called unavailable that was published but not yet in the system,
+  a decision recorded but not applied) are repaired, with the same kind of fault elsewhere.
+- The book's quotation of 信 follows the shared definition as changed on 2026-11-23, which names who does the work
+  beside who is responsible.
 - Repairs that would change chapter 3's responsibility passage, which the owner settled, are not applied and are put to
   him; two diagram texts wait for a change that re-renders diagrams.
 - The repairs pushed chapter 19 to a seventh page; the reviewed reserve of cuts written for it on 2026-11-22 folds it

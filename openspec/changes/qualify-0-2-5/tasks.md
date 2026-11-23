@@ -8,6 +8,8 @@ Scope: the cold read of the 0.2.5 candidate and its repairs. New scope enters as
       `build/evidence/qualify-0.2.5/coldread/`.
 - [x] 1.2 Repairs proposed, reviewed and applied; done when the book builds at no more than 200 pages and the layout,
       prose and reference checks pass.
+- [x] 1.3 The quotation of 信 in `book/parts/writing.typ` follows the shared definition as changed on 2026-11-23
+      (agentic-workstation-notes 096bb7d: 「由谁做、由谁负责」); done when it reads so and no other copy remains.
 
 ## 2. Qualification
 

@@ -137,7 +137,7 @@ lrwxr-xr-x@ 1 … check-export -> /var/folders/…/.skills-manager/skills/check-
 == 两种管理上下文的工具
 大量输出不应全部进入上下文。有两种工具专门处理这件事，一种借助钩子，一种借助 MCP。
 
-上面那条钩子调用的就是 RTK。智能体每次要运行一条 shell 命令，钩子都先把命令交给 RTK：有对应的 `rtk` 命令，就改写成那条命令，输出经它压缩后再进入上下文；没有，就保持原样。把 RTK 接入宿主用 `rtk init -g`：它把那条钩子写进 `~/.claude/settings.json`，新建 `~/.claude/RTK.md`，并在用户级说明文件 `~/.claude/CLAUDE.md` 中加一行引用 `RTK.md`，三处都是全局配置。`rtk init -g --uninstall` 撤销这三处改动，RTK 在用户的应用数据目录中保存的过滤规则模板和使用记录则留在原处。接入 Codex，再加 `--codex`。
+上面那条钩子调用的就是 RTK。智能体每次要运行一条 shell 命令，钩子都先把命令交给 RTK：有对应的 `rtk` 命令，就改写成那条命令，输出经它压缩后再进入上下文；没有，就保持原样。RTK 接入宿主，用 `rtk init -g`：它把那条钩子写进 `~/.claude/settings.json`，新建 `~/.claude/RTK.md`，并在用户级说明文件 `~/.claude/CLAUDE.md` 中加一行引用 `RTK.md`，三处都是全局配置。`rtk init -g --uninstall` 撤销这三处改动，RTK 在用户的应用数据目录中保存的过滤规则模板和使用记录则留在原处。接入 Codex，再加 `--codex`。
 
 接入之后，`rtk init --show` 列出各项配置的状态。再看两条命令会被怎样改写：
 

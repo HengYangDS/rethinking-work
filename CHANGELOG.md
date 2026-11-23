@@ -51,6 +51,8 @@ itself claim editorial acceptance.
   what the book and its records support, explain terms where they first appear
   and keep each in one sense, and split crowded sentences. Chapter 19 keeps its
   six pages through cuts reviewed for it earlier.
+- The definition of 信 quoted in the chapter on writing names who does the work
+  beside who is responsible, following the shared definition of 2026-11-23.
 - Every reference to a chapter, a practice or an appendix by its number is
   derived from the number the chapter's opening declares (`chapref`,
   `chapnum`), so a renumbering changes them with it; the printed book is
