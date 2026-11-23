@@ -2,7 +2,7 @@
 #let book-title = "重新理解工作"
 #let book-subtitle = "智能体时代的工作与团队"
 #let book-author = "衡阳"
-#let book-date = datetime(year: 2026, month: 11, day: 22)
+#let book-date = datetime(year: 2026, month: 11, day: 24)
 #let book-date-text = str(book-date.year()) + " 年 " + str(book-date.month()) + " 月 " + str(book-date.day()) + " 日"
 // The repository version is the one in VERSION; the cover and the edition identity read it here.
 #let book-version = read("/VERSION").trim()

@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-11-24
+
 ### Added
 
 - A head that changes the book's text or exercises is proved only with its
@@ -88,6 +90,12 @@ itself claim editorial acceptance.
 
 ### Fixed
 
+- An error-rate sample of the final text, read by two model families on pages no
+  earlier sample read (105,823 characters), found 0.15 errors per 10,000 against a
+  limit of 1. Its errors are corrected with the same kinds elsewhere in the book:
+  a word, punctuation between clauses joined by 却 or 但, a colon after 如下,
+  list items separated by 顿号, corner brackets in a comment, and one table's
+  durations, now all in Arabic numerals.
 - Typst's own Libertinus Serif, which draws the ℹ of one printed output, is
   declared in the toolchain and the notices instead of being reached unnamed.
 - No body paragraph ends with one character alone on its last line: eight are
