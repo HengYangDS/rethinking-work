@@ -22,5 +22,5 @@ New scope enters as a task here before it is worked.
 
 ## 3. Qualification
 
-- [ ] 3.1 The light gates pass, a reader who did not write the change reads the diff against the PDF comparison, the
+- [x] 3.1 The light gates pass, a reader who did not write the change reads the diff against the PDF comparison, the
       commands reviewer reviews it, and both are recorded in `publication/acceptance/reviews.toml`.

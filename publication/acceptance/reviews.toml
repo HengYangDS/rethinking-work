@@ -40,3 +40,58 @@ verdict = "settled"
 [[reading.point]]
 point = "practice-doing.typ:17: a label followed by 「是否可靠」 with no subject reads first as what to write"
 settled = "9186753: 「数据是否可靠，是相对于用途而言的」"
+
+[[commands]]
+book = "efbf8613b5cd75c5d81e4ce64fb8eccc6f8f3292"
+exercises = "b3956311b18f69afe268c5d354c89045b0d51b3c"
+subject = "91a81d0"
+blocks_against = "v0.2.3"
+prose_against = "d85751f"
+pdf = "4be3c0495d6913cab12fa816e285a191e2147958407df8bb72141b1a8b1725e0"
+read = 2026-11-23T17:13:22+08:00
+findings = "build/evidence/reader-run-next-edition/review-91a81d0/FINDINGS.md"
+verdict = "settled"
+
+[[commands.point]]
+point = "review-0c80761 1: ten 上一章/下一章 are plain text, outside the reference test"
+settled = "e534be9: #relref(<label>)[上一章], checked by tests/test_references.py"
+
+[[commands.point]]
+point = "review-0c80761 2: 「第十八至二十一章」 written by hand; a range passes the rule"
+settled = "e534be9: #chapspan(<run>, <evaluate>), and the rule matches ranges"
+
+[[commands.point]]
+point = "review-0c80761 3: exercises/ Markdown names chapters by hand"
+declined = "Markdown cannot call the layout; stated as a non-goal in the design; accepted in review-e534be9"
+
+[[commands.point]]
+point = "review-e534be9: 「训练一遍」 and 「再练一个」 were turned into 练一"
+settled = "1e2791a: both words restored; the practice rule excludes the characters that make 练 a word"
+
+[[reading]]
+book = "efbf8613b5cd75c5d81e4ce64fb8eccc6f8f3292"
+subject = "e534be9"
+against = "0c80761"
+read = 2026-11-23T17:04:00+08:00
+report = "build/evidence/chapter-refs/coldread/report-2.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "first reading of 0c80761: 12 附录 D, 2 lists and 3 practice names still written by hand"
+settled = "e534be9: derived with chapref and chaprun; the rules cover appendices, practices and ranges"
+
+[[reading.point]]
+point = "second reading: eleven references that were plain at d85751f had become links"
+settled = "91a81d0: link: false again; 663 links kept, 11 added for the ten relref words"
+
+[[reading.point]]
+point = "second reading: the practice rule missed a reference at a line's start and reported 熟练一点"
+settled = "91a81d0: lookarounds, with cases"
+
+[[reading.point]]
+point = "second reading: the off-page error named no label; the number range was not stated"
+settled = "91a81d0: chapter-number stops naming the label; the design states the limits"
+
+[[reading.point]]
+point = "first reading: chapter-number reads the first marker on a page; 终 and 记 would print 附录"
+declined = "true while every chapter opens a new page and nothing references 终 or 记; stated as risks in the design"
