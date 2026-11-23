@@ -87,6 +87,30 @@
 #let page-turn() = [#metadata(none)<page-turn>#pagebreak(weak: true)]
 #let pageref(loc) = context link(loc, text(fill: teal)[#counter(page).at(loc).first()])
 #let case(identifier) = link(label("case-" + identifier), identifier)
+// A reference to a chapter, a practice or an appendix is derived from the number its opening
+// declares, so a renumbering changes every reference with it. `chapref` writes 第三章, 练一 or
+// 附录 D, linked unless `link: false`; several targets give 第九、第十章. `chapnum` writes the
+// declared number, linked, as the tables list it.
+#let zh-number(n) = {
+  let digits = ("零", "一", "二", "三", "四", "五", "六", "七", "八", "九")
+  let (tens, ones) = (calc.div-euclid(n, 10), calc.rem(n, 10))
+  let unit = if ones > 0 { digits.at(ones) } else { "" }
+  if tens == 0 { digits.at(ones) } else if tens == 1 { "十" + unit } else { digits.at(tens) + "十" + unit }
+}
+#let chapter-number(target) = {
+  let page = locate(target).page()
+  query(<chapter-navigation>).find(it => it.location().page() == page).value.chapter
+}
+#let chapref(..targets, link: true) = context {
+  let numbers = targets.pos().map(chapter-number)
+  let digits = numbers.all(n => n.match(regex("^\d+$")) != none)
+  let text = if digits { "第" + numbers.map(n => zh-number(int(n))).join("、第") + "章" }
+    else if numbers.len() == 1 and numbers.first().starts-with("练") { numbers.first() }
+    else if numbers.len() == 1 { "附录 " + numbers.first() }
+    else { panic("chapref: several targets must all be numbered chapters") }
+  if link and targets.pos().len() == 1 { std.link(targets.pos().first(), text) } else { text }
+}
+#let chapnum(target) = context std.link(target, chapter-number(target))
 #let contents-return() = link(<contents>, text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[返回目录 ↗])
 #let chapter(part, n, title, lead) = {
   set heading(numbering: none)

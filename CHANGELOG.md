@@ -45,6 +45,11 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- Every reference to a chapter, a practice or an appendix by its number is
+  derived from the number the chapter's opening declares (`chapref`,
+  `chapnum`), so a renumbering changes them with it; the printed book is
+  unchanged. A rule of the book's Vale style refuses a written 「第X章」, and a
+  test holds 上一章 and 下一章 to the reading order.
 - The checks of the built edition are split by what they read it for:
   `tests/test_publication.py` keeps identity, inputs, navigation and printed
   commands, `tests/test_layout.py` takes how the edition is set, and

@@ -37,6 +37,9 @@ process, and a removal command after each registered scheduled job. They
 require no new test environment or model service, and import only what
 [standard library only](#standard-library-only) allows.
 
+[test_references.py](test_references.py) holds the relative chapter references,
+上一章 and 下一章, to the manuscript's order; references by number are derived in
+the layout and need no check.
 [test_acceptance.py](test_acceptance.py) fails a head whose book text or
 exercises no recorded review covers; the records and their format are in
 [reviews.toml](../publication/acceptance/reviews.toml).

@@ -34,7 +34,9 @@ its findings, which stay in the reviewer's local evidence folder; the record its
 CI read. A point ends settled or declined with its reason; a review with an open point is not recorded.
 [`tests/test_acceptance.py`](../tests/test_acceptance.py) fails a head without these records.
 
-Read the complete changed prose and its qualifications. Verify that examples
+Read the complete changed prose and its qualifications. Where a passage was shortened or reworded,
+ask of every replaced word whether another chapter defines it as a term; a shortening once wrote 放行 where chapter 13
+uses it for a call that runs without asking. Verify that examples
 teach the stated mechanism, sources support material claims, and conditions or
 unknowns have not vanished during polishing. In a structural migration, compare
 the complete native raw examples, table children and figure captions with the
