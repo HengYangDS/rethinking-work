@@ -16,5 +16,5 @@ Scope: the cold read of the 0.2.5 candidate and its repairs. New scope enters as
 
 ## 2. Qualification
 
-- [ ] 2.1 A reader who did not write the repairs reads every changed sentence, the commands reviewer reviews the head,
+- [x] 2.1 A reader who did not write the repairs reads every changed sentence, the commands reviewer reviews the head,
       and both are recorded in `publication/acceptance/reviews.toml`.
