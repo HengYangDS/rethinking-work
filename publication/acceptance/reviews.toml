@@ -150,3 +150,70 @@ settled = "622438a: as proposed"
 [[reading.point]]
 point = "reread of 622438a: 「单独一次」 might read as only once in a period"
 declined = "it renders the standard's own a single boundary crossing (grow.md:90-92) and the E row states the twice case; the reader found it sound on fidelity (reread4)"
+
+[[commands]]
+book = "748329cc2a60f3e1b49e4362b55c3b5598e5cb44"
+exercises = "b3956311b18f69afe268c5d354c89045b0d51b3c"
+subject = "d9b0548"
+blocks_against = "v0.2.3"
+prose_against = "6e2eb9e"
+pdf = "13eae5e7712bbda61cba3bfaa4ee0c71b0c528f7a68e61e432105b654fa1403e"
+read = 2026-11-23T20:15:21+08:00
+findings = "build/evidence/reader-run-next-edition/review-d9b0548/FINDINGS.md"
+verdict = "settled"
+
+[[commands.point]]
+point = "review-21be254: shared.typ:32 glosses ~/.teamai/ as the team repository's clone, which uninstall already removes"
+settled = "ab0ab56: the gloss is removed (16-clean-removal-order.out lines 29-46)"
+
+[[commands.point]]
+point = "review-ab0ab56: talent.typ's fourth hard line drops the charter's current evidence"
+settled = "622438a: 「没有与说法相符的当前证据」"
+
+[[commands.point]]
+point = "review-2ed2816 note: diagnose.typ:28 said 正是 twice in adjacent clauses"
+settled = "d9b0548: 「也就是」"
+
+[[reading]]
+book = "748329cc2a60f3e1b49e4362b55c3b5598e5cb44"
+subject = "d9b0548"
+against = "6e2eb9e"
+read = 2026-11-23T20:15:00+08:00
+report = "build/evidence/qualify-0.2.5/reread5/report.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "reread of 21be254: nine faults, among them 「有一项」 read as the only one, an option split in two, 「尚不可得」 for a published correction, a token pointer recorded but not applied"
+settled = "485494d: each repaired as qualify-0.2.5/edits/decisions.md records; the pointer in its short form to keep chapter 10's pages"
+
+[[reading.point]]
+point = "reread of 21be254: eight optional wording points, three more 怎么, part 6 written differently from its reviewed proposals"
+settled = "485494d: the wording points and 怎么 repaired; the part 6 differences recorded, their four faults repaired"
+
+[[reading.point]]
+point = "reread of 485494d: cutting 自己 turned the reader's own trust into the host's trusted directory"
+settled = "ab0ab56: 「只在可信的目录里使用」"
+
+[[reading.point]]
+point = "reread of 485494d: 这一列 twice without a referent, 项目级 used once, 处理 twice, two optional points"
+settled = "ab0ab56: rewritten as the reader proposed"
+
+[[reading.point]]
+point = "reread of ab0ab56: the fourth hard line lacked current evidence; one crossing each of two lines had no rule; 所说的话 misread"
+settled = "622438a: 「当前证据」; 「单独一次越过底线」 after grow.md:90-92; the two invariants quoted with 「对应」"
+
+[[reading.point]]
+point = "reread of ab0ab56: E row record without 同一条, a full stop inside a quoted clause, 这一期商定 readable as agreed during the period"
+settled = "622438a: as proposed"
+
+[[reading.point]]
+point = "reread of 622438a: 「单独一次」 might read as only once in a period"
+declined = "it renders the standard's own a single boundary crossing (grow.md:90-92) and the E row states the twice case; the reader found it sound on fidelity (reread4)"
+
+[[reading.point]]
+point = "every-page look of 485494d: the fourth practice ran onto a sixth page of two lines; a line loosened before HINDSIGHT_API_URL"
+settled = "2ed2816: four cuts that keep every fact fold the page; the clause reworded (width ratio 1.076 to 1.025)"
+
+[[reading.point]]
+point = "reread of 2ed2816: 正是 twice in diagnose.typ:28; 「先是」 with nothing after it"
+settled = "d9b0548: 「也就是」 and 「要先做的其实是两件事」, confirmed in place by the same reader"
