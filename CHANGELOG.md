@@ -61,6 +61,17 @@ itself claim editorial acceptance.
   field and a card item of practice 2 and three cells of appendix D's
   「结论的依据」 say the same in fewer words. Tests hold both rules over the
   whole book.
+- No justified body line opens the space between its Chinese characters by
+  more than 0.05 em, the bound the layout now declares. Eleven lines were set
+  letter-spaced because a Latin word, a time or a command too long for the
+  rest of the line made it break early; in chapters 9, 10, 12, 17, 19, 21 and
+  27 and practices 1 and 2, a few characters were added or removed so that
+  each break moves. A test measures every body line.
+- A hook that exits 0 is no longer said to 放行 a call, which chapter 13 uses
+  for a call that runs without asking: chapter 13 again says that the host
+  still asks about a call the hook did not refuse (a shortening for the page
+  ceiling had written 「它放行的」), and two sentences of chapter 13, one of
+  chapter 12 and one row of appendix D say what the hook does instead.
 
 ## [0.2.4] - 2026-11-22
 

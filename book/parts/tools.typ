@@ -130,14 +130,14 @@ lrwxr-xr-x@ 1 … check-export -> /var/folders/…/.skills-manager/skills/check-
     "hooks": [ { "type": "command", "command": "rtk hook claude" } ] } ] } }
 ```
 
-这一条的意思是：智能体每次运行一条 shell 命令之前，宿主先把这次调用交给 `rtk hook claude` 处理。Codex 的钩子使用同一种格式，写在 `~/.codex/hooks.json` 中；RTK 为 Codex 写入的命令是 `rtk hook codex`，上面那一条不能照搬。Codex 还要求钩子先得到信任：项目里的钩子，须在 Codex 询问时由人同意，才会运行。
+这一条的意思是：智能体每次运行一条 shell 命令之前，宿主先把这次调用交给 `rtk hook claude` 处理。Codex 的钩子使用同一种格式，写在 `~/.codex/hooks.json` 中；RTK 为 Codex 写入的命令则是 `rtk hook codex`，上面那一条不能照搬。Codex 还要求钩子先得到信任：项目里的钩子，须在 Codex 询问时由人同意，才会运行。
 
 钩子可以通过退出码决定把什么交给模型。一条命令可以把文字写到两处：标准输出和标准错误。在 Claude Code 中，工具调用之后的钩子若以 0 退出，它打印到标准输出的文字不交给模型；若以 2 退出，它写到标准错误的文字会交给模型。章末的“上手”会实际配置一条。
 
 == 两种管理上下文的工具
 大量输出不应全部进入上下文。有两种工具专门处理这件事，一种借助钩子，一种借助 MCP。
 
-上面那条钩子调用的就是 RTK。智能体每次要运行一条 shell 命令，钩子都先把命令交给 RTK：有对应的 `rtk` 命令，就改写成那条命令，输出经它压缩后再进入上下文；没有，就原样放行。安装用 `rtk init -g`：它把那条钩子写进 `~/.claude/settings.json`，新建 `~/.claude/RTK.md`，并在用户级说明文件 `~/.claude/CLAUDE.md` 中加一行引用 `RTK.md`，三处都是全局配置。`rtk init -g --uninstall` 撤销这三处改动，RTK 在用户的应用数据目录中保存的过滤规则模板和使用记录则留在原处。为 Codex 安装，再加 `--codex`。
+上面那条钩子调用的就是 RTK。智能体每次要运行一条 shell 命令，钩子都先把命令交给 RTK：有对应的 `rtk` 命令，就改写成那条命令，输出经它压缩后再进入上下文；没有，就保持原样。安装用 `rtk init -g`：它把那条钩子写进 `~/.claude/settings.json`，新建 `~/.claude/RTK.md`，并在用户级说明文件 `~/.claude/CLAUDE.md` 中加一行引用 `RTK.md`，三处都是全局配置。`rtk init -g --uninstall` 撤销这三处改动，RTK 在用户的应用数据目录中保存的过滤规则模板和使用记录则留在原处。为 Codex 安装，再加 `--codex`。
 
 安装之后，`rtk init --show` 列出各项配置的状态。再看两条命令会被怎样改写：
 

@@ -24,6 +24,10 @@
 // A table or sample box that continues on the next page leaves at least this much of itself on
 // each page: a header with one row, or a box's last two lines, is less. Layout checks read it here.
 #let split-least = 3 * body-line
+// Justification opens the space between two Chinese characters of a line by at most this much;
+// past it the line reads as letter-spaced. A Latin word or a command too long for the rest of a
+// line leaves its room to be spread; the wording is changed there. Layout checks read it here.
+#let open-most = 0.05em
 // The most pages the edition holds, cover and back matter included (owner, 2026-11-22).
 #let page-ceiling = 200
 #let publication-design(body) = {

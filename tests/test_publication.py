@@ -51,6 +51,8 @@ FACTS = {
     " (body-line + space).pt() }",
     "page ceiling": '{ import "/publication/layout/style.typ": page-ceiling; page-ceiling }',
     "split least": '{ import "/publication/layout/style.typ": split-least; split-least.pt() }',
+    "open most": '{ import "/publication/layout/style.typ": open-most; open-most.em }',
+    "body size": '{ import "/publication/layout/style.typ": body-size; body-size.pt() }',
     **{f"block {end}s": f"query(<block-{end}>).map(it => {PLACE})" for end in ("start", "end")},
     "figures": "query(figure).map(it => it.body)",
     "case records page": "query(<case-records>).first().location().page()",
@@ -89,28 +91,18 @@ PDF_READS = {
 }
 
 
+# How every tool here runs: no input, its output kept as text, at most a minute.
+QUIET = {"stdin": subprocess.DEVNULL, "capture_output": True, "text": True, "timeout": 60}
+
+
 def read_pdf(*arguments):
-    return subprocess.run(
-        ["just", "--justfile", "publication/justfile", "pdf-tool", *arguments],
-        cwd=ROOT,
-        stdin=subprocess.DEVNULL,
-        capture_output=True,
-        text=True,
-        timeout=60,
-        check=True,
-    )
+    tool = ["just", "--justfile", "publication/justfile", "pdf-tool", *arguments]
+    return subprocess.run(tool, cwd=ROOT, **QUIET, check=True)
 
 
 def evaluate(expression):
-    result = subprocess.run(
-        ["typst", "eval", "--root", str(ROOT), "--in", "book/main.typ", expression],
-        cwd=ROOT,
-        stdin=subprocess.DEVNULL,
-        capture_output=True,
-        text=True,
-        timeout=60,
-        check=False,
-    )
+    command = ["typst", "eval", "--root", str(ROOT), "--in", "book/main.typ", expression]
+    result = subprocess.run(command, cwd=ROOT, **QUIET, check=False)
     if result.returncode:
         raise AssertionError(f"typst eval failed:\n{result.stderr}")
     return json.loads(result.stdout)
@@ -266,12 +258,9 @@ class PublicationInputs(unittest.TestCase):
             self.assertEqual(value.text, identity["date"] + "T00:00:00Z")
         info = self.read("info")
         fields = dict(line.split(":", 1) for line in info.splitlines() if ":" in line)
-        self.assertEqual(fields["Title"].strip(), title.text)
-        self.assertEqual(fields["Author"].strip(), author.text)
-        self.assertEqual(fields["Subject"].strip(), description.text)
-        self.assertEqual(fields["Keywords"].strip(), keywords.text)
-        self.assertEqual(fields["CreationDate"].strip(), created.text)
-        self.assertEqual(fields["ModDate"].strip(), modified.text)
+        shown = {"Title": title, "Author": author, "Subject": description, "Keywords": keywords}
+        for key, element in {**shown, "CreationDate": created, "ModDate": modified}.items():
+            self.assertEqual(fields[key].strip(), element.text)
         pages, ceiling = int(fields["Pages"]), self.fact("page ceiling")
         self.assertLessEqual(pages, ceiling, "pages over the ceiling the layout declares")
         cover = self.read("cover")
@@ -333,6 +322,36 @@ class PublicationInputs(unittest.TestCase):
         ]
         self.assertEqual(found, [])
 
+    def test_justified_lines_keep_chinese_characters_close(self):
+        # Justification opens the space between two Chinese characters of the body text by no more
+        # than the layout declares: past it a line reads as letter-spaced. Each ideograph is one em
+        # wide, so a run of them gives the opening by its width, and two words that meet at
+        # ideographs give it by their gap. Body text is told by its size; code keeps its spaces.
+        size, run = self.fact("body size"), re.compile("[\u4e00-\u9fff]+")
+        pages = ET.fromstring(self.read("layout")).findall(".//pdf:page", NS)
+        found = []
+        for number, page in enumerate(pages, 1):
+            for line in page.findall(".//pdf:line", NS):
+                words = [
+                    (float(w.get("xMin")), float(w.get("xMax")), w.text or "")
+                    if abs(float(w.get("yMax")) - float(w.get("yMin")) - size) < 0.1
+                    else (0, 0, "")
+                    for w in line.findall("pdf:word", NS)
+                ]
+                opened = [
+                    (b - a - size) / (len(t) - 1) - size
+                    for a, b, t in words
+                    if len(t) > 1 and run.fullmatch(t)
+                ]
+                opened += [
+                    c - b
+                    for (_, b, t), (c, _, u) in zip(words, words[1:], strict=False)
+                    if run.match(u) and run.match(t[-1:])
+                ]
+                if opened and max(opened) > self.fact("open most") * size:
+                    found.append((number, "".join(w[-1] for w in words)[:24]))
+        self.assertEqual(found, [], "lines opened past the declared bound")
+
     def test_no_body_line_opens_with_a_closing_mark(self):
         # Chinese typesetting never opens a line with a closing mark. A short inline command is set
         # whole in a box, and a box may break on either side, so the layout must keep the mark that
@@ -360,10 +379,8 @@ class PublicationInputs(unittest.TestCase):
             return bool(text) and "\u4e00" <= text[0] <= "\u9fff"
 
         def top(line):
-            for word in line.findall("pdf:word", NS):
-                if ideograph(word.text or ""):
-                    return float(word.get("yMin"))
-            return None
+            words = line.findall("pdf:word", NS)
+            return next((float(w.get("yMin")) for w in words if ideograph(w.text or "")), None)
 
         def flush(line):
             return abs(float(line.get("xMin")) - margin) < 0.6
@@ -415,10 +432,8 @@ class PublicationInputs(unittest.TestCase):
         self.assertEqual(indented, [])
         self.assertGreater(len(line_steps), 100)
         self.assertGreater(len(paragraph_steps), 100)
-        for step in line_steps:
-            self.assertAlmostEqual(step, 16, delta=0.5)
-        for step in paragraph_steps:
-            self.assertAlmostEqual(step, 32, delta=0.5)
+        self.assertEqual([step for step in line_steps if abs(step - 16) > 0.5], [])
+        self.assertEqual([step for step in paragraph_steps if abs(step - 32) > 0.5], [])
 
     def test_tables_and_sample_boxes_meet_page_ends_cleanly(self):
         # A short table or sample box moves to the next page whole, and a tall one continues
@@ -575,15 +590,9 @@ class PublicationInputs(unittest.TestCase):
                 (work / "check.sh").write_text(script, encoding="utf-8")
                 (work / "export.py").write_bytes((case / module).read_bytes())
                 (work / "test_export.py").write_bytes((case / "test_export.py").read_bytes())
+                env = {**os.environ, "CLAUDE_PROJECT_DIR": str(work)}
                 result = subprocess.run(
-                    ["sh", str(work / "check.sh")],
-                    cwd=work,
-                    env={**os.environ, "CLAUDE_PROJECT_DIR": str(work)},
-                    stdin=subprocess.DEVNULL,
-                    capture_output=True,
-                    text=True,
-                    timeout=60,
-                    check=False,
+                    ["sh", str(work / "check.sh")], cwd=work, env=env, **QUIET, check=False
                 )
                 self.assertEqual(result.returncode, expected, result.stderr)
                 self.assertEqual(bool(result.stderr), bool(expected))

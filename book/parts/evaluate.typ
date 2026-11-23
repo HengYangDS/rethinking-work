@@ -97,6 +97,6 @@ PACK=~/Downloads/重新理解工作/实战练习
 cp -R "$PACK/exercises/templates/eval" ~/eval-practice && cd ~/eval-practice
 ```
 
-把前面 `promptfoo` 和 `inspect` 那两条命令各运行一遍，与书中的数字对照。然后改变一处，看尺子量出的结果是否随之变化。打开 `prompts/baseline.txt`，补上一句带时区的冻结时刻，比如 `as of the cutoff 17:00 Asia/Shanghai`，重新运行 `promptfoo`：通过的从四次变为五次。再删去 `candidate.txt` 中写有 `read-only` 的那一句，重新运行：通过的回落到四次。
+把前面 `promptfoo` 和 `inspect` 那两条命令各运行一遍，与书中给出的数字对照。然后改变一处，看尺子量出的结果是否随之变化。打开 `prompts/baseline.txt`，在其中补上一句带时区的冻结时刻，比如 `as of the cutoff 17:00 Asia/Shanghai`，重新运行 `promptfoo`：通过的从四次变为五次。再删去 `candidate.txt` 中写有 `read-only` 的那一句，重新运行：通过的回落到四次。
 
 再看尺子量错的情形。先恢复 `candidate.txt` 中删掉的那一句，重新运行，回到五次。再把 `baseline.txt` 中补入的时刻换成 `14:00 Asia/Shanghai`，重新运行：降为四次。提示仍写明了冻结时刻和时区，并没有变差。少通过的是第三项测试，它只检查有没有字符 4，把 `14:00` 中的 4 也当成了泄露的答案。断言写得粗糙，尺子量到的就不是想量的那一项。

@@ -60,7 +60,7 @@ claude --permission-mode default
 == 它停下来询问时
 它停下来询问你，实际上是宿主在问，而不是模型在问。是否放行，由你决定；#link(<boundaries>)[第十三章]讲的边界，在这里第一次用到。
 
-先读它要执行的操作：是哪条命令，修改哪个文件的哪一行。同意的选项不止一种。`Yes` 只同意这一次。其余以 `Yes, and` 开头的几项，同意之外各附带一项改变。询问命令时，其中一项多为 `Yes, and don't ask again for:` 后接命令中的一段：或者原样写出这一段，或者只写出它的开头，再加 `*`。询问本章的测试命令时，这一项是 `Yes, and don't ask again for: EXPORT_MODULE=export python3 *`。选了带 `*` 的一项，此后在这个目录里，凡以 `*` 之前那段文字开头的命令都不再询问。这一项也有别的写法：在#link(<boundaries>)[第十三章]的练习中，询问一条把输出追加进文件的命令时，它显示为 `Yes, and always allow access to <目录> from this project`。
+先读它要执行的操作：是哪条命令，修改哪个文件的哪一行。同意的选项不止一种。`Yes` 只同意这一次。其余以 `Yes, and` 开头的几项，同意之外各附带一项改变。询问命令时，其中一项的文字多为 `Yes, and don't ask again for:` 后接命令中的一段：或者原样写出这一段，或者只写出它的开头，再加 `*`。询问本章的测试命令时，这一项是 `Yes, and don't ask again for: EXPORT_MODULE=export python3 *`。选了带 `*` 的一项，此后在这个目录里，凡以 `*` 之前那段文字开头的命令都不再询问。这一项也有别的写法：在#link(<boundaries>)[第十三章]的练习中，询问一条把输出追加进文件的命令时，它显示为 `Yes, and always allow access to <目录> from this project`。
 
 询问修改文件时，这一项是 `Yes, and switch to accept edits`，本次会话余下的修改和常见的文件命令都不再询问；有的提示里还有一项 `Yes, and switch to auto mode`，把档位换成 `auto`。
 
