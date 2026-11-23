@@ -16,4 +16,4 @@ task here before it is worked.
 
 ## 3. Qualification
 
-- [ ] 3.1 The light gates pass and the commands reviewer reads the format and the stage text as built.
+- [x] 3.1 The light gates pass and the commands reviewer reads the format and the stage text as built.
