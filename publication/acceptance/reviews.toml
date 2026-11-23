@@ -217,3 +217,37 @@ settled = "2ed2816: four cuts that keep every fact fold the page; the clause rew
 [[reading.point]]
 point = "reread of 2ed2816: 正是 twice in diagnose.typ:28; 「先是」 with nothing after it"
 settled = "d9b0548: 「也就是」 and 「要先做的其实是两件事」, confirmed in place by the same reader"
+
+[[commands]]
+book = "6173f874e7e67ca98d4ad8f2dce98f21308b59d8"
+exercises = "b3956311b18f69afe268c5d354c89045b0d51b3c"
+subject = "e43f21a"
+blocks_against = "v0.2.3"
+prose_against = "0e89027"
+pdf = "feec93be6ba33c8011f0a5a9a2ae092a27fd03784ca8da19012a73803c6718d6"
+read = 2026-11-23T23:03:32+08:00
+findings = "build/evidence/reader-run-next-edition/review-e43f21a/FINDINGS.md"
+verdict = "no finding"
+
+[[reading]]
+book = "6173f874e7e67ca98d4ad8f2dce98f21308b59d8"
+subject = "e43f21a"
+against = "0e89027"
+read = 2026-11-23T23:02:00+08:00
+report = "build/evidence/release-0-2-5/reread/report.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "reread of d754e79: with 顿号, 建议和验证 reads as a fifth item of four"
+settled = "e43f21a: semicolons, as the book's checklist in appendix B"
+
+[[reading.point]]
+point = "reread of d754e79: one 顿号 before 但 left in model.typ; two recurring lists with two punctuations; three short lists of the same kind"
+settled = "e43f21a: corrected; the same reader confirmed each in place and searched book/ again"
+
+[[release]]
+version = "0.2.5"
+pdf = "feec93be6ba33c8011f0a5a9a2ae092a27fd03784ca8da19012a73803c6718d6"
+read = 2026-11-23T23:03:32+08:00
+findings = "build/evidence/reader-run-next-edition/review-e43f21a/FINDINGS.md"
+verdict = "no finding"
