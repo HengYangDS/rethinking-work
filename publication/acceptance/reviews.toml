@@ -1,0 +1,42 @@
+# The reviews a head that changes the book's text or exercises needs before it is proved and landed:
+# docs/publication-acceptance.md ("Check complete meaning"). The lane's editor copies each entry from the
+# reviewer's findings; the findings stay in the reviewer's local evidence folder, named here by path, and
+# this record is what the proof and the CIs read (tests/test_acceptance.py). A review with an open point
+# is not recorded.
+#
+# [[commands]]  the printed commands and the prose beside them, against the run records; keyed by the
+#               trees of book/ and exercises/ (`git rev-parse <subject>:book`).
+#   subject, the commit read; blocks_against, the run records' baseline the blocks were paired with;
+#   prose_against, the reviewed commit the prose was compared with; pdf, the SHA-256 of the PDF read, or
+#   "none" for a text-only review; read, when the findings were written; findings, their path;
+#   verdict, "no finding" or "settled", with one [[commands.point]] per point: point, in the reviewer's
+#   words shortened, and either settled (the commit and wording that settled it) or declined (the
+#   reason, and the review that accepted it).
+# [[reading]]   every changed passage, read by a reader who did not write it; keyed by the tree of book/.
+#   subject, against, read, report (path), verdict and [[reading.point]] as above.
+# [[release]]   the release PDF checked before a tag (cover, metadata date, blocks, page text); keyed by
+#   the PDF's SHA-256: version, pdf, read, findings, verdict. Recorded, not tested: the release
+#   procedure reads it.
+
+[[commands]]
+book = "0f78145cf4d848e707e0a783fe733a8be099380c"
+exercises = "b3956311b18f69afe268c5d354c89045b0d51b3c"
+subject = "601fbca"
+blocks_against = "v0.2.3"
+prose_against = "8af23aa"
+pdf = "5c005038a7f36492e311273e7ab436092718bb0f07cca61fb8c550c3053269bf"
+read = 2026-11-23T13:03:42+08:00
+findings = "build/evidence/reader-run-next-edition/review-601fbca/FINDINGS.md"
+verdict = "no finding"
+
+[[reading]]
+book = "0f78145cf4d848e707e0a783fe733a8be099380c"
+subject = "9186753"
+against = "8af23aa"
+read = 2026-11-23T12:53:46+08:00
+report = "build/evidence/prose-rules/coldread/report.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "practice-doing.typ:17: a label followed by 「是否可靠」 with no subject reads first as what to write"
+settled = "9186753: 「数据是否可靠，是相对于用途而言的」"

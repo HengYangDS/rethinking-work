@@ -16,6 +16,13 @@ itself claim editorial acceptance.
 
 ### Added
 
+- A head that changes the book's text or exercises is proved only with its
+  reviews on record: `publication/acceptance/reviews.toml` records each review
+  of the printed commands (keyed by the trees of `book/` and `exercises/`) and
+  each reading of changed passages (keyed by `book/`), with how every point was
+  settled or declined, and `tests/test_acceptance.py` fails a head that no
+  record covers. The stage had lived in a local script, and three book commits
+  landed without it.
 - The book's decided wording and the decidable cases of Chinese punctuation are
   checked on every change: a Vale style in `.config/checks/vale/` holds
   the replacements and avoided words decided in the whole-book review of

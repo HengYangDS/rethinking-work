@@ -34,6 +34,10 @@ process, and a removal command after each registered scheduled job. They
 require no new test environment or model service, and import only what
 [standard library only](#standard-library-only) allows.
 
+[test_acceptance.py](test_acceptance.py) fails a head whose book text or
+exercises no recorded review covers; the records and their format are in
+[reviews.toml](../publication/acceptance/reviews.toml).
+
 This is not a full editorial or visual acceptance suite. Migration comparison,
 PDF text and metadata checks, every-page inspection and reader review have
 different scopes; follow [edition acceptance](../docs/publication-acceptance.md).
