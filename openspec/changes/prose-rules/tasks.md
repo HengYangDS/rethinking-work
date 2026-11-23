@@ -18,8 +18,9 @@ here before it is worked.
 
 ## 4. Gate
 
-- [ ] 4.1 Vale is in the locked toolchain and a proof gate runs the cases and the rules; done when the gate passes in a
-      local proof.
+- [x] 4.1 Vale is in the locked toolchain and a proof gate runs the cases and the rules; done when `prose-check` passes
+      with the locked Vale and ETHOS's profile reader lists the `book-prose` gate. The full proof of the archive head
+      runs it.
 
 ## 5. Qualification
 
