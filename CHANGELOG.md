@@ -53,6 +53,11 @@ itself claim editorial acceptance.
   six pages through cuts reviewed for it earlier.
 - The definition of 信 quoted in the chapter on writing names who does the work
   beside who is responsible, following the shared definition of 2026-11-23.
+- Chapter 29 lists the four hard lines of the department's standard (truth,
+  bounds, an accountable person, no claim of completion without evidence) as
+  the standard does; it had merged two of them, so one fabrication and one
+  unsupported completion claim counted as the same line crossed twice.
+  Attainment is measured against the goals agreed for the period.
 - Every reference to a chapter, a practice or an appendix by its number is
   derived from the number the chapter's opening declares (`chapref`,
   `chapnum`), so a renumbering changes them with it; the printed book is

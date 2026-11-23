@@ -203,6 +203,6 @@ claude -p "列出这个目录里每个文件的用途，一行一个" --output-f
 codex exec "列出这个目录里每个文件的用途，一行一个" --json -o /tmp/codex-last.txt
 ```
 
-第一条返回的 JSON 中，`total_cost_usd` 是宿主按标价估算的本次花费。这条命令没有写档位：按官方文档，用 `-p` 启动时，2.1.302 及以后的版本，只要设置文件中没有设定档位，就以 `default` 档启动（见#chapref(<boundaries>)）。`-p` 不会询问是否信任目录，所以只在信任的目录里使用。Codex 的 `exec` 对应 `-p`。`--json` 逐行打印事件，其中 `turn.completed` 一行记有消耗的 token 数（见#relref(<context>)[下一章]），不记花费。`-o` 把最后一条回复另存在 `/tmp` 下，练习目录里不新增文件。Claude Code 的常用选项见下表，其余见#chapref(<quickref>)。
+第一条返回的 JSON 中，`total_cost_usd` 是宿主按标价估算的本次花费。这条命令没有写档位：按官方文档，用 `-p` 启动时，2.1.302 及以后的版本，只要设置文件中没有设定档位，就以 `default` 档启动（见#chapref(<boundaries>)）。`-p` 不会询问是否信任目录，所以只在可信的目录里使用。Codex 的 `exec` 对应 `-p`。`--json` 逐行打印事件，其中 `turn.completed` 一行记有消耗的 token 数（见#relref(<context>)[下一章]），不记花费。`-o` 把最后一条回复另存在 `/tmp` 下，练习目录里不新增文件。Claude Code 的常用选项见下表，其余见#chapref(<quickref>)。
 
 #matrix(columns: (1.2fr, 2fr), [*选项（Claude Code）*], [*作用*], [`-c`, `--continue` / `-r`, `--resume`], [接续会话：最近一次，或从列表中选择], [`-p`, `--print`], [以非交互方式运行，回答完毕即退出], [`--output-format text|json|stream-json`], [`text` 供人阅读；`json` 在运行结束时输出一份结果，供程序读取；`stream-json` 在运行过程中逐行输出过程记录，须同时加 `--verbose`])

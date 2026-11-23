@@ -16,6 +16,9 @@ carries the cold read's repairs for 0.2.5.
 - A reader who wrote none of the repairs read every changed sentence; the faults found there (a claim made
   exclusive, an option split in two, a correction called unavailable that was published but not yet in the system,
   a decision recorded but not applied) are repaired, with the same kind of fault elsewhere.
+- Chapter 29 states the department standard as it stands (v9.1.0): four hard lines, not three, so that
+  "the same line crossed twice" counts as the standard counts it; attainment against the goals agreed for the
+  period; decisive vetoes.
 - The book's quotation of 信 follows the shared definition as changed on 2026-11-23, which names who does the work
   beside who is responsible.
 - Repairs that would change chapter 3's responsibility passage, which the owner settled, are not applied and are put to

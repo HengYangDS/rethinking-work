@@ -29,7 +29,7 @@ TeamAI 是一个开源工具（MIT 许可），做的正是这几件事：团队
 
 运行 `init` 和第一次 `pull`，改动的不止工作目录。两个宿主的用户级设置里安装了会话钩子，Codex 的钩子记为已信任；工作目录里登记了 Git 钩子，放入了 TeamAI 自带的技能；`~/.zshenv` 等三个 shell 启动文件的末尾各追加了一段配置。团队的技能和规则，在下次会话开始时由钩子同步，或在运行 `teamai pull` 时同步。
 
-卸载时先运行 `teamai hooks remove`，再运行 `teamai uninstall --force`，次序反了会留下 Codex 的钩子；`~/.teamai/` 目录（团队仓库的本机克隆）和 `~/.codex/config.toml` 中的信任记录要另行删除。
+卸载时先运行 `teamai hooks remove`，再运行 `teamai uninstall --force`，次序反了会留下 Codex 的钩子；`~/.teamai/` 目录和 `~/.codex/config.toml` 中的信任记录要另行删除。
 
 == 一条规则怎样到达宿主
 设想维护团队仓库的人在 `rules/` 里加了一条规则，写着“零是一个值，空表示不知道，空值不补零”等几项，又在 `skills/` 里加了一个技能，一并提交到 `main`。成员运行 `teamai pull` 之后，技能复制进了工作目录的 `.claude/skills/` 和 `.codex/skills/`，两个宿主各一份；规则复制进了 `.claude/rules/`。
