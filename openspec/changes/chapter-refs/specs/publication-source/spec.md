@@ -16,5 +16,5 @@ The manuscript SHALL derive every reference to a chapter, a practice or an appen
 
 #### Scenario: A relative reference points elsewhere
 
-- **WHEN** 上一章 or 下一章 links a chapter that is not adjacent in the reading order
-- **THEN** a check fails and names the file, the word and the expected chapter.
+- **WHEN** 上一章 or 下一章 names a chapter that is not adjacent in the reading order, or names none
+- **THEN** a check fails and names the file and the word.

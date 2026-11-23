@@ -1,0 +1,17 @@
+# A reference to a practice, 练一, is derived too (`#chapref(<label>)`), but a practice's own name stands in
+# quotes where it is declared, `"练一"`; a rule with this token sets aside the other references it shares a file
+# with, so it is kept apart.
+extends: existence
+message: "'%s' is written by hand; derive it with #chapref(<label>)."
+level: error
+nonword: true
+tokens:
+  - '[^"]练[一二三四]'
+tests:
+  - name: a written practice reference is found
+    input: 见练一与练三。
+    contains: ["'见练一'", "'与练三'"]
+  - name: a declared practice name is not a reference
+    input: |
+      #chapter("二 / 一个人", "练一", "思考的练习", "五个练习。")<practice-thinking>
+    absent: book.derived-practice-references

@@ -1,17 +1,18 @@
-# A reference to a chapter is derived from the number its opening declares (`#chapref(<label>)` or
-# `#chapnum(<label>)` in publication/layout/style.typ), so that a renumbering changes it too. Source: the
+# A reference to a chapter, a practice or an appendix is derived (`#chapref`, `#chapnum`, `#chapspan`,
+# `#chaprun`, `#relref` in publication/layout/style.typ), so that a renumbering changes it too. Source: the
 # quality-system design of 2026-11-21 (layer L0) and chapter 29's insertion on 2026-11-22, which renumbered two
-# chapters and eight written references by hand.
+# chapters and eight written references by hand. Markdown under exercises/ is outside this rule's scope.
 extends: existence
-message: "'%s' is written by hand; derive it with #chapref(<label>)."
+message: "'%s' is written by hand; derive it with a chapter-reference call."
 level: error
 nonword: true
 tokens:
-  - "第[一二三四五六七八九十]{1,3}章"
+  - "第[一二三四五六七八九十、至]{1,12}章"
+  - "附录 [A-D]"
 tests:
-  - name: a written chapter reference is found
-    input: 见第十三章的试验，以及第九、第十章。
-    contains: ["'第十三章'", "'第十章'"]
+  - name: written chapter and appendix references are found
+    input: 见第十三章的试验，以及第九、第十章；附录 D；第十八至二十一章。
+    contains: ["'第十三章'", "'附录 D'"]
   - name: relative references and this chapter pass
     input: 见上一章和下一章；本章开头说过。
     absent: book.derived-chapter-references

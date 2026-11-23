@@ -10,8 +10,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OPENING = re.compile(r"#chapter\([^)]*\)<([a-z-]+)>", re.S)
-RELATIVE = re.compile(r"#link\(<([a-z-]+)>\)\[(上一章|下一章)\]")
+OPENING = re.compile(r"#chapter\(.*?\)<([a-z-]+)>", re.S)
+RELATIVE = re.compile(r"#(?:relref|link)\(<([a-z-]+)>\)\[(上一章|下一章)\]")
 
 
 class RelativeReferences(unittest.TestCase):
@@ -32,6 +32,13 @@ class RelativeReferences(unittest.TestCase):
                 if target != expected:
                     wrong.append((path.name, word, target, expected))
         self.assertGreater(seen, 0)
+        # Every 上一章 and 下一章 names its chapter, so none escapes the check above.
+        plain = [
+            (path.name, word)
+            for path, text in sources.items()
+            for word in re.findall("上一章|下一章", RELATIVE.sub("", text))
+        ]
+        self.assertEqual(plain, [])
         self.assertEqual(wrong, [])
 
 

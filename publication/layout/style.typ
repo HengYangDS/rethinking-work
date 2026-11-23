@@ -111,6 +111,20 @@
   if link and targets.pos().len() == 1 { std.link(targets.pos().first(), text) } else { text }
 }
 #let chapnum(target) = context std.link(target, chapter-number(target))
+// A relative reference, 上一章 or 下一章, carries the chapter it stands for and prints as written:
+// the words keep their colour, and a test can hold the target to the reading order.
+// The words keep the body text's colour: they gain a target, not a look.
+#let relref(target, body) = link(target, text(fill: ink, body))
+// A range of chapters, 第十八至二十一章, and a list, 第十、十一、十二章; each prints as the book
+// writes it, from the openings' declared numbers, and links to its first chapter.
+#let chapspan(first, last) = context {
+  let (a, b) = (chapter-number(first), chapter-number(last))
+  [#std.link(first)[第#zh-number(int(a))至#zh-number(int(b))章]]
+}
+#let chaprun(..targets) = context {
+  let numbers = targets.pos().map(chapter-number)
+  [#std.link(targets.pos().first())[第#numbers.map(n => zh-number(int(n))).join("、")章]]
+}
 #let contents-return() = link(<contents>, text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[返回目录 ↗])
 #let chapter(part, n, title, lead) = {
   set heading(numbering: none)
