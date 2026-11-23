@@ -1,0 +1,10 @@
+# The configuration's own cases: a sample box titled 原话 keeps a speaker's words as said, and the prose after it is
+# still read.
+- name: a speaker's own words are not read, the prose after them is
+  format: typ
+  input: |
+    #note("原话", [帮我看看这家数据源的历史数据靠不靠谱。])
+
+    后文仍然靠谱。
+  want: |
+    3:5:book.avoided-words:'靠谱' is not used in the book's prose (book-wide decision, 2026-11-21).

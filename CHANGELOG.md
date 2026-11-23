@@ -16,6 +16,15 @@ itself claim editorial acceptance.
 
 ### Added
 
+- The book's decided wording and the decidable cases of Chinese punctuation are
+  checked on every change: a Vale style in `.config/checks/vale/` holds
+  the replacements and avoided words decided in the whole-book review of
+  2026-11-21 and half-width punctuation against a Chinese character, each rule
+  with its source, date and cases, and the `book-prose` proof gate runs the
+  cases and the rules over `book/` in the proof and both CIs. Vale 3.28.1
+  joins the locked toolchain. Chapter 29 now says 「有权决定的人」, the decided
+  form, and practice 3 answers its requester's 「靠不靠谱」 in written words;
+  the requester's own words, in a box titled 原话, are not read.
 - Chapter 29, 「怎样评一个人的表现」, states how the department judges work and
   a member's performance: a work score for one piece, a tier S to E for one
   period at the member's own grade, and a professional sequence of eight grades

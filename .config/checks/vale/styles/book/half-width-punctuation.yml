@@ -1,0 +1,19 @@
+# GB/T 15834: Chinese text takes full-width punctuation. A comma, semicolon, colon, question mark, exclamation mark
+# or parenthesis set half-width against a Chinese character is decidable; a colon pair such as `name::key` is not
+# punctuation. Code is not read.
+extends: existence
+message: "'%s': punctuation against a Chinese character is full-width (GB/T 15834)."
+level: error
+nonword: true
+tokens:
+  - '\p{Han}[,;:?!]'
+  - '(?:^|[^:])[,;:?!]\p{Han}'
+  - '\(\p{Han}'
+  - '\p{Han}\)'
+tests:
+  - name: half-width marks against Chinese characters
+    input: 数据,结果。见(路径)文件。是否成立?
+    contains: ["'据,'", "'(路'", "'径)'", "'立?'"]
+  - name: full-width marks, code and a colon pair pass
+    input: "数据，结果（路径）。用 `a,b` 写。键名是 coding-agent::仓库。"
+    absent: book.half-width-punctuation

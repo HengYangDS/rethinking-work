@@ -1,0 +1,49 @@
+# Words the book has replaced, each by the one form it uses. Source: the book-wide decisions of the whole-book
+# review, 2026-11-21 (editing brief), and its standard's list of spoken register (5, 遣词造句), same day. A decision
+# that depends on sense (可 as a conjunction, 默认 for a document's order, 带宽 as a loose word, 轮 for a host's
+# turn, 弄明白 and 做出来 outside the chapters that argue with them) is left to the reader; see
+# docs/publication-acceptance.md.
+extends: substitution
+message: "Use '%s' instead of '%s' (book-wide decision, 2026-11-21)."
+level: error
+nonword: true
+swap:
+  征询人: 询问人
+  能碰: 能触及
+  收不回的: 无法撤回的
+  写回纠正: 写入纠正
+  派活: 分派任务
+  暗号: 标记词
+  落地: 交付
+  担着: 承担
+  谁定谁担: 谁决定，谁负责
+  撑得住: 所能支持
+  拍板: 决定
+  有权的人: 有权决定的人
+  有着落: 有人负责
+  做进去: 固化进系统
+  做进系统: 固化进系统
+  跑通: 确认能正常运行
+  做通: 完整做成
+  没比上: 未能比对
+  归他管: 由他负责
+  心里有数: 凭未成文的经验
+  随册: 随书
+  亲手做一小份: 亲手核对一小部分
+  核得了: 结果可以核验
+  收得回: 出错可以撤回
+  往上搭: 在其上继续工作
+  头一: 第一
+  搞定: 完成
+tests:
+  - name: replaced words are named with their replacement
+    input: 由他来拍板，谁定谁担；这件事要落地。
+    contains:
+      [
+        "'决定' instead of '拍板'",
+        "'谁决定，谁负责' instead of '谁定谁担'",
+        "'交付' instead of '落地'",
+      ]
+  - name: the replacements themselves pass
+    input: 由他决定，谁决定，谁负责；询问人确认无法撤回的事，交付以后由他负责。
+    absent: book.decided-terms

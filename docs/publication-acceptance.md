@@ -20,6 +20,11 @@ Prose is judged under 信、达、雅 as [chapter 24](../book/parts/writing.typ)
 definition: fidelity is the root, clarity comes before elegance, and when they conflict fidelity prevails over clarity
 and clarity over elegance. A review brief cites that definition instead of wording its own.
 
+The book's decided wording and the decidable cases of Chinese punctuation are rules, not a reader's memory: the
+`book-prose` gate runs them over the Typst sources (the `book` style in `.config/checks/vale/`; `just --justfile
+publication/justfile prose-check`), each rule with its source, date and cases. A decision that depends on sense, such
+as 可 as a conjunction or a term copied from the chapter that defines it, stays with the reader below.
+
 Read the complete changed prose and its qualifications. Verify that examples
 teach the stated mechanism, sources support material claims, and conditions or
 unknowns have not vanished during polishing. In a structural migration, compare

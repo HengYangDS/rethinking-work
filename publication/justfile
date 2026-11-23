@@ -123,7 +123,13 @@ format-check:
 format:
     prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --write .
 
-check: format-check test
+# The book's decided wording and decidable punctuation (the book style in .config/checks/vale):
+# the rules' own cases first, then the rules over book/. A host's own Vale configuration is not loaded.
+prose-check:
+    vale --no-global --config .config/checks/vale/vale.ini test .config/checks/vale --coverage
+    vale --no-global --config .config/checks/vale/vale.ini book/
+
+check: format-check prose-check test
 
 # Build the PDF and the edition archive and print their identities, as a Forge job keeps them.
 ci-artifacts: build edition-archive

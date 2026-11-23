@@ -1,0 +1,21 @@
+# Words the book does not use in its prose, where more than one replacement fits the sense. Source as for
+# decided-terms: 东西; 强模型 and 轻量模型, not 强的模型 or 轻的模型 (a comparison such as 更强的模型 stays); 多半 and
+# 大半 in the sense of "mostly" (大半年 and 大半天 stay); 靠谱, spoken register.
+extends: existence
+message: "'%s' is not used in the book's prose (book-wide decision, 2026-11-21)."
+level: error
+nonword: true
+tokens:
+  - "东西"
+  - "(?:^|[^更较最])强的模型"
+  - "(?:^|[^更较最])轻的模型"
+  - "多半"
+  - "大半[^年天]"
+  - "靠谱"
+tests:
+  - name: avoided words are found
+    input: 这些东西交给强的模型，大半是对的，也很靠谱。
+    contains: ["'东西'", "强的模型'", "'大半是'", "'靠谱'"]
+  - name: a comparison and a fixed phrase pass
+    input: 换一个更强的模型，等了大半年，强模型和轻量模型各做一次。
+    absent: book.avoided-words

@@ -28,6 +28,8 @@ duckdb = "2.0.0"
 ast-grep = "0.51.3"
 "github:oasdiff/oasdiff" = "1.39.0"
 cue = "0.17.1"
+# The book's prose rules (the book style in .config/checks/vale) run with this Vale.
+vale = "3.28.1"
 # The test environment is synchronized and run by the locked uv, never by one found on PATH.
 uv = "0.13.9"
 

@@ -55,7 +55,8 @@ lesson merely to fill a documentation category.
    tasks. Obtain exact passing `lane prewrite` admission before source edits.
 3. Make the smallest coherent change. Update links, figure captions and source
    qualifications in the same change when their meaning is affected.
-4. For publication-input changes, run `just --justfile publication/justfile check`.
+4. For publication-input changes, run `just --justfile publication/justfile check`;
+   it includes `prose-check`, the book's decided wording and punctuation.
    Run `build` for changed diagrams and a candidate PDF; `check` rebuilds figures
    before checking the document, while `pdf` alone consumes existing renders.
    For contributor-guide or task-only edits, run `format-check` and the current
