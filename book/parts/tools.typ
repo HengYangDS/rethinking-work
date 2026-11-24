@@ -246,7 +246,7 @@ EOF
 
 技能是下面这一份，写下了“检查一处改动”的做法：
 
-```md
+```
 ---
 name: check-export
 description: Use when asked to check, verify or review a change to export.py in this directory.
