@@ -174,7 +174,7 @@
   // lead-in, and counts as a paragraph for what follows it.
   // A list item's text starts on the character grid, two cells in, so a full line of an item holds whole characters,
   // as a body line does: a bullet sits centred in the first cell, a number with its point starts at the margin.
-  set list(indent: 0pt, body-indent: 0pt, marker: box(width: 2em, box(width: 1em, align(center, sym.bullet))))
+  set list(indent: 0pt, body-indent: 0pt, marker: box(width: 2em, align(left, box(width: 1em, align(center, sym.bullet)))))
   set enum(indent: 0pt, body-indent: 0pt, number-align: start + top, numbering: n => box(width: 2em, [#n.]))
   show list: it => context {
     if last-set.get() == "lead-in" { v(par.spacing) }
