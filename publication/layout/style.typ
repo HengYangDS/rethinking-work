@@ -10,7 +10,8 @@
 #let body-line = 16pt
 #let body-edges = body-size
 #let space = 4pt
-// The space between paragraphs, which a block in the text also takes above and below it.
+// The space between paragraphs, which also separates a list, a code block, a table or a practice card
+// from the text around it; a sample box (`note`) keeps less.
 #let par-space = 2 * body-line - body-edges
 // What is read as one piece stays on one page while it is short: a block of at most this many
 // body lines moves to the next page whole, and a taller one continues there.
