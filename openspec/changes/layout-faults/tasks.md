@@ -15,6 +15,6 @@ worked.
 
 ## 2. Qualification
 
-- [ ] 2.1 A fresh reader reads every changed sentence, the commands reviewer reviews the head, readers look at every
+- [x] 2.1 A fresh reader reads every changed sentence, the commands reviewer reviews the head, readers look at every
       page whose image changed since the last look, and the reviews are recorded in
       `publication/acceptance/reviews.toml`.
