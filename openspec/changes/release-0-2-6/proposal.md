@@ -11,8 +11,9 @@ set.
 ## What Changes
 
 - The sample's two counted errors are corrected: the full stop of a quoted brief moves inside its closing quotation
-  mark (chapter 9), and a computed percentage is written 「94%」 (chapter 11). A search of the book finds no other place
-  of either kind.
+  mark (chapter 9), and a computed percentage is written 「94%」 (chapter 11). A fresh reader's search of the book found
+  the same kinds in practice 4 (「……催办。”」) and chapter 29 (「约 70%」「72%」), corrected with them, and chapter 10's
+  brief now ends with a full stop like the book's other briefs.
 - `VERSION` becomes 0.2.6, a patch release: the changes correct the layout and two marks; they add no capability.
 - The edition date in `book/metadata.typ` is already the release day (2026-11-24); the Changelog's Unreleased entries
   move under `[0.2.6]` with that date.
@@ -29,6 +30,6 @@ None. `.openspec.yaml` sets `skip_specs: true`.
 
 ## Impact
 
-Two book files, `VERSION`, `CHANGELOG.md` and the review records. The release itself (tag, `main`, the releases on both
+Five book files, `VERSION`, `CHANGELOG.md` and the review records. The release itself (tag, `main`, the releases on both
 forges with the edition archive, the delivered copy) follows the archived head and is recorded by Git, the tag and the
 forges.

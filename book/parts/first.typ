@@ -55,7 +55,7 @@ claude --permission-mode default
 
 在会话里输入#relref(<agent>)[上一章]那份委托，只是另外写明了文件名：
 
-#note("委托", [export.py 里的导出函数漏掉了零收益的行，请找出原因并修好。约定是：零、正数、负数都保留，只排除空值。测试命令：`EXPORT_MODULE=export python3 -B -m unittest -v test_export.py`])
+#note("委托", [export.py 里的导出函数漏掉了零收益的行，请找出原因并修好。约定是：零、正数、负数都保留，只排除空值。测试命令：`EXPORT_MODULE=export python3 -B -m unittest -v test_export.py`。])
 
 == 它停下来询问时
 它停下来询问你，实际上是宿主在问，而不是模型在问。是否放行，由你决定；#chapref(<boundaries>)讲的边界，在这里第一次用到。

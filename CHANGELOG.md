@@ -34,7 +34,9 @@ itself claim editorial acceptance.
   105,823 characters) found 0.02 errors per 10,000 against a limit of 1. Its
   two errors are corrected: a quoted brief's full stop now sits inside its
   closing quotation mark (chapter 9), and a computed percentage is written
-  in Arabic numerals (chapter 11), as the book writes others.
+  in Arabic numerals (chapter 11), as the book writes others. A search of
+  the book corrected the same kinds in practice 4 and chapter 29, and the
+  brief of chapter 10 ends with a full stop like the book's other briefs.
 
 ## [0.2.5] - 2026-11-24
 
