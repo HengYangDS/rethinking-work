@@ -174,7 +174,7 @@ hermes kanban boards rm book-exp
 
 再派一次帮手。回到 `~/first-session`，开启一个 Claude Code 会话（`claude --permission-mode default`），输入：
 
-#note("委托", [派两个子智能体，各自只读，互相不看结果。一个找出这个目录里除 `export.py` 以外，所有读取 `return_bps` 的地方，交回文件和行号。一个读 `test_export.py`，列出约定里没有说到的输入，比如缺这个字段的行。两个都在报告末尾引用一句启动时收到的项目说明。])
+#note("委托", [派两个子智能体，各自只读，互相不看结果。一个找出这个目录里除 export.py 以外，所有读取 return_bps 的地方，交回文件和行号。一个读 test_export.py，列出约定里没有说到的输入，比如缺这个字段的行。两个都在报告末尾引用一句启动时收到的项目说明。])
 
 两份报告交回后，各挑一条，回到文件中去核验；报告末尾引用的那一句，对照#chapref(<context>)写下的 `AGENTS.md`；帮手如果回答没有收到项目说明，先看它是哪一种类型，办法见下。每个帮手都有自己的记录。这次会话的记录文件旁边，有一个与它同名的目录；目录中的 `subagents/` 下，每个帮手各有一个 `agent-<编号>.jsonl` 记录文件和一个同名的 `.meta.json`。先按#chapref(<first>)的方法，把这一次会话的记录文件路径存入变量 `f`；如果也在副本 `first-session-doc` 中开过会话，要确认打印出的路径不属于副本。再列出帮手的文件：
 

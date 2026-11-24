@@ -189,7 +189,7 @@ mcp__semble__search
 Bash	grep -rn "export_rows" --include=*.py . ; cat -n cases/export-re
 ```
 
-第一步，它调用 semble 的 `search`，找到两个 `export_rows`：`cases/export-regression/` 下的 `export_bug.py` 和 `export_fixed.py` 各有一个。接着，它按委托的要求读代码确认：在一条命令里用 `grep` 查找这个函数出现的位置，再用 `cat` 读了这两个文件。它在报告中指出，有错的是 `export_bug.py` 中的那一份，问题在第 2 行；它还写明自己没有运行测试。
+第一步，它调用 semble 的 `search`，找到两个 `export_rows`：`cases/export-regression/` 下的 `export_bug.py` 和 `export_fixed.py` 各有一个。接着，它按委托的要求读代码确认：在一条命令里用 `grep` 查找这个函数出现的位置，再用 `cat` 读了这两个文件。它在报告中指出，有错的是 `export_bug.py` 中的函数，问题在第 2 行；它还写明自己没有运行测试。
 
 接着安装一条钩子和一份技能。这两项在 `first-session` 的一份副本里进行，因为后面几章还要使用原来的目录，那里不应有钩子和技能。钩子的设置和技能都在练习包中，复制到副本里：
 
@@ -326,4 +326,4 @@ true
 INFO
 ```
 
-两行依次是 `is_safe` 和 `max_severity` 的值：这一次它判为安全，最高严重级别仍只是那一项 `INFO`。智能体读到 `SKILL.md` 里新加的这一步，却可能照此执行。这正是前面所说的情形：写在文字里的意图，扫描未必标得出。使用之前，仍要自己读完 `SKILL.md`，或者用前面说的 `--use-llm` 分析，再决定是否使用。试完后删除 `/tmp/scan-demo`。
+两行依次是 `is_safe` 和 `max_severity` 的值：这一次它判为安全，最高严重级别仍只是那一项 `INFO`。智能体读到 `SKILL.md` 里新加的这一步，却可能照此执行。这正是前面所说的情形：写在文字里的意图，扫描未必标得出。使用之前，仍要自己读完 `SKILL.md`，或者用前面说的 `--use-llm` 分析，再决定是否采用。试完后删除 `/tmp/scan-demo`。
