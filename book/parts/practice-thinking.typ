@@ -97,7 +97,7 @@ duckdb -no-agent -csv < entity-reconciliation.sql
 
 先写下答案，再运行 `duckdb -no-agent -csv < entity-mapping.sql`。
 
-4 月的那起归甲，输出中是 `OWNER_A`；7 月 1 日零点的那起归乙，是 `OWNER_B`；第三起没有归属，`mapping_status` 是 `unmapped`。如果只按今天的归属去匹配，前两起都会归乙，4 月那一起就错了。
+4 月的那起归甲，输出中是 `OWNER_A`；7 月 1 日零点的那起归乙，输出中是 `OWNER_B`；第三起没有归属，`mapping_status` 是 `unmapped`。如果只按今天的归属去匹配，前两起都会归乙，4 月那一起就错了。
 
 关键在于连接条件中包含时间，并且有效期左闭右开：开始时刻包含在内，结束时刻不包含。这样相邻两段首尾相接，恰好落在交接时刻的事件只属于后一段。
 
