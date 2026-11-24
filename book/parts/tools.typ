@@ -93,7 +93,7 @@ duckdb -no-agent -csv none.duckdb -c "show tables"
 == 技能
 技能是一个目录，其中有一份 `SKILL.md`，必要时再附 `references/` 和 `scripts/`。`SKILL.md` 的文件头写明 `name` 和 `description` 两项即可，本章“上手”中的那一份就只写了这两项。
 
-按技能的设计，模型通常只看到文件头中的名称和描述，遇到相符的任务才读入正文，`references/` 里的材料用到时才读，因此不相关的做法不占用上下文。描述决定它会不会被选中，正文决定选中之后是否有用。
+按技能的设计，模型通常只看到文件头的名称和描述，遇到相符的任务才读正文，`references/` 里的材料用到时才读，因此不相关的做法不占上下文。描述决定它是否被选中，正文决定选中后是否有用。
 
 技能多了，需要在一处统一管理。skills-manager 维护一个技能库，库在 `~/.skills-manager/` 下，再按需部署给各个宿主。部署，就是在宿主的用户级技能目录（比如 `~/.claude/skills/`）中建立一个指向库中那份技能的符号链接。这个目录属于宿主的用户级配置，不属于某个项目，所以部署之后，该用户在这个宿主中开启的每个会话都能用到这份技能；本章“上手”则把技能放进项目的 `.claude/skills/`，供在那个目录中开启的会话使用。初次试用时，把 `HOME` 指向一个临时目录，这样实际使用的技能库和宿主配置都不受影响。下面用 skills-manager 的命令行程序 `skills-manager-cli`，把练习包里的那份技能安装到库中，再部署给 Claude Code。第一行等号后面的路径，按#chapref(<first>)换成“实战练习”目录的位置：
 
@@ -289,7 +289,7 @@ Max Severity: INFO
 Total Findings: 1
 ```
 
-唯一的一项 `INFO` 是这份技能没有写明许可证。接下来看 skill-scanner 能查出什么。把技能复制到 `/tmp/scan-demo`，加进一个脚本，脚本把 `~/.aws/credentials` 发往一个外部地址。这个脚本只用来扫描，不要运行；地址以 `.invalid` 结尾，无法连通：
+唯一一项 `INFO` 是这份技能未写明许可证。再看它查得出什么：把技能复制到 `/tmp/scan-demo`，加进一个把 `~/.aws/credentials` 发往外部地址的脚本，只供扫描，不要运行；地址以 `.invalid` 结尾，连不通：
 
 ```sh
 mkdir -p /tmp/scan-demo && cp -R .claude/skills/check-export /tmp/scan-demo/ &&

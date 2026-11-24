@@ -372,5 +372,38 @@ class LeadInSpacing(unittest.TestCase):
         )
 
 
+# Lines of Han characters and runs of marks around a curly quotation mark, with each line's width in
+# cells (W3C clreq: each mark a full cell, two marks side by side one and a half).
+QUOTE_LINES = (("甲“乙”丙", 5), ("甲：“乙”，丙", 6), ("甲“乙。”丙", 5.5), ("甲”；“乙", 4))
+
+
+class QuotationMarkCells(unittest.TestCase):
+    def test_quotation_marks_take_full_cells(self):
+        workspace = ROOT / "build/runtime/work"
+        workspace.mkdir(parents=True, exist_ok=True)
+        lines = "\n\n".join(text for text, _ in QUOTE_LINES)
+        with tempfile.TemporaryDirectory(prefix="quote-specimen-", dir=workspace) as scratch:
+            source, pdf = Path(scratch) / "specimen.typ", Path(scratch) / "specimen.pdf"
+            source.write_text(SPECIMEN_PREAMBLE + lines + "\n")
+            command = ["typst", "compile", "--root", str(ROOT), str(source), str(pdf)]
+            compiled = subprocess.run(command, cwd=ROOT, **QUIET, check=False)
+            if compiled.returncode or compiled.stderr:
+                raise AssertionError(f"typst compile of the specimen:\n{compiled.stderr}")
+            layout = edition.read_pdf("pdftotext", "-bbox-layout", str(pdf), "-").stdout
+        set_lines = {
+            "".join(w.text or "" for w in line.findall("pdf:word", NS)): (
+                float(line.get("xMax")) - float(line.get("xMin"))
+            )
+            for line in ET.fromstring(layout).findall(".//pdf:line", NS)
+        }
+        size = 10.5
+        found = [
+            (text, round(set_lines.get(text, 0) / size, 2), cells)
+            for text, cells in QUOTE_LINES
+            if abs(set_lines.get(text, 0) / size - cells) > 0.05
+        ]
+        self.assertEqual(found, [])
+
+
 if __name__ == "__main__":
     unittest.main()

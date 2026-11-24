@@ -7,6 +7,10 @@
 #let tint = rgb("F3F5F5")
 #let rust = rgb("82979F")
 #let body-size = 10.5pt
+// The text block holds a whole number of characters, so that a line of Chinese fills it without squeezing its
+// punctuation: W3C clreq takes a line length of whole characters as the ground for adjusting punctuation.
+#let measure-chars = 43
+#let text-width = measure-chars * body-size
 #let body-line = 16pt
 #let body-edges = body-size
 #let space = 4pt
@@ -58,10 +62,29 @@
 // passes it with the edition's identity.
 #let publisher-design = (
   lang: "zh", paper: "a4", cover: false, toc: false,
-  margin: (x: 25mm, top: 22mm, bottom: 22mm),
+  margin: (x: (210mm - text-width) / 2, top: 22mm, bottom: 22mm),
   fonts: (chinese: "Songti SC", english: "Charter", japanese: "Songti SC", sans: "Noto Sans CJK SC", mono: code-face.first()),
   accent: ink, cjk-oblique: none, font-size: body-size,
 )
+// Punctuation marks around a curly quotation mark, set in cells. The body face's own quotation marks are narrow, so
+// each mark of a run takes a full cell, as the other Chinese marks do, and two marks side by side take one and a half
+// (clreq, adjacent punctuation): the half between them is dropped where one of them leaves it blank. Closing marks
+// sit at the left of their cell and opening marks at the right. A run is joined to its neighbours where a line may not
+// break: before a closing mark, after an opening one.
+#let opening-marks = "“‘（"
+#let quote-run(run) = {
+  let marks = run.clusters()
+  let opens(c) = opening-marks.contains(c)
+  // Each adjacent pair drops one half cell, from the mark that leaves that half blank: the left mark if it is a
+  // closing one, else the right mark if it is an opening one.
+  let widths = marks.map(_ => 1em)
+  for i in range(marks.len() - 1) {
+    if not opens(marks.at(i)) { widths.at(i) -= 0.5em }
+    else if opens(marks.at(i + 1)) { widths.at(i + 1) -= 0.5em }
+  }
+  let body = marks.zip(widths).map(((c, w)) => box(width: w, align(if opens(c) { right } else { left }, c))).join()
+  (if opens(marks.first()) { none } else { sym.wj }) + body + (if opens(marks.last()) { sym.wj } else { none })
+}
 // What was set last in the text: a paragraph, a lead-in (below), or another block, which every other
 // block records after itself.
 #let last-set = state("last-set", "block")
@@ -71,6 +94,9 @@
   // neither face holds, such as ℹ, takes Typst's own Libertinus Serif, declared as a fallback here
   // rather than reached by accident.
   show raw: set text(font: code-face)
+  show regex("[，。：；、？！（）]*[“”‘’][，。：；、？！（）“”‘’]*"): it => context {
+    if text.font.first() == lower(code-face.first()) { it } else { quote-run(it.text) }
+  }
   // A paragraph does not end with a character alone on its last line: the line breaker weighs such
   // a runt heavily against the other breaks it can choose.
   set text(costs: (runt: 200%))

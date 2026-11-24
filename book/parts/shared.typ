@@ -27,7 +27,7 @@ TeamAI 是一个开源工具（MIT 许可），做的正是这几件事：团队
 
 第一次运行 `init`，它在团队仓库的 `main` 分支上建好目录结构，规则放在 `rules/`，技能放在 `skills/`；`teamai status` 列出的还有 MCP 服务、钩子、环境变量等十几类资源，本章只演示规则和技能。
 
-运行 `init` 和第一次 `pull`，改动的不止工作目录。两个宿主的用户级设置里安装了会话钩子，Codex 的钩子记为已信任；工作目录里登记了 Git 钩子，放入了 TeamAI 自带的技能；`~/.zshenv` 等三个 shell 启动文件的末尾各追加了一段配置。团队的技能和规则，在下次会话开始时由钩子同步，或在运行 `teamai pull` 时同步。
+运行 `init` 和第一次 `pull`，改动的不止工作目录。两个宿主的用户级设置里安装了会话钩子，Codex 的钩子记为已信任；工作目录里登记了 Git 钩子，放入了 TeamAI 自带的技能；`~/.zshenv` 等三个 shell 启动文件的末尾各追加了一段配置。团队的技能和规则由会话开始时的钩子或 `teamai pull` 同步。
 
 卸载时先运行 `teamai hooks remove`，再运行 `teamai uninstall --force`，次序反了会留下 Codex 的钩子；`~/.teamai/` 目录和 `~/.codex/config.toml` 中的信任记录要另行删除。
 
@@ -48,11 +48,11 @@ TeamAI 是一个开源工具（MIT 许可），做的正是这几件事：团队
 
 用副本，前提是分清原件和副本：团队仓库是权威，各宿主读取的都是由它派生的副本，和#relref(<standing>)[上一章]说的报表、索引、缓存一样，不应被悄悄当作权威；对副本的修改，要提交回原件。
 
-送来的文件，通常不会进入项目的历史。`pull` 把它们列进工作目录的 `.git/info/exclude`；这些文件尚未被 Git 跟踪时，`git status` 不再列出它们，它们也就不容易被误当作项目的文件提交，在项目仓库里成为又一个原件。
+`pull` 把它送来的文件列进工作目录的 `.git/info/exclude`；这些文件尚未被 Git 跟踪时，`git status` 不再列出它们，它们也就不容易被误当作项目的文件提交，在项目仓库里成为又一个原件。
 
-副本被改了，`teamai status` 会列出一处尚未交回的本地改动。若团队这时又改了同一条规则，`pull` 不会覆盖这份副本，而是给出两种办法：把团队的改动合进自己的副本，用 `push` 交回评审；或者删掉副本，用 `pull --force` 取团队的版本。前一种让改动经评审进入团队仓库，后一种舍弃改动，取回团队仓库的版本。
+副本被改了，`teamai status` 会列出一处尚未交回的本地改动。若团队这时又改了同一条规则，`pull` 不会覆盖这份副本，而是给出两种办法：把团队的改动合进自己的副本，用 `push` 交回评审；或者删掉副本，用 `pull --force` 取团队的版本。前一种让改动经评审进入团队仓库，后一种舍弃改动。
 
-副本改了而不交回，后果不止于这一台机器与团队不一致。同一台机器上，Claude Code 读的是改过的文件；Codex 在会话开始时从钩子拿到的，仍是团队的版本，没有本机副本上的改动。一个人的两个宿主，读到的已是两种约定。
+副本改了而不交回，后果不止于这一台机器与团队不一致。同一台机器上，Claude Code 读的是改过的文件；Codex 从钩子拿到的仍是团队的版本。一个人的两个宿主，读到的已是两种约定。
 
 所以，对副本的修改，不能只留在本机。规则有错，可以在团队仓库里改，也可以改过本机的副本后用 `push` 交回；无论哪一种，都要经过评审、合并，再发到每个人那里。智能体表现反常时，先运行一次 `teamai status`，看本机的副本是不是当前的版本；智能体实际读入了什么，仍要查会话的记录。
 
@@ -80,7 +80,7 @@ mkdir $S/ws && cd $S/ws && git init -q
 teamai init https://git.example.invalid/team/agent-env.git --provider git --agent claude,codex
 ```
 
-现在换一个角色，作为维护团队仓库的人，另外克隆一份，加一条规则，推送；再回到成员的工作目录，核对，取回，再核对：
+作为维护团队仓库的人另克隆一份，加一条规则并推送；回到工作目录，核对，取回，再核对：
 
 ```sh
 git clone -q https://git.example.invalid/team/agent-env.git $S/admin
@@ -99,7 +99,7 @@ teamai status
 git status --short
 ```
 
-第一次 `status` 报告 `behind: 1 commit(s)`、`rules: 0`；`pull` 之后，第二次 `status` 的 `behind` 一行变为 `up to date`，`rules` 变为 `1`。规则此时在 `.claude/rules/data-conventions.md`，`git status --short` 却什么也不输出。
+第一次 `status` 报告 `behind: 1 commit(s)`、`rules: 0`；`pull` 之后，`status` 的 `behind` 变为 `up to date`，`rules` 变为 `1`。规则此时在 `.claude/rules/data-conventions.md`，`git status --short` 却什么也不输出。
 
 再看副本被改动时会怎样。在本机的副本里给这条规则加一行，再核对：
 

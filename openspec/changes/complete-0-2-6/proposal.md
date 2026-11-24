@@ -12,6 +12,9 @@ passing line (DDWG's normative text first), and chapter 3's four reader points f
   fact, the rest declined with reasons (`build/evidence/release-0-2-6/notes/`).
 - The open check on the `project` label in `aigw use --dry-run` is closed from aigw-cli's source and explained in
   chapter 9.
+- The text block holds 43 characters and curly quotation marks take full cells, so that full lines of Chinese no
+  longer squeeze their punctuation; six chapters are tightened by concise rewriting to keep the book within 200 pages
+  (`build/evidence/release-0-2-6/layout-base.md`, `fold/`).
 - Further items follow as tasks in this Change, each with its own reading and page look.
 
 ## Capabilities
