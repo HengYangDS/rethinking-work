@@ -17,6 +17,8 @@ read them back by hash, deliver the archive beside the earlier editions, and not
 - The layout faults declined in `layout-faults` (full-width quotation marks, justification limits) and the base classes
   left as they were at 0.2.5.
 - Chapter 3's responsibility passage, which the owner settled; four reader points on it wait for him.
+- The tiers S–E with C as the passing line (owner, 2026-11-24 14:58): deferred to the next edition at his word
+  (「先发，S–E 下版」, 15:36); DDWG's normative text changes first.
 
 ## Decisions
 

@@ -290,3 +290,38 @@ settled = "75a4c45: 「它可能再问，有一次是在……的练习中途」
 [[reading.point]]
 point = "reread of db59155: 「默认的检索」 in context.typ beside the edited 「默认检索」; keep 「的练习」 as the book writes it, drop 还 instead"
 settled = "75a4c45: both as proposed, confirmed in place by the same reader"
+
+[[commands]]
+book = "e6c6cce0508503502686c0b2a279c63ef2c436f6"
+exercises = "b3956311b18f69afe268c5d354c89045b0d51b3c"
+subject = "c1d9406"
+blocks_against = "v0.2.3"
+prose_against = "2b95423"
+pdf = "96679fcdb706920c38dbeb03d1bb58989ee0f2fdfa88edf23542f396f5ba85ed"
+read = 2026-11-24T14:56:14+08:00
+findings = "build/evidence/reader-run-next-edition/review-c1d9406/FINDINGS.md"
+verdict = "no finding"
+
+[[reading]]
+book = "e6c6cce0508503502686c0b2a279c63ef2c436f6"
+subject = "c1d9406"
+against = "80710fe"
+read = 2026-11-24T15:16:08+08:00
+report = "build/evidence/release-0-2-6/release/reread/report.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "reread of 2b95423: practice-collaborating.typ:68 a colon-introduced quotation with its full stop outside the closing mark"
+settled = "3bfda14: 「……催办。”」 (GB/T 15834—2011 B.2.1), confirmed in place by the same reader"
+
+[[reading.point]]
+point = "reread of 2b95423: talent.typ:74 「七成二」, a measured ratio in Chinese numerals, the kind of the sample's CE1 (GB/T 15835—2011 4.1.1); 「约七成」 beside it"
+settled = "3bfda14: 「约 70%……结果是 72%」, the estimate written alike for consistency (4.3 allows either); confirmed in place by the same reader"
+
+[[reading.point]]
+point = "reread of 2b95423: first.typ:58 the brief ends without the full stop the book's other nine briefs have"
+settled = "3bfda14: 「…test_export.py。」, confirmed in place by the same reader"
+
+[[reading.point]]
+point = "commands review of 2b95423: practice-thinking.typ:23 「七分之一」 (sample item XC11, stricter reading only)"
+declined = "GB/T 15835—2011 4.3 allows either form for a fraction, and the paragraph writes no other fraction of the same quantity; accepted by review-c1d9406"
