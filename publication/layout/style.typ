@@ -40,6 +40,16 @@
   else if c.has("child") { plain-text(c.child) }
   else { "" }
 }
+// The face of commands and outputs; a paragraph set in it is a line of code.
+#let code-face = ("DejaVu Sans Mono", "Noto Sans CJK SC", "Libertinus Serif")
+// What the edition asks of the publisher: language, paper, margins, faces and size. The entrypoint
+// passes it with the edition's identity.
+#let publisher-design = (
+  lang: "zh", paper: "a4", cover: false, toc: false,
+  margin: (x: 25mm, top: 22mm, bottom: 22mm),
+  fonts: (chinese: "Songti SC", english: "Charter", japanese: "Songti SC", sans: "Noto Sans CJK SC", mono: code-face.first()),
+  accent: ink, cjk-oblique: none, font-size: body-size,
+)
 // What was set last in the text: a paragraph, a lead-in (below), or another block, which every other
 // block records after itself.
 #let last-set = state("last-set", "block")
@@ -48,7 +58,7 @@
   // Chinese inside commands and outputs takes the sans face, not the serif body face. A symbol that
   // neither face holds, such as ℹ, takes Typst's own Libertinus Serif, declared as a fallback here
   // rather than reached by accident.
-  show raw: set text(font: ("DejaVu Sans Mono", "Noto Sans CJK SC", "Libertinus Serif"))
+  show raw: set text(font: code-face)
   // A paragraph does not end with a character alone on its last line: the line breaker weighs such
   // a runt heavily against the other breaks it can choose.
   set text(costs: (runt: 200%))
@@ -74,20 +84,25 @@
     v(-reserve)
   }
   // A command is copied from one place, so a code block stays whole up to `whole-lines` lines;
-  // a longer one may continue on the next page.
+  // a longer one may continue on the next page. Its frame has no space of its own: like a list, it
+  // takes the paragraph step after a lead-in and counts as a paragraph for what follows it.
   show raw.where(block: true): it => {
+    context if last-set.get() == "lead-in" { v(par.spacing) }
     show: codly.set_(breakable: it.lines.len() > whole-lines)
     it
-    last-set.update("block")
+    last-set.update("paragraph")
   }
   // A paragraph that ends with a colon introduces what follows it: a command, a box, a table or a
   // list. It stays with that block, so that it never ends a page whose next page holds what it
   // introduces. Set after a paragraph, it takes the paragraph step above it; after any other block it
   // takes none, so that block's own step below applies, as it does for any paragraph; below it, the
   // next block's own step applies. Its mark lets layout checks bound the room it leaves when it moves.
+  // Codly sets each line of code as a paragraph of its own; such a paragraph is left as it is.
   show par: it => context {
     let before = last-set.get()
-    if plain-text(it.body).trim().ends-with("：") {
+    if text.font.first() == lower(code-face.first()) {
+      it
+    } else if plain-text(it.body).trim().ends-with("：") {
       block(sticky: true, above: if before == "block" { 0pt } else { par.spacing }, below: 0pt,
         [#metadata(none)<lead-in>#it])
       last-set.update("lead-in")
@@ -102,8 +117,16 @@
   // is not read as following a lead-in.
   show heading: it => { last-set.update("block"); it; last-set.update("block") }
   show figure: it => { last-set.update("block"); it; last-set.update("block") }
-  show list: it => { last-set.update("block"); it; last-set.update("block") }
-  show enum: it => { last-set.update("block"); it; last-set.update("block") }
+  // A list is spaced like a paragraph: it has no space of its own, takes the paragraph step after a
+  // lead-in, and counts as a paragraph for what follows it.
+  show list: it => context {
+    if last-set.get() == "lead-in" { v(par.spacing) }
+    last-set.update("block"); it; last-set.update("paragraph")
+  }
+  show enum: it => context {
+    if last-set.get() == "lead-in" { v(par.spacing) }
+    last-set.update("block"); it; last-set.update("paragraph")
+  }
   show table.cell.where(y: 0): set text(font: "Noto Sans CJK SC", weight: "bold", size: 9pt)
   show figure.caption: set text(size: 8.5pt, fill: muted)
   body
@@ -214,10 +237,11 @@
 #let matrix(columns: (1.05fr, 1.4fr, 1.55fr), ..args) = {
   set par(justify: false, first-line-indent: 0pt, leading: 4.5pt, spacing: 2 * space)
   set text(size: 9.5pt)
-  // A table that continues on the next page repeats its header and keeps each row whole.
+  // A table that continues on the next page repeats its header and keeps each row whole. It is set
+  // a paragraph step apart from what is around it, as a paragraph is.
   set table.cell(breakable: false)
   let cells = args.pos()
-  flow-block(width: 100%, table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
+  flow-block(width: 100%, above: par-space, below: par-space, table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
     stroke: (x: none, y: .4pt + rule),
     table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len())))
 }

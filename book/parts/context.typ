@@ -100,7 +100,7 @@ export-regression/export_bug.py:1-2
 
 没有找到，也不等于不存在：索引可能根本没有收录要找的文件。semble 默认只检索代码。问“空值能不能补成零”，答案写在 `AGENTS.md` 里，默认的检索却找不到它。
 
-下面这条命令在整个副本（`.`）中检索，末尾的 `--content docs` 让它检索文档。去掉这一项，就是默认的检索，排在前三的是两个 Python 文件和一份 SQL 查询，没有 `AGENTS.md`。输出有删节，只保留第一行：
+下面这条命令检索整个副本（`.`），末尾的 `--content docs` 让它检索文档。去掉这一项，就是默认检索，排在前三的是两个 Python 文件和一份 SQL 查询，没有 `AGENTS.md`。输出有删节，只保留第一行：
 
 ```sh
 semble search "may an empty return be filled with zero" . \

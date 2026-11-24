@@ -73,7 +73,7 @@ def export_rows(rows):
 
 一只证券当天收益为零，是一个确切的事实：它既未上涨也未下跌。收益为空，则表示未知。把两者混为一谈，下游的横截面中就少了一只证券，而且没有任何报错。
 
-现在核验这处改动。#chapref(<bounds>)说过，一项检查若从未失败过，就无从知道它是否真的在查。所以在 `cases/export-regression/` 中分两步运行：
+现在核验这处改动。#chapref(<bounds>)说过，一项检查若从未失败过，就无从知道它是否真的在查。所以要在 `cases/export-regression/` 中分两步运行：
 
 ```sh
 EXPORT_MODULE=export_bug python3 -B -m unittest -v test_export.py

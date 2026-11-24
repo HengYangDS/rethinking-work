@@ -29,6 +29,13 @@ See [proposal.md](proposal.md). The faults and their pages are in the 0.2.5 qual
   lead-in, or another block, recorded at a block's start and end): a lead-in takes the paragraph step above it only
   after a paragraph or a lead-in, and nothing below it; a paragraph after a lead-in takes the paragraph step. Each
   transition then keeps the step it has without the rule.
+- Lists and code blocks have no space of their own, as a paragraph has none: after a lead-in they take the paragraph
+  step, and what follows them is spaced as after a paragraph. Codly sets each line of code as a paragraph, so a
+  paragraph set in the code face is left to codly. A table takes the paragraph step above and below it, as a card
+  does.
+- The test of these rules compiles a specimen twice, once with its paragraphs ending in a colon and once in a full
+  stop, and requires the same steps between all lines. The first page looks found the spacing faults that the
+  whole-book checks had passed: a check of steps between flush body lines does not see a code box or a table.
 
 ## Risks / Trade-offs
 

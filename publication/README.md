@@ -17,8 +17,9 @@ manuscript claims or a second edition identity.
 - [third-party-notices.md](rights/third-party-notices.md) preserves publisher attribution
   and distinguishes third-party rights from the authored publication.
 
-The document entrypoint selects the publisher, paper, margins, fonts and edition
-metadata. The local show rule owns repeated page-design behavior; manuscript
+The document entrypoint selects the publisher and passes it the edition metadata
+with the paper, margins and fonts that the layout module declares. The local show
+rule owns repeated page-design behavior; manuscript
 parts consume it without owning another style system. Change a global heading,
 table or caption rule here and check every affected page.
 

@@ -1,11 +1,15 @@
 """Check how the built edition is set: lines, paragraphs, tables, sample boxes and code."""
 
 import re
+import subprocess
+import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
+from pathlib import Path
 
 import edition
-from edition import NS
+from edition import NS, QUIET, ROOT
 
 
 def normalized(line):
@@ -271,6 +275,76 @@ class EditionLayout(edition.Edition):
         self.assertTrue(opened and turns)
         self.assertEqual(short, {}, "pages left short before a table or a sample box, in pt")
         self.assertEqual(thin, [], "split blocks with a part below the declared least, in pt")
+
+
+# Every kind of block the manuscript sets after a paragraph, as the manuscript writes it.
+SPECIMEN_BLOCKS = (
+    "```sh\necho x\n```",
+    "#matrix(columns: (1fr, 1fr), [*甲*], [*乙*], [表一], [表二])",
+    '#note("注", [框内文字。])',
+    "#card[卡][- 卡项一\n- 卡项二]",
+    "- 列项一\n- 列项二",
+    "+ 序项一\n+ 序项二",
+    "普通段落。",
+)
+SPECIMEN_PREAMBLE = """#import "@preview/neat-book:0.1.0": neat-book
+#import "/publication/layout/style.typ": *
+#show: neat-book.with(title: "specimen", author: "specimen", ..publisher-design)
+#show: publication-design
+"""
+
+
+def specimen_steps(end):
+    """Compile a specimen whose paragraphs end with `end` and return the step to each line from the
+    line above it, page by page, with the start of the lower line.
+
+    Each kind of block follows such a paragraph, and such a paragraph follows each kind of block; a
+    heading comes first.
+    """
+    parts = ["== 标题", f"首段{end}"]
+    for block in SPECIMEN_BLOCKS:
+        parts += ["前文段落。", f"引出段落{end}", block, f"块后段落{end}", block, "#pagebreak()"]
+    workspace = ROOT / "build/runtime/work"
+    workspace.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="lead-in-specimen-", dir=workspace) as scratch:
+        source, pdf = Path(scratch) / "specimen.typ", Path(scratch) / "specimen.pdf"
+        source.write_text(SPECIMEN_PREAMBLE + "\n\n".join(parts) + "\n")
+        command = ["typst", "compile", "--root", str(ROOT), str(source), str(pdf)]
+        compiled = subprocess.run(command, cwd=ROOT, **QUIET, check=False)
+        if compiled.returncode or compiled.stderr:
+            raise AssertionError(f"typst compile of the specimen:\n{compiled.stderr}")
+        layout = edition.read_pdf("pdftotext", "-bbox-layout", str(pdf), "-").stdout
+    steps = []
+    for number, page in enumerate(ET.fromstring(layout).findall(".//pdf:page", NS), 1):
+        lines = sorted(
+            (float(words[0].get("yMin")), "".join(w.text or "" for w in words))
+            for line in page.findall(".//pdf:line", NS)
+            if (words := line.findall("pdf:word", NS))
+        )
+        body = [line for line in lines if line[1] != str(number)]
+        steps += [
+            (number, round(lower[0] - upper[0], 1), lower[1][:6])
+            for upper, lower in zip(body, body[1:], strict=False)
+        ]
+    return steps
+
+
+class LeadInSpacing(unittest.TestCase):
+    def test_lead_ins_are_spaced_as_paragraphs(self):
+        # A paragraph that ends with a colon is kept with the block it introduces, and that must
+        # change no spacing: the specimen whose paragraphs end with a colon steps from line to line
+        # exactly as the one whose paragraphs end with a full stop.
+        lead_ins, paragraphs = specimen_steps("："), specimen_steps("。")
+        self.assertEqual(len(lead_ins), len(paragraphs))
+        self.assertGreater(len(lead_ins), 30)
+        self.assertEqual(
+            [
+                (lead_in, paragraph)
+                for lead_in, paragraph in zip(lead_ins, paragraphs, strict=True)
+                if abs(lead_in[1] - paragraph[1]) > 0.3
+            ],
+            [],
+        )
 
 
 if __name__ == "__main__":
