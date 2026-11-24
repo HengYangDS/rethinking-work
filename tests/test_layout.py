@@ -58,6 +58,7 @@ class EditionLayout(edition.Edition):
         # wide, so a run of them gives the opening by its width, and two words that meet at
         # ideographs give it by their gap. Body text is told by its size; code keeps its spaces.
         size, run = self.fact("body size"), re.compile("[\u4e00-\u9fff]+")
+        setting = re.compile("[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef\u201c\u201d\u2018\u2019]+")
         pages = self.pages()
         found = []
         for number, page in enumerate(pages, 1):
@@ -68,10 +69,12 @@ class EditionLayout(edition.Edition):
                     else (0, 0, "")
                     for w in line.findall("pdf:word", NS)
                 ]
+                # A word of ideographs and Chinese punctuation is set one em per character, or
+                # less where punctuation is compressed, so its width bounds the opening from below.
                 opened = [
                     (b - a - size) / (len(t) - 1) - size
                     for a, b, t in words
-                    if len(t) > 1 and run.fullmatch(t)
+                    if len(t) > 2 and setting.fullmatch(t) and len(run.findall(t)) > 1
                 ]
                 opened += [
                     c - b
@@ -81,6 +84,68 @@ class EditionLayout(edition.Edition):
                 if opened and max(opened) > self.fact("open most") * size:
                     found.append((number, "".join(w[-1] for w in words)[:24]))
         self.assertEqual(found, [], "lines opened past the declared bound")
+
+    def test_no_page_ends_with_a_lead_in(self):
+        # A paragraph that ends with a colon introduces what follows it, so the layout keeps it
+        # with that block: no page's last line of text ends with a colon.
+        lines, _ = self.layout_lines()
+        footer = (
+            Counter(
+                round(max(top for page, _, _, top in lines if page == n))
+                for n in {page for page, _, _, _ in lines}
+            ).most_common(1)[0][0]
+            - 4
+        )
+        last = {}
+        for page, text, _, top in lines:
+            if top < footer and text.strip() and (page not in last or top > last[page][0]):
+                last[page] = (top, text.strip())
+        self.assertEqual(
+            [
+                (page, text[-16:])
+                for page, (_, text) in sorted(last.items())
+                if text.endswith("\uff1a")
+            ],
+            [],
+        )
+
+    def test_split_code_blocks_keep_the_least_part_on_each_page(self):
+        # A code block taller than the layout keeps whole may continue on the next page; like a
+        # table or a sample box, it then keeps at least the declared least part, in printed lines,
+        # on each page. Its lines are found in order, by their first characters since an output
+        # line may wrap: from its first line to the foot of its first page, and from the top of
+        # the next page to its last line.
+        least = round(self.fact("split least") / self.fact("line bound") + 0.5)
+        text = self.read("text").split("\f")
+        pages = [[normalized(line) for line in page.splitlines()] for page in text]
+        bodies = [[i for i, line in enumerate(page) if line] for page in pages]
+        thin = []
+        for raw in self.fact("raws"):
+            if not raw["block"]:
+                continue
+            lines = [normalized(line)[:24] for line in raw["text"].split("\n") if line.strip()]
+            start = pages[raw["page"] - 1]
+            after = pages[raw["page"]] if raw["page"] < len(pages) else []
+            first = next((i for i, printed in enumerate(start) if lines[0] in printed), None)
+            if first is None or any(lines[-1] in printed for printed in start[first:]):
+                continue
+            last = next((i for i, printed in enumerate(after) if lines[-1] in printed), None)
+            if last is None:
+                continue
+            # A last line that wraps continues on the lines below it, set further in.
+            raw_after = text[raw["page"]].splitlines() if raw["page"] < len(text) else []
+            while (
+                last + 1 < len(raw_after)
+                and raw_after[last + 1].startswith("  ")
+                and not raw_after[last + 1].strip().isdigit()
+            ):
+                last += 1
+            # The foot of a page is its page number; the top of the next is its running head.
+            above = len([i for i in bodies[raw["page"] - 1] if i >= first]) - 1
+            below = len([i for i in bodies[raw["page"]] if i <= last]) - 1
+            if min(above, below) < least:
+                thin.append((raw["page"], above, below))
+        self.assertEqual(thin, [], "code blocks split with fewer printed lines than the least part")
 
     def test_no_body_line_opens_with_a_closing_mark(self):
         # Chinese typesetting never opens a line with a closing mark. A short inline command is set
@@ -166,8 +231,9 @@ class EditionLayout(edition.Edition):
         self.assertEqual([step for step in paragraph_steps if abs(step - 32) > 0.5], [])
 
     def test_tables_and_sample_boxes_meet_page_ends_cleanly(self):
-        # A short table or sample box moves to the next page whole, and a tall one continues
-        # there. So the page before one that opens a page is short by no more than the bound the
+        # A short table, sample box or card moves to the next page whole, and a tall one continues
+        # there; a paragraph that introduces a block moves with it. So the page before one that
+        # opens a page is short by no more than the bound the
         # layout declares for a whole block; the check holds no number of its own. A page the
         # manuscript ends on purpose is left out, and a chapter never opens with such a block.
         # A block that continues keeps at least the declared least part on each page: from its

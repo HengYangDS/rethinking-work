@@ -30,6 +30,16 @@
 #let open-most = 0.05em
 // The most pages the edition holds, cover and back matter included (owner, 2026-11-22).
 #let page-ceiling = 200
+// The text a piece of content shows, as far as it can be read without layout: enough to see how a
+// paragraph ends.
+#let plain-text(c) = {
+  if type(c) == str { c }
+  else if c.has("text") { c.text }
+  else if c.has("children") { c.children.map(plain-text).join("") }
+  else if c.has("body") { plain-text(c.body) }
+  else if c.has("child") { plain-text(c.child) }
+  else { "" }
+}
 #let publication-design(body) = {
   set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
   // Chinese inside commands and outputs takes the sans face, not the serif body face. A symbol that
@@ -66,6 +76,12 @@
     show: codly.set_(breakable: it.lines.len() > whole-lines)
     it
   }
+  // A paragraph that ends with a colon introduces what follows it: a command, a box, a table or a
+  // list. It stays with that block, so that it never ends a page whose next page holds what it
+  // introduces. Its mark lets layout checks bound the room it leaves when it moves.
+  show par: it => if plain-text(it.body).trim().ends-with("：") {
+    context block(sticky: true, above: par.spacing, below: par.spacing, [#metadata(none)<lead-in>#it])
+  } else { it }
   show table.cell.where(y: 0): set text(font: "Noto Sans CJK SC", weight: "bold", size: 9pt)
   show figure.caption: set text(size: 8.5pt, fill: muted)
   body
@@ -73,11 +89,11 @@
 #let small(body) = text(size: 8.5pt, fill: muted, body)
 // Sets a block whole when it is short and lets it continue on the next page when it is tall. Its
 // height is measured in the width it will take. Its spacing, unless given, is the paragraph spacing
-// in force where it is called. `mark` labels the block for layout checks.
-#let flow-block(body, above: auto, below: auto, mark: none, ..args) = block(
+// in force where it is called. `mark` labels the block for layout checks; `most` is the tallest it sets whole.
+#let flow-block(body, above: auto, below: auto, mark: none, most: whole-height, ..args) = block(
   above: above, below: below, width: 100%,
   layout(size => {
-    let whole = measure(width: size.width, block(..args, body)).height <= whole-height
+    let whole = measure(width: size.width, block(..args, body)).height <= most
     // Zero-size marks at the start and end of the content let layout checks see where it splits.
     [#block(breakable: not whole, ..args, [#metadata(none)<block-start>#body#metadata(none)<block-end>])#mark]
   }),
@@ -150,9 +166,16 @@
 // The label lets layout checks find a chapter's closing block, whose lone paragraph Typst does not
 // report as a `par`.
 #let closing(body) = [#block(breakable: false, body) <closing-block>]
-// A practice card's title keeps to the items under it, so that it never ends a page alone. The label lets
-// layout checks treat it as a break, since its lone line is not reported as a `par`.
-#let card(title) = [#block(sticky: true, spacing: par-space, strong(title)) <card-title>]
+// A practice card is read as one piece, like a sample box: its title and items stay on one page while
+// they are short, and a taller card continues on the next page with the declared least part on each.
+// The step under its title is not a line of the card, so a card of `whole-lines` lines and a title
+// still moves whole.
+// The title's label lets layout checks treat it as a break, since its lone line is not reported as a
+// `par`; the card's mark lets them see where it splits.
+#let card(title, body) = flow-block(mark: <card>, above: par-space, below: par-space, most: whole-height + par-space)[
+  #block(sticky: true, above: 0pt, below: par-space, strong(title)) <card-title>
+  #body
+]
 #let note(title, body) = flow-block(width: 100%, fill: tint, mark: <sample-box>,
   stroke: (left: 1.5pt + rust), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
   #set par(first-line-indent: 0pt, justify: false, leading: 5.5pt, spacing: 13.5pt)
@@ -174,7 +197,9 @@
     stroke: (x: none, y: .4pt + rule),
     table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len())))
 }
-#let reader-figure(name, caption, description, width: 100%) = figure(
+// A figure floats to the top or the foot of the page where it is called, or of the next, so that the
+// text runs on around it instead of leaving the rest of a page empty.
+#let reader-figure(name, caption, description, width: 100%) = figure(placement: auto,
   image("/build/artifacts/diagrams/" + name + ".png", width: width, alt: description.text),
   caption: caption, kind: image, supplement: [图],
 )

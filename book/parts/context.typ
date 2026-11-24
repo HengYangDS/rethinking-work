@@ -148,7 +148,9 @@ test_keeps_zero_and_negative_return	11	unresolved
 test_empty_input	14	unresolved
 ```
 
-图列出的两个调用者都是测试，调用发生在 `test_export.py` 的第 11 行和第 14 行。第三列的 `unresolved` 值得留意：测试文件第 5 行按环境变量 `EXPORT_MODULE` 决定导入哪个模块，这要到运行时才能确定，所以这两处调用的究竟是哪一个 `export_rows`，图无法确定。结构图回答的是代码字面上写明的关系；凡是它标为 `unresolved` 的地方，都要回到源代码读那一行。
+图列出的两个调用者都是测试，调用发生在 `test_export.py` 的第 11 行和第 14 行。
+
+第三列的 `unresolved` 值得留意：测试文件第 5 行按环境变量 `EXPORT_MODULE` 决定导入哪个模块，这要到运行时才能确定，所以这两处调用的究竟是哪一个 `export_rows`，图无法确定。结构图回答的是代码字面上写明的关系；凡是它标为 `unresolved` 的地方，都要回到源代码读那一行。
 
 == 几种材料，各自回答什么
 放进上下文的材料来源不同，能回答的问题也不同。一旦混淆，就可能把昨天的理由当作今天的事实。
@@ -156,9 +158,11 @@ test_empty_input	14	unresolved
 #matrix(columns: (1fr, 1.3fr, 1.3fr), [*材料*], [*用来回答*], [*不能替代*], [现在的代码、数据、状态], [它今天是什么样子], [当初为什么这样决定], [历史记录和记忆], [为什么这样做，试过什么], [今天的版本、状态和授权], [生成的摘要、索引、图], [接下来该读哪里], [原文和实际的行为], [交接说明], [下一位怎样继续做], [完整的证据])
 
 == 上手
-回到 `~/first-session`，在这个目录里写一份说明文件，保存为 `AGENTS.md`。四节各写一两行即可。第一节“这里有什么”没有单独的小标题，就是总标题下的那一句。下面这份可以照原样使用，用文本编辑器保存到这个目录中：
+回到 `~/first-session`，在这个目录里写一份说明文件，保存为 `AGENTS.md`。四节各写一两行即可。第一节“这里有什么”没有单独的小标题，就是总标题下的那一句。
 
-```
+下面这份可以照原样使用，用文本编辑器保存到这个目录中：
+
+```md
 # Export function
 
 One function, `export_rows`, and its contract test.
@@ -189,7 +193,9 @@ mkdir -p ~/discover/repo/sub && cd ~/discover &&
 
 在这里启动会话（`claude --permission-mode default`），只问一句：“Without reading any file or running any command, list every code word that appears in the instructions you were given at startup. If none, say NONE.”安装了 Codex 的，先用 `/exit` 退出 Claude Code，再在同一个目录里运行 `codex`，问同一句。两个宿主的回答，可以对照上文“说明文件：每次都读的那一页”一节记下的结果。
 
-最后看压缩。回到 `~/first-session`，再启动一次 Claude Code 会话（`claude --permission-mode default`）。先说一句说明文件里没有的话，比如“这次会话里，报告都用英文写”。运行 `/context`，看清上下文由哪几部分占用；运行 `/compact`，再运行一次 `/context`，看清留下了什么。然后问它是否还记得两件事：说明文件中关于空值处理的那一条，以及你只说过一遍的那句话。退出之后，按#chapref(<first>, link: false)的办法重新取得 `f`，看压缩时记下了什么：
+最后看压缩。回到 `~/first-session`，再启动一次 Claude Code 会话（`claude --permission-mode default`）。先说一句说明文件里没有的话，比如“这次会话里，报告都用英文写”。运行 `/context`，看清上下文由哪几部分占用；运行 `/compact`，再运行一次 `/context`，看清留下了什么。然后问它是否还记得两件事：说明文件中关于空值处理的那一条，以及你只说过一遍的那句话。
+
+退出之后，按#chapref(<first>, link: false)的办法重新取得 `f`，看压缩时记下了什么：
 
 ```sh
 jq -r 'if .subtype == "compact_boundary"

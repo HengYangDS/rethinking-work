@@ -14,6 +14,18 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Fixed
+
+- A paragraph that ends in a colon stays with the command, box, table or list
+  it introduces, so no page ends with a lead-in; practice cards are set whole
+  or, when tall, split with at least three lines on each page, like sample
+  boxes; figures float. Tests hold these rules over the whole book, a split
+  code block keeps at least three printed lines on each page, and the
+  loose-line check also measures words with Chinese punctuation. Where the
+  rules moved pages, text was tightened or split, each change keeping its
+  facts; four tables have column widths that keep their cells whole; the
+  preface's return link is set right. The book stays at 198 pages.
+
 ## [0.2.5] - 2026-11-24
 
 ### Added

@@ -22,7 +22,7 @@
 
 #pagebreak()
 #heading(level: 1, outlined: true)[序]<premise>
-#block(above: 0pt, below: 2 * space)[#align(right, contents-return())]
+#block(above: 0pt, below: 2 * space)[#grid(columns: (1fr, auto), [], contents-return())]
 量化投资机构的数据团队，日常工作是把散落在各个外部来源的原始数据，加工成研究和交易可以放心使用的数据。本书的例子都以这类业务为背景。
 
 有一份评估报告，要回答的问题是：能否用新的数据源替换现用的一批表。报告由脚本汇总二十六项比对的结果自动生成。开头的总览称，替换风险较高的有三项；后文的决策矩阵列出的高风险项却有十二项。是否替换，要看高风险项有几项；对这个数，同一份报告给出了两个答案。

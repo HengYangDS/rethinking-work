@@ -46,7 +46,8 @@ FACTS = {
     "breaks": "(query(heading) + query(figure) + query(raw.where(block: true))"
     f" + query(table) + query(<closing-block>) + query(<card-title>)).map(it => {PLACE})",
     "openings": f"query(heading.where(level: 1)).map(it => {PLACE})",
-    "blocks": f"(query(table) + query(<sample-box>)).map(it => {PLACE})",
+    "blocks": f"(query(table) + query(<sample-box>) + query(<card>) + query(<lead-in>))"
+    f".map(it => {PLACE})",
     "page turns": "query(<page-turn>).map(it => it.location().page())",
     # The layout's own bound for a page left short by a block that moved whole, in pt.
     "whole allowance": '{ import "/publication/layout/style.typ": whole-allowance;'

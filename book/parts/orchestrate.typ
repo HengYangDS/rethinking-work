@@ -67,7 +67,7 @@ git worktree remove ../first-session-doc
 git branch -d doc/contract
 ```
 
-副本中还有未提交的改动时，`git worktree remove` 会拒绝执行，报错中写着 `contains modified or untracked files, use --force to delete it`。这一限制可以防止未提交的改动被误删。
+副本中还有未提交的改动时，`git worktree remove` 会拒绝执行，报错信息中写着 `contains modified or untracked files, use --force to delete it`。这一限制可以防止未提交的改动被误删。
 
 几件事并行时，副本、终端和各自的进度分散在几处。Orca 是一个桌面应用，把它们集中到一处：`orca repo add` 登记一个仓库，`orca worktree create` 为每件事建一个副本，`orca terminal create` 在副本里开终端运行命令，`orca worktree ps` 汇总每个副本的情况。
 
@@ -94,7 +94,7 @@ claude --print --output-format stream-json --verbose --model opus
   --max-budget-usd 1 --no-session-persistence
 ```
 
-在组织里定下的设置，有几项落在这条宿主命令的选项上，每月的预算则不在其中。步数上限 `--max-turns` 和单次运行的花费上限 `--max-budget-usd`，到达其中任何一个，#chapref(<agent>)所说的那个循环就会停下；`dontAsk` 档配一张只放行 `Read` 的清单，是#chapref(<boundaries>)讲过的无人值守的设置。
+在组织里定下的设置，有几项落在这条宿主命令的选项上，每月的预算则并不在其中。步数上限 `--max-turns` 和单次运行的花费上限 `--max-budget-usd`，到达其中任何一个，#chapref(<agent>)所说的那个循环就会停下；`dontAsk` 档配一张只放行 `Read` 的清单，是#chapref(<boundaries>)讲过的无人值守的设置。
 
 在这个实例上建一张工单（`paperclipai issue create`），工单里是一个只读、答案唯一的问题，要求把答案作为评论交回；指派给这个智能体，再手动唤醒它一次（`paperclipai heartbeat run`）。这一轮交给它的消息是空的；它什么也没有读，什么也没有做，这一轮却以成功结束（有删节）：
 
