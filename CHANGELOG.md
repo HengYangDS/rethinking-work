@@ -14,7 +14,7 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
-## [0.2.6] - 2026-11-24
+## [0.2.6] - 2026-11-25
 
 ### Changed
 
@@ -26,6 +26,23 @@ itself claim editorial acceptance.
   it; nothing in a table is centred. A test reads each table's columns and
   holds the rule. Five tables change: the two coverage tables, the source
   comparison, the token table and the snapshot table.
+- The text block holds exactly 43 characters a line, and a curly quotation mark
+  takes a full character cell, as the other Chinese marks do; two marks side by
+  side take one and a half. An opening mark at the start of a line or paragraph,
+  and a closing mark at the end of a line, drop the blank half of their cell
+  (W3C clreq 6.3.2.3). List text starts two cells in, on the same grid, and a
+  number keeps the date or time unit after it on its line. Specimen tests hold
+  the cells and the spacing.
+- Chapter 29 states the tiers as DDWG 10.0.0 does, with the readings of its
+  10.0.1 erratum: five tiers named 评定等级 (S 远超预期, A 超出预期, B 符合预期,
+  C 及格 as the passing line, D 不及格), D read first and one yes-or-no question
+  for each tier above it, the evidence each rests on, the assessment's steps,
+  promotion, and a worked example read tier by tier.
+- Chapter 3's passage on responsibility takes the readers' four points, as the
+  owner chose.
+- Text is tightened where the new measure left a loose or short line, a lone
+  character or a chapter's last page nearly empty, each edit keeping its facts;
+  49 of the first sample's reader notes are applied.
 
 ### Fixed
 
@@ -39,8 +56,8 @@ itself claim editorial acceptance.
   loose-line check also measures words with Chinese punctuation. Where the
   rules moved pages, text was tightened or split, each change keeping its
   facts; four tables have column widths that keep their cells whole; the
-  preface's return link is set right. The book stays at 198 pages.
-- An error-rate sample of the final text (pages 11–61 of `80710fe`'s PDF and
+  preface's return link is set right. The book is 200 pages, its ceiling.
+- A first error-rate sample (pages 11–61 of `80710fe`'s PDF and
   the cover and contents, two model families judging each other blind,
   105,823 characters) found 0.02 errors per 10,000 against a limit of 1. Its
   two errors are corrected: a quoted brief's full stop now sits inside its
