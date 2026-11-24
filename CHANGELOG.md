@@ -16,6 +16,17 @@ itself claim editorial acceptance.
 
 ## [0.2.6] - 2026-11-24
 
+### Changed
+
+- Alignment is declared once in the layout, one rule per kind of element
+  (W3C clreq; CY/T 170—2019 for tables): body text is justified, narrow text
+  (boxes, cards, cells) flush left, headings and code flush left, captions
+  centred. In tables the first column and text columns are flush left and a
+  column of numbers is set flush right on its units digit, its heading over
+  it; nothing in a table is centred. A test reads each table's columns and
+  holds the rule. Five tables change: the two coverage tables, the source
+  comparison, the token table and the snapshot table.
+
 ### Fixed
 
 - A paragraph that ends in a colon stays with the command, box, table or list

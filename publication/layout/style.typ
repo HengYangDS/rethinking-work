@@ -13,6 +13,17 @@
 // The space between paragraphs, which also separates a list, a code block, a table or a practice card
 // from the text around it; a sample box (`note`) keeps less.
 #let par-space = 2 * body-line - body-edges
+// Horizontal alignment, one rule per kind of element (W3C clreq 2.1.3; CY/T 170—2019 7.2):
+// - body paragraphs are justified, their last line flush left, and a justified line opens its characters by at most
+//   `open-most`;
+// - text set in a narrow measure (sample boxes, cards, table cells) is flush left, not justified, so that no line is
+//   spread;
+// - headings, captions inside boxes, list items and code are flush left;
+// - a table's first column and its text columns are flush left, a column of numbers flush right on its units digit,
+//   each heading over its column; nothing in a table is centred (`column-align`);
+// - a figure's caption is centred under it, as a book sets captions;
+// - the contents set titles flush left and page numbers flush right; the running head sets the title left and the
+//   chapter right; the folio is centred.
 // What is read as one piece stays on one page while it is short: a block of at most this many
 // body lines moves to the next page whole, and a taller one continues there.
 #let whole-lines = 6
@@ -36,7 +47,7 @@
 #let plain-text(c) = {
   if type(c) == str { c }
   else if c.has("text") { c.text }
-  else if c.has("children") { c.children.map(plain-text).join("") }
+  else if c.has("children") { c.children.map(plain-text).join("") + "" }
   else if c.has("body") { plain-text(c.body) }
   else if c.has("child") { plain-text(c.child) }
   else { "" }
@@ -235,6 +246,24 @@
   #set par(first-line-indent: 0pt, justify: false, leading: body-line - body-edges, spacing: par-space)
   #text(weight: "bold", title) #h(.5em) #body
 ] + last-set.update("block")
+// Whether a cell holds a number alone: digits with their separators, sign and percent, or a count of a total such as
+// 5 / 6 (CY/T 170—2019 7.2.2.4
+// aligns such a column on its units digit; the book's numbers have no decimals within a column, so the units digit is
+// the right edge). A cell of words, a range, a unit or a mixed value is not a number.
+#let number-cell(c) = plain-text(c).trim().match(regex("^[−+\\-]?\\d[\\d,]*(\\.\\d+)?%?( ?/ ?\\d+)?$")) != none
+// How a table's columns are set, after CY/T 170—2019 7.2.2: the first column names its rows and is set flush left
+// (7.2.2.2), whatever it holds, so a step or request number stays a label; any other column whose body cells all hold
+// numbers is set flush right on the units digit (7.2.2.4), its header with it so that each heading stands over its
+// column; every other column, its header included, is set flush left, as text is read (7.2.2.5). Nothing in a table is
+// centred or justified.
+#let column-align(cells, n) = {
+  let body = cells.slice(n)
+  range(n).map(i => if i == 0 { left } else {
+    let column = body.enumerate().filter(((k, _)) => calc.rem(k, n) == i).map(((_, c)) => c)
+    let filled = column.filter(c => plain-text(c).trim() != "")
+    if filled.len() > 0 and filled.all(number-cell) { right } else { left }
+  })
+}
 #let matrix(columns: (1.05fr, 1.4fr, 1.55fr), ..args) = {
   // A table that continues on the next page repeats its header and keeps each row whole. Like a
   // list, it has no space of its own: it takes the paragraph step after a lead-in and counts as a
@@ -244,7 +273,8 @@
   set text(size: 9.5pt)
   set table.cell(breakable: false)
   let cells = args.pos()
-  flow-block(width: 100%, table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
+  let aligns = column-align(cells, columns.len())
+  flow-block(width: 100%, table(columns: columns, align: (x, _) => aligns.at(x) + top, inset: (x: 2 * space, y: 1.5 * space),
     stroke: (x: none, y: .4pt + rule),
     table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len())))
   last-set.update("paragraph")

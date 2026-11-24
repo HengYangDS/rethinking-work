@@ -49,6 +49,13 @@ FACTS = {
     "blocks": f"(query(table) + query(<sample-box>) + query(<card>) + query(<lead-in>))"
     f".map(it => {PLACE})",
     "page turns": "query(<page-turn>).map(it => it.location().page())",
+    # Each table's columns, its cells as text, and the horizontal alignment given to each column.
+    "tables": '{ import "/publication/layout/style.typ": plain-text;'
+    " query(table).map(t => (columns: t.columns.len(),"
+    " cells: t.children"
+    ".map(c => if c.func() == table.header { c.children } else { (c,) }).flatten()"
+    ".map(c => plain-text(c.body).trim()),"
+    " align: range(t.columns.len()).map(x => repr((t.align)(x, 1).x)))) }",
     # The layout's own bound for a page left short by a block that moved whole, in pt.
     "whole allowance": '{ import "/publication/layout/style.typ": whole-allowance;'
     " whole-allowance.pt() }",

@@ -234,6 +234,31 @@ class EditionLayout(edition.Edition):
         self.assertEqual([step for step in line_steps if abs(step - 16) > 0.5], [])
         self.assertEqual([step for step in paragraph_steps if abs(step - 32) > 0.5], [])
 
+    def test_table_columns_align_as_their_contents_read(self):
+        # CY/T 170—2019 7.2.2: the first column names its rows and is set flush left; any other
+        # column whose body cells all hold numbers is set flush right, on the units digit; every
+        # other column is set flush left. Nothing is centred. A number is digits with their
+        # separators, sign and percent, or a count of a total (5 / 6); a range, a unit or words
+        # make a cell text.
+        number = re.compile(r"^[−+-]?\d[\d,]*(\.\d+)?%?( ?/ ?\d+)?$")
+        tables = self.fact("tables")
+        found = []
+        for index, table in enumerate(tables):
+            n = table["columns"]
+            body = table["cells"][n:]
+            for column in range(n):
+                filled = [cell for cell in body[column::n] if cell]
+                wanted = (
+                    "right"
+                    if column and filled and all(number.match(cell) for cell in filled)
+                    else "left"
+                )
+                if table["align"][column] != wanted:
+                    found.append((index, column, table["align"][column], wanted, filled[:3]))
+        self.assertGreater(len(tables), 40)
+        self.assertTrue(any("right" in table["align"] for table in tables))
+        self.assertEqual(found, [])
+
     def test_tables_and_sample_boxes_meet_page_ends_cleanly(self):
         # A short table, sample box or card moves to the next page whole, and a tall one continues
         # there; a paragraph that introduces a block moves with it. So the page before one that
