@@ -76,7 +76,7 @@ Codex 读取 `AGENTS.md`；Claude Code 读取 `CLAUDE.md`，目录里没有 `CLA
 
 检索返回的也只是片段。如果只找到一行筛选条件，还须去读完整的函数和调用它的地方。资料不多时，直接读整个文件更简便，不必为了检索先搭建一套系统。
 
-按意思查找代码，书中使用的是 semble。它是可选的（#chapref(<companion>)）：已安装的读者可以照着运行，未安装的读下面的输出即可。第一次运行时，它从网上下载一个把文字转换为向量的小型模型，再为给定的目录建立索引；模型和索引都存放在用户的缓存目录中，不写入仓库。下一节的工具要在目录里写入文件，所以这一节和下一节都在练习包的一份副本里进行。复制之后，用一句英文搜索“删去收益为空的行”这个意思：
+按意思查找代码，书中使用的是 semble。它是可选的（#chapref(<companion>)）：已安装的读者可以照着运行，未安装的读下面的输出即可。第一次运行时，它从网上下载一个把文字转换为向量的小型模型，再为给定的目录建立索引；模型和索引都存放在用户的缓存目录中，不写入仓库。下一节的工具要在目录里写入文件，所以这一节和下一节都在练习包的一份副本里进行。复制之后，用一句英文按“删去收益为空的行”的意思搜索：
 
 ```sh
 PACK=~/Downloads/重新理解工作/实战练习
@@ -96,7 +96,7 @@ export-regression/export_bug.py:1-2
     return [row for row in rows if row["return_bps"]]
 ```
 
-排在第一的是一份时点查询，其中有“没有可用版本”这样的字眼，与所问的事只是略有关联。修复后的那份排第二，有错的那份排第三。检索把你引到相关内容附近，哪一份才是要找的，仍须自己阅读判断。
+排在第一的是一份时点查询，其中有“no version available”这样的字眼，与所问的事只是略有关联。修复后的那份排第二，有错的那份排第三。检索把你引到相关内容附近，哪一份才是要找的，仍须自己阅读判断。
 
 没有找到，也不等于不存在：索引可能根本没有收录要找的文件。semble 默认只检索代码。问“空值能不能补成零”，答案写在 `AGENTS.md` 里，默认检索却找不到它。
 
@@ -111,7 +111,7 @@ semble search "may an empty return be filled with zero" . \
 AGENTS.md:1-19
 ```
 
-这一次，`AGENTS.md` 的前十九行排在第一，“Never fill an empty cell”就在其中。检索的范围是查询的一部分：没有找到时，先查明检索覆盖了哪些文件。
+这一次，`AGENTS.md` 的前 19 行排在第一，“Never fill an empty cell”就在其中。检索的范围是查询的一部分：没有找到时，先查明检索覆盖了哪些文件。
 
 每个索引对应一个目录。semble 还可以作为 MCP 服务运行（MCP 是接入工具的一种通行协议，#chapref(<tools>)用这种方式把它接入一个会话）。这样运行时，按它自己的说明，建过的索引在整个会话期间都留在缓存中。目录越大，索引越大，所以交给它检索的应当是一个仓库的根目录，而不是主目录或放着许多仓库的上层目录。
 
@@ -122,7 +122,7 @@ AGENTS.md:1-19
 code-review-graph build --repo .
 ```
 
-它向标准错误输出若干行日志，向标准输出只打印一行 `Full build: 16 files, 111 nodes, 165 edges (postprocess=full)`：解析了 16 个文件，图中有 111 个节点、165 条边。图存放在目录里新建的 `.code-review-graph/` 中。
+它向标准错误输出若干行日志，向标准输出则只打印一行 `Full build: 16 files, 111 nodes, 165 edges (postprocess=full)`：解析了 16 个文件，图中有 111 个节点、165 条边。图存放在当前目录里新建的 `.code-review-graph/` 中。
 
 问 `export_rows` 被谁调用。它输出的是 JSON，下面用 `jq` 取出其中几项，结果有删节，只保留第一行和末两行：
 
@@ -152,7 +152,7 @@ test_empty_input	14	unresolved
 
 图列出的两个调用者都是测试，调用发生在 `test_export.py` 的第 11 行和第 14 行。
 
-第三列的 `unresolved` 值得留意：测试文件第 5 行按环境变量 `EXPORT_MODULE` 决定导入哪个模块，这要到运行时才能确定，所以这两处调用的究竟是哪一个 `export_rows`，图无法确定。结构图回答的是代码字面上写明的关系；凡是它标为 `unresolved` 的地方，都要回到源代码读那一行。
+第三列的 `unresolved` 值得留意：测试文件第 5 行按环境变量 `EXPORT_MODULE` 决定导入哪个模块，这要到运行时才能确定，所以这两处调用的究竟是哪一个 `export_rows`，图无从判断。结构图回答的是代码字面上写明的关系；凡是它标为 `unresolved` 的地方，都要回到源代码读那一行。
 
 == 几种材料，各自回答什么
 放进上下文的材料来源不同，能回答的问题也不同。一旦混淆，就可能把昨天的理由当作今天的事实。
@@ -181,7 +181,7 @@ Expected: a line `Ran … tests`, then `OK`.
 - Change `test_export.py` to make a test pass.
 ```
 
-保存后提交（`git add AGENTS.md && git commit -q -m "docs: agent instructions"`），然后在这个目录里启动一个新会话（`claude --permission-mode default`），只问一句：“这个目录里，收益是空的行怎么处理？检查用哪条命令？”它若答出你写的那两条，这些信息可能来自启动时读入的说明文件，也可能来自它这一次临时读过的文件，比如说明文件本身，或者修复后的代码和测试。要分清是哪一种，就输入 `/exit` 退出，重新运行#chapref(<first>)中取 `f` 的那一行，再用列出工具调用的那条 `jq` 查看。如果列表中没有任何一次读文件的调用，答案就来自启动时读入的说明文件。
+保存后提交（`git add AGENTS.md && git commit -q -m "docs: agent instructions"`），然后在这个目录里启动一个新会话（`claude --permission-mode default`），只问：“这个目录里，收益是空的行怎么处理？检查用哪条命令？”它若答出你写的那两条，这些信息可能来自启动时读入的说明文件，也可能来自它这一次临时读过的文件，比如说明文件本身，或者修复后的代码和测试。要分清是哪一种，就输入 `/exit` 退出，重新运行#chapref(<first>)中取 `f` 的那一行，再用列出工具调用的那条 `jq` 查看。如果列表中没有任何一次读文件的调用，答案就来自启动时读入的说明文件。
 
 再看说明文件按什么规则读入。建三层目录，各放一份写着标记词的 `AGENTS.md`，只把中间一层做成 Git 仓库，最后进入最里层：
 
@@ -193,7 +193,7 @@ mkdir -p ~/discover/repo/sub && cd ~/discover &&
   git -C repo init -q && cd repo/sub
 ```
 
-在这里启动会话（`claude --permission-mode default`），只问一句：“Without reading any file or running any command, list every code word that appears in the instructions you were given at startup. If none, say NONE.”安装了 Codex 的，先用 `/exit` 退出 Claude Code，再在同一个目录里运行 `codex`，问同一句。两个宿主的回答，可以对照上文“说明文件：每次都读的那一页”一节记下的结果。
+在这里启动会话（`claude --permission-mode default`），只问：“Without reading any file or running any command, list every code word that appears in the instructions you were given at startup. If none, say NONE.”安装了 Codex 的，先用 `/exit` 退出 Claude Code，再在同一个目录里运行 `codex`，问同样的话。两个宿主的回答，可以对照上文“说明文件：每次都读的那一页”一节记下的结果。
 
 最后看压缩。回到 `~/first-session`，再启动一次 Claude Code 会话（`claude --permission-mode default`）。先说一句说明文件里没有的话，比如“这次会话里，报告都用英文写”。运行 `/context`，看清上下文由哪几部分占用；运行 `/compact`，再运行一次 `/context`，看清留下了什么。然后问它是否还记得两件事：说明文件中关于空值处理的那一条，以及你只说过一遍的那句话。
 

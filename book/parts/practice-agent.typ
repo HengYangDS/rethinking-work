@@ -120,7 +120,7 @@ ast-grep run --lang python --pattern 'row["return_bps"]' export_bug.py
 + 涉及共享的仓库和数据：`default`，或者 Codex 的 `read-only`，需要写入的那一步由人来做；并且不同意它“顺手修掉”的提议。核对要运行查询、比对结果；`default` 下，修改文件、运行只读命令以外的命令，都逐条先询问，改动原件的每一步都要经过人。核对和修改是两件事，修改需要另外获得批准；这里应让它把有问题的行列出来，而不改动原件。
 + 无人值守的定时任务：`dontAsk` 加一张放行清单，放行所需的查询和向一个指定目录写文件（写法见#chapref(<boundaries>, link: false)的 `Edit(路径)`）；宿主视为只读的命令，即使不在清单上也照常运行。再加上花费上限（`--max-budget-usd`，只在 `-p` 下有效，见#chapref(<quickref>)）。或者用 Codex 的 `never` 加 `workspace-write`：可写的是启动时的工作目录和 `/tmp`（见#chapref(<boundaries>, link: false)），所以在一个只放这项任务的目录里启动；这两项只管可写的范围和是否询问，不管花费。
 
-四件事先看两条：这件事需要做什么，做了能否撤回（#chapref(<invariants>)的可逆，用法见#chapref(<boundaries>, link: false)）。只需要查看、提出方案的，用 `plan` 或 `read-only`；在自己的工作副本里改、改错了能退回的，放开修改；涉及共享的原件、改了难以撤回的，每一次写入都要经过人：或者逐条询问，或者不让它写，由人来写。第四件没有人可以询问，就用放行清单或沙箱限定它能做什么、能写到哪里，代替询问；Claude Code 再加花费上限。
+四件事先看两条：这件事需要做什么，做了能否撤回（#chapref(<invariants>)“可逆”一条，用法见#chapref(<boundaries>, link: false)）。只需要查看、提出方案的，用 `plan` 或 `read-only`；在自己的工作副本里改、改错了能退回的，放开修改；涉及共享的原件、改了难以撤回的，每一次写入都要经过人：或者逐条询问，或者不让它写，由人来写。第四件没有人可以询问，就用放行清单或沙箱限定它能做什么、能写到哪里，代替询问；Claude Code 再加花费上限。
 
 #card[做法卡：选档位][
 - 只查看、只出方案的事，用 `plan` 或 `read-only`。
