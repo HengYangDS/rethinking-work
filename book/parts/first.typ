@@ -194,7 +194,7 @@ claude --resume --permission-mode default
 codex resume --last
 ```
 
-接续时，因为目录里有 `.py` 文件，Claude Code 可能询问是否安装一个语言服务器插件（LSP 插件，`pyright-lsp`），默认选中的是安装；本书的练习不需要它，选第二项（2.1.311 上写作 `No, not now`，较新的 2.1.329 上写作 `Not now`）。拒绝之后，它还可能再问，有一次在#chapref(<tools>, link: false)的练习中途（见#chapref(<case-records>)）。
+接续时，因为目录里有 `.py` 文件，Claude Code 可能询问是否安装一个语言服务器插件（LSP 插件，`pyright-lsp`），默认选中的是安装；本书的练习不需要它，选第二项（2.1.311 上写作 `No, not now`，较新的 2.1.329 上写作 `Not now`）。拒绝之后，它可能再问，有一次是在#chapref(<tools>, link: false)的练习中途（见#chapref(<case-records>)）。
 
 两个宿主都支持以非交互方式运行，把结果交给下一条命令，这是将智能体接入脚本和流水线的入口。下面两条各对应一个宿主。每运行一次都要消耗额度，一次运行中模型还可能被调用多次：
 
