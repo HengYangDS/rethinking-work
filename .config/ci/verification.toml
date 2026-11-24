@@ -11,7 +11,7 @@ github = ["mise run ci-supply"]
 gitlab = ["mise run ci-supply"]
 
 [github]
-runners = ["macos-latest"]
+runners = ["macos-26"]
 
 [gitlab.variables]
 MISE_CONFIG_DIR = "$CI_PROJECT_DIR/build/runtime/work/mise-config"

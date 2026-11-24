@@ -15,6 +15,9 @@ Scope: every recorded open fix and improvement for 0.2.6. New scope enters as a 
 - [x] 2.1 The text block holds a whole number of characters and curly quotation marks take full cells, with a specimen
       test; done when the book is at most 200 pages with every chapter's last page folded by concise rewriting, and
       every changed page is looked at.
+- [x] 2.2 Both GitHub jobs run on one fixed macOS label, declared once in `.config/ci/verification.toml` and read by
+      `.config/ci/pipeline.cue` (owner, 「统一成同一个固定标签」, 2026-11-25 07:12); done when `ethos lane project --check`
+      reads the projections conforming and both jobs name that label.
 
 ## 3. Tiers and release
 

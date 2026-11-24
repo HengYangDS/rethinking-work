@@ -54,9 +54,10 @@ supply: {
 	]])
 }
 
-// The job keeps every tool, font and package inside its own workspace.
+// The job keeps every tool, font and package inside its own workspace, on the fixed macOS label the verification
+// jobs declare in `verification.toml`.
 publicationJob: {
-	"runs-on":         "macos-15"
+	"runs-on":         _inputs.ci.github.runners[0]
 	"timeout-minutes": 20
 	env: {
 		MISE_LOCKED:               "1"

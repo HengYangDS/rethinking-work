@@ -40,6 +40,9 @@ itself claim editorial acceptance.
   promotion, and a worked example read tier by tier.
 - Chapter 3's passage on responsibility takes the readers' four points, as the
   owner chose.
+- Both GitHub jobs run on one fixed macOS label, `macos-26`, declared once in
+  `.config/ci/verification.toml` and read by `.config/ci/pipeline.cue`; the
+  publication job ran on `macos-15` and verification on `macos-latest`.
 - Text is tightened where the new measure left a loose or short line, a lone
   character or a chapter's last page nearly empty, each edit keeping its facts;
   49 of the first sample's reader notes are applied.
