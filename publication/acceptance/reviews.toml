@@ -251,3 +251,42 @@ pdf = "feec93be6ba33c8011f0a5a9a2ae092a27fd03784ca8da19012a73803c6718d6"
 read = 2026-11-23T23:03:32+08:00
 findings = "build/evidence/reader-run-next-edition/review-e43f21a/FINDINGS.md"
 verdict = "no finding"
+
+[[commands]]
+book = "698f398c33c86418109081923bffa79dbc9e6ae4"
+exercises = "b3956311b18f69afe268c5d354c89045b0d51b3c"
+subject = "75a4c45"
+blocks_against = "v0.2.3"
+prose_against = "db59155"
+pdf = "3b240d92656e70b50868400512dff9dbf8a25447f8f654aceeb813943e1b279b"
+read = 2026-11-24T10:55:37+08:00
+findings = "build/evidence/reader-run-next-edition/review-75a4c45/FINDINGS.md"
+verdict = "no finding"
+
+[[reading]]
+book = "698f398c33c86418109081923bffa79dbc9e6ae4"
+subject = "75a4c45"
+against = "6bb9ef5"
+read = 2026-11-24T10:54:12+08:00
+report = "build/evidence/layout-faults/reread3/report.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "reread of a7e3463 (reread/report.md): seven points of fidelity and order in walkthrough, diagnose, memory, appendix C, practice 1, tools and first, and three minor ones"
+settled = "1a9ed50: each as the reader proposed; the reader of 1a9ed50 found every one sound"
+
+[[reading.point]]
+point = "reread of a7e3463: chapter 12's SKILL.md block lacks the md label that chapter 11's AGENTS.md block has"
+declined = "a declared language holds each line to print whole, and the pack's own longest line wraps; the file is copied from the pack, not from the page (9b8e8d3); accepted by review-db59155"
+
+[[reading.point]]
+point = "reread of 1a9ed50 (reread2/report.md): code boxes after a lead-in hold an empty band, and a lead-in after a code box or table touches it"
+settled = "db59155: a lead-in is spaced as a paragraph is around every kind of block, held by test_lead_ins_are_spaced_as_paragraphs"
+
+[[reading.point]]
+point = "reread of 1a9ed50: first.typ 「有一次在……的练习中途」 reads as half a sentence"
+settled = "75a4c45: 「它可能再问，有一次是在……的练习中途」, confirmed in place by the reader of db59155"
+
+[[reading.point]]
+point = "reread of db59155: 「默认的检索」 in context.typ beside the edited 「默认检索」; keep 「的练习」 as the book writes it, drop 还 instead"
+settled = "75a4c45: both as proposed, confirmed in place by the same reader"

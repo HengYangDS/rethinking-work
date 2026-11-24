@@ -235,15 +235,18 @@
   #text(weight: "bold", title) #h(.5em) #body
 ] + last-set.update("block")
 #let matrix(columns: (1.05fr, 1.4fr, 1.55fr), ..args) = {
+  // A table that continues on the next page repeats its header and keeps each row whole. Like a
+  // list, it has no space of its own: it takes the paragraph step after a lead-in and counts as a
+  // paragraph for what follows it.
+  context if last-set.get() == "lead-in" { v(par.spacing) }
   set par(justify: false, first-line-indent: 0pt, leading: 4.5pt, spacing: 2 * space)
   set text(size: 9.5pt)
-  // A table that continues on the next page repeats its header and keeps each row whole. It is set
-  // a paragraph step apart from what is around it, as a paragraph is.
   set table.cell(breakable: false)
   let cells = args.pos()
-  flow-block(width: 100%, above: par-space, below: par-space, table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
+  flow-block(width: 100%, table(columns: columns, inset: (x: 2 * space, y: 1.5 * space),
     stroke: (x: none, y: .4pt + rule),
     table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len())))
+  last-set.update("paragraph")
 }
 // A figure floats to the top or the foot of the page where it is called, or of the next, so that the
 // text runs on around it instead of leaving the rest of a page empty.
