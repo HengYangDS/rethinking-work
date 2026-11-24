@@ -70,7 +70,7 @@
 // each mark of a run takes a full cell, as the other Chinese marks do, and two marks side by side take one and a half
 // (clreq, adjacent punctuation): the half between them is dropped where one of them leaves it blank. Closing marks
 // sit at the left of their cell and opening marks at the right. A run is joined to its neighbours where a line may not
-// break: before a closing mark, after an opening one.
+// break: before a closing mark, after an opening one, and nowhere inside it (GB/T 15834—2011 5.1.1, 5.1.3).
 #let opening-marks = "“‘（"
 #let quote-run(run) = {
   let marks = run.clusters()
@@ -82,7 +82,8 @@
     if not opens(marks.at(i)) { widths.at(i) -= 0.5em }
     else if opens(marks.at(i + 1)) { widths.at(i + 1) -= 0.5em }
   }
-  let body = marks.zip(widths).map(((c, w)) => box(width: w, align(if opens(c) { right } else { left }, c))).join()
+  // The marks of a run never part: a line may not break inside it.
+  let body = marks.zip(widths).map(((c, w)) => box(width: w, align(if opens(c) { right } else { left }, c))).join(sym.wj)
   (if opens(marks.first()) { none } else { sym.wj }) + body + (if opens(marks.last()) { sym.wj } else { none })
 }
 // What was set last in the text: a paragraph, a lead-in (below), or another block, which every other

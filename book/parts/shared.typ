@@ -48,7 +48,7 @@ TeamAI 是一个开源工具（MIT 许可），做的正是这几件事：团队
 
 用副本，前提是分清原件和副本：团队仓库是权威，各宿主读取的都是由它派生的副本，和#relref(<standing>)[上一章]说的报表、索引、缓存一样，不应被悄悄当作权威；对副本的修改，要提交回原件。
 
-`pull` 把它送来的文件列进工作目录的 `.git/info/exclude`；这些文件尚未被 Git 跟踪时，`git status` 不再列出它们，它们也就不容易被误当作项目的文件提交，在项目仓库里成为又一个原件。
+`pull` 把送来的文件列进工作目录的 `.git/info/exclude`；这些文件尚未被 Git 跟踪时，`git status` 不再列出它们，它们也就不容易被误当作项目的文件提交，在项目仓库里成为又一个原件。
 
 副本被改了，`teamai status` 会列出一处尚未交回的本地改动。若团队这时又改了同一条规则，`pull` 不会覆盖这份副本，而是给出两种办法：把团队的改动合进自己的副本，用 `push` 交回评审；或者删掉副本，用 `pull --force` 取团队的版本。前一种让改动经评审进入团队仓库，后一种舍弃改动。
 
@@ -80,7 +80,7 @@ mkdir $S/ws && cd $S/ws && git init -q
 teamai init https://git.example.invalid/team/agent-env.git --provider git --agent claude,codex
 ```
 
-作为维护团队仓库的人另克隆一份，加一条规则并推送；回到工作目录，核对，取回，再核对：
+作为维护团队仓库的人，另克隆一份，加一条规则并推送；回到工作目录，核对，取回，再核对：
 
 ```sh
 git clone -q https://git.example.invalid/team/agent-env.git $S/admin
@@ -99,7 +99,7 @@ teamai status
 git status --short
 ```
 
-第一次 `status` 报告 `behind: 1 commit(s)`、`rules: 0`；`pull` 之后，`status` 的 `behind` 变为 `up to date`，`rules` 变为 `1`。规则此时在 `.claude/rules/data-conventions.md`，`git status --short` 却什么也不输出。
+第一次 `status` 报告 `behind: 1 commit(s)`、`rules: 0`；`pull` 之后，`status` 的 `behind` 一行变为 `up to date`，`rules` 变为 `1`。规则此时在 `.claude/rules/data-conventions.md`，`git status --short` 却什么也不输出。
 
 再看副本被改动时会怎样。在本机的副本里给这条规则加一行，再核对：
 
