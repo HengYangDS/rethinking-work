@@ -82,9 +82,15 @@
     if not opens(marks.at(i)) { widths.at(i) -= 0.5em }
     else if opens(marks.at(i + 1)) { widths.at(i + 1) -= 0.5em }
   }
+  // At the start of a line the blank half before an opening mark is dropped, and at the end of a line the blank half
+  // after a closing mark (clreq 6.3.2.3), as the body face's own marks hang there: that half is weak spacing, which a
+  // line break or the edge of a paragraph removes.
+  let lead = if opens(marks.first()) { widths.at(0) -= 0.5em; h(0.5em, weak: true) }
+  let trail = if not opens(marks.last()) { widths.at(-1) -= 0.5em; sym.wj + h(0.5em, weak: true) }
   // The marks of a run never part: a line may not break inside it.
-  let body = marks.zip(widths).map(((c, w)) => box(width: w, align(if opens(c) { right } else { left }, c))).join(sym.wj)
-  (if opens(marks.first()) { none } else { sym.wj }) + body + (if opens(marks.last()) { sym.wj } else { none })
+  let cells = marks.zip(widths).map(((c, w)) => box(width: w, align(if opens(c) { right } else { left }, c))).join(sym.wj)
+  let body = (if opens(marks.first()) { none } else { sym.wj }) + cells + (if opens(marks.last()) { sym.wj } else { none })
+  lead + body + trail
 }
 // What was set last in the text: a paragraph, a lead-in (below), or another block, which every other
 // block records after itself.
@@ -95,9 +101,11 @@
   // neither face holds, such as ℹ, takes Typst's own Libertinus Serif, declared as a fallback here
   // rather than reached by accident.
   show raw: set text(font: code-face)
-  show regex("[，。：；、？！（）]*[“”‘’][，。：；、？！（）“”‘’]*"): it => context {
-    if text.font.first() == lower(code-face.first()) { it } else { quote-run(it.text) }
-  }
+  // The rule reads no context: spacing inside `context` survives the edge of a paragraph, and a line may not break
+  // between it and its neighbours. Curly marks in code are Chinese text in comments and take the same cells.
+  show regex("[，。：；、？！（）]*[“”‘’][，。：；、？！（）“”‘’]*"): it => quote-run(it.text)
+  // A number keeps the date or time unit after it on its line: 2026 年 11 月, 45 秒.
+  show regex("\d [年月日时分秒]"): it => it.text.replace(" ", "\u{a0}")
   // A paragraph does not end with a character alone on its last line: the line breaker weighs such
   // a runt heavily against the other breaks it can choose.
   set text(costs: (runt: 200%))
@@ -139,8 +147,14 @@
   // Codly sets each line of code as a paragraph of its own; such a paragraph is left as it is.
   show par: it => context {
     let before = last-set.get()
+    let first = if it.body.has("children") { it.body.children.at(0, default: none) } else { it.body }
     if text.font.first() == lower(code-face.first()) {
       it
+    } else if (first != none and repr(first.func()) == "tag"
+      and opening-marks.contains(plain-text(it.body).clusters().at(0, default: " "))) {
+      // A paragraph that opens inside an element (bold, emphasis, a link) with an opening mark: the element's
+      // boundary keeps the weak half cell before the mark from going at the start, so the paragraph takes it back.
+      par(h(-0.5em) + it.body)
     } else if plain-text(it.body).trim().ends-with("：") {
       block(sticky: true, above: if before == "block" { 0pt } else { par.spacing }, below: 0pt,
         [#metadata(none)<lead-in>#it])
@@ -158,6 +172,10 @@
   show figure: it => { last-set.update("block"); it; last-set.update("block") }
   // A list is spaced like a paragraph: it has no space of its own, takes the paragraph step after a
   // lead-in, and counts as a paragraph for what follows it.
+  // A list item's text starts on the character grid, two cells in, so a full line of an item holds whole characters,
+  // as a body line does: a bullet sits centred in the first cell, a number with its point starts at the margin.
+  set list(indent: 0pt, body-indent: 0pt, marker: box(width: 2em, box(width: 1em, align(center, sym.bullet))))
+  set enum(indent: 0pt, body-indent: 0pt, number-align: start + top, numbering: n => box(width: 2em, [#n.]))
   show list: it => context {
     if last-set.get() == "lead-in" { v(par.spacing) }
     last-set.update("block"); it; last-set.update("paragraph")

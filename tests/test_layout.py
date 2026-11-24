@@ -182,7 +182,11 @@ class EditionLayout(edition.Edition):
             return next((float(w.get("yMin")) for w in words if ideograph(w.text or "")), None)
 
         def flush(line):
-            return abs(float(line.get("xMin")) - margin) < 0.6
+            # A line that opens with an opening mark keeps only the half cell the mark sits in, at
+            # the margin or hung outside it (clreq 6.3.2.3); any other line starts at the margin.
+            words = line.findall("pdf:word", NS)
+            half = 10.5 / 2 if words and (words[0].text or "")[:1] in "“‘（" else 0
+            return -half - 0.6 < float(line.get("xMin")) - margin < (half or 0.6)
 
         starts = defaultdict(list)
         for item in paragraphs + breaks:
