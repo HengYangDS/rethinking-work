@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-11-24
+
 ### Fixed
 
 - A paragraph that ends in a colon stays with the command, box, table or list
@@ -27,6 +29,12 @@ itself claim editorial acceptance.
   rules moved pages, text was tightened or split, each change keeping its
   facts; four tables have column widths that keep their cells whole; the
   preface's return link is set right. The book stays at 198 pages.
+- An error-rate sample of the final text (pages 11–61 of `80710fe`'s PDF and
+  the cover and contents, two model families judging each other blind,
+  105,823 characters) found 0.02 errors per 10,000 against a limit of 1. Its
+  two errors are corrected: a quoted brief's full stop now sits inside its
+  closing quotation mark (chapter 9), and a computed percentage is written
+  in Arabic numerals (chapter 11), as the book writes others.
 
 ## [0.2.5] - 2026-11-24
 
