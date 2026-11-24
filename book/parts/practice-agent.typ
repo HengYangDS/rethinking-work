@@ -1,7 +1,7 @@
 #import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter("三 / 智能体", "练二", "智能体的练习", "四个练习：对照记录读报告，改写一份工具说明，让程序计算，为四件事选择档位。")<practice-agent>
-这一部各章末尾的“上手”，大多在你自己的 `~/first-session` 中完成。这里再增加四个练习：练习一对应#chapref(<agent>, <first>, link: false)，练习二、练习三对应#chapref(<tools>, link: false)，练习四对应#chapref(<boundaries>, link: false)。四个练习都不需要再把任务交给智能体。练习二、练习四用纸笔即可完成；练习一最后要用到#chapref(<first>, link: false)那次会话的记录；练习三要用到练习包中的数据，以及另行安装的 oasdiff 和 ast-grep。
+这一部各章末尾的“上手”，其中有几步在你自己的 `~/first-session` 中完成。这里再增加四个练习：练习一对应#chapref(<agent>, <first>, link: false)，练习二、练习三对应#chapref(<tools>, link: false)，练习四对应#chapref(<boundaries>, link: false)。四个练习都不需要再把任务交给智能体。练习二、练习四用纸笔即可完成；练习一最后要用到#chapref(<first>, link: false)那次会话的记录；练习三要用到练习包中的数据，以及另行安装的 oasdiff 和 ast-grep。
 
 == 练习一：对照记录读报告
 对应#chapref(<agent>)和#chapref(<first>)。下面是一次任务的过程记录，以及智能体最后交回的报告。记录表的第三栏是工具带回内容的摘要。
@@ -116,7 +116,7 @@ ast-grep run --lang python --pattern 'row["return_bps"]' export_bug.py
 答案按#chapref(<boundaries>)表中“要做的事”一栏归类：
 
 + 只让它查看，提出一个方案：`plan`，或者 Codex 的 `read-only`。项目里的文件保持原样；允许它查看哪些数据，仍按#chapref(<boundaries>, link: false)的边界来确定。
-+ 在自己的工作副本中修改代码：`acceptEdits`，或者 Codex 的 `workspace-write` 加 `on-request`；修改文件无须询问。`acceptEdits` 下，在工作目录内运行常见的文件命令（包括 `rm`），或者用重定向把输出写进工作目录里的文件，也不询问。所以开始之前先提交：被 `rm` 删掉的文件中尚未提交的改动，以及未跟踪的文件，Git 都找不回来。哪些命令算常见的文件命令，见#chapref(<boundaries>, link: false)的试验。只读命令照常不询问，其余命令，宿主运行前仍会询问。
++ 在自己的工作副本中修改代码：`acceptEdits`，或者 Codex 的 `workspace-write` 加 `on-request`；修改文件无须询问。`acceptEdits` 下，在工作目录内运行常见的文件命令（包括 `rm`），或者用重定向把输出写进工作目录里的文件，也不询问。所以开始之前先提交：被 `rm` 删掉的文件中尚未暂存的改动，以及未跟踪的文件，Git 都找不回来。哪些命令算常见的文件命令，见#chapref(<boundaries>, link: false)的试验。只读命令照常不询问，其余命令，宿主运行前仍会询问。
 + 涉及共享的仓库和数据：`default`，或者 Codex 的 `read-only`，需要写入的那一步由人来做；并且不同意它“顺手修掉”的提议。核对要运行查询、比对结果；`default` 下，修改文件、运行只读命令以外的命令，都逐条先询问，改动原件的每一步都要经过人。核对和修改是两件事，修改需要另外获得批准；这里应让它把有问题的行列出来，而不改动原件。
 + 无人值守的定时任务：`dontAsk` 加一张放行清单，放行所需的查询和向一个指定目录写文件（写法见#chapref(<boundaries>, link: false)的 `Edit(路径)`）；宿主视为只读的命令，即使不在清单上也照常运行。再加上花费上限（`--max-budget-usd`，只在 `-p` 下有效，见#chapref(<quickref>)）。或者用 Codex 的 `never` 加 `workspace-write`：可写的是启动时的工作目录和 `/tmp`（见#chapref(<boundaries>, link: false)），所以在一个只放这项任务的目录里启动；这两项只管可写的范围和是否询问，不管花费。
 

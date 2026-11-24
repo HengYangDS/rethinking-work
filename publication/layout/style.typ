@@ -104,8 +104,10 @@
   // The rule reads no context: spacing inside `context` survives the edge of a paragraph, and a line may not break
   // between it and its neighbours. Curly marks in code are Chinese text in comments and take the same cells.
   show regex("[，。：；、？！（）]*[“”‘’][，。：；、？！（）“”‘’]*"): it => quote-run(it.text)
-  // A number keeps the date or time unit after it on its line: 2026 年 11 月, 45 秒.
+  // A number keeps the date or time unit after it on its line: 2026 年 11 月, 45 秒. A number in Chinese numerals is
+  // not broken between its characters, as one in Arabic numerals is not: 十一, 四百四十.
   show regex("\d [年月日时分秒]"): it => it.text.replace(" ", "\u{a0}")
+  show regex("[零一二两三四五六七八九十百千万亿]{2,}"): box
   // A paragraph does not end with a character alone on its last line: the line breaker weighs such
   // a runt heavily against the other breaks it can choose.
   set text(costs: (runt: 200%))
