@@ -24,6 +24,11 @@ See [proposal.md](proposal.md). The faults and their pages are in the 0.2.5 qual
 - A practice card holds its list and is a flow-block; its title's step is not counted as a line when deciding to set
   it whole.
 - A code block's split is measured in printed lines from the PDF text, since an output line may wrap.
+- The lead-in is wrapped in a block to make it sticky, and Typst spaces a block after a paragraph by the block's own
+  space above, and two blocks by the larger of their spaces. So a state records what was set last (a paragraph, a
+  lead-in, or another block, recorded at a block's start and end): a lead-in takes the paragraph step above it only
+  after a paragraph or a lead-in, and nothing below it; a paragraph after a lead-in takes the paragraph step. Each
+  transition then keeps the step it has without the rule.
 
 ## Risks / Trade-offs
 

@@ -93,7 +93,7 @@ duckdb -no-agent -csv none.duckdb -c "show tables"
 == 技能
 技能是一个目录，其中有一份 `SKILL.md`，必要时再附 `references/` 和 `scripts/`。`SKILL.md` 的文件头写明 `name` 和 `description` 两项即可，本章“上手”中的那一份就只写了这两项。
 
-按技能的设计，模型通常只看文件头中的名称和描述，遇到相符的任务才读入正文，`references/` 里的材料用到时才读，因此不相关的做法不占用上下文。描述决定它会不会被选中，正文决定选中之后是否有用。
+按技能的设计，模型通常只看到文件头中的名称和描述，遇到相符的任务才读入正文，`references/` 里的材料用到时才读，因此不相关的做法不占用上下文。描述决定它会不会被选中，正文决定选中之后是否有用。
 
 技能多了，需要在一处统一管理。skills-manager 维护一个技能库，库在 `~/.skills-manager/` 下，再按需部署给各个宿主。部署，就是在宿主的用户级技能目录（比如 `~/.claude/skills/`）中建立一个指向库中那份技能的符号链接。这个目录属于宿主的用户级配置，不属于某个项目，所以部署之后，该用户在这个宿主中开启的每个会话都能用到这份技能；本章“上手”则把技能放进项目的 `.claude/skills/`，供在那个目录中开启的会话使用。初次试用时，把 `HOME` 指向一个临时目录，这样实际使用的技能库和宿主配置都不受影响。下面用 skills-manager 的命令行程序 `skills-manager-cli`，把练习包里的那份技能安装到库中，再部署给 Claude Code。第一行等号后面的路径，按#chapref(<first>)换成“实战练习”目录的位置：
 
@@ -240,13 +240,13 @@ EOF
 08:41:10 exit=0
 ```
 
-第一次和第三次修改后，它只收到一句普通的确认：文件已更新。第二次修改后，它另外收到一条标为 `PostToolUse:Edit hook blocking error` 的报错，其中包含 `Ran 2 tests` 和 `FAILED (failures=1)`。这两次的报告都写明这条反馈来自钩子，不是它自己运行测试得到的。其中一次还注明，“改回之后测试重新通过”是根据没有再收到报错推断的，钩子并没有明确输出“通过”。
+第一次和第三次修改后，它只收到一句普通的确认：文件已更新。第二次修改后，它另外收到一条标为 `PostToolUse:Edit hook blocking error` 的报错，其中包含 `Ran 2 tests` 和 `FAILED (failures=1)`。这两次运行的报告都写明这条反馈来自钩子，不是它自己运行测试得到的。其中一次还注明，“改回之后测试重新通过”是根据没有再收到报错推断的，钩子并没有明确输出“通过”。
 
-#chapref(<case-records>)所记的按书中步骤运行中，另有四次是同一练习在终端里交互进行：其中三次的报告同样写明反馈来自钩子，另一次的报告却说钩子似乎没有触发，而那条报错就在它收到的内容里。所以报告的说法仍须对照钩子日志核实。
+#chapref(<case-records>)所记的按书中步骤运行中，另有四次是同一练习在终端里交互进行的：其中三次的报告同样写明反馈来自钩子，另一次的报告却说钩子似乎没有触发，而那条报错就在它收到的内容里。所以报告的说法仍须对照钩子日志核实。
 
 技能是下面这一份，写下了“检查一处改动”的做法：
 
-```
+```md
 ---
 name: check-export
 description: Use when asked to check, verify or review a change to export.py in this directory.
@@ -306,7 +306,9 @@ CRITICAL	INJECTION ATTACK detected by YARA	scripts/report.sh	2
 HIGH	Sensitive source reaches a network sink	scripts/report.sh	2
 ```
 
-两项新的发现都指向脚本的第 2 行：一项来自 YARA 规则，即按写法特征匹配的规则，它命中了这一行，标题以 `INJECTION ATTACK` 开头；另一项是扫描器追踪到敏感数据流向了网络。删去脚本，把同类的意图写成 `SKILL.md` 里的一步：
+两项新的发现都指向脚本的第 2 行：一项来自 YARA 规则，即按写法特征匹配的规则，它命中了这一行，标题以 `INJECTION ATTACK` 开头；另一项是扫描器追踪到敏感数据流向了网络。
+
+删去脚本，把同类的意图写成 `SKILL.md` 里的一步：
 
 ```sh
 rm -r check-export/scripts

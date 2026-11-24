@@ -40,6 +40,9 @@
   else if c.has("child") { plain-text(c.child) }
   else { "" }
 }
+// What was set last in the text: a paragraph, a lead-in (below), or another block, which every other
+// block records after itself.
+#let last-set = state("last-set", "block")
 #let publication-design(body) = {
   set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
   // Chinese inside commands and outputs takes the sans face, not the serif body face. A symbol that
@@ -75,13 +78,32 @@
   show raw.where(block: true): it => {
     show: codly.set_(breakable: it.lines.len() > whole-lines)
     it
+    last-set.update("block")
   }
   // A paragraph that ends with a colon introduces what follows it: a command, a box, a table or a
   // list. It stays with that block, so that it never ends a page whose next page holds what it
-  // introduces. Its mark lets layout checks bound the room it leaves when it moves.
-  show par: it => if plain-text(it.body).trim().ends-with("：") {
-    context block(sticky: true, above: par.spacing, below: par.spacing, [#metadata(none)<lead-in>#it])
-  } else { it }
+  // introduces. Set after a paragraph, it takes the paragraph step above it; after any other block it
+  // takes none, so that block's own step below applies, as it does for any paragraph; below it, the
+  // next block's own step applies. Its mark lets layout checks bound the room it leaves when it moves.
+  show par: it => context {
+    let before = last-set.get()
+    if plain-text(it.body).trim().ends-with("：") {
+      block(sticky: true, above: if before == "block" { 0pt } else { par.spacing }, below: 0pt,
+        [#metadata(none)<lead-in>#it])
+      last-set.update("lead-in")
+    } else {
+      // A paragraph after a lead-in takes the step a paragraph takes after a paragraph.
+      if before == "lead-in" { v(par.spacing) }
+      it
+      last-set.update("paragraph")
+    }
+  }
+  // A block records itself before what it holds as well as after, so that its own first paragraph
+  // is not read as following a lead-in.
+  show heading: it => { last-set.update("block"); it; last-set.update("block") }
+  show figure: it => { last-set.update("block"); it; last-set.update("block") }
+  show list: it => { last-set.update("block"); it; last-set.update("block") }
+  show enum: it => { last-set.update("block"); it; last-set.update("block") }
   show table.cell.where(y: 0): set text(font: "Noto Sans CJK SC", weight: "bold", size: 9pt)
   show figure.caption: set text(size: 8.5pt, fill: muted)
   body
@@ -95,9 +117,9 @@
   layout(size => {
     let whole = measure(width: size.width, block(..args, body)).height <= most
     // Zero-size marks at the start and end of the content let layout checks see where it splits.
-    [#block(breakable: not whole, ..args, [#metadata(none)<block-start>#body#metadata(none)<block-end>])#mark]
+    [#block(breakable: not whole, ..args, [#last-set.update("block")#metadata(none)<block-start>#body#metadata(none)<block-end>])#mark]
   }),
-)
+) + last-set.update("block")
 // A page the manuscript ends on purpose, as when an exercise asks for an answer before the reader
 // turns the page. The mark lets layout checks tell such a page from one left short.
 #let page-turn() = [#metadata(none)<page-turn>#pagebreak(weak: true)]
@@ -160,12 +182,13 @@
     #parbreak()
     #text(size: 11pt, fill: teal)[#lead]
   ]
+  last-set.update("block")
 }
 // Keep a chapter's closing lines with the paragraph before them, so that one
 // or two lines are not stranded on a page of their own.
 // The label lets layout checks find a chapter's closing block, whose lone paragraph Typst does not
 // report as a `par`.
-#let closing(body) = [#block(breakable: false, body) <closing-block>]
+#let closing(body) = [#block(breakable: false, [#last-set.update("block")#body]) <closing-block>#last-set.update("block")]
 // A practice card is read as one piece, like a sample box: its title and items stay on one page while
 // they are short, and a taller card continues on the next page with the declared least part on each.
 // The step under its title is not a line of the card, so a card of `whole-lines` lines and a title
@@ -184,9 +207,10 @@
 ]
 // Compact one-paragraph field reminders keep meaning without a framed callout.
 #let takeaway(title, body) = block(above: 2 * space, below: 2 * space)[
+  #last-set.update("block")
   #set par(first-line-indent: 0pt, justify: false, leading: body-line - body-edges, spacing: par-space)
   #text(weight: "bold", title) #h(.5em) #body
-]
+] + last-set.update("block")
 #let matrix(columns: (1.05fr, 1.4fr, 1.55fr), ..args) = {
   set par(justify: false, first-line-indent: 0pt, leading: 4.5pt, spacing: 2 * space)
   set text(size: 9.5pt)
