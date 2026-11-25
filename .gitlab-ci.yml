@@ -1,7 +1,8 @@
 publication:macos:review:
   stage: verify
   tags:
-    - ci-macos-arm64-review
+    - macos-latest
+    - review
   rules:
     - if: $ETHOS_OFFLINE_CANDIDATE
       when: never
@@ -26,7 +27,8 @@ publication:macos:review:
 publication:macos:protected:
   stage: verify
   tags:
-    - ci-macos-arm64-shell
+    - macos-latest
+    - protected
   rules:
     - if: $ETHOS_OFFLINE_CANDIDATE
       when: never
@@ -70,7 +72,8 @@ verify:macos:review:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_COMMIT_BRANCH =~ /^proposal\// && $CI_PIPELINE_SOURCE == "push")
   stage: verify
   tags:
-    - ci-macos-arm64-review
+    - macos-latest
+    - review
   timeout: 45 minutes
   interruptible: true
   variables:
@@ -97,7 +100,8 @@ verify:macos:protected:
     - if: $CI_COMMIT_REF_PROTECTED == "true" && ($CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG =~ /^v[^\/]*$/)
   stage: verify
   tags:
-    - ci-macos-arm64-shell
+    - macos-latest
+    - protected
   timeout: 45 minutes
   interruptible: true
   variables:

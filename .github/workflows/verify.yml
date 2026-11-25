@@ -1,6 +1,6 @@
 jobs:
   publication:
-    runs-on: macos-26
+    runs-on: macos-latest
     timeout-minutes: 20
     env:
       MISE_LOCKED: "1"
@@ -98,7 +98,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - macos-26
+          - macos-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:

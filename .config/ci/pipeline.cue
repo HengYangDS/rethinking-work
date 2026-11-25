@@ -54,8 +54,8 @@ supply: {
 	]])
 }
 
-// The job keeps every tool, font and package inside its own workspace, on the fixed macOS label the verification
-// jobs declare in `verification.toml`.
+// The job keeps every tool, font and package inside its own workspace, on the macOS label the verification jobs
+// declare in `verification.toml`.
 publicationJob: {
 	"runs-on":         _inputs.ci.github.runners[0]
 	"timeout-minutes": 20
@@ -122,11 +122,11 @@ gitlabPublication: {
 
 compiled: providers: gitlab: {
 	"publication:macos:review": gitlabPublication & {
-		tags: ["ci-macos-arm64-review"]
+		tags: _inputs.ci.gitlab.runners.macos.review_tags
 		rules: [{if: "$ETHOS_OFFLINE_CANDIDATE", when: "never"}, {if: "$CI_PIPELINE_SOURCE == \"merge_request_event\" || ($CI_COMMIT_BRANCH =~ /^proposal\\// && $CI_PIPELINE_SOURCE == \"push\")"}]
 	}
 	"publication:macos:protected": gitlabPublication & {
-		tags: ["ci-macos-arm64-shell"]
+		tags: _inputs.ci.gitlab.runners.macos.protected_tags
 		rules: [{if: "$ETHOS_OFFLINE_CANDIDATE", when: "never"}, {if: "$CI_COMMIT_REF_PROTECTED == \"true\" && ($CI_COMMIT_BRANCH == \"dev\" || $CI_COMMIT_BRANCH == \"main\" || $CI_COMMIT_TAG =~ /^v[^\\/]*$/)"}]
 	}
 }
