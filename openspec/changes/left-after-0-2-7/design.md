@@ -25,6 +25,11 @@ See [proposal.md](proposal.md). The decision to keep the transfer cases is in
   `reconcile.sql` take the later row and report the snapshot as wrong, and swapping them hides the difference; read
   from a CSV file, the pre-change export keeps `'0'` and drops `''`, the post-change one keeps both, and
   `test_export.py` still passes.
+- The merges keep every rule and scenario: "Host behaviour states its basis" joins "Behaviour claims grounded in runs";
+  "Printed commands survive copying" joins "Printed commands work as pasted", copying being the first half of pasting;
+  "Truthful publication acceptance" joins "Qualified edition", its proof scenario being "Reviewed text before
+  landing"'s; the four Chinese prose requirements become "Chinese prose", their particulars moved into scenarios to keep
+  the rule short. The misnamed "Typeset output keeps to its declared supply" is left for a later Change.
 
 ## Risks / Trade-offs
 
