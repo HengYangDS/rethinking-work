@@ -442,6 +442,11 @@ The PDF SHALL embed only the fonts that the layout declares, SHALL compile witho
 - **WHEN** a Latin word, a time or a command too long for the rest of a body line makes justification open the line's Chinese characters past the declared bound
 - **THEN** a check fails and names the page and the line.
 
+#### Scenario: The layout's measure changes
+
+- **WHEN** the layout declares a different type size or baseline
+- **THEN** the spacing checks follow the declaration without a change of their own.
+
 ### Requirement: Talent judged by a stated standard
 
 The manuscript SHALL state how a piece of work and a member's performance are judged: a work score for one piece, a tier for one period at the member's own grade, and the professional sequence of grades, joined by one chain of evidence. It SHALL state them in its own words, derived from the department's guidelines, so that a reader without those guidelines can apply them.
