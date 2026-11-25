@@ -1,11 +1,6 @@
 // Document-level style over the unchanged publisher package.
 #import "@preview/neat-book:0.1.0": codly
-#let ink = rgb("273B46")
-#let teal = rgb("273B46")
-#let muted = rgb("687B85")
-#let rule = rgb("DCE3E8")
-#let tint = rgb("F3F5F5")
-#let rust = rgb("82979F")
+#import "palette.typ": *
 #let body-size = 10.5pt
 // The text block holds a whole number of characters, so that a line of Chinese fills it without squeezing its
 // punctuation: W3C clreq takes a line length of whole characters as the ground for adjusting punctuation.
@@ -329,8 +324,10 @@
 }
 // A figure is set where it is called, after the text that introduces it and inside its own section: a
 // float would stand above the section's heading at the top of a page, or below the next section's at
-// the foot.
-#let reader-figure(name, caption, description, width: 100%) = figure(placement: none,
-  image("/build/artifacts/diagrams/" + name + ".png", width: width, alt: description.text),
-  caption: caption, kind: image, supplement: [图],
-)
+// the foot. It is drawn from `diagrams/<name>.typ` in this compile (figures.typ declares its look), and
+// its description is the figure's alternative text.
+// It stands a paragraph step clear of the text above and below.
+#let reader-figure(name, caption, description) = block(above: par-space, below: par-space, figure(placement: none,
+  { import "/diagrams/" + name + ".typ": body; [#metadata(name)<diagram-source>]; body },
+  caption: caption, kind: image, supplement: [图], alt: description.text,
+))

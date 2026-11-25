@@ -5,9 +5,8 @@ navigation and printed commands, and [test_layout.py](test_layout.py) how it is
 set: lines, paragraphs, tables, sample boxes and code. Both use the installed
 Typst reader on the actual document through [edition.py](edition.py), which
 builds it once per test process. Run them with `just --justfile publication/justfile test` from the
-repository root. That task renders all declared figures before checking the
-document, including in a checkout containing only source. It requires the
-publication's headless browser; see [supply](../publication/README.md#supply-and-reproduction).
+repository root. The figures are drawn in that same build, so a checkout
+containing only source needs no earlier build.
 The proof runs them through the gate that
 [the proof profile](../.ethos/profile.toml) declares; see also
 [standard library only](#standard-library-only).
@@ -20,9 +19,9 @@ evaluate fails every check, with Typst's message pointing at it.
 
 The checks compare visible attribution, PDF Info and XMP to contextual edition
 metadata, including title, subject, author, keywords, language and date.
-They require native manuscript content,
-resolve the complete declared diagram set with alternative descriptions, and
-reject private host paths in portable inputs. Navigation checks require the
+They require native manuscript content
+and every diagram in `diagrams/` drawn once, by a figure with an alternative
+text, and reject private host paths in portable inputs. Navigation checks require the
 contents to list every chapter, practice module and appendix of `book/manuscript.typ`, the epilogue and the afterword in
 reading order, each layer's opening chapter to carry its number, the practice
 chapters to name exercise cases that exist, the hook settings and skill printed in the
@@ -50,25 +49,12 @@ different scopes; follow [edition acceptance](../docs/publication-acceptance.md)
 The [exercise regression](../exercises/README.md#export-regression) deliberately
 includes a failing old-function control and is not silently changed to pass.
 
-## Native raster replay
-
-[test_diagram_replay.py](test_diagram_replay.py) runs the actual Just `diagram`
-task in a temporary fixture using the real headless browser. Two renders must
-equal a same-input software-rasterized reference produced through Mermaid's
-supported launch configuration. The test checks PNG identity and dimensions,
-not source strings or a fixed historical image digest. Each subprocess has a
-60-second deadline; the fixture is removed even on assertion failure.
-
-This guards the task's raster selection and observed repeated bytes on the
-current host. It does not prove cross-machine rendering or replaces visual review of
-a successor edition; no personal browser profile or reader PDF is changed.
-
 ## Companion contracts
 
 [test_exercises.py](test_exercises.py) runs the documented synthetic exercises
 through existing DuckDB, Python 3.12, ast-grep and oasdiff installations. Run
 `just --justfile publication/justfile exercises` for this subset without a PDF
-build or browser. The normal `test` and `check` tasks discover these checks too.
+build. The normal `test` and `check` tasks discover these checks too.
 Missing executors fail the checks; the task does not install or skip them.
 
 The checks compare complete CSV headers, rows, NULL fields and ordering; require

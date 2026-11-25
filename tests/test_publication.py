@@ -174,14 +174,14 @@ class PublicationInputs(edition.Edition):
         self.assertEqual(kept, [], "pages that register a scheduled job which nothing removes")
 
     def test_declared_diagrams_resolve(self):
-        sources = {path.stem for path in (ROOT / "diagrams").glob("*.mmd")}
+        # Every diagram in `diagrams/` is drawn once, by a figure with an alternative text.
+        sources = {path.stem for path in (ROOT / "diagrams").glob("*.typ")}
         figures = self.fact("figures")
-        rendered = [Path(item["source"]).stem for item in figures]
-        self.assertEqual(len(rendered), len(set(rendered)))
-        self.assertEqual(set(rendered), sources)
+        drawn = [item["source"] for item in figures]
+        self.assertEqual(len(drawn), len(set(drawn)))
+        self.assertEqual(set(drawn), sources)
         for item in figures:
             self.assertTrue(item["alt"], item["source"])
-            self.assertTrue((ROOT / item["source"].lstrip("/")).is_file())
 
     def test_sources_and_limits_are_stated_once_in_the_back_matter(self):
         back = self.fact("case records page")

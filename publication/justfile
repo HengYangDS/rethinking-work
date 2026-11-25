@@ -15,23 +15,12 @@ edition_inputs := ```
     fi
 ```
 
-# The headless shell that the locked Mermaid CLI expects, declared once here; `ci-supply` installs
-# this build in Puppeteer's own cache layout and checks it against the supply manifest.
-# A CI runner's launch context can stop Google Chrome at start.
-headless_shell_version := "156.0.8078.47"
-headless_shell := home_directory() / ".cache/puppeteer/chrome-headless-shell/mac_arm-" + headless_shell_version + "/chrome-headless-shell-mac-arm64/chrome-headless-shell"
-
-# Mermaid drives this browser in every recipe, whatever shell or tool started `just`: the headless
-# shell where installed, otherwise Google Chrome. A caller may name another one.
-export PUPPETEER_EXECUTABLE_PATH := env("PUPPETEER_EXECUTABLE_PATH", if path_exists(headless_shell) == "true" { headless_shell } else { "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" })
-
 default:
     @just --justfile publication/justfile --list
 
 # Inspect existing supply without installing or changing its owner.
 bootstrap: pdf-tools-check
     typst --version
-    mmdc --version
     just --version
     prettier --version
     python3.12 --version
@@ -46,16 +35,6 @@ pdf-tool +arguments: _pdf-tools-installed
     env -u HOMEBREW_BUNDLE_SERVICES -u HOMEBREW_BUNDLE_CHECK HOMEBREW_NO_AUTO_UPDATE=1 brew bundle exec --file publication/brewfile -- "$@"
 
 pdf-tools-check: (pdf-tool "pdfinfo" "-v") (pdf-tool "pdftotext" "-v")
-
-# Render one editable figure through the installed Mermaid CLI.
-diagram name format="png":
-    @test -x "$PUPPETEER_EXECUTABLE_PATH" || { echo "No browser for Mermaid at $PUPPETEER_EXECUTABLE_PATH: run ci-supply for the headless shell {{headless_shell_version}}, or set PUPPETEER_EXECUTABLE_PATH." >&2; exit 1; }
-    mkdir -p build/artifacts/diagrams
-    mmdc --input diagrams/{{name}}.mmd --output build/artifacts/diagrams/{{name}}.{{format}} --configFile publication/mermaid.json --scale 2 --backgroundColor white --puppeteerConfigFile publication/puppeteer.json || { echo "Diagram {{name}} failed to render." >&2; exit 1; }
-
-# The renders are independent; Just runs them at once, and a failed one names itself.
-[parallel]
-diagrams: (diagram "collaboration") (diagram "context") (diagram "memory") (diagram "reconcile") (diagram "work-chain") (diagram "work-loop")
 
 # Build only; this command grants no editorial approval or publication.
 pdf:
@@ -75,23 +54,22 @@ pdf-isolated supply: (typst-input-check supply)
     mkdir -p build/artifacts/pdf-isolated
     "{{supply}}/bin/typst" compile --root . --ignore-system-fonts --font-path "{{supply}}/fonts" --package-path "{{supply}}/packages" --package-cache-path "{{supply}}/packages" --deps build/artifacts/pdf-isolated/inputs.json book/main.typ build/artifacts/pdf-isolated/rethinking-work.pdf
 
-build: diagrams pdf
+build: pdf
 
 # Native per-page previews used by visual review.
 render:
     mkdir -p build/artifacts/pages
     typst compile --root . --format png --ppi 144 book/main.typ build/artifacts/pages/page-{0p}.png
 
-# Tests consume freshly rendered figures, including in a source-only checkout.
-test: diagrams pdf-tools-check
+test: pdf-tools-check
     python3.12 -B -m unittest discover -s tests -v
 
 # The same unittest cases, with native same-attempt test and subprocess coverage reports.
-test-proof output: diagrams pdf-tools-check
+test-proof output: pdf-tools-check
     mkdir -p "{{output}}"
     env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python python3.12 python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests --junitxml="{{output}}/tests.xml" --report-log="{{output}}/pytest.jsonl" --cov --cov-config .config/checks/coverage/coverage.toml --cov-report="xml:{{output}}/coverage.xml"
 
-# Run only the synthetic companion contracts; no PDF or browser is required.
+# Run only the synthetic companion contracts; no PDF is required.
 exercises:
     python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
 
@@ -154,7 +132,7 @@ ci-artifacts: build edition-archive
 ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) ci-artifacts
 
 # Present supply that matches the manifests is kept; only missing or changed supply is fetched.
-# Supply a CI runner's account with fonts, Typst packages, headless shell, tests and PDF tools.
+# Supply a CI runner's account with fonts, Typst packages, tests and PDF tools.
 [script]
 ci-supply:
     #!/usr/bin/env bash
@@ -187,7 +165,7 @@ ci-supply:
     if (cd "$cache" 2>/dev/null && shasum --algorithm 256 --check --quiet --status "$manifests/typst-packages.sha256"); then
         echo "Typst packages: present"
     else
-        for package in algorithmic/1.0.7 codly/2.0.0 codly-languages/0.1.10 elembic/1.1.1 neat-book/0.1.0 octique/0.1.1 showybox/2.0.4 theorion/0.6.0; do
+        for package in algorithmic/1.0.7 cetz/0.5.3 codly/2.0.0 codly-languages/0.1.10 elembic/1.1.1 fletcher/0.6.0 neat-book/0.1.0 octique/0.1.1 showybox/2.0.4 theorion/0.6.0; do
             archive="$work/${package/\//-}.tar.gz"
             curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output "$archive" "https://packages.typst.org/preview/${package/\//-}.tar.gz"
             rm -rf "$cache/packages/preview/$package"
@@ -196,19 +174,6 @@ ci-supply:
         done
         (cd "$cache" && shasum --algorithm 256 --check --quiet "$manifests/typst-packages.sha256")
         echo "Typst packages: installed"
-    fi
-    shell="{{headless_shell}}"
-    if [ -x "$shell" ] && [ "$("$shell" --version)" = "Google Chrome for Testing {{headless_shell_version}}" ]; then
-        echo "Headless shell: present"
-    else
-        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output build/runtime/ci/downloads/chrome-headless-shell-mac-arm64.zip https://storage.googleapis.com/chrome-for-testing-public/{{headless_shell_version}}/mac-arm64/chrome-headless-shell-mac-arm64.zip
-        shasum --algorithm 256 --check publication/supply/ci-chrome-headless-shell.sha256
-        target="${shell%/chrome-headless-shell-mac-arm64/chrome-headless-shell}"
-        rm -rf "$target"
-        mkdir -p "$target"
-        unzip -q build/runtime/ci/downloads/chrome-headless-shell-mac-arm64.zip -d "$target"
-        "$shell" --version
-        echo "Headless shell: installed"
     fi
     uv sync --locked --no-python-downloads --python python3.12
     if env -u HOMEBREW_BUNDLE_CHECK brew bundle check --file publication/brewfile --no-upgrade --quiet; then

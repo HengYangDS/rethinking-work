@@ -33,8 +33,8 @@ publication inputs.
 
 ## Source and output boundaries
 
-The dependency path is `metadata + style + ordered manuscript + rendered
-diagram inputs -> book/main.typ -> candidate PDF -> qualification -> reader
+The dependency path is `metadata + style + ordered manuscript + diagram
+sources -> book/main.typ -> candidate PDF -> qualification -> reader
 delivery`. Exercises are companion source, not a second copy of the book.
 Contributor guides explain this path; the active Change alone tracks progress.
 Each `exercises/cases/<case>/` keeps one case’s inputs, executable example and
@@ -46,7 +46,7 @@ serve reusable work materials and transfer practice respectively.
 | `book/`, `diagrams/`, `exercises/`   | Authored teaching and its editable inputs                      | Source history in Git                                         |
 | `publication/`, `tests/`, `.config/` | Presentation, native tasks, checks and supply declaration      | Source history in Git                                         |
 | `docs/`, `AGENTS.md`, `openspec/`    | Contributor navigation, agent entry and official change intent | Their existing native owners                                  |
-| `build/artifacts/`                   | Candidate PDF, generated figures and page previews             | Rebuildable; preserve edition-bound bytes when required       |
+| `build/artifacts/`                   | Candidate PDF, edition archive and page previews               | Rebuildable; preserve edition-bound bytes when required       |
 | `build/evidence/`                    | Exact-input checks, review and failure receipts                | Retain through their named consumers; not a permanent archive |
 | `build/runtime/`                     | Tool caches and bounded test work                              | Release only known owned residue after its consumers finish   |
 
@@ -60,8 +60,8 @@ source tree when the native task interface and topic owners already suffice.
 
 Use the existing installed tools declared in
 [publication/supply/toolchain.json](publication/supply/toolchain.json). The build requires
-Typst's pinned publisher packages, the declared fonts and a headless browser for
-Mermaid. See [supply and reproduction](publication/README.md#supply-and-reproduction)
+the pinned Typst packages and the declared fonts; the figures are drawn in the
+same compile. See [supply and reproduction](publication/README.md#supply-and-reproduction)
 before running it on a new machine; these commands do not install tools.
 
 ```sh
@@ -70,10 +70,6 @@ just --justfile publication/justfile build
 just --justfile publication/justfile check
 just --justfile publication/justfile render
 ```
-
-On a machine without Puppeteer's default browser, select an existing supported
-browser executable through `PUPPETEER_EXECUTABLE_PATH` before `build`. Do not
-add a personal browser profile or disable the browser sandbox.
 
 The candidate is written to `build/artifacts/pdf/rethinking-work.pdf`; page
 previews go to `build/artifacts/pages/`. These are generated, ignored outputs.

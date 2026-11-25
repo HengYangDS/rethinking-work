@@ -12,9 +12,9 @@ import (
 artifactDays: 14
 
 supply: {
-	tools: ["node", "python", "just", "npm:prettier", "duckdb", "ast-grep", "github:oasdiff/oasdiff", "cue", "typst", "npm:@mermaid-js/mermaid-cli"]
+	tools: ["node", "python", "just", "npm:prettier", "duckdb", "ast-grep", "github:oasdiff/oasdiff", "cue", "typst"]
 	miseVersion: _inputs.ci.supply.mise_version
-	packages: ["algorithmic/1.0.7", "codly/2.0.0", "codly-languages/0.1.10", "elembic/1.1.1", "neat-book/0.1.0", "octique/0.1.1", "showybox/2.0.4", "theorion/0.6.0"]
+	packages: ["algorithmic/1.0.7", "cetz/0.5.3", "codly/2.0.0", "codly-languages/0.1.10", "elembic/1.1.1", "fletcher/0.6.0", "neat-book/0.1.0", "octique/0.1.1", "showybox/2.0.4", "theorion/0.6.0"]
 	bootstrap: [
 		"mkdir -p build/runtime/ci/bootstrap",
 		"curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v\(miseVersion)/mise-v\(miseVersion)-macos-arm64.tar.gz",
@@ -24,7 +24,7 @@ supply: {
 	]
 	build: list.Concat([[
 		"build/runtime/ci/bootstrap/mise install \(strings.Join(tools, " "))",
-		"mkdir -p build/runtime/ci/downloads build/runtime/ci/typst/fonts \"$HOME/Library/Fonts\"",
+		"mkdir -p build/runtime/ci/downloads build/runtime/ci/typst/fonts",
 		"curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/downloads/noto.zip https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip",
 		"shasum --algorithm 256 --check publication/supply/ci-noto.sha256",
 		"unzip -q build/runtime/ci/downloads/noto.zip -d build/runtime/ci/downloads/noto",
@@ -32,7 +32,6 @@ supply: {
 		for face in ["Regular", "Bold", "Black"]
 		for command in [
 			"cp build/runtime/ci/downloads/noto/NotoSansCJKsc-\(face).otf build/runtime/ci/typst/fonts/",
-			"cp build/runtime/ci/typst/fonts/NotoSansCJKsc-\(face).otf \"$HOME/Library/Fonts/rethinking-NotoSansCJKsc-\(face).otf\"",
 		] {command},
 	], [
 		for font in ["Supplemental/Songti.ttc", "Supplemental/Charter.ttc", "Apple Color Emoji.ttc"]
@@ -48,7 +47,6 @@ supply: {
 			"tar -xzf build/runtime/ci/downloads/\(strings.Replace(package, "/", "-", -1)).tar.gz -C build/runtime/ci/typst/packages/preview/\(package)",
 		] {command},
 	], [
-		"\"$PUPPETEER_EXECUTABLE_PATH\" --version",
 		"shasum --algorithm 256 build/runtime/ci/typst/fonts/*",
 		"build/runtime/ci/bootstrap/mise exec \(strings.Join(tools, " ")) -- just --justfile publication/justfile ci-publication",
 	]])
@@ -68,7 +66,6 @@ publicationJob: {
 		MISE_STATE_DIR:            "${{ github.workspace }}/build/runtime/ci/mise/state"
 		CHECKOUT_URL:              "${{ github.server_url }}/${{ github.repository }}.git"
 		CHECKOUT_SHA:              "${{ github.sha }}"
-		PUPPETEER_EXECUTABLE_PATH: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 		TYPST_IGNORE_SYSTEM_FONTS: "true"
 		TYPST_FONT_PATHS:          "${{ github.workspace }}/build/runtime/ci/typst/fonts"
 		TYPST_PACKAGE_PATH:        "${{ github.workspace }}/build/runtime/ci/typst/packages"
@@ -102,7 +99,7 @@ publicationJob: {
 compiled: providers: github: jobs: publication: publicationJob
 
 // The private peer builds the same two artifacts on the owner's local macOS runners, after the
-// supply task has given the runner account its fonts, packages and headless shell. Its rules
+// supply task has given the runner account its fonts and packages. Its rules
 // follow the generated verification jobs of the same trust.
 gitlabPublication: {
 	stage:         "verify"

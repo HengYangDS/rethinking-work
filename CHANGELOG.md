@@ -16,6 +16,12 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- The six figures are drawn in Typst with fletcher, in the book's own compile:
+  vector, in the book's sans face and the layout's colours, their text
+  selectable, each with its alternative text. Mermaid CLI, Puppeteer and the
+  Chrome headless shell are gone from the supply, the tasks, CI and the tests,
+  as the owner chose; fletcher and CeTZ join the locked Typst packages. The
+  colophon names the new tool.
 - Windows is no longer supported, as the owner decided for every repository ETHOS
   manages: the Mise supply pins ETHOS for macOS and Linux only, and the archive
   promises its reader macOS or Linux.

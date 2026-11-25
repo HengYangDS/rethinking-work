@@ -1,7 +1,8 @@
 # Third-party notices
 
-This publication imports `@preview/neat-book:0.1.0` without copying or patching
-its source. The author of this manuscript is separate from the package authors.
+This publication imports `@preview/neat-book:0.1.0` and, for its figures,
+`@preview/fletcher:0.6.0`, without copying or patching their source. The author
+of this manuscript is separate from the package authors.
 Neither package use nor a reference implies an endorsement.
 
 ## Neat Book
@@ -41,6 +42,19 @@ listed icon or asset.
 The [complete attributed publisher notice](neat-book-notice.md) is retained
 verbatim in its own document.
 
+## Figure packages
+
+The figures are drawn with fletcher, imported by version from Typst Universe;
+fletcher imports CeTZ. Neither package's source is copied into this repository,
+and each keeps its own license, which the repository's MIT License does not
+replace. Each complete package tree, its `LICENSE` file included, is bound by
+[typst-packages.sha256](../supply/typst-packages.sha256).
+
+| Package                   | License           | Source                                         |
+| ------------------------- | ----------------- | ---------------------------------------------- |
+| fletcher 0.6.0            | MIT               | <https://github.com/fletcher-package/fletcher> |
+| CeTZ 0.5.3 (via fletcher) | LGPL-3.0-or-later | <https://github.com/cetz-package/cetz>         |
+
 ## Authored publication and local executors
 
 The authored manuscript, diagrams and teaching fixtures are licensed under the
@@ -49,9 +63,9 @@ not replace third-party licenses. The publisher notice above describes Neat
 Book's own examples and font choices; this publication's font supply is
 described below.
 
-Typst, Mermaid CLI, Just, Prettier, Python and the selected browser remain
-separately installed tools, not vendored source. Preserve their licenses and
-any required notices if a later authorized distribution includes their code.
+Typst, Just, Prettier and Python remain separately installed tools, not
+vendored source. Preserve their licenses and any required notices if a later
+authorized distribution includes their code.
 Their dependency audit is not a claim that every produced PDF or input is safe.
 
 ## Authored publication fonts

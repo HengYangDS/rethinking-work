@@ -1,5 +1,5 @@
 [tasks.build]
-description = "Render declared diagrams and build the candidate PDF"
+description = "Build the candidate PDF, figures drawn in the same compile"
 run = "just --justfile publication/justfile build"
 
 [tasks.check]
@@ -22,7 +22,6 @@ node = "26.13.1"
 python = "3.12.16"
 typst = "0.15.1"
 just = "1.59.0"
-"npm:@mermaid-js/mermaid-cli" = "12.2.0"
 "npm:prettier" = "3.10.1"
 duckdb = "2.0.0"
 ast-grep = "0.51.3"

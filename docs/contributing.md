@@ -16,8 +16,9 @@ search-and-replace or an additional publishing framework.
 
 An unclear argument belongs in its manuscript part. A repeated presentation
 defect belongs in `publication/layout/style.typ` or the document entrypoint. A wrong
-relationship belongs in the editable diagram and its nearby explanation. A
-teaching failure belongs in the case, fixture or instructions that produced it.
+relationship belongs in the editable diagram and its nearby explanation; the look
+shared by all figures belongs in `publication/layout/figures.typ`. A teaching
+failure belongs in the case, fixture or instructions that produced it.
 Title and author belong only in `book/metadata.typ`; the edition and its date come
 from git (`edition_inputs` in `publication/justfile`), never from a written date.
 
@@ -37,7 +38,7 @@ use, or a failed trial into a success story.
 | Change                              | Find the owner                                                             | Check the consumer                                        |
 | ----------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------- |
 | Improve a claim or case             | Root source map, `book/parts/README.md`, then its module and qualification | Full changed meaning and affected PDF pages               |
-| Correct a diagram relationship      | Manuscript caption, `diagrams/README.md`, then the `.mmd` input            | Rebuilt figure and its actual book page                   |
+| Correct a diagram relationship      | Manuscript caption, `diagrams/README.md`, then the `.typ` source           | The figure on its rebuilt book page                       |
 | Repair recurring page spacing       | `publication/layout/style.typ`, composed by `book/main.typ`                | Every page affected by the rule                           |
 | Change reading order or attribution | `book/manuscript.typ` or `book/metadata.typ`                               | Contents, bookmarks, visible attribution and PDF metadata |
 | Improve a practice task             | `exercises/README.md`, fixture and expected outcome                        | The stated command and both failing/valid controls        |
@@ -58,12 +59,11 @@ lesson merely to fill a documentation category.
    qualifications in the same change when their meaning is affected.
 4. For publication-input changes, run `just --justfile publication/justfile check`;
    it includes `prose-check`, the book's decided wording and punctuation.
-   Run `build` for changed diagrams and a candidate PDF; `check` rebuilds figures
-   before checking the document, while `pdf` alone consumes existing renders.
+   Run `build` for a candidate PDF; the figures are drawn from `diagrams/` in
+   the same compile, so no separate step renders them.
    For contributor-guide or task-only edits, run `format-check` and the current
    official specification/task validation; do not rebuild unchanged publication
-   inputs. Select the supported headless browser only when needed, as described
-   in [publication supply](../publication/README.md#supply-and-reproduction).
+   inputs.
 5. For a new rendered edition, run `render` and inspect every affected page,
    then qualify the complete candidate before delivery. Reuse bound evidence
    for an unchanged artifact. Follow [edition acceptance](publication-acceptance.md).
@@ -74,7 +74,7 @@ lesson merely to fill a documentation category.
 
 Hosted CI runs the full proof, the same one that integration requires. Run it
 locally through the host's admission, as the ETHOS guidance describes. For a
-quick check without PDF or browser supply, run
+quick check without the PDF supply, run
 `just --justfile publication/justfile exercises` for the synthetic exercise
 contracts and `format-check` for formatting. After editing `.config/ci/`, write
 the pipelines with `ethos lane project` (preview, then its printed apply) and
@@ -84,12 +84,12 @@ or configures forge merge protection.
 The public macOS pipeline also has a `publication` job that calls
 `ci-publication`. It installs the locked publication tools, verifies complete official
 Typst package trees, supplies checksum-bound Noto fonts and uses the Runner's
-licensed Apple fonts and existing Chrome. It then builds the PDF and the
+licensed Apple fonts. It then builds the PDF and the
 `.tgz` practice archive. This path does not install Poppler or replace the
 Documents edition; actual hosted artifacts still need independent readback.
 
 For an already-provisioned equivalent environment, set Typst's supported font
-and package paths and Mermaid's browser executable, then run
+and package paths, then run
 `just --justfile publication/justfile ci-publication /path/to/supply`.
 The supply directory contains `fonts/` and `packages/preview/` as described in
 [publication reproduction](../publication/README.md#hosted-publication-build).
@@ -115,7 +115,7 @@ suite; the parent tests verify both its failure and the corrected export.
 
 The original installed Prettier owns Markdown, JSON and YAML formatting with
 preserved prose wrapping. Its input list and exclusions live in the native
-Just task and `.config/checks/prettier/`. Typst, Mermaid and Python retain their
+Just task and `.config/checks/prettier/`. Typst and Python retain their
 native syntax; do not run a generic whitespace rewrite over them.
 
 Preserved exercises are complete originals during migration acceptance. Exclude

@@ -7,9 +7,8 @@ manuscript claims or a second edition identity.
   helpers, tables, notes and reader figures over the unchanged publisher package.
 - [justfile](justfile) exposes the executable build and check commands.
 - [brewfile](brewfile) declares the Homebrew-owned PDF inspection supply.
-- [mermaid.json](mermaid.json) defines the shared diagram rendering settings.
-- [puppeteer.json](puppeteer.json) selects software rasterization for the existing
-  headless diagram browser without changing its executable or sandbox.
+- [figures.typ](layout/figures.typ) declares the look of every figure drawn with
+  fletcher, and [palette.typ](layout/palette.typ) the colours it shares with the text.
 - [toolchain.json](supply/toolchain.json) records the selected supply and reproduction
   limits, rather than installing software.
 - [instrumented.typ](diagnostics/instrumented.typ) is a diagnostic entrypoint that exposes
@@ -31,33 +30,29 @@ rule. It does not add a publisher framework or modify the pinned package.
 
 Run from the repository root:
 
-| Task                                 | Effect                                                        |
-| ------------------------------------ | ------------------------------------------------------------- |
-| `bootstrap`                          | Print installed executor versions; install nothing            |
-| `pdf-tools-check`                    | Check declared, already-installed PDF inspection tools        |
-| `pdf-tool <command> [arguments]`     | Run PDF inspection in the declared Homebrew environment       |
-| `diagram name [format]` / `diagrams` | Rebuild one / all declared Mermaid figures                    |
-| `pdf`                                | Compile a candidate using already-rendered figures            |
-| `build`                              | Rebuild figures, then compile the candidate                   |
-| `render`                             | Render all pages for visual inspection                        |
-| `test`                               | Rebuild figures, then check publication and exercises         |
-| `exercises`                          | Check synthetic data, export, search and API contracts        |
-| `edition-archive`                    | Package the PDF and tracked exercises as one versioned `.tgz` |
-| `format-check` / `format`            | Check / apply Prettier to declared authored formats           |
-| `check`                              | Run formatting, publication and exercise checks               |
-| `ci-supply`                          | Supply a CI account with fonts, packages, tests and PDF tools |
-| `typst-package-check supply`         | Check the complete official publisher package trees           |
-| `ci-publication [supply]`            | Check package inputs, build the PDF and edition archive       |
+| Task                             | Effect                                                        |
+| -------------------------------- | ------------------------------------------------------------- |
+| `bootstrap`                      | Print installed executor versions; install nothing            |
+| `pdf-tools-check`                | Check declared, already-installed PDF inspection tools        |
+| `pdf-tool <command> [arguments]` | Run PDF inspection in the declared Homebrew environment       |
+| `pdf`                            | Compile a candidate, figures included                         |
+| `build`                          | Compile the candidate, as `pdf` does                          |
+| `render`                         | Render all pages for visual inspection                        |
+| `test`                           | Check publication and exercises                               |
+| `exercises`                      | Check synthetic data, export, search and API contracts        |
+| `edition-archive`                | Package the PDF and tracked exercises as one versioned `.tgz` |
+| `format-check` / `format`        | Check / apply Prettier to declared authored formats           |
+| `check`                          | Run formatting, publication and exercise checks               |
+| `ci-supply`                      | Supply a CI account with fonts, packages, tests and PDF tools |
+| `typst-package-check supply`     | Check the complete official Typst package trees               |
+| `ci-publication [supply]`        | Check package inputs, build the PDF and edition archive       |
 
 The invocation is `just --justfile publication/justfile <task>`.
-`diagram name` produces PNG by default; `diagram name svg` renders the same
-source and configuration as SVG for relationship and arrow-direction checks.
-`pdf` intentionally does not prove that images are freshly rebuilt; use `build`
-when figure sources change. Rendering does not inspect its own output.
-`test` and `check` rebuild the declared figures, so neither depends on images
-left by an earlier build. They require the same headless browser as `build`.
+The figures are drawn from `diagrams/` in the same compile as the text, so every
+task that compiles the book draws them from their current sources. Rendering
+does not inspect its own output.
 `exercises` runs only the companion checks through existing DuckDB, Python 3.12,
-ast-grep and oasdiff; it does not render figures or compile the PDF. See the
+ast-grep and oasdiff; it does not compile the PDF. See the
 [exercise instructions](../exercises/README.md#check-all-runnable-examples).
 
 ## Source CI
@@ -83,15 +78,8 @@ account's font folder and the Typst packages into its package cache, checked aga
 [typst-inputs.sha256](supply/typst-inputs.sha256) and
 [typst-packages.sha256](supply/typst-packages.sha256). It synchronizes the
 locked test environment with uv and checks the PDF tools of [brewfile](brewfile),
-installing them only where the account owns Homebrew. It also installs Chrome
-for Testing's headless shell of `headless_shell_version` in the task file, the
-build the locked Mermaid CLI expects, checked against
-[ci-chrome-headless-shell.sha256](supply/ci-chrome-headless-shell.sha256), into
-Puppeteer's own cache layout. Present supply that matches is kept. The task file
-states Mermaid's browser once, so a proof does not depend on the shell that
-starts it: the headless shell where it is installed, otherwise Google Chrome at
-its standard path. On the local runners Google Chrome stopped at start under the
-runner's launch context, while the headless shell runs.
+installing them only where the account owns Homebrew. Present supply that
+matches is kept.
 
 Configuration and fixtures are trusted source inputs, not credentials or
 business data. CUE and oasdiff retain disclosed unresolved Go advisories; DuckDB
@@ -191,21 +179,18 @@ on the project's macOS runners with the Mise those runners carry.
 
 The job fetches the official Noto Sans CJK SC archive, verifies
 [ci-noto.sha256](supply/ci-noto.sha256), and makes its Regular, Bold and Black
-faces available to Typst and the disposable Runner's browser. Songti SC,
-Charter and Apple Color Emoji remain native Apple-system inputs, referenced
-only inside the licensed macOS job. No standalone Apple font is included in
-the outputs. The exact browser version and font hashes are recorded in the
-job log; differing Apple fonts or Chrome versions can change the rendered PDF.
+faces available to Typst. Songti SC, Charter and Apple Color Emoji remain
+native Apple-system inputs, referenced only inside the licensed macOS job. No
+standalone Apple font is included in the outputs. The font hashes are recorded
+in the job log; differing Apple fonts can change the rendered PDF.
 
 The complete official Typst package trees of the package manifest are provisioned under
 `build/runtime/ci/typst/packages/preview/` and checked against
 [typst-packages.sha256](supply/typst-packages.sha256) before compilation.
 Typst's supported environment settings disable ambient system-font discovery
 and select the job-local font and package paths. Embedded fonts remain enabled.
-Mermaid uses the Runner's existing Chrome through its supported executable
-setting and the unchanged Puppeteer configuration; the sandbox stays enabled.
 
-The task rebuilds every diagram of the `diagrams` recipe and produces
+The task compiles the book, figures included, and produces
 `build/artifacts/pdf/rethinking-work.pdf` and
 `build/artifacts/edition/rethinking-work-<version>.tgz`, then refuses any
 project-lock drift and prints both hashes. The edition archive holds one folder
@@ -221,7 +206,7 @@ headers, so a rebuild of the same commit yields the same bytes. The archive test
 every checksum, both notes' version and reproducibility, and runs every
 exercise check after extraction.
 
-Official Noto bytes and all 238 listed package files have passed local input
+Official Noto bytes and all 299 listed package files have passed local input
 verification. Hosted execution and artifact readback at `ea65454` are recorded
 in task 1.4; successful source CI, compilation and author review are distinct
 evidence boundaries.
@@ -254,35 +239,15 @@ For example, inspect a candidate through the same declared binding:
 just --justfile publication/justfile pdf-tool pdfinfo build/artifacts/pdf/rethinking-work.pdf
 ```
 
-Typst imports `@preview/neat-book:0.1.0` and its publisher-declared dependencies.
-Their first use may fetch official packages; subsequent builds can use the
+Typst imports `@preview/neat-book:0.1.0` and its publisher-declared dependencies,
+and `@preview/fletcher:0.6.0` with its dependency `@preview/cetz:0.5.3` for the
+figures. Their first use may fetch official packages; subsequent builds can use the
 existing package cache. The compiler's `inputs.json` records the actual package
 and source closure, not a complete font closure. Do not call a first build offline
 unless that supply exists.
 
-Mermaid requires a supported Puppeteer browser. When its default browser is
-absent, set `PUPPETEER_EXECUTABLE_PATH` to an already-installed compatible browser.
-The task inherits this upstream setting and uses a separate headless
-process, not a user's browser profile. Browser identity is part of a concrete
-build receipt, not a portable hard-coded path. Never pass `--no-sandbox` merely
-to obtain a successful render. The [upstream browser guide](https://github.com/mermaid-js/mermaid-cli/blob/master/docs/already-installed-chromium.md)
-warns that only the bundled browser is guaranteed; an existing Chrome build must
-be exercised with the selected CLI. A successful concrete build is not a promise
-that every Chrome version is compatible.
-
-The native diagram task passes [puppeteer.json](puppeteer.json) through Mermaid's
-supported `--puppeteerConfigFile` option. Its only launch argument is
-`--disable-gpu`. This avoids the default graphics path's observed pixel drift
-with Mermaid CLI 12.2.0 and Chrome 157.0.8103.51 on the authoring host. Two
-independent renders of each of the seven figures had identical PNG bytes with
-this setting; the native-task regression also compares repeated output to a
-same-input software-rendered reference. These are bounded host observations,
-not a cross-browser or cross-machine guarantee.
-
-The setting changes real antialiasing and shadow pixels, not only metadata.
-Observed SVG geometry, labels and arrows are preserved; the exact Chrome-internal
-cause is unproved. The delivered prose/supply successor includes substantive
-manuscript revisions and has passed complete-content, structural navigation,
+The delivered prose/supply successor includes substantive manuscript
+revisions and has passed complete-content, structural navigation,
 metadata and every-page author visual self-review. The current 113-page Documents
 PDF loaded in Preview; representative contents jumps, cross-references, returns
 and the DuckDB official link passed. The owned PDF window and external browser
@@ -294,32 +259,28 @@ editorial acceptance and measured teaching effectiveness also remain unproved
 in task 2.1. Earlier tool and companion-reference journeys retain their original
 edition bindings. Reuse each result only for its bound edition and demonstrated
 scope.
-The renderer-specific observations above do not qualify the prose. Running
-`diagram` alone never accepts or replaces a reader edition.
 
-The current PDF uses the following font supply. The diagram browser has a
-separate selection; it does not need every Typst family.
+The current PDF uses the following font supply.
 
 | Family            | Publication use                          | Supply                            |
 | ----------------- | ---------------------------------------- | --------------------------------- |
 | Songti SC         | Chinese body text                        | Existing macOS system font        |
 | Charter           | Latin body text                          | Existing macOS system font        |
-| Noto Sans CJK SC  | Headings, tables and Mermaid labels      | Existing Homebrew font cask       |
+| Noto Sans CJK SC  | Headings, tables and figure labels       | Existing Homebrew font cask       |
 | DejaVu Sans Mono  | Code                                     | Embedded font of the locked Typst |
 | Libertinus Serif  | Symbols in code that the code faces lack | Embedded font of the locked Typst |
 | Apple Color Emoji | Observed fallback for the memory credit  | Existing macOS system font        |
 
 DejaVu Sans Mono and Libertinus Serif do not require a separate host installation with the current
-Typst binary. [mermaid.json](mermaid.json) selects Noto Sans CJK SC; that family
-must be available to the selected headless browser. The actual delivered PDF's
-font list can be inspected with Poppler's `pdffonts`. The
+Typst binary. The actual delivered PDF's font list can be inspected with
+Poppler's `pdffonts`. The
 [font notices](rights/third-party-notices.md#authored-publication-fonts) distinguish
 standalone font files from PDF embedding and explain the applicable rights.
 
 The current layout depends on macOS font supply. A second-machine build has not
 been qualified. Same-host byte-identical replay is qualified only for the bound
-inputs described below. Different font files or browser versions can change
-wrapping and page count even with identical source.
+inputs described below. Different font files can change wrapping and page
+count even with identical source.
 Typst's supported `--font-path`, `--ignore-system-fonts` and
 `--ignore-embedded-fonts` options control discovery; they do not supply fonts or
 grant distribution rights. An open-font substitution requires a separate layout
@@ -329,15 +290,15 @@ The edition's date, read from git once (`edition_inputs`: the release tag's date
 or a draft's commit date), supplies Typst's document date and PDF timestamps; no
 date is written by hand. This reduces time drift
 but does not establish byte-identical reproduction across machines. Match the
-actual font files and renderer identities as well as the compiler, resolved
-packages and diagram inputs before assessing reproduction.
+actual font files as well as the compiler and resolved packages before
+assessing reproduction.
 
 The Mise declaration exposes the same tasks. The native lock at
 `.config/mise/mise.lock` and its `aube-lock.yaml` and `package.json` sidecars bind
 the declared tools. The scoped Prettier 3.10.1 update regenerated its two
-sidecars through native Mise; Mermaid CLI 12.2.0 and all other tool records remain
-unchanged. Each native tool has a macOS arm64 record, and the lock shows which
-also have Linux x64 records; Prettier and Mermaid CLI use their npm sidecars.
+sidecars through native Mise without changing other tool records. Each native
+tool has a macOS arm64 record, and the lock shows which also have Linux x64
+records; Prettier uses its npm sidecars.
 Native resolution recognizes the installed tools and their sidecar-derived
 paths. This adoption does not qualify an independent-machine bootstrap. Generated
 Aube YAML remains byte-exact and outside the prose formatter's inputs. Poppler's
@@ -351,7 +312,7 @@ documentation changes are not backdated into those manifests.
 ## Bound Typst input replay
 
 `supply/typst-inputs.sha256` binds the existing compiler executable, the font files
-it names and every file in the resolved publisher package roots. It contains no
+it names and every file in the resolved Typst package roots. It contains no
 font binaries, package source, credentials or private paths. The executable
 binding also fixes its embedded fonts; this does not separately verify their
 source provenance.
@@ -381,13 +342,8 @@ distribution rights. Keep Apple fonts local to a licensed Apple environment;
 review the [font terms](rights/third-party-notices.md#authored-publication-fonts).
 
 The output is `build/artifacts/pdf-isolated/rethinking-work.pdf`; this task never
-replaces the reader edition. It consumes the diagram images currently in
-`build/artifacts/diagrams/`. The checksum task does not bind those images, and
-`pdf-isolated` neither freezes nor restores them. For an exact edition replay,
-restore their bytes from that edition's qualification bindings before compiling.
-This does not qualify their renderer or prove that they were freshly rebuilt.
-Use the normal `build` task when changing diagram sources and qualify its new
-output before replacing a reader edition.
+replaces the reader edition. It draws the figures from their current sources in
+`diagrams/`, with the fletcher and CeTZ package roots of the supply.
 
 The 2026-11-10 same-host qualification used a separate local input directory,
 disabled network access and denied reads of the original font directories and
@@ -397,16 +353,9 @@ those actual inputs, not an independent-machine bootstrap, dependency security,
 source integration or complete locked publication supply. The original Change
 retains those remaining acceptance boundaries.
 
-The November 11 successor also reproduced byte-for-byte under the same isolation
-after two drifted generated diagrams were restored from its frozen edition
-inputs. Before restoration, every page's decoded content stream and extracted
-text matched, but the full PDF bytes did not. Replacing only those two diagrams
-restored the complete delivered PDF. The failed replay and changed images remain
-with its qualification evidence. This establishes the effect of the changed
-image inputs; it does not establish why the renderer produced different pixels
-or prove deterministic regeneration from Mermaid source. The later software
-rasterization qualification above narrows the remaining gap to other renderer
-identities and machines; it does not retroactively qualify the default path.
+The November 11 successor also reproduced byte-for-byte under the same isolation,
+after two drifted diagram images were restored from its frozen edition inputs.
+The failed replay and changed images remain with its qualification evidence.
 
 ## Reader spacing rhythm
 
