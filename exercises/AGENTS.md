@@ -7,7 +7,7 @@ Synthetic teaching data for 《重新理解工作》. Nothing here is business d
 - `cases/<name>/`: one case per directory, with its inputs, queries or code,
   and the expected result.
 - `templates/`: cards to copy into a real task.
-- `assessment/transfer-cases.json`: the same problems under changed conditions.
+- `assessment/transfer-cases.zh.md`: the same problems under changed conditions.
 
 ## Conventions an Agent cannot guess
 

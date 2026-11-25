@@ -321,7 +321,7 @@ class CompanionExercises(unittest.TestCase):
 
     def test_agent_instructions_match_the_pack(self):
         text = (EXERCISES / "AGENTS.md").read_text()
-        for name in ("cases", "templates", "assessment/transfer-cases.json"):
+        for name in ("cases", "templates", "assessment/transfer-cases.zh.md"):
             with self.subTest(name=name):
                 self.assertIn(name, text)
                 self.assertTrue((EXERCISES / name).exists())

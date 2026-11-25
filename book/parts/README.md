@@ -20,9 +20,11 @@ principle stops holding. Cases are rewritten: no internal person, vendor, system
 or figure appears. Practice chapters name the companion exercise that backs each
 worked example.
 
-The third part explains agentic AI as a whole: model, harness, context, tools,
-boundaries, memory, orchestration and evaluation. Each of its chapters ends
-with a hands-on section that the reader runs in a scratch repository of their
-own, built in the `first` chapter. A tool is explained by the layer it sits in
-and the problem it solves, whether or not the author operated it; an event is
-told only as the record has it, and numbers in cases follow the record.
+The third part explains the Agent through its first six layers: model, harness,
+context, tools, boundaries and memory; orchestration and evaluation close the
+fourth part. The `first` chapter takes the reader through a first session in a
+directory of their own; the third part's other chapters apart from its practice,
+the chapters from `run` to `evaluate`, and `shared` end with a hands-on section
+run in such a directory, as appendix A lists. A tool is explained by the layer
+it sits in and the problem it solves, whether or not the author operated it; an
+event is told only as the record has it, and numbers in cases follow the record.

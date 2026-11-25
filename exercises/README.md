@@ -11,7 +11,7 @@ chapter that uses it; this file is the maintainer's reference.
   returned and is never edited.
 - `templates/`: the brief and checkpoint templates the book cites (`*.zh.md`) and `eval/`, a runnable evaluation
   example.
-- `assessment/transfer-cases.json`: transfer cases.
+- `assessment/transfer-cases.zh.md`: transfer cases.
 
 ## Check every example
 

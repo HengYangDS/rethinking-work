@@ -14,6 +14,16 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Changed
+
+- The transfer cases are three Chinese questions with their points
+  (`exercises/assessment/transfer-cases.zh.md`, in place of the English points
+  of `transfer-cases.json`), each changing one condition of an exercise or
+  section: two rows of one revision that disagree, returns read from a CSV file
+  as strings, and three entry points to one tool on different versions.
+- `book/README.md` names the four appendices, and `book/parts/README.md` puts
+  orchestration and evaluation in the fourth part.
+
 ## [0.2.7] - 2026-11-26
 
 ### Changed
@@ -100,8 +110,9 @@ itself claim editorial acceptance.
   and 15 again say what their runs did not test; figure 2 sends the set-aside
   securities from the step where each leaves. The book is 197 pages.
 - The editors' decisions on the third sample's 92 reader notes are applied: 26
-  places are reworded, 59 kept with a reason, 4 were already gone. Clock times
-  take two-digit hours throughout, and chapter 24's lead ends on its question.
+  places are reworded, 59 kept with a reason, 4 were already gone, 3 left as
+  they are after the editor's check. Clock times take two-digit hours
+  throughout, and chapter 24's lead ends on its question.
 - Chapters 28 and 29 say that judging rests on work performance and name
   nothing it does not rest on, as DDWG 10.1.2 does; 37 sentences across the
   book that denied a meaning nobody gave, repeated the point just made or
