@@ -128,9 +128,11 @@ def edition_inputs():
     return tuple(subprocess.run(command, cwd=ROOT, **QUIET, check=True).stdout.split())
 
 
-def evaluate(expression, inputs=None):
+def evaluate(expression, inputs=None, within="book/main.typ"):
+    """Evaluate within the laid-out book, or, with `within=None`, alone, without a layout."""
     given = edition_inputs() if inputs is None else inputs
-    command = ["typst", "eval", "--root", str(ROOT), *given, "--in", "book/main.typ", expression]
+    place = ["--in", within] if within else []
+    command = ["typst", "eval", "--root", str(ROOT), *given, *place, expression]
     result = subprocess.run(command, cwd=ROOT, **QUIET, check=False)
     if result.returncode:
         raise AssertionError(f"typst eval failed:\n{result.stderr}")

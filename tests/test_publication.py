@@ -115,13 +115,13 @@ class PublicationInputs(edition.Edition):
             "date=2026-01-02",
         )
         self.assertEqual(
-            edition.evaluate(expression, release), [f"{version} 版 · 2026 年 1 月 2 日", True]
+            edition.evaluate(expression, release, None), [f"{version} 版 · 2026 年 1 月 2 日", True]
         )
         self.assertEqual(
-            edition.evaluate(expression, draft),
+            edition.evaluate(expression, draft, None),
             [f"{version} 之后的草稿 · 提交 abc1234，另有未提交的改动", True],
         )
-        self.assertEqual(edition.evaluate(expression, ())[0], f"{version} 草稿")
+        self.assertEqual(edition.evaluate(expression, (), None)[0], f"{version} 草稿")
 
     def test_compile_has_no_warnings(self):
         # A warning names what the PDF hides: a missing glyph, an unknown font, a dropped reference.
