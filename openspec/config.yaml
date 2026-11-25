@@ -7,8 +7,8 @@ context: |
   it. Data work supplies its worked scenarios. It is not a tool catalogue, a
   workstation inventory or a data-craft manual. Book sources own reader
   meaning; contributor guidance is English. The repository is public: examples
-  are scenarios and disclose no internal name, vendor, system or figure. No
-  remote publication, public license or operational authority is implied.
+  are scenarios and disclose no internal name, vendor, system or figure. A
+  Change grants no remote publication or operational authority.
 
 rules:
   proposal:
@@ -22,6 +22,8 @@ rules:
     - State each requirement as an observable SHALL or MUST obligation with at least one Scenario
       whose WHEN and THEN clauses can falsify it; describe behavior and its boundaries, not
       implementation names.
+    - A Change that adds behavior a test holds states it as a requirement here; `skip_specs` is only
+      for a Change that adds none.
   design:
     - Follow the official design template for a non-trivial change. Explain its architecture,
       alternatives, rationale, authority boundaries and migration risks, give each behavior one

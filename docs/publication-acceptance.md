@@ -38,9 +38,7 @@ Read the complete changed prose and its qualifications. Where a passage was shor
 ask of every replaced word whether another chapter defines it as a term; a shortening once wrote 放行 where chapter 13
 uses it for a call that runs without asking. Verify that examples
 teach the stated mechanism, sources support material claims, and conditions or
-unknowns have not vanished during polishing. In a structural migration, compare
-the complete native raw examples, table children and figure captions with the
-preserved predecessor. Equal counts alone do not establish content preservation.
+unknowns have not vanished during polishing.
 
 For a Chinese revision, review complete paragraphs rather than approve isolated
 word substitutions. First identify the intended concept, object, actor and
@@ -51,12 +49,8 @@ Cold-read the paragraph for continuity, natural phrasing and a clear referent
 for each compressed term. In an instruction, the reader must be able to identify
 who acts, the prerequisites, the action and the observable result.
 
-The credential examples illustrate this distinction: diagnostic values and
-Gitleaks patterns concern passwords, tokens and keys; the Office case concerns
-non-sensitive metadata; model adoption concerns sensitive information more
-broadly. A single replacement for the English word "secret" would obscure these
-different meanings. Review evidence must show the passage and the resolved
-meaning, not merely a reviewer score, agreement or a list of banned words.
+Review evidence must show the passage and the resolved meaning, not merely a reviewer score, agreement or a list of
+banned words.
 
 Readability is checked on its own, after the last content or fact edit, because
 fact corrections and compression change sentences that no fact check reads for
@@ -100,9 +94,7 @@ Compare complete native page-bound text against `pdftotext -raw` output,
 retaining
 meaningful punctuation while accounting for renderer control characters and
 outline leaders. `-layout` reorders columns by geometry and is useful for
-inspection, not source-order equality. Remove generated leader dots only on the
-identified contents pages; do not strip punctuation from body text to force a
-match. Case references must link to their dated qualification records, not to private raw receipts. Check every code example, table and figure; text extraction
+inspection, not source-order equality. Do not strip punctuation from body text to force a match. Case references must link to their dated qualification records, not to private raw receipts. Check every code example, table and figure; text extraction
 alone cannot prove their visual fidelity or accessibility.
 
 Render and inspect every final page. Look for heading collisions, missing glyphs,
@@ -199,6 +191,25 @@ reasons, stop that check. Preserve its evidence and proceed to the next real
 gap. Editorial judgment, author visual self-review, structural correctness,
 reader-application behavior, file delivery and source integration remain
 distinct results; none silently stands in for another.
+
+## Release
+
+A release is made in a lane and ends with its edition published on both peers. Publishing `main`, the tag and the
+releases need the owner's word each time; landing a proved lane on `dev` does not.
+
+1. In the lane, set `VERSION`, give the version a dated section in `CHANGELOG.md`, record the reviews of the final
+   `book/` and `exercises/` trees in `publication/acceptance/reviews.toml`, complete the release Change's tasks and
+   archive it.
+2. Read the release PDF built at that head: the cover and its edition line, the colophon and the printed blocks; record
+   the reading as a `[[release]]` entry.
+3. Prove the head with the full proof, land it on `dev`, and publish `dev` and then `main` to both peers, one receipt
+   each.
+4. Tag it with `ethos land --release`, a signed `v<VERSION>` on that head. A clean checkout of the tag builds the
+   release edition (`edition_inputs`); the tag event's publication jobs build it on both peers.
+5. Build the edition archive from the tagged head, create the release on both forges with the PDF and the archive, and
+   read both back by SHA-256.
+6. Note on the previous release's pages that this edition supersedes it, deliver the archive beside the earlier
+   editions, and retire the lane once both peers' jobs are green.
 
 ## Accept and deliver within scope
 

@@ -16,15 +16,15 @@ evidence of editorial acceptance.
 
 ## Read and edit
 
-| Reader task                           | Source owner                                                        |
-| ------------------------------------- | ------------------------------------------------------------------- |
-| Follow the argument and reading order | [Book](book/README.md)                                              |
-| Change one subject or teaching case   | [Manuscript parts](book/parts/README.md)                            |
-| Change page design or build settings  | [Publication](publication/README.md)                                |
-| Explain a relationship visually       | [Editable diagrams](diagrams/README.md)                             |
-| Practice with public synthetic inputs | [Companion exercises](exercises/README.md)                          |
-| Maintain and qualify an edition       | [Contributor guides](docs/README.md)                                |
-| Understand the accepted requirements  | [OpenSpec specification](openspec/specs/publication-source/spec.md) |
+| Reader task                           | Source owner                                                                          |
+| ------------------------------------- | ------------------------------------------------------------------------------------- |
+| Follow the argument and reading order | [Book](book/README.md)                                                                |
+| Change one subject or teaching case   | [Manuscript parts](book/parts/README.md)                                              |
+| Change page design or build settings  | [Publication](publication/README.md)                                                  |
+| Explain a relationship visually       | [Editable diagrams](diagrams/README.md)                                               |
+| Practice with public synthetic inputs | [Companion exercises](exercises/README.md)                                            |
+| Maintain and qualify an edition       | [Contributing](CONTRIBUTING.md), [edition acceptance](docs/publication-acceptance.md) |
+| Understand the accepted requirements  | [OpenSpec specification](openspec/specs/publication-source/spec.md)                   |
 
 The companion-exercise index and the statement of run conditions and limits belong in
 [book/back-matter.typ](book/back-matter.typ). Examples are scenarios set in a
@@ -83,16 +83,8 @@ released, rather than being copied into a second archive here.
 
 ## Continuous verification
 
-Both peers run the verification model of the owner's other repositories. The
-installed ETHOS release writes their pipelines from the repository's
-[verification parameters](.config/ci/verification.toml), and each job runs the
-full proof with the repository's exact macOS arm64 tool lock
-(`mise exec --locked -- ethos prove --host --execute --full`). The jobs use no
-business data, accounts or services.
-
-See [source CI](publication/README.md#source-ci) for the platform bindings,
-passing hosted job records and supply qualifications. A passing job does not
-replace full PDF qualification or human editorial review.
+Both peers run the full proof of every push and build the edition's artifacts, as
+[source CI](publication/README.md#source-ci) describes.
 
 ## Repository destinations and license
 

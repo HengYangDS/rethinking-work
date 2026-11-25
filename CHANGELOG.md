@@ -61,6 +61,10 @@ itself claim editorial acceptance.
   `snapshot_minus_expected_bps`, the direction the keyed reconciliation uses.
 - Figures 1, 2, 5 and 6 use their chapter's words and steps, without an
   unexplained dark box.
+- One contributor guide, `CONTRIBUTING.md`, replaces the guide and index under
+  `docs/`; the acceptance document states the release steps and drops
+  migration-era passages; the OpenSpec configuration no longer says that no
+  public licence is implied.
 - The tests read the measure, the exercise cases and the printed hook from their
   owners instead of pinned numbers and positions, and resolve the declared
   Poppler once instead of starting Homebrew for every PDF read; two cases that
