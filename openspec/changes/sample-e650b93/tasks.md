@@ -13,3 +13,8 @@
 ## 3. Verification
 
 - [x] 3.1 The suite passes on the commit (29 tests at 6ef03de).
+
+## 4. Review records
+
+- [x] 4.1 The commands review and the reading of the trees at `6ef03de` are recorded, and the `e650b93` entry names
+      `v0.2.6`; done when `tests/test_acceptance.py` passes.

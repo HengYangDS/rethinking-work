@@ -401,7 +401,7 @@ settled = "4dd591f: 「目录里」 restored with the subject named; agent.typ:8
 book = "cc7f9b1ec6c1904edbc018a539d24c9f89950ee8"
 exercises = "eb3700ea2f714a7bfbc27e5a6f9215677a83801c"
 subject = "e650b93"
-blocks_against = "v0.2.3"
+blocks_against = "v0.2.6"
 prose_against = "c3bce38"
 pdf = "0a32885428b2dbee6d3a785f8c16103c2272fbda9f0a3005e3bdb3fd4365f3fd"
 read = 2026-11-26T00:08:11+08:00
@@ -431,3 +431,34 @@ settled = "e650b93: 26 places corrected as proposed or as the lane chose (items 
 [[reading.point]]
 point = "item 15: walkthrough.typ:31 「三个 csv 只读」 in lower case"
 declined = "the quoted brief as written (brief-precise.txt), as the commands reviewer recommended"
+
+[[commands]]
+book = "32f88e56ec21b55f89d8533e5bd16e927b6dc10d"
+exercises = "eb3700ea2f714a7bfbc27e5a6f9215677a83801c"
+subject = "6ef03de"
+blocks_against = "v0.2.6"
+prose_against = "e650b93"
+pdf = "95898c91e6f0a2236e3d2cbdab1679c6d52bf0ae178581c5497b24b2dc2b0ddc"
+read = 2026-11-26T03:22:06+08:00
+findings = "build/evidence/reader-run-next-edition/review-6ef03de/FINDINGS.md"
+verdict = "settled"
+
+[[commands.point]]
+point = "record of e650b93: blocks_against named v0.2.3, against which ten blocks changed and were not run; the review paired the blocks with v0.2.6"
+settled = "the e650b93 entry now names v0.2.6, as the reviewer proposed (review-6ef03de)"
+
+[[reading]]
+book = "32f88e56ec21b55f89d8533e5bd16e927b6dc10d"
+subject = "6ef03de"
+against = "e650b93"
+read = 2026-11-26T03:22:06+08:00
+report = "build/evidence/error-rate-sample/reread-6ef03de/README.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "sample of e650b93 (pages 24-74), 0.47 per 10,000: five errors, and two places of the same kind found by the lane"
+settled = "6ef03de: corrected, read again by both families with no error (reread-6ef03de) and by the commands reviewer"
+
+[[reading.point]]
+point = "reread of 6ef03de: talent.typ:82 「下一期仍是 S 或 A」 raised by Codex; two Claude notes on figure 2 (「只有」 read as 「仅有」, the alternative text's 「四个可用值」)"
+declined = "judged no error by two Claude judges and by the Codex judge; 「4 只有值」 matches the text beside the figure, and the alternative text is correct as it stands"
