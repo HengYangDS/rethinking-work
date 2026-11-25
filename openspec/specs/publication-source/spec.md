@@ -290,6 +290,11 @@ The proof SHALL run the publication tests once per run, taking every test file t
 - **WHEN** the repository's full proof runs
 - **THEN** the publication tests run once, and the proof passes only if that run passes and leaves its coverage report.
 
+#### Scenario: A contributor runs the tests locally
+
+- **WHEN** a contributor runs the local test task
+- **THEN** the tests run with the runner and configuration that the proof uses, without its reports.
+
 ### Requirement: Tests and exercises need only the standard library
 
 Every Python file under `tests/` and `exercises/cases/` SHALL import only Python's standard library and modules in its own directory. The proof SHALL run the reader's exercise command from the edition archive under the host's Python, outside the locked test environment. Either check SHALL fail the run when its condition does not hold, even where the locked test environment provides the package.
