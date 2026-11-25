@@ -325,3 +325,70 @@ settled = "3bfda14: 「…test_export.py。」, confirmed in place by the same r
 [[reading.point]]
 point = "commands review of 2b95423: practice-thinking.typ:23 「七分之一」 (sample item XC11, stricter reading only)"
 declined = "GB/T 15835—2011 4.3 allows either form for a fraction, and the paragraph writes no other fraction of the same quantity; accepted by review-c1d9406"
+
+[[commands]]
+book = "0559dbc753fa6d2242bd1afc2a2aee7b1fbd01d7"
+exercises = "0fb698ad9983c7d7f2dee402498385c2b766b447"
+subject = "4dd591f"
+blocks_against = "v0.2.5"
+prose_against = "1b566af"
+pdf = "7303b4c9ce6ac153f0d85cad983b05a94978d32b581b148aa4813825b06ce775"
+read = 2026-11-25T13:25:47+08:00
+findings = "build/evidence/reader-run-next-edition/review-4dd591f/FINDINGS.md"
+verdict = "no finding"
+
+[[reading]]
+book = "0559dbc753fa6d2242bd1afc2a2aee7b1fbd01d7"
+subject = "4dd591f"
+against = "c1d9406"
+read = 2026-11-25T13:05:00+08:00
+report = "build/evidence/release-0-2-6/reading-index.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "reread of ed95026: knowing.typ:53 「服务商记下的时间」 too wide; E9 missed; a loose line on p. 37 and two like cases"
+settled = "035cf83: as the reader proposed, confirmed in place by the same reader"
+
+[[reading.point]]
+point = "reread of accb23d: five points in chapters 28, 27 and 12 (a subject gone astray, a lost qualification, a pronoun)"
+settled = "31a1c31: each as the reader proposed, confirmed in place"
+
+[[reading.point]]
+point = "reread of 65237e7, four rounds: chapter 29 against DDWG 10.0.0 and the readings of 10.0.1 (the column 显出的能力, two sentences the source lacks, the full cycle, 「说对了」, the worked example's A and B, 评定等级 for the noun)"
+settled = "65237e7: every point applied or declined with its reason, each round confirmed in place by the same reader"
+
+[[reading.point]]
+point = "commands review of 65237e7: eight places against DDWG 10.0.1 as committed and five small ones"
+settled = "aabaaa1: all applied, confirmed in place by review-aabaaa1"
+
+[[reading.point]]
+point = "reread of e5c19e3: roles.typ:15 as a named question; 「尚未暂存」; four colon questions left; 「第 11 行」 as a row number"
+settled = "e5c19e3: as the reader proposed, confirmed in place by the same reader"
+
+[[reading.point]]
+point = "commands review of e5c19e3: team.typ:36's question mark after a six-item list"
+declined = "the reviewer withdrew it at 06:1x after the fresh reader pointed to the like sentences; both agreed one rule from GB/T 15834—2011 4.5.3.3 and 4.2.3.2 (review-e5c19e3)"
+
+[[reading.point]]
+point = "reread of the notes edits (6dc17d4): walkthrough.typ:97 「回答是否下结论」 read as a verb phrase, and optional tightenings"
+settled = "6dc17d4: all as the reader proposed, confirmed in place by the same reader"
+
+[[reading.point]]
+point = "reread of 4d4cdfc by both families (the third sample's corrections): no error; wording at question.typ:6, :9, talent.typ:34, team.typ:72, practice-collaborating.typ:157"
+settled = "aaf100a: as the readers proposed; question.typ:9 then restored to one question in 1b566af on the recheck, agreed by the commands reviewer"
+
+[[reading.point]]
+point = "recheck of aaf100a: talent.typ:91 「评审认定可以照用」 read as approval, against chapter 25's 「评审通过不等于批准」"
+settled = "1b566af: 「并经一次其他领域的评审，认为可以照用」, agreed by the commands reviewer at 10:4x"
+
+[[reading.point]]
+point = "reread of 1b566af's corrections (the 28 unsampled pages): figures floated to the foot stood below the next section's heading; 「只对某个工具生效」 too narrow for a matcher of several tools"
+settled = "1b566af: figures set where called, figure 6's call at its section's end, a test of both section edges; 「只对指定的工具生效」"
+
+[[reading.point]]
+point = "colon reader of 1b566af's 211 colon-semicolon sentences: 11 faults and one nested colon"
+settled = "1b566af: each as the reader proposed (release-0-2-6/unread-pages/colon-scope-report.md)"
+
+[[reading.point]]
+point = "reread of 4dd591f's corrections (appendices and preface): AGENTS.md row lost 「目录里」, contradicting context.typ:214; 「其」 unclear; agent.typ:84 and appendix C's subtitle the same kind as the preface sentence; 「数据共 11 行」 against the cell and the text"
+settled = "4dd591f: 「目录里」 restored with the subject named; agent.typ:84 and the subtitle corrected; 「十一行」 kept by agreement of the commands reviewer and the reader (13:1x)"
