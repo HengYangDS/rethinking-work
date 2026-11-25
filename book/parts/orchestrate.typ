@@ -67,7 +67,7 @@ git worktree remove ../first-session-doc
 git branch -d doc/contract
 ```
 
-副本中还有未提交的改动时，`git worktree remove` 会拒绝执行，报错信息中写着 `contains modified or untracked files, use --force to delete it`。这一限制可以防止未提交的改动被误删。
+副本中还有未提交的改动时，`git worktree remove` 会拒绝执行，报错信息中写着 `contains modified or untracked files, use --force to delete it`。
 
 几件事并行时，副本、终端和各自的进度分散在几处。Orca 是一个桌面应用，把它们集中到一处：`orca repo add` 登记一个仓库，`orca worktree create` 为每件事建一个副本，`orca terminal create` 在副本里开终端运行命令，`orca worktree ps` 汇总每个副本的情况。
 
