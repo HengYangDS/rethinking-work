@@ -239,7 +239,7 @@ An edition SHALL be delivered as one archive holding one folder with a reader no
 
 #### Scenario: A reader unpacks a downloaded edition
 
-- **WHEN** a reader unpacks the archive on macOS or Windows
+- **WHEN** a reader unpacks the archive on macOS or Linux
 - **THEN** the folder's names read correctly, the PDF's name and cover and both reader notes state the same version as the tag, and every file matches the folder's SHA-256 list.
 
 ### Requirement: Bounded verification time
