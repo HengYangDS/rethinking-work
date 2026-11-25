@@ -39,20 +39,6 @@ The publication SHALL identify its title, author 衡阳, version, edition and la
 - **WHEN** the PDF is rebuilt through the declared entrypoint
 - **THEN** its author and editorial date agree with the visible attribution, its cover shows the version in `VERSION`, and its references distinguish cases, recommendations and synthetic exercises.
 
-### Requirement: Meaning-preserving migration
-
-The migration SHALL preserve complete examples, source facts, qualifications and historical recovery obligations. Changed prose SHALL be reviewed as authored revision rather than described as an exact copy. A later authored rebuild MAY replace migrated prose and examples; it SHALL keep the date, source role and limit of every case it retains, and earlier editions SHALL remain recoverable from source history and their delivered artifacts.
-
-#### Scenario: Modular source replaces the candidate
-
-- **WHEN** the candidate is divided into semantic modules
-- **THEN** unchanged raw examples, tables and figures retain complete native content, and selected originals remain recoverable through their evidence owner.
-
-#### Scenario: A rebuild replaces the migrated manuscript
-
-- **WHEN** the owner authorizes a rebuilt manuscript
-- **THEN** the retired modules are removed from the reading order and the tracked tree, the delivered predecessor is not represented as the rebuilt edition, and each retained case states its date, source role and limit once.
-
 ### Requirement: Truthful publication acceptance
 
 A compiled document SHALL NOT be represented as reader-approved or published solely because its build passed. Delivery SHALL verify complete content, navigation, metadata and every final page within its stated review scope.
@@ -545,3 +531,24 @@ A build SHALL be that version's edition only when its source is the commit that 
 
 - **WHEN** the PDF is built from a clean checkout of the commit that the signed tag `v<VERSION>` names
 - **THEN** its cover and its reader notes call it that version's edition with the tag's date, and its PDF metadata carries that date.
+
+### Requirement: Layout rules declared once
+
+The layout SHALL declare once, and the checks SHALL hold: horizontal alignment by kind of element, the text block's
+width as a declared number of characters a line, curly quotation marks set in full character cells, and a lead-in that
+ends with a colon kept on the page of the block it introduces and spaced as a paragraph.
+
+#### Scenario: A table is set
+
+- **WHEN** a table is laid out
+- **THEN** its first column and text columns are flush left, a column of numbers is flush right on its units digit with its heading over it, and nothing in it is centred.
+
+#### Scenario: A body line is full
+
+- **WHEN** a body line runs the full measure
+- **THEN** it holds the declared number of Chinese characters, and a curly quotation mark in it takes a full cell, two marks side by side one and a half.
+
+#### Scenario: A lead-in falls at a page foot
+
+- **WHEN** a paragraph ending with a colon would end a page
+- **THEN** it moves with the block it introduces, and stands a paragraph step from the text before it.
