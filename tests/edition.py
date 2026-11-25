@@ -182,10 +182,22 @@ def build():
     scratch = tempfile.TemporaryDirectory(prefix="publication-tests-", dir=workspace)
     atexit.register(scratch.cleanup)
     pdf = Path(scratch.name) / "edition.pdf"
+    deps = Path(scratch.name) / "inputs.json"
     # The compile and the evaluation are independent; they run side by side. A fact that fails to
-    # evaluate fails every check, with Typst's message, which points at that fact.
+    # evaluate fails every check, with Typst's message, which points at that fact. The compile also
+    # lists every file it read.
     with subprocess.Popen(
-        ["typst", "compile", "--root", str(ROOT), *edition_inputs(), "book/main.typ", str(pdf)],
+        [
+            "typst",
+            "compile",
+            "--root",
+            str(ROOT),
+            *edition_inputs(),
+            "--deps",
+            str(deps),
+            "book/main.typ",
+            str(pdf),
+        ],
         cwd=ROOT,
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
@@ -214,7 +226,10 @@ def build():
             name: reading.submit(read_pdf, *(a.format(pdf=pdf) for a in arguments))
             for name, arguments in PDF_READS.items()
         }
-    return types.SimpleNamespace(facts=facts, reads=reads, warnings=errors, layout=layout)
+    inputs = json.loads(deps.read_text())["inputs"]
+    return types.SimpleNamespace(
+        facts=facts, reads=reads, warnings=errors, layout=layout, inputs=inputs
+    )
 
 
 class Edition(unittest.TestCase):

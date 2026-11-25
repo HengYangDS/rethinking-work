@@ -275,6 +275,13 @@ d4fbe5ccbc2b66c32c6771781e47ea312bae699e8378edf79d5a023a391d2ccc  packages/previ
 445e1310e2fdf21e5e491254e5d5551a16c0bcbe0ed4788ab6e29ee069c5579e  packages/preview/octique/0.1.1/impl/octique.typ
 0cdef12c4c81ace15c11bb1093ec28a7522dd473f1721f2c60a6af1e3a63fa76  packages/preview/octique/0.1.1/octique.typ
 69a3778517a75d8474369d9ab224086ab5bf607a87b6532d6b8b5e331282a27c  packages/preview/octique/0.1.1/typst.toml
+36bb253818ac13761081556ff5c457d626da9df1eb4f56194d9ad3926c418a68  packages/preview/oxifmt/1.0.0/LICENSE
+0ad3adeb631c724cf636ab276ce6636816eeb2bc002b852d2989e5ed8bbca694  packages/preview/oxifmt/1.0.0/LICENSE-APACHE
+14f5b5f40f5fbcf613fec86746979319afb7708e835776467c20b797b45864b5  packages/preview/oxifmt/1.0.0/LICENSE-MIT
+d9852070f002dd42a06d69ba3a243f097fa5a778f042a9ca72236cf128a24b54  packages/preview/oxifmt/1.0.0/README.md
+9d1ae81fffd85c20d1cbbc130200f32099615771fa146af36cc4a1e0f0242c2d  packages/preview/oxifmt/1.0.0/lib.typ
+e3575b8760f158fca284a66cfefaf033a6b9e31a425f913686fd185e6ed2300a  packages/preview/oxifmt/1.0.0/oxifmt.typ
+323397fd70c1830714bbd8a6f33951b5d2b04eb5841b4f524922279c1fb197fd  packages/preview/oxifmt/1.0.0/typst.toml
 9e96ac67f0d7df6775c9255abe4c4f763695701a5dce8ece648b47dbd734ee53  packages/preview/showybox/2.0.4/LICENSE
 f17bc9f259b1aaa838ec5c7001a754a9e03b59bf0593ceada13094e89ac7e30d  packages/preview/showybox/2.0.4/README.md
 ed1e7c21137d4ee9ee10fd945e62677080023c24c7829b84e6632a5457f8c7fa  packages/preview/showybox/2.0.4/lib/func.typ

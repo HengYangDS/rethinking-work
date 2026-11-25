@@ -262,7 +262,7 @@ description: Use when asked to check, verify or review a change to export.py in 
    - Not checked: what this check does not cover, such as other callers of `export_rows` and inputs the test has no case for.
 ```
 
-在 `~/tools-practice` 里再启动一个会话（命令同上），只说一句：“检查一下 fix 这次提交对 export.py 的改动。”fix 是#chapref(<first>)给修复的那次提交加的标签（`git tag fix`）。完成后退出，先取得这一次会话的记录文件，再用#chapref(<first>, link: false)中列出工具调用的那条 `jq` 命令查看第一行；记录文件用下面这一行取得：
+在 `~/tools-practice` 里再启动一个会话（命令同上），只说一句：“检查一下 fix 这次提交对 export.py 的改动。”`fix` 是#chapref(<first>)给修复的那次提交加的标签（`git tag fix`）。完成后退出，先取得这一次会话的记录文件，再用#chapref(<first>, link: false)中列出工具调用的那条 `jq` 命令查看第一行；记录文件用下面这一行取得：
 
 ```sh
 f=$(/bin/ls -t ~/.claude/projects/*tools-practice*/*.jsonl | head -1)

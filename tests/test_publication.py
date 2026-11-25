@@ -123,6 +123,20 @@ class PublicationInputs(edition.Edition):
         # A warning names what the PDF hides: a missing glyph, an unknown font, a dropped reference.
         self.assertEqual(self.edition.warnings.strip(), "")
 
+    def test_every_package_read_is_in_the_supply(self):
+        # A package that a declared package imports is read too; a runner that holds only the
+        # supply would fetch it during the compile.
+        supply = (ROOT / "publication/supply/typst-packages.sha256").read_text(encoding="utf-8")
+        listed = {line.split()[1] for line in supply.splitlines() if line.strip()}
+        marker = "/packages/preview/"
+        read = {
+            "packages/preview/" + path.split(marker, 1)[1]
+            for path in self.edition.inputs
+            if marker in path
+        }
+        self.assertTrue(read, "the compile read no Typst package")
+        self.assertEqual(sorted(read - listed), [])
+
     def test_embedded_fonts_are_the_declared_ones(self):
         # The layout declares the publication's faces once; the PDF embeds no other. A face's
         # PostScript name holds its family's name once case, spaces and punctuation are dropped.

@@ -45,15 +45,17 @@ verbatim in its own document.
 ## Figure packages
 
 The figures are drawn with fletcher, imported by version from Typst Universe;
-fletcher imports CeTZ. Neither package's source is copied into this repository,
-and each keeps its own license, which the repository's MIT License does not
-replace. Each complete package tree, its `LICENSE` file included, is bound by
+fletcher imports CeTZ, and CeTZ imports oxifmt. None of these packages' source
+is copied into this repository, and each keeps its own license, which the
+repository's MIT License does not replace. Each complete package tree, its
+`LICENSE` files included, is bound by
 [typst-packages.sha256](../supply/typst-packages.sha256).
 
 | Package                   | License           | Source                                         |
 | ------------------------- | ----------------- | ---------------------------------------------- |
 | fletcher 0.6.0            | MIT               | <https://github.com/fletcher-package/fletcher> |
 | CeTZ 0.5.3 (via fletcher) | LGPL-3.0-or-later | <https://github.com/cetz-package/cetz>         |
+| oxifmt 1.0.0 (via CeTZ)   | MIT OR Apache-2.0 | <https://github.com/PgBiel/typst-oxifmt>       |
 
 ## Authored publication and local executors
 

@@ -87,6 +87,12 @@ itself claim editorial acceptance.
   PDF's text is unchanged.
 - Both families read the whole book at `c3bce38`; the 27 places judged errors
   are corrected, except a quoted brief kept as it was written.
+- The error-rate sample of `e650b93` passed at 0.47 per 10,000; its five errors
+  and two more places of the same kind are corrected: a figure box's measure
+  word, what host rules lessen, ordered series set with 顿号, a gloss at the
+  first use of 「token」, and a git label in code type.
+- oxifmt, which CeTZ imports, joins the locked Typst packages and the notices; a
+  test holds every package the compile reads to the supply.
 - After the commands review: chapter 17 says five of six runs named their basis;
   appendix D gives the first kind of run its host, model and dates; chapters 11
   and 15 again say what their runs did not test; figure 2 sends the set-aside
