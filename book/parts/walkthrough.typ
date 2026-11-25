@@ -1,6 +1,5 @@
 #import "/publication/layout/style.typ": *
-#import "/book/metadata.typ": *
-#chapter("四 / 交出去以后", "17", "从头到尾做一遍", "同一份快照，交出两份委托。交回的结果有何不同，其中哪些不同取决于委托？")<walkthrough>
+#chapter("17", "从头到尾做一遍", "同一份快照，交出两份委托。交回的结果有何不同，其中哪些不同取决于委托？")<walkthrough>
 研究员要用一份他人制作的快照做回测，想知道它是否就是 2026 年 11 月 2 日 09:00（UTC）那一刻系统里实际存在的数据。本章把这件事从交出委托到收回结果完整做一遍。所用数据是练习包 `cases/historical-snapshot/` 中的三个 CSV 文件，即#chapref(<practice-thinking>)的练习二用过的那一组。`source-observations.csv` 是日收益的观测数据，每条记录带有公布时间、入库时间和版本号；`universe.csv` 列出研究范围内的六只证券；`research-snapshot.csv` 就是那份快照，共四行。那一刻即#chapref(<practice-thinking>, link: false)所说的冻结时刻。
 
 把这三个文件复制到两个目录中，再在一个 Claude Code 会话中向两个目录各派一个帮手（Claude Code 称之为子智能体），分别领受两份委托；下文把智能体从领受委托到交回结果的全过程称为一次运行。

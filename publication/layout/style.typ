@@ -90,6 +90,9 @@
 // What was set last in the text: a paragraph, a lead-in (below), or another block, which every other
 // block records after itself.
 #let last-set = state("last-set", "block")
+// The widest inline command, in display width, that is kept on one line.
+#let inline-command-width = 44
+#let display-width(text) = text.clusters().map(c => if c.match(regex("[\\p{Han}\\p{Hiragana}\\p{Katakana}\\p{Hangul}\u{3000}-\u{303F}\u{FF00}-\u{FFEF}]")) != none { 2 } else { 1 }).sum(default: 0)
 #let publication-design(body) = {
   set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
   // Chinese inside commands and outputs takes the sans face, not the serif body face. A symbol that
@@ -184,6 +187,12 @@
   }
   show table.cell.where(y: 0): set text(font: "Noto Sans CJK SC", weight: "bold", size: 9pt)
   show figure.caption: set text(size: 8.5pt, fill: muted)
+  // Commands are meant to be copied: no line-number gutter in the text layer, and a short inline command never breaks
+  // across lines. A box may break on either side, so the word joiner keeps a closing mark that follows the command on
+  // its line: no line opens with one. Short is measured in display width: a Chinese character is set about twice as
+  // wide as a code letter.
+  show: codly.set_(gutters: ())
+  show raw.where(block: false): it => if display-width(it.text) <= inline-command-width { box(it) + sym.wj } else { it }
   body
 }
 #let small(body) = text(size: 8.5pt, fill: muted, body)
@@ -201,8 +210,6 @@
 // A page the manuscript ends on purpose, as when an exercise asks for an answer before the reader
 // turns the page. The mark lets layout checks tell such a page from one left short.
 #let page-turn() = [#metadata(none)<page-turn>#pagebreak(weak: true)]
-#let pageref(loc) = context link(loc, text(fill: teal)[#counter(page).at(loc).first()])
-#let case(identifier) = link(label("case-" + identifier), identifier)
 // A reference to a chapter, a practice or an appendix is derived from the number its opening
 // declares, so a renumbering changes every reference with it. `chapref` writes 第三章, 练一 or
 // 附录 D, linked unless `link: false`; several targets give 第九、第十章. `chapnum` writes the
@@ -219,20 +226,13 @@
   if mark == none { panic("chapref: " + repr(target) + " is not on a chapter's opening page") }
   mark.value.chapter
 }
-#let chapref(..targets, link: true) = context {
-  let numbers = targets.pos().map(chapter-number)
-  let digits = numbers.all(n => n.match(regex("^\d+$")) != none)
-  let text = if digits { "第" + numbers.map(n => zh-number(int(n))).join("、第") + "章" }
-    else if numbers.len() == 1 and numbers.first().starts-with("练") { numbers.first() }
-    else if numbers.len() == 1 { "附录 " + numbers.first() }
-    else { panic("chapref: several targets must all be numbered chapters") }
-  if link and targets.pos().len() == 1 { std.link(targets.pos().first(), text) } else { text }
+#let chapref(target, link: true) = context {
+  let number = chapter-number(target)
+  let text = if number.match(regex("^\d+$")) != none { "第" + zh-number(int(number)) + "章" }
+    else if number.starts-with("练") { number } else { "附录 " + number }
+  if link { std.link(target, text) } else { text }
 }
 #let chapnum(target) = context std.link(target, chapter-number(target))
-// A relative reference, 上一章 or 下一章, carries the chapter it stands for and prints as written:
-// the words keep their colour, and a test can hold the target to the reading order.
-// The words keep the body text's colour: they gain a target, not a look.
-#let relref(target, body) = link(target, text(fill: ink, body))
 // A range of chapters, 第十八至二十一章, and a list, 第十、十一、十二章; each prints as the book
 // writes it, from the openings' declared numbers, and links to its first chapter.
 #let chapspan(first, last, link: true) = context {
@@ -246,7 +246,10 @@
   if link { std.link(targets.pos().first(), text) } else { text }
 }
 #let contents-return() = link(<contents>, text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[返回目录 ↗])
-#let chapter(part, n, title, lead) = {
+// The part a chapter belongs to, declared once for its chapters in `book/manuscript.typ`: its number and name head
+// each chapter and group the contents. The back group has no number; its chapters name their own heads.
+#let book-part = state("book-part", none)
+#let chapter(n, title, lead, head: auto) = {
   set heading(numbering: none)
   pagebreak(weak: true)
   heading(level: 1)[#title]
@@ -254,11 +257,13 @@
     #set par(first-line-indent: 0pt, leading: 5.5pt, spacing: 2 * space)
     #metadata((chapter: n))<chapter-navigation>
     #grid(columns: (1fr, auto),
-      text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[#part / #n],
+      text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[#if head == auto {
+        context { let part = book-part.get(); [#part.number / #part.name] }
+      } else [#head] / #n],
       contents-return(),
     )
     #parbreak()
-    #text(size: 11pt, fill: teal)[#lead]
+    #text(size: 11pt, fill: ink)[#lead]
   ]
   last-set.update("block")
 }
@@ -278,17 +283,11 @@
   #body
 ]
 #let note(title, body) = flow-block(width: 100%, fill: tint, mark: <sample-box>,
-  stroke: (left: 1.5pt + rust), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
+  stroke: (left: 1.5pt + slate), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
   #set par(first-line-indent: 0pt, justify: false, leading: 5.5pt, spacing: 13.5pt)
   #block(sticky: true, above: 0pt, below: 2 * space)[#text(font: "Noto Sans CJK SC", weight: "bold", size: 10pt, title)]
   #body
 ]
-// Compact one-paragraph field reminders keep meaning without a framed callout.
-#let takeaway(title, body) = block(above: 2 * space, below: 2 * space)[
-  #last-set.update("block")
-  #set par(first-line-indent: 0pt, justify: false, leading: body-line - body-edges, spacing: par-space)
-  #text(weight: "bold", title) #h(.5em) #body
-] + last-set.update("block")
 // Whether a cell holds a number alone: digits with their separators, sign and percent, or a count of a total such as
 // 5 / 6 (CY/T 170—2019 7.2.2.4
 // aligns such a column on its units digit; the book's numbers have no decimals within a column, so the units digit is

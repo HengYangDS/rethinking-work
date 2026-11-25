@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import edition
-from edition import BACK_MATTER_SECTIONS, LAYERS, QUIET, ROOT
+from edition import BACK_MATTER_SECTIONS, QUIET, ROOT
 
 
 def bare_comment_lines(script):
@@ -201,15 +201,34 @@ class PublicationInputs(edition.Edition):
                     self.assertNotRegex(text, r"/Users/[^/]+/|/private/tmp/", str(path))
         self.assertIn("https://typst.app/docs/", self.fact("link targets"))
 
+    def test_chapters_follow_the_declared_parts(self):
+        # The parts in `book/manuscript.typ` give the reading order. Numbered chapters run from 01
+        # without a gap; each part keeps its chapters together; a practice closes its part, the
+        # practices numbered in order; the appendices run from A.
+        marks = self.fact("chapter marks")
+        chapters = [mark["chapter"] for mark in marks]
+        numbered = [chapter for chapter in chapters if chapter.isdigit()]
+        self.assertEqual(numbered, [f"{n:02d}" for n in range(1, len(numbered) + 1)])
+        parts = [mark["part"] for mark in marks]
+        runs = [part for index, part in enumerate(parts) if index == 0 or parts[index - 1] != part]
+        self.assertEqual(len(runs), len(set(runs)), "a part's chapters stand apart")
+        practices = [chapter for chapter in chapters if chapter.startswith("练")]
+        self.assertEqual(
+            practices, ["练" + digit for digit in "一二三四五六七八九"[: len(practices)]]
+        )
+        for practice in practices:
+            index = chapters.index(practice)
+            self.assertTrue(
+                index + 1 == len(chapters) or parts[index + 1] != parts[index], practice
+            )
+        appendices = [chapter for chapter in chapters if chapter.isascii() and chapter.isalpha()]
+        self.assertEqual(appendices, [chr(ord("A") + n) for n in range(len(appendices))])
+
     def test_contents_lists_every_chapter_in_reading_order(self):
-        chapters = self.fact("chapters")
-        expected = [f"{n:02d}" for n in range(1, 32)]
-        for after, mark in (("08", "练一"), ("14", "练二"), ("21", "练三"), ("30", "练四")):
-            expected.insert(expected.index(after) + 1, mark)
-        self.assertEqual(chapters, expected + ["终", "记", "A", "B", "C", "D"])
         # The contents may run over several pages; it ends where chapter 01 opens.
+        chapters = self.fact("chapters")
         contents_page = self.fact("contents page")
-        first_chapter = self.fact("layer work")
+        first_chapter = next(m["page"] for m in self.fact("chapter marks") if m["chapter"] == "01")
         targets = [
             item["target"]
             for item in self.fact("internal links")
@@ -218,15 +237,9 @@ class PublicationInputs(edition.Edition):
         self.assertEqual(len(targets), len(chapters) + 1)
         self.assertEqual(targets, sorted(targets))
 
-    def test_each_layer_has_its_chapters(self):
-        pages = {item["chapter"]: item["page"] for item in self.fact("chapter marks")}
-        for label, chapter in LAYERS.items():
-            with self.subTest(label=label):
-                self.assertEqual(self.fact(f"layer {label}"), pages[chapter])
-
     def test_practice_chapters_name_their_exercise_cases(self):
         start = self.fact("practice page")
-        end = self.fact("layer closing")
+        end = self.fact("closing page")
         named = " ".join(item["text"] for item in self.fact("raws") if start <= item["page"] < end)
         for case in (
             "cases/historical-snapshot/",

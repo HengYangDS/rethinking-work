@@ -22,9 +22,9 @@ metadata, including title, subject, author, keywords, language and date.
 They require native manuscript content
 and every diagram in `diagrams/` drawn once, by a figure with an alternative
 text, and reject private host paths in portable inputs. Navigation checks require the
-contents to list every chapter, practice module and appendix of `book/manuscript.typ`, the epilogue and the afterword in
-reading order, each layer's opening chapter to carry its number, the practice
-chapters to name exercise cases that exist, the hook settings and skill printed in the
+contents to list every chapter in reading order, the chapters to follow the parts that `book/manuscript.typ` declares
+(numbered chapters without a gap, each part's chapters together, a practice closing its part, appendices from A), the
+practice chapters to name exercise cases that exist, the hook settings and skill printed in the
 tools chapter to equal the exercise files, the printed hook script to pass on
 the fixed export and fail on the old one, and the back matter to state the
 book's sources and limits. A layout check requires that the page before a table

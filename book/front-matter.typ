@@ -5,13 +5,13 @@
 #set page(header: none, footer: none, numbering: none)
 #set par(first-line-indent: 0pt, justify: false)
 #v(13mm)
-#text(size: 9pt, fill: teal, tracking: 1.6pt)[RETHINKING WORK]
+#text(size: 9pt, fill: ink, tracking: 1.6pt)[RETHINKING WORK]
 #v(17mm)
 #text(font: "Songti SC", size: 39pt, weight: "bold", book-title)
 #v(8mm)
-#text(size: 15pt, fill: teal, book-subtitle)
+#text(size: 15pt, fill: ink, book-subtitle)
 #v(14mm)
-#line(length: 32mm, stroke: 1.6pt + rust)
+#line(length: 32mm, stroke: 1.6pt + slate)
 #v(8mm)
 #text(size: 12pt)[怎样思考，#linebreak()怎样做事，#linebreak()怎样协作。]
 #v(1fr)
@@ -50,17 +50,17 @@
     text(fill: muted, str(page)),
   )))
 }
-#let contents-group(title, numbers) = context {
+#let contents-group(title, marks) = {
   block(above: 6 * space, below: 3 * space, text(font: "Noto Sans CJK SC", size: 9pt, fill: muted, title))
-  for mark in query(<chapter-navigation>).filter(mark => numbers.contains(mark.value.chapter)) {
-    contents-entry(mark.value.chapter, query(heading.where(level: 1).before(mark.location())).last())
-  }
+  for mark in marks { contents-entry(mark.value.chapter, query(heading.where(level: 1).before(mark.location())).last()) }
 }
 #context contents-entry("", query(heading.where(level: 1, outlined: true)).first())
-#contents-group("第一部　根", ("01", "02", "03"))
-#contents-group("第二部　一个人", ("04", "05", "06", "07", "08", "练一"))
-#contents-group("第三部　智能体", ("09", "10", "11", "12", "13", "14", "练二"))
-#contents-group("第四部　交出去以后", ("15", "16", "17", "18", "19", "20", "21", "练三"))
-#contents-group("第五部　一群人", ("22", "23", "24", "25", "26", "27", "28", "29", "30", "练四"))
-#contents-group("第六部　人", ("31",))
-#contents-group("结语、后记与附录", ("终", "记", "A", "B", "C", "D"))
+// One group a part, in reading order, from the parts the chapters declare (`book/manuscript.typ`).
+#context {
+  let marks = query(<chapter-navigation>)
+  let part-of(mark) = book-part.at(mark.location())
+  for part in marks.map(part-of).dedup() {
+    let title = if part.number == none { part.name } else { "第" + part.number + "部　" + part.name }
+    contents-group(title, marks.filter(mark => part-of(mark) == part))
+  }
+}

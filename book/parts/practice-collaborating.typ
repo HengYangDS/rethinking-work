@@ -1,6 +1,5 @@
 #import "/publication/layout/style.typ": *
-#import "/book/metadata.typ": *
-#chapter("五 / 一群人", "练四", "协作的练习", "四个练习，最好两个人一起做：分清谁负责什么，改一段话，写一条评审意见并分析一个分歧，留一条理由。")<practice-collaborating>
+#chapter("练四", "协作的练习", "四个练习，最好两个人一起做：分清谁负责什么，改一段话，写一条评审意见并分析一个分歧，留一条理由。")<practice-collaborating>
 这四个练习依次对应#chapref(<roles>)到#chapref(<standing>)，每章一个。只有练习三中有一段查询可以运行，其余各题都没有可以运行的答案，适合两人各做一遍，再交换审阅。每个练习后面附有参考答案。
 
 == 练习一：这件事里谁负责什么

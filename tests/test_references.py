@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OPENING = re.compile(r"#chapter\(.*?\)<([a-z-]+)>", re.S)
-RELATIVE = re.compile(r"#(?:relref|link)\(<([a-z-]+)>\)\[(上一章|下一章)\]")
+RELATIVE = re.compile(r"#link\(<([a-z-]+)>\)\[(上一章|下一章)\]")
 
 
 class RelativeReferences(unittest.TestCase):

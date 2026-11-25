@@ -1,6 +1,5 @@
 #import "/publication/layout/style.typ": *
-#import "/book/metadata.typ": *
-#chapter("四 / 交出去以后", "练三", "交与收的练习", "三个练习：把一句话写成一份委托，核验一处改动，排查一次失败。")<practice-doing>
+#chapter("练三", "交与收的练习", "三个练习：把一句话写成一份委托，核验一处改动，排查一次失败。")<practice-doing>
 下面三个练习，分别练#chaprun(<delegate>, <verify>, <diagnose>, link: false)的方法，按做一件事时的先后顺序排列；#chapref(<walkthrough>)末尾“自己重做一遍”一节，可以作为第四个练习。委托和检查点的模板在练习包 `exercises/` 目录下的 `templates/` 中。
 
 == 练习一：把一句话写成一份委托

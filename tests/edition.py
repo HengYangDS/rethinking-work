@@ -24,17 +24,6 @@ PLACE = (
     "(page:it.location().page(), x:it.location().position().x.pt(),"
     " y:it.location().position().y.pt())"
 )
-# Each layer's label and the chapter that opens it.
-LAYERS = {
-    "work": "01",
-    "question": "04",
-    "agent": "09",
-    "delegate": "15",
-    "team": "22",
-    "shared": "27",
-    "growth": "31",
-    "closing": "终",
-}
 BACK_MATTER_SECTIONS = ("run-conditions", "premises")
 
 # Every document fact the checks read, by name. One `typst eval` reads them all from one layout
@@ -89,9 +78,11 @@ FACTS = {
     "contents page": "query(<contents>).first().location().page()",
     "internal links": "query(link).filter(it => type(it.dest) == location)"
     ".map(it => (page:it.location().page(), target:it.dest.page()))",
-    "chapter marks": "query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
-    " page:it.location().page()))",
-    **{f"layer {label}": f"query(<{label}>).first().location().page()" for label in LAYERS},
+    # Each chapter in reading order, with its page and the name of the part it is in.
+    "chapter marks": '{ import "/publication/layout/style.typ": book-part;'
+    " query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
+    " page:it.location().page(), part:book-part.at(it.location()).name)) }",
+    "closing page": "query(<closing>).first().location().page()",
     "raws": "query(raw).map(it => (text:it.text, lang:it.lang, block:it.block,"
     " page:it.location().page()))",
     "practice page": "query(<practice-thinking>).first().location().page()",

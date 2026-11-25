@@ -61,6 +61,12 @@ itself claim editorial acceptance.
   `snapshot_minus_expected_bps`, the direction the keyed reconciliation uses.
 - Figures 1, 2, 5 and 6 use their chapter's words and steps, without an
   unexplained dark box.
+- The book's parts are declared once in `book/manuscript.typ`; the chapter heads
+  and the contents follow them, and the tests check rules (numbered chapters
+  without a gap, each part's chapters together) instead of pinned lists. Layout
+  functions nobody called and the second way of writing a relative reference
+  are gone, and the entry file's layout rules live in the layout module. The
+  PDF's text is unchanged.
 - The editors' decisions on the third sample's 92 reader notes are applied: 26
   places are reworded, 59 kept with a reason, 4 were already gone. Clock times
   take two-digit hours throughout, and chapter 24's lead ends on its question.

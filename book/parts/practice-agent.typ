@@ -1,6 +1,5 @@
 #import "/publication/layout/style.typ": *
-#import "/book/metadata.typ": *
-#chapter("三 / 智能体", "练二", "智能体的练习", "四个练习：对照记录读报告，改写一份工具说明，让程序计算，为四件事选择档位。")<practice-agent>
+#chapter("练二", "智能体的练习", "四个练习：对照记录读报告，改写一份工具说明，让程序计算，为四件事选择档位。")<practice-agent>
 这一部各章末尾的“上手”，其中有几步在你自己的 `~/first-session` 中完成。这里再增加四个练习，都不需要再把任务交给智能体。练习二、练习四用纸笔即可完成；练习一最后要用到#chapref(<first>, link: false)那次会话的记录；练习三要用到练习包中的数据，以及另行安装的 oasdiff 和 ast-grep。
 
 == 练习一：对照记录读报告
