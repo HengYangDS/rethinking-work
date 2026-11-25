@@ -77,27 +77,13 @@ Conditions:
   `对象、口径有歧义，先列出来问，不要自己定。` The other three held no
   instruction file.
 
-What the first round's answers show:
-
-| | `no-rule-1..3.txt` | `rule-1..3.txt` |
-| --- | --- | --- |
-| Verdict | Given at the opening in all three | Given in none |
-| Conventions | Partly chosen by the session: two state the basis they checked against, one states which clock must be used; two recommend keeping the empty row, one says keep it or attach a list of exclusions | Cutoff, clock and null handling listed as questions in all three |
-| Question to the user | At the end: the cutoff in all three, the clock in two | Before any verdict: at the opening in one, after a data summary in one, after a list of confirmed facts in one |
-| Missing S06 | Reported in all three | Reported in all three |
-
-The second round repeated the pattern. Without the rule, all three gave a
-verdict at the opening and asked for the cutoff at the end; one also asked
-which clock to use. With it, none gave a verdict, and all three listed the
-cutoff, the clock and the empty row as questions: one at the opening, one after
-a list of confirmed facts, one after a data summary. Two of these three named
-`AGENTS.md` as the reason. All six reported the missing S06.
+The answers and what they show are reported in chapter 17 of the book.
 
 Limits: six runs each over two rounds, one model, one task. This group is not comparable
 with the sessions above, which ran as sub-agents on another model under the
 author's full instruction files.
 
-A first round of six runs is not included. In it the shell's `ls` was an alias
+An earlier group of six runs, before 2026-11-16, is not included. In it the shell's `ls` was an alias
 that printed nothing and returned success, so every session saw only the
 snapshot file it had been told about and reported that the directory held no
 data to compare against. The CSV files were there. Check that the first
@@ -113,13 +99,7 @@ the conditions above, with no instruction file and one allow-list for both:
 `control/model-light.txt` are the final answers, unchanged.
 `control/model-light-query.sql` is the lighter model's saved query.
 
-| | Strong | Light |
-| --- | --- | --- |
-| S01, S02, S03 | 0, -100, 60 | 0, -100, 60 |
-| Query | Saved, not run by the session; run as saved, it gives the same three values | Saved, not run by the session; as saved it fails (`Table with name universe does not exist`), because it reads the three CSV files as existing tables |
-| Report | Says the query was not run and the table was checked by hand; asks for the query to be run first | Says the query was not run and the values were worked out by reading; asks for the query to be run |
-| Turns, wall time | 6, 45 s | 7, 48 s |
-| Cost reported by the host | 0.16 USD | 0.0085 USD |
+Chapter 17 of the book reports the two answers.
 
 The first shell command of both sessions contained a loop, which matches no
 prefix on the list and was refused; neither tried another command, and both
@@ -135,6 +115,5 @@ To run the lighter model's query, load the files under the names it assumed:
 duckdb -no-agent -csv \
   -c "CREATE TABLE universe AS SELECT * FROM read_csv('universe.csv');" \
   -c "CREATE TABLE source_observations AS SELECT * FROM read_csv('source-observations.csv', all_varchar=true);" \
-  -c "CREATE TABLE research_snapshot AS SELECT * FROM read_csv('research-snapshot.csv');" \
   -c ".read session/control/model-light-query.sql"
 ```

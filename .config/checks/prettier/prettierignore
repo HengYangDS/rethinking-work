@@ -1,7 +1,5 @@
 **/build/**
 **/.git/**
-# Complete imported originals remain byte-exact until migration acceptance.
-**/exercises/**
 # Native generated lock bytes are owned by Mise, not the prose formatter.
 **/aube-lock.yaml
 # Native test environments and caches are derived, not authored source.

@@ -1,7 +1,7 @@
 《重新理解工作》实战练习 · @EDITION@
 
 本目录与同一压缩包中的《重新理解工作》（@EDITION@）配套。
-先打开 exercises/reader-guide.zh.md，按中文说明开始。
+各练习的做法见书末附录 A“随书练习”。
 本包为合成教学材料，不含业务数据或凭据。
 完整检查需要已安装的 Python 3.12、DuckDB、ast-grep 和 oasdiff；本包不会安装软件。
 在本目录运行：

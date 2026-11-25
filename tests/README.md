@@ -46,7 +46,7 @@ exercises no recorded review covers; the records and their format are in
 This is not a full editorial or visual acceptance suite. Migration comparison,
 PDF text and metadata checks, every-page inspection and reader review have
 different scopes; follow [edition acceptance](../docs/publication-acceptance.md).
-The [exercise regression](../exercises/README.md#export-regression) deliberately
+The [exercise regression](../exercises/cases/export-regression/) deliberately
 includes a failing old-function control and is not silently changed to pass.
 
 ## Companion contracts

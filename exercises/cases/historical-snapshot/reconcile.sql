@@ -19,7 +19,7 @@ SELECT COALESCE(a.security_id,s.security_id) AS security_id,
  CASE WHEN a.security_id IS NULL THEN 'not_accepted_at_cutoff'
  WHEN s.security_id IS NULL THEN 'missing_in_snapshot'
  ELSE 'value_mismatch' END AS reason,
- a.return_bps-s.return_bps AS delta_bps
+ s.return_bps-a.return_bps AS snapshot_minus_expected_bps
 FROM accepted a FULL JOIN read_csv_auto('research-snapshot.csv') s
 USING(security_id,event_date)
 WHERE a.security_id IS NULL OR s.security_id IS NULL

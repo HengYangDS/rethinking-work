@@ -34,12 +34,12 @@ itself claim editorial acceptance.
   event's tag. Tests hold the draft and the release forms.
 - The third sample of 0.2.6, recounted by the readings that the calibration of
   2026-11-25 settled, is 1.26 errors per 10,000 characters (13.3 errors), over
-  the limit as 0.2.6's notes said; most of the rise comes from counting a
-  contradiction between passages under 1-11, at two points. Page 148's
-  「都合乎题材和读者」 is corrected to 「都切合题材、适合读者」, as the shared
-  rules now define 雅. The places that calibration found to be errors and three
-  it found improper are corrected: four quoted questions keep their question
-  mark, 「换算」 becomes 「重新归类」 for re-classified industries, and three
+  the limit as 0.2.6's notes said (1.08 there; the recount differs chiefly at
+  page 173, where one list named a word and a word that contains it, a logic
+  error under 1-11). Page 148's 「都合乎题材和读者」 is corrected to 「都切合题材、适合读者」, as the
+  shared rules now define 雅. The places that calibration found to be errors and
+  three it found improper are corrected: four quoted questions keep their
+  question mark, 「换算」 becomes 「重新归类」 for re-classified industries, and three
   sentences in chapters 2, 27 and 29 are reworded.
 - `docs/publication-acceptance.md` states how the error-rate sample counts and
   reads: a note judged an error counts; every two-point error or note goes to a
@@ -48,6 +48,19 @@ itself claim editorial acceptance.
   own subsection.
 - Each figure and its caption stand centred in the text column, held by a
   layout test.
+- The text says each fact once, where it belongs, after two content reviews: a
+  run's conditions and versions stay in appendices C and D, results are no
+  longer told before the 上手 section that produces them, part introductions and
+  repeated examples go, chapters 14 and 30 open on a scene, chapter 18 describes
+  its paid scheduled task instead of registering and deleting it, chapter 28's
+  four marks of 突出 move to chapter 29, and the ending is one paragraph. The
+  book is 195 pages.
+- The practice pack has one reader index, appendix A: the Chinese reader guide,
+  which repeated the exercises with their answers, and six English templates the
+  book never cited are removed. The snapshot difference is named
+  `snapshot_minus_expected_bps`, the direction the keyed reconciliation uses.
+- Figures 1, 2, 5 and 6 use their chapter's words and steps, without an
+  unexplained dark box.
 - Chapters 28 and 29 say that judging rests on work performance and name
   nothing it does not rest on, as DDWG 10.1.2 does; 37 sentences across the
   book that denied a meaning nobody gave, repeated the point just made or

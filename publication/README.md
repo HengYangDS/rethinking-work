@@ -53,7 +53,7 @@ task that compiles the book draws them from their current sources. Rendering
 does not inspect its own output.
 `exercises` runs only the companion checks through existing DuckDB, Python 3.12,
 ast-grep and oasdiff; it does not compile the PDF. See the
-[exercise instructions](../exercises/README.md#check-all-runnable-examples).
+[exercise instructions](../exercises/README.md#check-every-example).
 
 ## Source CI
 

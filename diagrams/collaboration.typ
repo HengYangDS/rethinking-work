@@ -3,6 +3,6 @@
 #let w = 26mm
 #let body = figure-diagram(spacing: (12mm, 7mm),
   n((0, 0), <a>, [一起想], width: w), n((1, 0), <b>, [一起做], width: w),
-  n((2, 0), <c>, [整件交出去], width: w, emphasis: true),
+  n((2, 0), <c>, [整件交出去], width: w),
   e(<a>, <b>, marks: "<|-|>"), e(<b>, <c>, marks: "<|-|>"),
 )

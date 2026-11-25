@@ -118,11 +118,6 @@ preserved prose wrapping. Its input list and exclusions live in the native
 Just task and `.config/checks/prettier/`. Typst and Python retain their
 native syntax; do not run a generic whitespace rewrite over them.
 
-Preserved exercises are complete originals during migration acceptance. Exclude
-them from automated rewriting until the exact migration consumer releases that
-binding. Later exercise edits are intentional revisions, checked against their
-teaching contract rather than described as byte-identical copies.
-
 ## Keep source and retention separate
 
 Commit the manuscript, diagram inputs, fixtures, configuration and necessary
