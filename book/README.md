@@ -5,8 +5,9 @@ it. Presentation lives in [publication](../publication/README.md).
 
 - [main.typ](main.typ) is the sole document entrypoint. It applies the publisher
   package and edition metadata before including the manuscript.
-- [metadata.typ](metadata.typ) owns title, subtitle, author, editorial date and
-  keywords. Front matter and PDF metadata consume it.
+- [metadata.typ](metadata.typ) owns title, subtitle, author and keywords, and
+  names the edition from the build's identity: the version's edition dated by
+  its tag, or a draft named by its commit. Front matter and PDF metadata consume it.
 - [manuscript.typ](manuscript.typ) owns reading order, not duplicate prose.
 - [front-matter.typ](front-matter.typ) contains the cover, preface and contents.
 - [parts](parts/README.md) contains one module per chapter.

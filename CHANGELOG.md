@@ -14,6 +14,16 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Changed
+
+- The edition's identity comes from git, not from a written date: only a clean
+  build of the commit that the signed tag `v<VERSION>` names is that version's
+  edition, dated by its tag; every other build is a draft that names its commit
+  (「0.2.6 之后的草稿 · 提交 …」 once that version is tagged), on the cover, in
+  the PDF metadata and in both reader notes. The justfile reads it once for
+  every compile, test and archive; the hosted publication job fetches a tag
+  event's tag. Tests hold the draft and the release forms.
+
 ## [0.2.6] - 2026-11-25
 
 ### Changed

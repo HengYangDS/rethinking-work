@@ -80,6 +80,8 @@ publicationJob: {
 		{name: "Select the public event repository", run: "git remote add origin \"$CHECKOUT_URL\""},
 		{name: "Fetch the exact event commit", run: "git -c protocol.version=2 fetch --no-tags --depth=1 origin \"$CHECKOUT_SHA\""},
 		{name: "Check out the fetched commit", run: "git -c core.hooksPath=/dev/null checkout --detach FETCH_HEAD"},
+		// A tag event builds that tag's edition: the identity (publication/justfile, `edition_inputs`) needs the tag.
+		{name: "Fetch the event tag", if: "github.ref_type == 'tag'", run: "git -c protocol.version=2 fetch --no-tags --depth=1 origin \"+$GITHUB_REF:$GITHUB_REF\""},
 	], [for command in supply.bootstrap {run: command}], [for command in supply.build {run: command}], [
 		for artifact in [
 			{label: "PDF", path: "build/artifacts/pdf/rethinking-work.pdf"},

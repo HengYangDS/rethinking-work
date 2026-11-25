@@ -212,8 +212,8 @@ project-lock drift and prints both hashes. The edition archive holds one folder
 `重新理解工作/` with a Chinese `先读.txt`, the PDF named with its version, the
 exercises under `实战练习/` (only tracked `VERSION`, `LICENSE`, `exercises/` and
 `tests/test_exercises.py`, plus their own `先读.txt`) and a `SHA256SUMS` of every
-other file. Both reader notes are filled from `VERSION` and the edition date in
-`book/metadata.typ`, and the exercises' note with the number of checks in
+other file. Both reader notes name the edition as the cover does (`book-edition` in
+`book/metadata.typ`, from the justfile's `edition_inputs`), and the exercises' note with the number of checks in
 `tests/test_exercises.py`; a leftover token fails the task. The archive is a gzipped
 tar, the format of the owner's other repositories: entries are sorted, dated to
 the edition, owned by no host user and carry their names as UTF-8 in pax
@@ -325,8 +325,9 @@ Typst's supported `--font-path`, `--ignore-system-fonts` and
 grant distribution rights. An open-font substitution requires a separate layout
 decision, complete relayout and successor acceptance, not a silent build change.
 
-The explicit date in `book/metadata.typ` supplies Typst's document date and PDF
-timestamps; task commands do not carry a second copy. This reduces time drift
+The edition's date, read from git once (`edition_inputs`: the release tag's date,
+or a draft's commit date), supplies Typst's document date and PDF timestamps; no
+date is written by hand. This reduces time drift
 but does not establish byte-identical reproduction across machines. Match the
 actual font files and renderer identities as well as the compiler, resolved
 packages and diagram inputs before assessing reproduction.

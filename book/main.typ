@@ -15,8 +15,10 @@
   title: document.title,
   author: document.author,
   description: document.description,
-  date: document.date.display("[year]-[month]-[day]"),
+  date: if document.date != none { document.date.display("[year]-[month]-[day]") },
   version: book-version,
+  release: book-release,
+  edition: book-edition,
   keywords: document.keywords,
 ))<edition-identity>]
 #include "manuscript.typ"

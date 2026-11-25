@@ -18,7 +18,8 @@ An unclear argument belongs in its manuscript part. A repeated presentation
 defect belongs in `publication/layout/style.typ` or the document entrypoint. A wrong
 relationship belongs in the editable diagram and its nearby explanation. A
 teaching failure belongs in the case, fixture or instructions that produced it.
-Title, author and editorial date belong only in `book/metadata.typ`.
+Title and author belong only in `book/metadata.typ`; the edition and its date come
+from git (`edition_inputs` in `publication/justfile`), never from a written date.
 
 The main entrypoint assembles the selected publisher and edition. The
 `publication-design` show rule in `publication/layout/style.typ` owns repeated heading,

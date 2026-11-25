@@ -81,11 +81,47 @@ class PublicationInputs(edition.Edition):
         cover = self.read("cover")
         self.assertIn(identity["title"]["text"], cover)
         self.assertIn(identity["author"][0], cover)
-        for part in identity["date"].split("-"):
-            self.assertIn(str(int(part)), cover)
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         self.assertEqual(identity["version"], version)
         self.assertIn(version, cover)
+        # The cover names the edition the build is: a release shows its tag's date, a draft its
+        # commit and no date.
+        self.assertIn(identity["edition"], re.sub(r"\s+", " ", cover))
+        date_parts = [
+            str(int(part)) + unit
+            for part, unit in zip(identity["date"].split("-"), "年月日", strict=True)
+        ]
+        shown = [part in re.sub(r"\s+", "", cover) for part in date_parts]
+        self.assertEqual(shown, [identity["release"]] * 3)
+
+    def test_the_edition_is_a_draft_unless_built_at_its_tag(self):
+        # Only the release inputs name the version's edition and date; a draft names its commit.
+        expression = (
+            'import "/book/metadata.typ": book-edition, book-date; '
+            "(book-edition, book-date != none)"
+        )
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        release = ("--input", "edition=release", "--input", "date=2026-01-02")
+        draft = (
+            "--input",
+            "edition=draft",
+            "--input",
+            "released=true",
+            "--input",
+            "commit=abc1234",
+            "--input",
+            "changed=true",
+            "--input",
+            "date=2026-01-02",
+        )
+        self.assertEqual(
+            edition.evaluate(expression, release), [f"{version} 版 · 2026 年 1 月 2 日", True]
+        )
+        self.assertEqual(
+            edition.evaluate(expression, draft),
+            [f"{version} 之后的草稿 · 提交 abc1234，另有未提交的改动", True],
+        )
+        self.assertEqual(edition.evaluate(expression, ())[0], f"{version} 草稿")
 
     def test_compile_has_no_warnings(self):
         # A warning names what the PDF hides: a missing glyph, an unknown font, a dropped reference.

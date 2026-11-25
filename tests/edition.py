@@ -121,8 +121,16 @@ def read_pdf(*arguments):
     return subprocess.run(tool, cwd=ROOT, **QUIET, check=True)
 
 
-def evaluate(expression):
-    command = ["typst", "eval", "--root", str(ROOT), "--in", "book/main.typ", expression]
+@functools.cache
+def edition_inputs():
+    """The edition's identity as every build passes it to Typst, from the justfile's one source."""
+    command = ["just", "--justfile", "publication/justfile", "--evaluate", "edition_inputs"]
+    return tuple(subprocess.run(command, cwd=ROOT, **QUIET, check=True).stdout.split())
+
+
+def evaluate(expression, inputs=None):
+    given = edition_inputs() if inputs is None else inputs
+    command = ["typst", "eval", "--root", str(ROOT), *given, "--in", "book/main.typ", expression]
     result = subprocess.run(command, cwd=ROOT, **QUIET, check=False)
     if result.returncode:
         raise AssertionError(f"typst eval failed:\n{result.stderr}")
@@ -147,7 +155,7 @@ def build():
     # The compile and the evaluation are independent; they run side by side. A fact that fails to
     # evaluate fails every check, with Typst's message, which points at that fact.
     with subprocess.Popen(
-        ["typst", "compile", "--root", str(ROOT), "book/main.typ", str(pdf)],
+        ["typst", "compile", "--root", str(ROOT), *edition_inputs(), "book/main.typ", str(pdf)],
         cwd=ROOT,
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,

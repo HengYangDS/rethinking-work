@@ -144,9 +144,11 @@ class EditionArchive(unittest.TestCase):
                     hashlib.sha256((folder / name).read_bytes()).hexdigest(), digest, name
                 )
 
+            # The fixture's commit carries no tag v<VERSION>: both notes call the archive a draft
+            # and name its commit.
             for note in (folder / "先读.txt", folder / "实战练习/先读.txt"):
                 text = note.read_text(encoding="utf-8")
-                self.assertIn(f"{version} 版", text, note.name)
+                self.assertIn(f"{version} 草稿 · 提交 {commit[:7]}", text, note.name)
                 self.assertNotRegex(text, r"@[A-Z]+@")
             self.assertIn(commit, (folder / "先读.txt").read_text(encoding="utf-8"))
             self.assertIn(
@@ -180,6 +182,25 @@ class EditionArchive(unittest.TestCase):
                 f"Ran {count} tests", (folder / "实战练习/先读.txt").read_text(encoding="utf-8")
             )
             self.assertFalse((root / "build/runtime/work/edition-archive").exists())
+
+            # Tagged v<VERSION>, the same commit is that version's edition, dated by its tag.
+            tagged = {**identity, "GIT_COMMITTER_DATE": "2026-01-02T08:00:00+08:00"}
+            run(
+                ["git", "tag", "--annotate", "--no-sign", "-m", "edition", f"v{version}"],
+                root,
+                check=True,
+                env=tagged,
+            )
+            released = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
+            self.assertEqual(released.returncode, 0, released.stderr)
+            with tarfile.open(archive, "r:gz") as package:
+                notes = {
+                    name: package.extractfile(f"{FOLDER}/{name}").read().decode("utf-8")
+                    for name in ("先读.txt", "实战练习/先读.txt")
+                }
+            for name, text in notes.items():
+                self.assertIn(f"{version} 版 · 2026 年 1 月 2 日", text, name)
+                self.assertNotIn("草稿", text, name)
 
 
 if __name__ == "__main__":

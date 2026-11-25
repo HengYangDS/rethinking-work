@@ -28,6 +28,9 @@ jobs:
         run: git -c protocol.version=2 fetch --no-tags --depth=1 origin "$CHECKOUT_SHA"
       - name: Check out the fetched commit
         run: git -c core.hooksPath=/dev/null checkout --detach FETCH_HEAD
+      - name: Fetch the event tag
+        if: github.ref_type == 'tag'
+        run: git -c protocol.version=2 fetch --no-tags --depth=1 origin "+$GITHUB_REF:$GITHUB_REF"
       - run: mkdir -p build/runtime/ci/bootstrap
       - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.10/mise-v2026.11.10-macos-arm64.tar.gz
       - run: shasum --algorithm 256 --check publication/supply/ci-mise-macos-arm64.sha256

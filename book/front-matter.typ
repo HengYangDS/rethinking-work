@@ -17,7 +17,7 @@
 #v(1fr)
 #text(size: 12pt)[#book-author]
 #v(3mm)
-#small[#book-version 版 · #book-date-text]
+#small[#book-edition]
 ]
 
 #pagebreak()

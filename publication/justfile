@@ -1,5 +1,20 @@
 set working-directory := ".."
 
+# The edition's identity comes from git, read once here for every compile, test and archive: a checkout at the
+# commit that the signed tag v<VERSION> names, with no tracked file changed, is that version's edition dated by its
+# tag; any other build is a draft, named and dated by its commit: a draft of the version, or, once that version
+# is tagged elsewhere, a draft after it. No date is written by hand.
+edition_inputs := ```
+    version=$(tr -d '[:space:]' < VERSION)
+    if [ "$(git tag --points-at HEAD --list "v$version")" = "v$version" ] && git diff --quiet HEAD; then
+        echo "--input edition=release --input date=$(git for-each-ref --format='%(taggerdate:short)' "refs/tags/v$version")"
+    else
+        changed=false; git diff --quiet HEAD || changed=true
+        released=false; git rev-parse --quiet --verify "refs/tags/v$version" >/dev/null && released=true
+        echo "--input edition=draft --input released=$released --input commit=$(git rev-parse --short=7 HEAD) --input changed=$changed --input date=$(git show -s --format=%cs HEAD)"
+    fi
+```
+
 # The headless shell that the locked Mermaid CLI expects, declared once here; `ci-supply` installs
 # this build in Puppeteer's own cache layout and checks it against the supply manifest.
 # A CI runner's launch context can stop Google Chrome at start.
@@ -45,7 +60,7 @@ diagrams: (diagram "collaboration") (diagram "context") (diagram "memory") (diag
 # Build only; this command grants no editorial approval or publication.
 pdf:
     mkdir -p build/artifacts/pdf
-    typst compile --root . --deps build/artifacts/pdf/inputs.json book/main.typ build/artifacts/pdf/rethinking-work.pdf
+    typst compile --root . {{edition_inputs}} --deps build/artifacts/pdf/inputs.json book/main.typ build/artifacts/pdf/rethinking-work.pdf
 
 # Check the exact existing compiler, fonts and complete package inputs.
 typst-input-check supply:
@@ -93,19 +108,18 @@ edition-archive:
     pdf=build/artifacts/pdf/rethinking-work.pdf
     test -f "$pdf" || { echo "No PDF at $pdf: build it first." >&2; exit 1; }
     version=$(tr -d '[:space:]' < VERSION)
-    identity() { typst eval --root . "import \"/book/metadata.typ\": book-date, book-date-text; $1" --format json | python3.12 -c 'import json, sys; print(json.load(sys.stdin))'; }
-    date_text=$(identity book-date-text)
+    identity() { typst eval --root . {{edition_inputs}} "import \"/book/metadata.typ\": book-date, book-edition; $1" --format json | python3.12 -c 'import json, sys; print(json.load(sys.stdin))'; }
+    edition=$(identity book-edition)
     stamp=$(identity 'book-date.display("[year][month][day]")')0000
     commit=$(git rev-parse HEAD)
     checks=$(grep -c '^    def test_' tests/test_exercises.py)
-    git diff --quiet HEAD -- VERSION LICENSE exercises tests/test_exercises.py book publication || commit="${commit}（工作区有未提交的改动）"
     work=build/runtime/work/edition-archive
     rm -rf "$work"; mkdir -p "$work" build/artifacts/edition
     trap 'rm -r "$work"' EXIT
     folder="$work/重新理解工作"
     mkdir -p "$folder/实战练习"
     git ls-files -z VERSION LICENSE exercises tests/test_exercises.py | tar --null -T - -cf - | tar -xf - -C "$folder/实战练习"
-    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@DATE@|$date_text|g" -e "s|@COMMIT@|$commit|g" -e "s|@CHECKS@|$checks|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
+    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@EDITION@|$edition|g" -e "s|@COMMIT@|$commit|g" -e "s|@CHECKS@|$checks|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
     fill publication/reader-start.zh.txt "$folder/实战练习/先读.txt"
     fill publication/archive-start.zh.txt "$folder/先读.txt"
     cp "$pdf" "$folder/重新理解工作-$version.pdf"
