@@ -123,7 +123,7 @@ class EditionLayout(edition.Edition):
         text = self.read("text").split("\f")
         pages = [[normalized(line) for line in page.splitlines()] for page in text]
         bodies = [[i for i, line in enumerate(page) if line] for page in pages]
-        thin = []
+        thin, parted = [], []
         for raw in self.fact("raws"):
             if not raw["block"]:
                 continue
@@ -149,7 +149,40 @@ class EditionLayout(edition.Edition):
             below = len([i for i in bodies[raw["page"]] if i <= last]) - 1
             if min(above, below) < least:
                 thin.append((raw["page"], above, below))
+            # A block parts between two commands: the last line on its first page does not end in
+            # a continuation, which would leave the rest of that command on the next page.
+            commands = [line for line in raw["text"].split("\n") if line.strip()]
+            at, foot = first, ""
+            for command in commands:
+                found = next(
+                    (i for i in range(at, len(start)) if normalized(command)[:24] in start[i]), None
+                )
+                if found is None:
+                    break
+                at, foot = found + 1, command
+            if foot.rstrip().endswith("\\"):
+                parted.append((raw["page"], foot.strip()))
         self.assertEqual(thin, [], "code blocks split with fewer printed lines than the least part")
+        self.assertEqual(
+            parted, [], "code blocks split inside a command continued on the next line"
+        )
+
+    def test_figures_stand_inside_their_section(self):
+        # A figure is set in the section that calls it: below that section's heading and above the
+        # next heading. It is found by its caption line, 图 and its number before the caption's
+        # opening words.
+        lines, _ = self.layout_lines()
+        outside = []
+        for number, figure in enumerate(self.fact("figure sections"), 1):
+            words = re.sub(r"\s+", "", figure["caption"])[:6]
+            set_at = [
+                (page, top) for page, text, _, top in lines if text.startswith(f"图{number}{words}")
+            ]
+            heading = (figure["heading"]["page"], figure["heading"]["y"])
+            following = (figure["next"]["page"], figure["next"]["y"])
+            if len(set_at) != 1 or not heading < set_at[0] < following:
+                outside.append((number, set_at, heading, following))
+        self.assertEqual(outside, [], "figures set outside their own section")
 
     def test_no_body_line_opens_with_a_closing_mark(self):
         # Chinese typesetting never opens a line with a closing mark. A short inline command is set

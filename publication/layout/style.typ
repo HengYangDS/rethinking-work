@@ -133,7 +133,8 @@
     v(-reserve)
   }
   // A command is copied from one place, so a code block stays whole up to `whole-lines` lines;
-  // a longer one may continue on the next page. Its frame has no space of its own: like a list, it
+  // a longer one may continue on the next page, between two commands, never inside a command continued
+  // with `\`, which a test of the whole book holds. Its frame has no space of its own: like a list, it
   // takes the paragraph step after a lead-in and counts as a paragraph for what follows it.
   show raw.where(block: true): it => {
     context if last-set.get() == "lead-in" { v(par.spacing) }
@@ -326,9 +327,10 @@
     table.header(..cells.slice(0, columns.len())), ..cells.slice(columns.len())))
   last-set.update("paragraph")
 }
-// A figure floats to the top or the foot of the page where it is called, or of the next, so that the
-// text runs on around it instead of leaving the rest of a page empty.
-#let reader-figure(name, caption, description, width: 100%) = figure(placement: auto,
+// A figure is set where it is called, after the text that introduces it and inside its own section: a
+// float would stand above the section's heading at the top of a page, or below the next section's at
+// the foot.
+#let reader-figure(name, caption, description, width: 100%) = figure(placement: none,
   image("/build/artifacts/diagrams/" + name + ".png", width: width, alt: description.text),
   caption: caption, kind: image, supplement: [图],
 )

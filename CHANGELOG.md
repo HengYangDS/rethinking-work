@@ -33,11 +33,13 @@ itself claim editorial acceptance.
   (W3C clreq 6.3.2.3). List text starts two cells in, on the same grid, and a
   number keeps the date or time unit after it on its line. Specimen tests hold
   the cells and the spacing.
-- Chapter 29 states the tiers as DDWG 10.0.0 does, with the readings of its
-  10.0.1 erratum: five tiers named 评定等级 (S 远超预期, A 超出预期, B 符合预期,
+- Chapter 29 states the tiers as DDWG v10.0.3 does: five tiers named 评定等级 (S 远超预期, A 超出预期, B 符合预期,
   C 及格 as the passing line, D 不及格), D read first and one yes-or-no question
   for each tier above it, the evidence each rests on, the assessment's steps,
-  promotion, and a worked example read tier by tier.
+  promotion, the evidence for entering senior and expert as v10.0.3 reads it
+  (in each of two pieces of work a method another adopted, the methods free to
+  differ; a borne-out prediction in a sentence of its own), and a worked example
+  read tier by tier.
 - Chapter 3's passage on responsibility takes the readers' four points, as the
   owner chose.
 - Both GitHub jobs run on one fixed macOS label, `macos-26`, declared once in
@@ -62,12 +64,37 @@ itself claim editorial acceptance.
   preface's return link is set right. The book is 200 pages, its ceiling.
 - A first error-rate sample (pages 11–61 of `80710fe`'s PDF and
   the cover and contents, two model families judging each other blind,
-  105,823 characters) found 0.02 errors per 10,000 against a limit of 1. Its
+  105,823 characters) found 0.02 errors per 10,000 against a limit of 1,
+  counted by the readers' brief. Its
   two errors are corrected: a quoted brief's full stop now sits inside its
   closing quotation mark (chapter 9), and a computed percentage is written
   in Arabic numerals (chapter 11), as the book writes others. A search of
   the book corrected the same kinds in practice 4 and chapter 29, and the
   brief of chapter 10 ends with a full stop like the book's other briefs.
+- A second sample (pages 70–120 of `67399ac`'s PDF, 105,823 characters) found
+  0.43 errors per 10,000 by the classes of CY/T 266 Table 1 (0.33 by the
+  readers' brief, which put a contradiction between passages under 1-8). Its
+  errors and their kinds are corrected, and the editors' decisions on its 77
+  reader notes are applied, as the owner chose.
+- A third sample (pages 128–178 of `6dc17d4`'s PDF) was over the limit by
+  `docs/publication-acceptance.md`: 0.89 errors per 10,000 for the places both
+  families judged errors, 1.08 with a note one judge found an error and the
+  other did not (the stricter figure decides), 1.17 with one more note; the
+  readers' brief gave 0.60. Its errors and their kinds are corrected, and both
+  families read the changed passages again and found no error. The corrected
+  text is not sampled again.
+- Both families read the pages no sample had read, 5–9, 62–69, 121–127 and
+  179–186 of `aaf100a`'s PDF, as the owner chose; this reading replaces a
+  fourth sample and gives no rate. Its twelve errors and their kinds across the
+  book are corrected: figures are set where they are called, inside their own
+  section and after the text that introduces them, where three had floated above
+  its heading; a code block that continues on the next page parts between two
+  commands, never inside a command continued with `\`; a measured size of five
+  digits is in Arabic numerals; quotations match the words they quote; a
+  colon's scope no longer runs past a semicolon or holds a second colon (eighteen
+  places); the hook sentence of chapter 12 no longer says that every hook
+  matches a tool; practice 4's card takes chapter 26's second question. Tests
+  hold the figure and code-block rules.
 
 ## [0.2.5] - 2026-11-24
 
