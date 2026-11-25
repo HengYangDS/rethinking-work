@@ -25,6 +25,11 @@ The publication SHALL maintain one editable owner for manuscript meaning, editio
 - **WHEN** a reader opens the practice pack
 - **THEN** appendix A is the one index of the exercises, and the pack holds no second copy of an exercise or its answer.
 
+#### Scenario: A chapter joins a part
+
+- **WHEN** a chapter is added to a part or moved between parts
+- **THEN** only the parts declared in `book/manuscript.typ` change, and the chapter heads, the contents and the checks follow them.
+
 ### Requirement: Portable and attributable edition
 
 The publication SHALL identify its title, author 衡阳, version, edition and language in visible front matter, and its title, author, date and language in PDF metadata. The version SHALL be the one in `VERSION`. Portable inputs MUST NOT depend on private stores or host-specific receipt paths.
