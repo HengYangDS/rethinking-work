@@ -69,8 +69,8 @@ FACTS = {
     "body size": '{ import "/publication/layout/style.typ": body-size; body-size.pt() }',
     **{f"block {end}s": f"query(<block-{end}>).map(it => {PLACE})" for end in ("start", "end")},
     "figures": "query(figure).map(it => it.body)",
-    # Each figure's caption, in order, and the places of the headings nearest before and after it: the
-    # heading of the section that calls it and the next one.
+    # Each figure's caption, in order, and the places of the headings nearest before and after
+    # it: the heading of the section that calls it and the next one.
     "figure sections": '{ import "/publication/layout/style.typ": plain-text;'
     " let place(h) = (page:h.location().page(), y:h.location().position().y.pt());"
     " query(figure.where(kind: image)).map(it => (caption: plain-text(it.caption.body),"
