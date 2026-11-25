@@ -20,7 +20,7 @@
 // - headings, captions inside boxes, list items and code are flush left;
 // - a table's first column and its text columns are flush left, a column of numbers flush right on its units digit,
 //   each heading over its column; nothing in a table is centred (`column-align`);
-// - a figure's caption is centred under it, as a book sets captions;
+// - a figure is centred in the column and its caption centred under it, as a book sets them;
 // - the contents set titles flush left and page numbers flush right; the running head sets the title left and the
 //   chapter right; the folio is centred.
 // What is read as one piece stays on one page while it is short: a block of at most this many
@@ -326,8 +326,10 @@
 // float would stand above the section's heading at the top of a page, or below the next section's at
 // the foot. It is drawn from `diagrams/<name>.typ` in this compile (figures.typ declares its look), and
 // its description is the figure's alternative text.
-// It stands a paragraph step clear of the text above and below.
-#let reader-figure(name, caption, description) = block(above: par-space, below: par-space, figure(placement: none,
-  { import "/diagrams/" + name + ".typ": body; [#metadata(name)<diagram-source>]; body },
+// It stands a paragraph step clear of the text above and below, in a block as wide as the column:
+// a block of automatic width holding a figure shrinks to the figure and sets it flush left.
+// The figure is labelled `diagram-<name>`, for the check that every diagram is drawn once.
+#let reader-figure(name, caption, description) = block(width: 100%, above: par-space, below: par-space, [#figure(
+  placement: none, { import "/diagrams/" + name + ".typ": body; block(body) },
   caption: caption, kind: image, supplement: [图], alt: description.text,
-))
+)#label("diagram-" + name)])

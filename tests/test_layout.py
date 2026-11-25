@@ -184,6 +184,29 @@ class EditionLayout(edition.Edition):
                 outside.append((number, set_at, heading, following))
         self.assertEqual(outside, [], "figures set outside their own section")
 
+    def test_figures_are_centred_in_the_column(self):
+        # A figure stands centred in the text column with its caption centred under it, so the
+        # caption's first line, found as above, is centred between the body's margins. The right
+        # margin is where most lines end, since a justified line runs to it. A caption ends with a
+        # full-width mark whose right half is blank, which moves its measured centre by a quarter
+        # em, about 2pt; a figure set flush left is off by tens of points.
+        lines = [
+            (number, "".join(word.text or "" for word in line.findall("pdf:word", NS)))
+            + (float(line.get("xMin")), float(line.get("xMax")))
+            for number, page in enumerate(self.pages(), 1)
+            for line in page.findall(".//pdf:line", NS)
+        ]
+        _, left = self.layout_lines()
+        right = Counter(round(end, 1) for *_, end in lines).most_common(1)[0][0]
+        off = []
+        for number, figure in enumerate(self.fact("figure sections"), 1):
+            words = re.sub(r"\s+", "", figure["caption"])[:6]
+            for page, text, start, end in lines:
+                shift = (start + end - left - right) / 2
+                if text.startswith(f"图{number}{words}") and abs(shift) > 3:
+                    off.append((number, page, round(shift, 1)))
+        self.assertEqual(off, [], "figures set off the centre of the column")
+
     def test_no_body_line_opens_with_a_closing_mark(self):
         # Chinese typesetting never opens a line with a closing mark. A short inline command is set
         # whole in a box, and a box may break on either side, so the layout must keep the mark that

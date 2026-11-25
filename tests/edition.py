@@ -70,8 +70,7 @@ FACTS = {
     **{f"block {end}s": f"query(<block-{end}>).map(it => {PLACE})" for end in ("start", "end")},
     # Each figure drawn from `diagrams/`: the diagram it names and its alternative text.
     "figures": "query(figure.where(kind: image)).map(it => (source:"
-    " query(selector(<diagram-source>)"
-    ".after(it.location())).first().value, alt: it.alt))",
+    ' str(it.label).trim("diagram-", at: start), alt: it.alt))',
     # Each figure's caption, in order, and the places of the headings nearest before and after
     # it: the heading of the section that calls it and the next one.
     "figure sections": '{ import "/publication/layout/style.typ": plain-text;'
