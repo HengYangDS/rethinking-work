@@ -16,6 +16,9 @@ itself claim editorial acceptance.
 
 ### Changed
 
+- Windows is no longer supported, as the owner decided for every repository ETHOS
+  manages: the Mise supply pins ETHOS for macOS and Linux only, and the archive
+  promises its reader macOS or Linux.
 - The edition's identity comes from git, not from a written date: only a clean
   build of the commit that the signed tag `v<VERSION>` names is that version's
   edition, dated by its tag; every other build is a draft that names its commit
