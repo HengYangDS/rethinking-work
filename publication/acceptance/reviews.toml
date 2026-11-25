@@ -396,3 +396,38 @@ settled = "4dd591f: 「是否为」; the grouping kept (digits grouped from five
 [[reading.point]]
 point = "reread of 4dd591f's corrections (appendices and preface): AGENTS.md row lost 「目录里」, contradicting context.typ:214; 「其」 unclear; agent.typ:84 and appendix C's subtitle the same kind as the preface sentence; 「数据共 11 行」 against the cell and the text"
 settled = "4dd591f: 「目录里」 restored with the subject named; agent.typ:84 and the subtitle corrected; 「十一行」 kept by agreement of the commands reviewer and the reader (13:1x)"
+
+[[commands]]
+book = "cc7f9b1ec6c1904edbc018a539d24c9f89950ee8"
+exercises = "eb3700ea2f714a7bfbc27e5a6f9215677a83801c"
+subject = "e650b93"
+blocks_against = "v0.2.3"
+prose_against = "c3bce38"
+pdf = "0a32885428b2dbee6d3a785f8c16103c2272fbda9f0a3005e3bdb3fd4365f3fd"
+read = 2026-11-26T00:08:11+08:00
+findings = "build/evidence/reader-run-next-edition/review-e650b93/FINDINGS.md"
+verdict = "settled"
+
+[[commands.point]]
+point = "review of c3bce38: chapter 17 says all six runs named their basis (five did); appendix D's first kind lacks host, model and dates; the coverage row points to chapter 12; chapters 11 and 15 lost what their runs did not test"
+settled = "e40b3ce: each as the reviewer proposed, confirmed in place by review-e650b93"
+
+[[commands.point]]
+point = "review of c3bce38: figure 2 sends the set-aside securities from the wrong step (the content review read it the other way)"
+settled = "e40b3ce: an arrow from each of the two steps, agreed by the reviewer at 23:3x; no range wording added to the box"
+
+[[reading]]
+book = "cc7f9b1ec6c1904edbc018a539d24c9f89950ee8"
+subject = "e650b93"
+against = "c3bce38"
+read = 2026-11-26T00:08:11+08:00
+report = "build/evidence/error-rate-sample/read-c3bce38/TO-LANE.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "whole-book reading of c3bce38 by both families, two rounds of blind judging: 36 errors in 27 places"
+settled = "e650b93: 26 places corrected as proposed or as the lane chose (items 3, 22, 24), read again by the commands reviewer in review-e650b93"
+
+[[reading.point]]
+point = "item 15: walkthrough.typ:31 「三个 csv 只读」 in lower case"
+declined = "the quoted brief as written (brief-precise.txt), as the commands reviewer recommended"
