@@ -94,7 +94,7 @@ claude --print --output-format stream-json --verbose --model opus
   --max-budget-usd 1 --no-session-persistence
 ```
 
-在组织里定下的设置，有几项落在这条宿主命令的选项上，每月的预算则并不在其中。步数上限 `--max-turns` 和单次运行的花费上限 `--max-budget-usd`，到达其中任何一个，#chapref(<agent>)所说的那个循环就会停下；`dontAsk` 档配一张只放行 `Read` 的清单，是#chapref(<boundaries>)讲过的无人值守的设置。
+在组织里定下的设置，有几项落在这条宿主命令的选项上，每月的预算则并不在其中。步数上限 `--max-turns` 和单次运行的花费上限 `--max-budget-usd`，达到其中任何一个，#chapref(<agent>)所说的那个循环就会停下；`dontAsk` 档配一张只放行 `Read` 的清单，是#chapref(<boundaries>)讲过的无人值守的设置。
 
 在这个实例上建一张工单（`paperclipai issue create`），工单里是一个只读、答案唯一的问题，要求把答案作为评论交回；指派给这个智能体，再手动唤醒它一次（`paperclipai heartbeat run`）。这一轮交给它的消息是空的；它什么也没有读，什么也没有做，这一轮却以成功结束（有删节）：
 
@@ -166,7 +166,7 @@ Runs (1):
   #1   completed    @default  27s  2026-11-18 15:17
 ```
 
-核对三处。摘要里的数值和理由，与#chapref(<walkthrough>)按入库时间得到的 S02 的值是否一致。事件中是否依次有认领（`claimed`）、启动工作进程（`spawned`）和完成（`completed`）。状态 `done` 是谁写上的，最后一条事件 `worker_result` 的全文可资对照。最后把这块板归档（`rm` 只把板移进归档目录，并不删除，输出中写明了恢复的办法）：
+核对三处。摘要里的数值与#chapref(<walkthrough>)按入库时间得到的 S02 的值是否一致，给出的理由是否也依据入库时间。事件中是否依次有认领（`claimed`）、启动工作进程（`spawned`）和完成（`completed`）。状态 `done` 是谁写上的，最后一条事件 `worker_result` 的全文可资对照。最后把这块板归档（`rm` 只把板移进归档目录，并不删除，输出中写明了恢复的办法）：
 
 ```sh
 hermes kanban boards rm book-exp
