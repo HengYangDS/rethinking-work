@@ -227,6 +227,11 @@ acceptance.
 - **WHEN** the owner approves a qualified edition for release
 - **THEN** the changelog's entries move under that version and date, the signed tag reaches both peers, both peers' tag pipelines build the archive independently, and each peer's release carries the archive whose downloaded bytes match the SHA-256 list.
 
+#### Scenario: A maintainer makes a release
+
+- **WHEN** a maintainer prepares a release
+- **THEN** the steps, their order and which of them need the owner's word stand in `docs/publication-acceptance.md`, and the release Change cites them instead of restating them.
+
 ### Requirement: Independent publication build
 
 Each publication peer SHALL build, in a macOS job of its own, the edition archive from the exact event commit and complete declared publication inputs, and keep it as a job artifact for 14 days.
