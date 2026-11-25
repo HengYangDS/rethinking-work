@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-11-26
+
 ### Changed
 
 - The six figures are drawn in Typst with fletcher, in the book's own compile:
