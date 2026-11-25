@@ -60,8 +60,9 @@ itself claim editorial acceptance.
   `snapshot_minus_expected_bps`, the direction the keyed reconciliation uses.
 - Figures 1, 2, 5 and 6 use their chapter's words and steps, without an
   unexplained dark box.
-- One task interface: Mise keeps only `ci-supply`, and the local `test` task runs
-  the tests as the proof does. Unused build tables, a leftover `.zip` cleanup
+- One task interface: Mise keeps `ci-supply` and the toolchain verbs ETHOS asks
+  for (`bootstrap`, `check`, `fix`), and the local `test` task runs the tests as
+  the proof does. Unused build tables, a leftover `.zip` cleanup
   and a second copy of the Prettier arguments are gone.
 - One contributor guide, `CONTRIBUTING.md`, replaces the guide and index under
   `docs/`; the acceptance document states the release steps and drops

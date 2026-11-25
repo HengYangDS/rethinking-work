@@ -29,3 +29,16 @@ macos-arm64 = { url = "https://github.com/HengYangDS/ethos/releases/download/v0.
 [tasks.ci-supply]
 description = "Supply a CI runner's account with the fonts, Typst packages, test environment and PDF tools the full proof reads"
 run = "just --justfile publication/justfile ci-supply"
+
+# ETHOS's repository paradigm asks every repository for these toolchain verbs; each calls its Just recipe.
+[tasks.bootstrap]
+description = "Inspect existing publication supply without installing software"
+run = "just --justfile publication/justfile bootstrap"
+
+[tasks.check]
+description = "Check authored inputs through native formatting and Typst readers"
+run = "just --justfile publication/justfile check"
+
+[tasks.fix]
+description = "Format the declared authored files"
+run = "just --justfile publication/justfile format"
