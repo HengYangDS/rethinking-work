@@ -48,6 +48,11 @@ A compiled document SHALL NOT be represented as reader-approved or published sol
 - **WHEN** the native build succeeds but editorial revision or visual inspection remains unfinished
 - **THEN** the artifact remains a candidate and the existing reader output is not silently replaced.
 
+#### Scenario: A head is proved
+
+- **WHEN** a head that changed the book's text or exercises is proved
+- **THEN** its `book/` and `exercises/` trees carry a recorded commands review and reading, each point settled or declined.
+
 ### Requirement: An account of work in the agentic era
 
 The manuscript SHALL present an account of work and team collaboration in the agentic era, set in the business context of a quantitative data team, that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with a worked scenario from data work. Each agent layer SHALL be taught through a named tool the team uses for it, with runnable commands and their expected output.
