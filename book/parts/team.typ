@@ -69,5 +69,5 @@
 - 三处缺口的共同前提，即互相看得见：谁负责什么，#chapref(<roles>)；怎样写给别人，#chapref(<writing>)。
 - 自己的错看不见：评审和汇报，#chapref(<review>)。
 - 自己弄明白的留不下：沉淀，#chapref(<standing>)；团队共用的环境，#chapref(<shared>)。
-- 自己的标准守不住：日常的标准，验收人在交付前把关（#chapref(<roles>)），评审时按规则核对（#chapref(<review>)），由带领的人维护（#chapref(<leading>)）；团队整体用什么标准衡量好坏，#chapref(<improve>)；一个人这一期的表现怎样评，#chapref(<talent>)。
+- 自己的标准守不住：日常的标准，验收人在交付前把关（#chapref(<roles>)），评审人按规则核对（#chapref(<review>)），由带领的人维护（#chapref(<leading>)）；团队整体用什么标准衡量好坏，#chapref(<improve>)；一个人这一期的表现怎样评，#chapref(<talent>)。
 - 数量，即一个人力所不及的部分：带领的人怎样分派工作，他自己还做什么，#chapref(<leading>)。
