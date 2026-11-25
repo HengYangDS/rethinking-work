@@ -249,6 +249,11 @@ A statement about what a tool, a host or an Agent does SHALL rest on a run recor
 - **WHEN** a later version of a named tool changes a command or an output printed in the manuscript
 - **THEN** the back matter's version for that tool identifies which version the printed command and output belong to, and the next edition reruns the experiment before reprinting them.
 
+#### Scenario: A risk the runs did not show
+
+- **WHEN** a chapter states a risk that its own runs did not exercise
+- **THEN** it says what those runs showed and that the risk was not tested.
+
 ### Requirement: One versioned edition archive
 
 An edition SHALL be delivered as one archive holding one folder with a reader note, the PDF named with its version, the exercises with their own reader note, and a SHA-256 list of every other file in the folder. Both reader notes SHALL state the version in `VERSION` and SHALL be generated from it, not written by hand.
