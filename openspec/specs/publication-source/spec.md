@@ -386,7 +386,7 @@ An edition SHALL be qualified before its release is approved, through the stages
 #### Scenario: The error rate is sampled
 
 - **WHEN** the error rate of an edition is measured
-- **THEN** at least 100,000 consecutive layout characters and the cover, title page, copyright page and contents of a PDF whose body text equals the final one are read, errors are counted by CY/T 266, and the edition qualifies at no more than one error per 10,000 characters.
+- **THEN** at least 100,000 consecutive layout characters and the cover, title page, copyright page and contents of a PDF whose body text equals the final one are read, errors are counted by CY/T 266 with the readings `docs/publication-acceptance.md` declares, a reader's note that a judge finds to be an error counts, a two-point error or note counts when either of two blind judges from outside the raising family finds an error, at the higher figure, and the edition qualifies at no more than one error per 10,000 characters.
 
 #### Scenario: Text changes after a stage
 
