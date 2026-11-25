@@ -464,6 +464,11 @@ The book's sources SHALL use none of the words that the book-wide decisions repl
 - **WHEN** a decision cannot be told from the words alone
 - **THEN** it is left to the reader, and the rules do not claim it.
 
+#### Scenario: A quoted question
+
+- **WHEN** the book quotes the words asked after 问, 追问 or 反问
+- **THEN** the question mark stands inside the quotation marks and no mark follows the closing one, while a question used as a name takes none.
+
 ### Requirement: Reviewed text before landing
 
 A head whose `book/` or `exercises/` tree differs from every reviewed one SHALL NOT pass the proof. The repository SHALL record, for the head's `book/` and `exercises/` trees, a review of the printed commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it; each record SHALL name what was read, against what, when, where the findings are, and how each point was settled or why it was declined.
