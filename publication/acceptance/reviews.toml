@@ -374,8 +374,8 @@ point = "reread of the notes edits (6dc17d4): walkthrough.typ:97 「回答是否
 settled = "6dc17d4: all as the reader proposed, confirmed in place by the same reader"
 
 [[reading.point]]
-point = "reread of 4d4cdfc by both families (the third sample's corrections): no error; wording at question.typ:6, :9, talent.typ:34, team.typ:72, practice-collaborating.typ:157"
-settled = "aaf100a: as the readers proposed; question.typ:9 then restored to one question in 1b566af on the recheck, agreed by the commands reviewer"
+point = "reread of 4d4cdfc by both families (the third sample's corrections): no error; wording at question.typ:6, talent.typ:34, team.typ:72, practice-collaborating.typ:157; and the commands review of 4d4cdfc: question.typ:9"
+settled = "aaf100a: as proposed; question.typ:9, split there, restored to one question in 1b566af, proposed by the commands reviewer after the recheck of aaf100a"
 
 [[reading.point]]
 point = "recheck of aaf100a: talent.typ:91 「评审认定可以照用」 read as approval, against chapter 25's 「评审通过不等于批准」"
@@ -388,6 +388,10 @@ settled = "1b566af: figures set where called, figure 6's call at its section's e
 [[reading.point]]
 point = "colon reader of 1b566af's 211 colon-semicolon sentences: 11 faults and one nested colon"
 settled = "1b566af: each as the reader proposed (release-0-2-6/unread-pages/colon-scope-report.md)"
+
+[[reading.point]]
+point = "commands review of 1b566af: work.typ:28 lacks a verb after 是否; tools.typ:156 groups 12,900 but not 5700"
+settled = "4dd591f: 「是否为」; the grouping kept (digits grouped from five on), as the reviewer allowed"
 
 [[reading.point]]
 point = "reread of 4dd591f's corrections (appendices and preface): AGENTS.md row lost 「目录里」, contradicting context.typ:214; 「其」 unclear; agent.typ:84 and appendix C's subtitle the same kind as the preface sentence; 「数据共 11 行」 against the cell and the text"
