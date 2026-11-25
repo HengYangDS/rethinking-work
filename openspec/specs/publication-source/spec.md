@@ -305,6 +305,11 @@ The proof SHALL run the publication tests once per run, taking every test file t
 - **WHEN** a contributor runs the local test task
 - **THEN** the tests run with the runner and configuration that the proof uses, without its reports.
 
+#### Scenario: The governance asks for toolchain verbs
+
+- **WHEN** the installed ETHOS release asks the repository for its toolchain verbs
+- **THEN** the Mise configuration provides them, each calling the Just recipe that does the work.
+
 ### Requirement: Tests and exercises need only the standard library
 
 Every Python file under `tests/` and `exercises/cases/` SHALL import only Python's standard library and modules in its own directory. The proof SHALL run the reader's exercise command from the edition archive under the host's Python, outside the locked test environment. Either check SHALL fail the run when its condition does not hold, even where the locked test environment provides the package.
