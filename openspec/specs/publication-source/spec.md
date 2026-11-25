@@ -240,6 +240,11 @@ establish reader delivery or editorial approval.
 - **WHEN** a reader safely extracts the archive in an environment with the declared exercise tools
 - **THEN** the selected tracked teaching files keep their complete bytes, both reader notes state the version in `VERSION`, every file matches the archive's SHA-256 list, the exercises' own checks run and pass, and no installation, business-data access or service startup is performed.
 
+#### Scenario: A package imports another package
+
+- **WHEN** a declared Typst package imports a package of its own
+- **THEN** the package supply lists that package too, and a compile whose cache holds only the declared packages fetches nothing and writes nothing to standard error.
+
 ### Requirement: Behaviour claims grounded in runs
 
 A statement about what a tool, a host or an Agent does SHALL rest on a run recorded on the stated version, on a primary source, or on reasoning presented as reasoning. A claim about an Agent's tendency SHALL state the conditions and the number of runs where the result is used, once.
