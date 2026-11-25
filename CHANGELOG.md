@@ -61,6 +61,10 @@ itself claim editorial acceptance.
   `snapshot_minus_expected_bps`, the direction the keyed reconciliation uses.
 - Figures 1, 2, 5 and 6 use their chapter's words and steps, without an
   unexplained dark box.
+- The tests read the measure, the exercise cases and the printed hook from their
+  owners instead of pinned numbers and positions, and resolve the declared
+  Poppler once instead of starting Homebrew for every PDF read; two cases that
+  tested Homebrew's own behaviour are gone.
 - GitHub's publication job takes its supply as every other job does, through
   `mise install --locked` and `mise run ci-supply`, instead of 48 shell steps of
   its own; `ci-supply` reads the Typst packages from their manifest. The offline

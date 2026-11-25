@@ -83,6 +83,9 @@ FACTS = {
     " query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
     " page:it.location().page(), part:book-part.at(it.location()).name)) }",
     "closing page": "query(<closing>).first().location().page()",
+    # The measure the layout declares: the body's type size and baseline, in points.
+    "measure": '{ import "/publication/layout/style.typ": body-size, body-line;'
+    " (size: body-size.pt(), line: body-line.pt()) }",
     # The faces the layout declares (`publication/layout/style.typ`).
     "declared faces": '{ import "/publication/layout/style.typ": declared-faces; declared-faces }',
     "raws": "query(raw).map(it => (text:it.text, lang:it.lang, block:it.block,"
@@ -111,9 +114,29 @@ PDF_READS = {
 QUIET = {"stdin": subprocess.DEVNULL, "capture_output": True, "text": True, "timeout": 60}
 
 
-def read_pdf(*arguments):
-    tool = ["just", "--justfile", "publication/justfile", "pdf-tool", *arguments]
-    return subprocess.run(tool, cwd=ROOT, **QUIET, check=True)
+@functools.cache
+def pdf_tools():
+    """The declared Poppler executables, resolved once in the bundle's environment (`pdf-tool`)."""
+    names = ("pdfinfo", "pdftotext", "pdffonts")
+    found = subprocess.run(
+        [
+            "just",
+            "--justfile",
+            "publication/justfile",
+            "pdf-tool",
+            "sh",
+            "-c",
+            "command -v " + " ".join(names),
+        ],
+        cwd=ROOT,
+        **QUIET,
+        check=True,
+    ).stdout.split()
+    return dict(zip(names, found, strict=True))
+
+
+def read_pdf(tool, *arguments):
+    return subprocess.run([pdf_tools()[tool], *arguments], cwd=ROOT, **QUIET, check=True)
 
 
 @functools.cache

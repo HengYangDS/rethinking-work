@@ -221,10 +221,11 @@ class EditionLayout(edition.Edition):
 
     def test_body_paragraphs_use_aligned_starts_and_visible_spacing(self):
         # Every body paragraph, located natively, starts flush with the text block; lines within a
-        # paragraph step 16 pt and adjacent paragraphs 32 pt. Chapter openings and the cover carry
-        # their own apparatus and are left to the page review.
+        # paragraph step one body line and adjacent paragraphs two, as the layout declares. Chapter
+        # openings and the cover carry their own apparatus and are left to the page review.
         paragraphs = self.fact("paragraphs")
         breaks = self.fact("breaks")
+        measure = self.fact("measure")
         openings = {item["page"] for item in self.fact("openings")}
         front = min(openings)
         margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
@@ -241,7 +242,7 @@ class EditionLayout(edition.Edition):
             # A line that opens with an opening mark keeps only the half cell the mark sits in, at
             # the margin or hung outside it (clreq 6.3.2.3); any other line starts at the margin.
             words = line.findall("pdf:word", NS)
-            half = 10.5 / 2 if words and (words[0].text or "")[:1] in "“‘（" else 0
+            half = measure["size"] / 2 if words and (words[0].text or "")[:1] in "“‘（" else 0
             return -half - 0.6 < float(line.get("xMin")) - margin < (half or 0.6)
 
         starts = defaultdict(list)
@@ -291,8 +292,9 @@ class EditionLayout(edition.Edition):
         self.assertEqual(indented, [])
         self.assertGreater(len(line_steps), 100)
         self.assertGreater(len(paragraph_steps), 100)
-        self.assertEqual([step for step in line_steps if abs(step - 16) > 0.5], [])
-        self.assertEqual([step for step in paragraph_steps if abs(step - 32) > 0.5], [])
+        line = measure["line"]
+        self.assertEqual([step for step in line_steps if abs(step - line) > 0.5], [])
+        self.assertEqual([step for step in paragraph_steps if abs(step - 2 * line) > 0.5], [])
 
     def test_table_columns_align_as_their_contents_read(self):
         # CY/T 170—2019 7.2.2: the first column names its rows and is set flush left; any other
@@ -456,7 +458,7 @@ class QuotationMarkCells(unittest.TestCase):
             )
             for line in ET.fromstring(layout).findall(".//pdf:line", NS)
         }
-        size = 10.5
+        size = self.fact("measure")["size"]
         found = [
             (text, round(set_lines.get(text, 0) / size, 2), cells)
             for text, cells in QUOTE_LINES
