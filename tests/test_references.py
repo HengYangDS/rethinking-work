@@ -17,7 +17,13 @@ RELATIVE = re.compile(r"#link\(<([a-z-]+)>\)\[(上一章|下一章)\]")
 class RelativeReferences(unittest.TestCase):
     def test_previous_and_next_chapter_point_at_their_neighbours(self):
         manuscript = (ROOT / "book/manuscript.typ").read_text(encoding="utf-8")
-        files = [ROOT / "book" / name for name in re.findall(r'#include "([^"]+)"', manuscript)]
+        # The front matter's include, then each part's declared files, in reading order.
+        names = re.findall(r'#include "([^"]+)"', manuscript) + [
+            name + ".typ"
+            for files in re.findall(r"files: \(([^)]*)\)", manuscript)
+            for name in re.findall(r'"([^"]+)"', files)
+        ]
+        files = [ROOT / "book" / name for name in names]
         sources = {path: path.read_text(encoding="utf-8") for path in files}
         order = [label for text in sources.values() for label in OPENING.findall(text)]
         wrong, seen = [], 0
