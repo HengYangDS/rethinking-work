@@ -13,7 +13,7 @@ The publication SHALL maintain one editable owner for manuscript meaning, editio
 #### Scenario: Editor follows a figure
 
 - **WHEN** an editor selects a figure in the manuscript
-- **THEN** its editable source and rendering configuration are discoverable and its rendered image is generated under the declared build output.
+- **THEN** its editable source is discoverable, and the figure is drawn from it in the same compile as the book, with the book's fonts and the layout's colours, without a browser.
 
 ### Requirement: Portable and attributable edition
 
@@ -272,7 +272,7 @@ The proof SHALL run the publication tests once per run, taking every test file t
 #### Scenario: A full proof runs
 
 - **WHEN** the repository's full proof runs
-- **THEN** the complete declared diagram set is rendered and the publication tests run once, and the proof passes only if that run passes and leaves its coverage report.
+- **THEN** the publication tests run once, and the proof passes only if that run passes and leaves its coverage report.
 
 ### Requirement: Tests and exercises need only the standard library
 
