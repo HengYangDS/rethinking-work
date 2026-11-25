@@ -72,18 +72,20 @@ itself claim editorial acceptance.
   in Arabic numerals (chapter 11), as the book writes others. A search of
   the book corrected the same kinds in practice 4 and chapter 29, and the
   brief of chapter 10 ends with a full stop like the book's other briefs.
-- A second sample (pages 70–120 of `67399ac`'s PDF, 105,823 characters) found
-  0.43 errors per 10,000 by the classes of CY/T 266 Table 1 (0.33 by the
-  readers' brief, which put a contradiction between passages under 1-8). Its
-  errors and their kinds are corrected, and the editors' decisions on its 77
-  reader notes are applied, as the owner chose.
+- A second sample (pages 70–120 of `67399ac`'s PDF, 105,823 characters) found,
+  by the classes of CY/T 266 Table 1, 0.43 errors per 10,000 for the places
+  both families judged errors and 0.62 with two notes one judge found errors
+  (0.33 by the readers' brief, which put a contradiction between passages
+  under 1-8). Its errors and their kinds are corrected, and the editors'
+  decisions on its 77 reader notes are applied, as the owner chose.
 - A third sample (pages 128–178 of `6dc17d4`'s PDF) was over the limit by
   `docs/publication-acceptance.md`: 0.89 errors per 10,000 for the places both
   families judged errors, 1.08 with a note one judge found an error and the
   other did not (the stricter figure decides), 1.17 with one more note; the
-  readers' brief gave 0.60. Its errors and their kinds are corrected, and both
-  families read the changed passages again and found no error. The corrected
-  text is not sampled again.
+  readers' brief gave 0.60. Its errors and their kinds are corrected, except
+  page 148's 「都合乎题材和读者」, which restates the shared rules' definition of
+  雅 and waits for the owner; both families read the changed passages again and
+  found no error. The corrected text is not sampled again.
 - Both families read the pages no sample had read, 5–9, 62–69, 121–127 and
   179–186 of `aaf100a`'s PDF, as the owner chose; this reading replaces a
   fourth sample and gives no rate. Its twelve errors and their kinds across the
