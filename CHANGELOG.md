@@ -53,8 +53,7 @@ itself claim editorial acceptance.
   longer told before the 上手 section that produces them, part introductions and
   repeated examples go, chapters 14 and 30 open on a scene, chapter 18 describes
   its paid scheduled task instead of registering and deleting it, chapter 28's
-  four marks of 突出 move to chapter 29, and the ending is one paragraph. The
-  book is 195 pages.
+  four marks of 突出 move to chapter 29, and the ending is one paragraph.
 - The practice pack has one reader index, appendix A: the Chinese reader guide,
   which repeated the exercises with their answers, and six English templates the
   book never cited are removed. The snapshot difference is named
@@ -85,6 +84,10 @@ itself claim editorial acceptance.
   functions nobody called and the second way of writing a relative reference
   are gone, and the entry file's layout rules live in the layout module. The
   PDF's text is unchanged.
+- After the commands review: chapter 17 says five of six runs named their basis;
+  appendix D gives the first kind of run its host, model and dates; chapters 11
+  and 15 again say what their runs did not test; figure 2 sends the set-aside
+  securities from the step where each leaves. The book is 197 pages.
 - The editors' decisions on the third sample's 92 reader notes are applied: 26
   places are reworded, 59 kept with a reason, 4 were already gone. Clock times
   take two-digit hours throughout, and chapter 24's lead ends on its question.
