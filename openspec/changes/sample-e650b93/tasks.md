@@ -12,4 +12,4 @@
 
 ## 3. Verification
 
-- [ ] 3.1 The suite passes on the commit.
+- [x] 3.1 The suite passes on the commit (29 tests at 6ef03de).
