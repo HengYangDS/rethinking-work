@@ -420,7 +420,7 @@ An edition SHALL be qualified before its release is approved, through the stages
 
 ### Requirement: Typeset output keeps to its declared supply
 
-The PDF SHALL embed only the fonts that the toolchain declares, SHALL compile without warnings, SHALL end no wrapped line of a body paragraph, a table cell or a sample box with a single character alone, SHALL leave on each page of a table or sample box that continues on the next page at least the least part the layout declares, and SHALL open the space between two Chinese characters of a justified body line by no more than the bound the layout declares.
+The PDF SHALL embed only the fonts that the layout declares, SHALL compile without warnings, SHALL end no wrapped line of a body paragraph, a table cell or a sample box with a single character alone, SHALL leave on each page of a table or sample box that continues on the next page at least the least part the layout declares, and SHALL open the space between two Chinese characters of a justified body line by no more than the bound the layout declares.
 
 #### Scenario: A glyph is missing from the declared fonts
 
