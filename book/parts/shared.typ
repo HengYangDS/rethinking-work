@@ -73,7 +73,7 @@ git init --bare -q $S/remote/agent-env.git
 git config --global url."$S/remote/".insteadOf https://git.example.invalid/team/
 ```
 
-最后一行需要解释。`teamai init` 不接受本地路径或 `file://` 地址，会报告 `Invalid Git repo URL`；Git 的 `url.<前缀>.insteadOf` 在连接之前把这个 https 地址改写为本机裸仓库的路径。`.invalid` 是专为无效地址保留的顶级域名，即使改写没有生效，也连不到任何主机。建一个工作目录，用这个地址初始化，输出中应有一行 `✔ teamai initialized successfully!`：
+最后一行需要解释。`teamai init` 不接受本地路径或 `file://` 地址，会报告 `Invalid Git repo URL`；Git 的 `url.<前缀>.insteadOf` 在连接之前把这个 `https://` 地址改写为本机裸仓库的路径。`.invalid` 是专为无效地址保留的顶级域名，即使改写没有生效，也连不到任何主机。建一个工作目录，用这个地址初始化，输出中应有一行 `✔ teamai initialized successfully!`：
 
 ```sh
 mkdir $S/ws && cd $S/ws && git init -q

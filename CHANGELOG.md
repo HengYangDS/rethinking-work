@@ -32,6 +32,26 @@ itself claim editorial acceptance.
   the PDF metadata and in both reader notes. The justfile reads it once for
   every compile, test and archive; the hosted publication job fetches a tag
   event's tag. Tests hold the draft and the release forms.
+- The third sample of 0.2.6, recounted by the readings that the calibration of
+  2026-11-25 settled, is 1.26 errors per 10,000 characters (13.3 errors), over
+  the limit as 0.2.6's notes said; most of the rise comes from counting a
+  contradiction between passages under 1-11, at two points. Page 148's
+  「都合乎题材和读者」 is corrected to 「都切合题材、适合读者」, as the shared
+  rules now define 雅. The places that calibration found to be errors and three
+  it found improper are corrected: four quoted questions keep their question
+  mark, 「换算」 becomes 「重新归类」 for re-classified industries, and three
+  sentences in chapters 2, 27 and 29 are reworded.
+- `docs/publication-acceptance.md` states how the error-rate sample counts and
+  reads: a note judged an error counts; every two-point error or note goes to a
+  second, blind judge from outside the raising family and counts when either
+  finds an error, at the higher figure; the calibrated readings stand in their
+  own subsection.
+- Each figure and its caption stand centred in the text column, held by a
+  layout test.
+- Chapters 28 and 29 say that judging rests on work performance and name
+  nothing it does not rest on, as DDWG 10.1.2 does; 37 sentences across the
+  book that denied a meaning nobody gave, repeated the point just made or
+  explained the obvious are cut.
 
 ## [0.2.6] - 2026-11-25
 
