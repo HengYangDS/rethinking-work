@@ -61,6 +61,9 @@ itself claim editorial acceptance.
   `snapshot_minus_expected_bps`, the direction the keyed reconciliation uses.
 - Figures 1, 2, 5 and 6 use their chapter's words and steps, without an
   unexplained dark box.
+- The editors' decisions on the third sample's 92 reader notes are applied: 26
+  places are reworded, 59 kept with a reason, 4 were already gone. Clock times
+  take two-digit hours throughout, and chapter 24's lead ends on its question.
 - Chapters 28 and 29 say that judging rests on work performance and name
   nothing it does not rest on, as DDWG 10.1.2 does; 37 sentences across the
   book that denied a meaning nobody gave, repeated the point just made or
