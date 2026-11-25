@@ -29,4 +29,3 @@ macos-arm64 = { url = "https://github.com/HengYangDS/ethos/releases/download/v0.
 [tasks.ci-supply]
 description = "Supply a CI runner's account with the fonts, Typst packages, test environment and PDF tools the full proof reads"
 run = "just --justfile publication/justfile ci-supply"
-
