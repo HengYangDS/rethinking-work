@@ -20,6 +20,11 @@ The publication SHALL maintain one editable owner for manuscript meaning, editio
 - **WHEN** the book is built
 - **THEN** each figure and its caption stand centred in the text column, and a check fails and names the figure that does not.
 
+#### Scenario: A reader starts the exercises
+
+- **WHEN** a reader opens the practice pack
+- **THEN** appendix A is the one index of the exercises, and the pack holds no second copy of an exercise or its answer.
+
 ### Requirement: Portable and attributable edition
 
 The publication SHALL identify its title, author 衡阳, version, edition and language in visible front matter, and its title, author, date and language in PDF metadata. The version SHALL be the one in `VERSION`. Portable inputs MUST NOT depend on private stores or host-specific receipt paths.
@@ -159,6 +164,11 @@ Chinese prose SHALL state what a thing is and does, once. A scope limit SHALL ap
 
 - **WHEN** the book states what a judgement of work or of a member rests on
 - **THEN** it names what the judgement rests on and nothing that the judgement does not judge.
+
+#### Scenario: A run is cited
+
+- **WHEN** a chapter rests a claim on a run
+- **THEN** the chapter states the behaviour and its reasoning, and the run's conditions and versions stand once in the appendix it points to.
 
 ### Requirement: Plain prose that leads the reader
 
