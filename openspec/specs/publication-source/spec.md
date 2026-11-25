@@ -408,6 +408,11 @@ An edition SHALL be qualified before its release is approved, through the stages
 - **WHEN** the book's text changes after a stage has read it
 - **THEN** that stage reads the changed passages again before the edition qualifies.
 
+#### Scenario: Readers leave notes
+
+- **WHEN** a reading or a sample leaves notes that it did not count as errors
+- **THEN** the editors decide each note against the current text before the next reading, change what is improper, and record a reason for each note they keep.
+
 ### Requirement: Typeset output keeps to its declared supply
 
 The PDF SHALL embed only the fonts that the toolchain declares, SHALL compile without warnings, SHALL end no wrapped line of a body paragraph, a table cell or a sample box with a single character alone, SHALL leave on each page of a table or sample box that continues on the next page at least the least part the layout declares, and SHALL open the space between two Chinese characters of a justified body line by no more than the bound the layout declares.
