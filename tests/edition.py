@@ -83,9 +83,6 @@ FACTS = {
     " query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
     " page:it.location().page(), part:book-part.at(it.location()).name)) }",
     "closing page": "query(<closing>).first().location().page()",
-    # The measure the layout declares: the body's type size and baseline, in points.
-    "measure": '{ import "/publication/layout/style.typ": body-size, body-line;'
-    " (size: body-size.pt(), line: body-line.pt()) }",
     # The faces the layout declares (`publication/layout/style.typ`).
     "declared faces": '{ import "/publication/layout/style.typ": declared-faces; declared-faces }',
     "raws": "query(raw).map(it => (text:it.text, lang:it.lang, block:it.block,"
@@ -112,6 +109,19 @@ PDF_READS = {
 
 # How every tool here runs: no input, its output kept as text, at most a minute.
 QUIET = {"stdin": subprocess.DEVNULL, "capture_output": True, "text": True, "timeout": 60}
+
+
+@functools.cache
+def measure():
+    """The body's type size and baseline the layout declares, in points; nothing is laid out."""
+    expression = (
+        '{ import "/publication/layout/style.typ": body-size, body-line;'
+        " (size: body-size.pt(), line: body-line.pt()) }"
+    )
+    found = subprocess.run(
+        ["typst", "eval", "--root", ".", expression], cwd=ROOT, **QUIET, check=True
+    ).stdout
+    return json.loads(found)
 
 
 @functools.cache

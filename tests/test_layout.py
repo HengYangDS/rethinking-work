@@ -225,7 +225,7 @@ class EditionLayout(edition.Edition):
         # openings and the cover carry their own apparatus and are left to the page review.
         paragraphs = self.fact("paragraphs")
         breaks = self.fact("breaks")
-        measure = self.fact("measure")
+        measure = edition.measure()
         openings = {item["page"] for item in self.fact("openings")}
         front = min(openings)
         margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
@@ -458,7 +458,7 @@ class QuotationMarkCells(unittest.TestCase):
             )
             for line in ET.fromstring(layout).findall(".//pdf:line", NS)
         }
-        size = self.fact("measure")["size"]
+        size = edition.measure()["size"]
         found = [
             (text, round(set_lines.get(text, 0) / size, 2), cells)
             for text, cells in QUOTE_LINES
