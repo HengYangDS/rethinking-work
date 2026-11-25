@@ -95,6 +95,14 @@ itself claim editorial acceptance.
   places); the hook sentence of chapter 12 no longer says that every hook
   matches a tool; practice 4's card takes chapter 26's second question. Tests
   hold the figure and code-block rules.
+- Both families then read the appendices and the preface the same way, as the
+  owner chose; their seventeen errors are corrected: the preface no longer says
+  that every example is from data work, every exercise file is in the pack, or
+  every tool sits in a layer; appendix C's first column reads 「层或类别」 and its
+  `AGENTS.md` row says when Claude Code reads it; appendix D's run descriptions
+  match their counts and conditions, and its punctuation follows the book's
+  rules. A quoted question keeps its question mark where the words
+  are quoted as asked, here and in chapter 9 and practice 2.
 
 ## [0.2.5] - 2026-11-24
 
