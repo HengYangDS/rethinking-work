@@ -129,13 +129,53 @@ every structurally equivalent link is not a separate requirement.
 
 Before an edition is released, sample its final text for errors. Read at least 100,000 consecutive layout characters,
 with the cover, title page, copyright page and contents, from a PDF whose body text equals the release's; count errors
-by the classes of CY/T 266; the edition qualifies at no more than one error per 10,000 characters. A judgement that
-counts two points goes to a second reader before it is counted. The second reader does not see the first reader's
-reason, and the stricter figure decides. The sample's pages are drawn from the commit hash, and a later sample avoids
+by the classes of CY/T 266; the edition qualifies at no more than one error per 10,000 characters. A note that a reader
+lists and a judge finds to be an error counts as a listed error does. Every error or note a reader raises in a class
+that counts two points goes to a second judge, whatever the first judge found; the second judge does not see the first
+one's reason, and neither judge comes from the family of the model that raised it. It counts when either judge finds an
+error, at the higher of their two figures. The sample's pages are drawn from the commit hash, and a later sample avoids
 the pages already read; layout characters count the running head and page number as lines, and repeated errors are
-capped, both by CY/T 266. The bar is that of Article 5 of 《图书质量管理规定》. The cover and the edition line are read on
-the release commit's PDF before the tag. Correct every error found, and its kind across the book, before the release; a
+capped, both by CY/T 266. The bar is that of Article 5 of 《图书质量管理规定》. The cover and the edition line are read on the
+release commit's PDF before the tag. Correct every error found, and its kind across the book, before the release; a
 model's sample is a self-test, not a publisher's check, and is reported as such.
+
+### How a judgement reads the book
+
+The rows are CY/T 266's own (Tables 1 to 3); these readings settle what the rows leave open, as decided at the
+calibration of 2026-11-25 (the owner's delegation at 17:53, answers by the commands reviewer at 18:17, evidence
+`build/evidence/error-rate-sample/next-0.2.7/calibration-answers.md`). Whether a place counts and whether it is
+corrected are separate: a place that does not count may still be worded better, and the editors correct what is
+inappropriate (owner, 2026-11-25 18:30).
+
+- A sentence that is correct and clear but could be more precise, more complete or better worded is not an error;
+  the reader lists it as a note. Neither is a reading that needs the reader to ignore the sentence's own context.
+- 1-20 is judged for the book's stated reader, a quantitative data department (UTC, SQL, CSV and JSON are common
+  there). A figure or table is its own context for 1-18.
+- A contradiction between two passages of the text is 1-11, 2 points; 1-8 covers only contents, an index, a figure's or
+  table's words and a running head that do not agree with the text.
+- A collocation that does not hold (「合乎读者」; a reason compared with a value) is 1-11's 语句不通. Two coordinate items
+  one of which contains the other (「奖励」 beside 「奖惩」) are 1-11. A repeated phrase whose sense holds is wording, not
+  1-2.
+- A topic and comment whose relation reads clearly is not 句式杂糅. A sentence that could be more precise, whose
+  readings all say the same, is not 歧义 or 表意不明. A thesis the book argues in later chapters is not a conclusion
+  that fails to follow where it is stated. A loose position word that does not send the reader to the wrong place is
+  not an error. A sentence that itself states the condition a reader might think it lacks is not a wrong fact.
+- A category reassigned under a new standard is 重新归类, not 换算 (1-5).
+- Several questions after a colon may share one final ？ or take one each; neither is an error (GB/T 15834—2011 4.2.3.1;
+  no clause decides it). The book's own form, where the lead-in names the questions, is a ？ after each.
+- A colon that introduces what a verb (查、看、核对) is to find ends with 。; one whose lead-in names a question, or asks
+  the reader to ask (「可以这样自查：」), ends with ？.
+- A quotation that gives the words asked after 问、追问、反问 keeps its ？ inside the quotation marks, with no mark
+  outside (GB/T 15834—2011 B.2.1); a question used as a name (after a measure word or 所……的, as a heading, after
+  回答 or 配一句) takes none. Where both could apply, the word that introduces the quotation decides: words asked keep
+  their ？.
+- A measured value with three or more significant digits is in Arabic numerals (GB/T 15835—2011 4.1.1); a round
+  count of one or two digits (十八万、五千、约三百) may be in either, the same within one place (4.3).
+- A figure stands after the text that introduces it and inside its section (3-5, item 5, 1 point).
+- A protocol named in the text is in capitals (HTTP, HTTPS); an address keeps its own spelling (`https://`), in code
+  type.
+- A closing quotation mark set in half a cell beside another mark is the compression GB/T 15834—2011 5.1.11 allows,
+  not an error.
 
 ## Reuse evidence and stop completed checks
 
