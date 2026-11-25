@@ -10,7 +10,8 @@ answer of 13:54). 0.2.6 declares `macos-26` for GitHub and the runner-specific `
 - `.config/ci/verification.toml` declares `macos-latest` for GitHub and `macos-latest` with `review` or `protected`
   for GitLab, as the data-department guidelines repository does.
 - `.config/ci/pipeline.cue` reads the GitLab tags from that declaration; the projections are regenerated.
-- Both GitLab runners carry the new tags beside their old ones until `main` is published; the old tags then go.
+- Both GitLab runners carry the new tags beside their old ones until `main` is published; removing the old tags then
+  is a task of the lane that removes Windows after 0.2.6, since it needs the published `main`.
 
 ## Capabilities
 

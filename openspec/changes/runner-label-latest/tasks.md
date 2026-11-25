@@ -6,4 +6,3 @@
       runners read back with both.
 - [x] 1.2 The CI declaration and the publication jobs use `macos-latest` on both forges; done when
       `ethos lane project --check` reads the projections conforming and every job names the new label.
-- [ ] 1.3 The old GitLab tags are removed once `main` is published; done when the runners read back without them.
