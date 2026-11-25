@@ -17,7 +17,7 @@ The publication SHALL maintain one editable owner for manuscript meaning, editio
 
 ### Requirement: Portable and attributable edition
 
-The publication SHALL identify its title, author 衡阳, version, date and language in visible front matter, and its title, author, date and language in PDF metadata. The version SHALL be the one in `VERSION`. Portable inputs MUST NOT depend on private stores or host-specific receipt paths.
+The publication SHALL identify its title, author 衡阳, version, edition and language in visible front matter, and its title, author, date and language in PDF metadata. The version SHALL be the one in `VERSION`. Portable inputs MUST NOT depend on private stores or host-specific receipt paths.
 
 #### Scenario: Reader opens the PDF
 
@@ -486,3 +486,17 @@ The manuscript SHALL derive every reference to a chapter, a practice or an appen
 
 - **WHEN** 上一章 or 下一章 names a chapter that is not adjacent in the reading order, or names none
 - **THEN** a check fails and names the file and the word.
+
+### Requirement: Edition identity from the release tag
+
+A build SHALL be that version's edition only when its source is the commit that the signed tag `v<VERSION>` names and no tracked file differs from it, and its date SHALL then be the tag's date. Every other build SHALL be a draft of the version that names its commit and says when tracked files differ from it. No date SHALL be written by hand.
+
+#### Scenario: A build that is not the tagged commit
+
+- **WHEN** the PDF is built from a commit that the tag `v<VERSION>` does not name, or with tracked changes
+- **THEN** its cover and its reader notes call it a draft of the version and name the commit, and its cover shows no edition date.
+
+#### Scenario: A build of the tagged commit
+
+- **WHEN** the PDF is built from a clean checkout of the commit that the signed tag `v<VERSION>` names
+- **THEN** its cover and its reader notes call it that version's edition with the tag's date, and its PDF metadata carries that date.
