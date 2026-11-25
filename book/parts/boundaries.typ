@@ -25,7 +25,7 @@ Claude Code 的 `--permission-mode` 有六档。下表 `plan` 和 `dontAsk` 两�
 
 Codex 把“能触及什么”和“何时询问人”拆成两个选项。`--sandbox`（沙箱，下一节讲）决定智能体能触及什么：`read-only`、`workspace-write`、`danger-full-access`。`--ask-for-approval` 决定何时询问人：`on-request`，由模型判断何时询问；`never`，从不询问，命令失败的结果直接交回模型。两项也可以写进 `~/.codex/config.toml`，键名是 `sandbox_mode` 和 `approval_policy`。两家解决的是同一问题，按任务选择：
 
-#matrix(columns: (1.3fr, 1.2fr, 1.4fr), [*要做的事*], [*Claude Code*], [*Codex*], [只让它查看，提出一个方案], [`plan`], [`read-only`], [在自己的工作副本中修改代码], [`acceptEdits`], [`workspace-write` 加 `on-request`], [涉及共享的仓库和数据], [`default`], [`read-only`，需要写入的那一步由人来做], [无人值守的定时任务], [`dontAsk` 加一张放行清单], [`never` 加 `read-only` 或 `workspace-write`], [在隔离的、可以随时丢弃的环境中运行批量任务], [`bypassPermissions`], [`--dangerously-bypass-approvals-and-sandbox`])
+#matrix(columns: (1.2fr, 0.95fr, 2.05fr), [*要做的事*], [*Claude Code*], [*Codex*], [只让它查看，并提出一个方案], [`plan`], [`read-only`], [在自己的工作副本中修改代码], [`acceptEdits`], [`workspace-write` 加 `on-request`], [涉及共享的仓库和数据], [`default`], [`read-only`，需要写入的那一步由人来做], [无人值守的定时任务], [`dontAsk` 加放行清单], [`never` 加 `read-only` 或 `workspace-write`], [在可以随时丢弃的隔离环境中运行批量任务], [`bypassPermissions`], [`--dangerously-bypass-approvals-and-sandbox`])
 
 表中“涉及共享的仓库和数据”一行，两列的做法看似不同，要求却相同：没有人同意，就不写入共享的位置，即三个圈中的“先问”。Claude Code 的 `default` 每次写入之前都询问。Codex 若用 `workspace-write`，工作目录内的写入由沙箱放行，`on-request` 又由模型自己判断何时询问，不能保证每次写入之前都问；所以只给它 `read-only`：它在沙箱里运行的命令写不进文件；它若请求到沙箱外运行，人也不同意（见下文“沙箱”）；写入的那一步由人自己来做。
 
@@ -44,7 +44,7 @@ Codex 把“能触及什么”和“何时询问人”拆成两个选项。`--sa
 钩子只守得住它匹配的工具：只匹配写文件的两个工具的钩子，挡不住一条把内容追加进文件的 shell 命令。章末“上手”装上这样一个钩子，试验一次。
 
 == 凭据
-密码、令牌、密钥留在原处，比如宿主自己保存的登录凭据、系统的钥匙串、密码库。它们不放进上下文，不写进日志，不随代码提交。智能体需要访问时，使用已经登录的身份，不另外复制一份给它。一条命令需要密钥时，由程序从存放处取出，直接交给这一条命令：人不必手工输入，密钥的值也不进入上下文。
+密码、令牌、密钥留在原处，比如宿主自己保存登录凭据的地方、系统的钥匙串、密码库。它们不放进上下文，不写进日志，不随代码提交。智能体需要访问时，使用已经登录的身份，不另外复制一份给它。一条命令需要密钥时，由程序从存放处取出，直接交给这一条命令：人不必手工输入，密钥的值也不进入上下文。
 
 以密码库 Bitwarden 为例，它的命令行程序 `bw` 可以做这件事。账户登录之后，先由人解锁密码库：`bw unlock` 询问主密码，成功后给出一个会话密钥，按提示把它放进环境变量 `BW_SESSION`。此后在这个终端里，`bw get password <条目>` 把指定条目的密码打印到标准输出。这个输出只应经管道或命令替换，直接交给需要它的那条命令。输入主密码这一步留给人，智能体只在已经解锁的终端里取用，并且只取用委托中写明的条目。
 

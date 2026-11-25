@@ -6,7 +6,7 @@
   n((0, 1), <end>, [运行结束], width: w, quiet: true),
   n((1, 1), <a>, [智能体选行动], width: w, emphasis: true),
   n((2, 1), <t>, [工具执行], width: w),
-  n((0, 2), <s>, [停下询问], width: w, quiet: true),
+  n((0, 2), <s>, [停下询问或说明], width: w, quiet: true),
   n((1, 2), <r>, [检查结果], width: w),
   n((1, 3), <d>, [交付], width: w),
   e(<h>, <a>), e(<a>, <t>), e(<t>, (2, 2), <r>),

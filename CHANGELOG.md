@@ -84,6 +84,8 @@ itself claim editorial acceptance.
   functions nobody called and the second way of writing a relative reference
   are gone, and the entry file's layout rules live in the layout module. The
   PDF's text is unchanged.
+- Both families read the whole book at `c3bce38`; the 27 places judged errors
+  are corrected, except a quoted brief kept as it was written.
 - After the commands review: chapter 17 says five of six runs named their basis;
   appendix D gives the first kind of run its host, model and dates; chapters 11
   and 15 again say what their runs did not test; figure 2 sends the set-aside

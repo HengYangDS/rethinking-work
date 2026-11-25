@@ -18,7 +18,7 @@
 == 算得出、查得到的，交给工具
 开篇说的算得出、查得到的事，指统计行数、求和、按主键比对、筛出符合条件的记录这一类，由查询和程序去做。模型做它擅长的事：决定选用哪些字段、解释一处异常、提出几种可能的原因。
 
-其中最应交给工具的，是对全部数据的计算：只读过一部分数据，就不能据此给出整份数据的统计值。设想请它计算一个五千行文件中某一列的覆盖率，即这一列有值的行所占的比例，而它只读了开头二百行，这二百行恰好都有值；它若把这二百行当作整个文件，报告的覆盖率就会高于实际。因此，收回结果时要查报告中的每个数是计算所得，还是由读到的部分估计而来：记录里应当有计算它的那条命令，以及这条命令的输出。
+其中最应交给工具的，是对全部数据的计算：只读过一部分数据，就不能据此给出整份数据的统计值。设想请它计算一个五千行文件中某一列的覆盖率，即这一列有值的行所占的比例，而它只读了开头二百行，这二百行恰好都有值；它若把这二百行当作整个文件，其余各行只要有空值，报告的覆盖率就会高于实际。因此，收回结果时要查报告中的每个数是计算所得，还是由读到的部分估计而来：记录里应当有计算它的那条命令，以及这条命令的输出。
 
 常用的几种命令行工具如下，每种只负责一类事：
 
@@ -175,7 +175,7 @@ printf '{"mcpServers": {"semble": {"command": "%s", "args": []}}}\n' \
 claude --permission-mode default --strict-mcp-config --mcp-config /tmp/mcp-semble.json
 ```
 
-文件里 `command` 一项是 semble 的完整路径。会话开始后，可以输入 `/mcp` 查看接入了哪些服务。然后只交代这一件事：“这个目录里，哪个函数决定导出时保留哪些行？给出文件和行号。用代码搜索工具找，找到后读那一处确认。”它停下来询问时，同#chapref(<first>)一样，看清内容再选 `Yes`。完成后退出，取得这次会话的记录文件，再用#chapref(<first>, link: false)中列出工具调用的那条 `jq` 命令查看：
+文件里 `command` 一项是 semble 的完整路径。会话开始后，可以输入 `/mcp` 查看接入了哪些服务。然后只交代这一件事：“这个目录里，哪个函数决定导出时保留哪些行？给出文件和行号。用代码搜索工具找，找到后读那一处确认。”它停下来询问时，同#chapref(<first>)一样，看清内容再选 `Yes`。完成后退出，取得这次会话的记录文件，再用#chapref(<first>, link: false)中列出工具调用的那条 `jq` 命令查看；记录文件用下面这一行取得：
 
 ```sh
 f=$(/bin/ls -t ~/.claude/projects/*search-practice*/*.jsonl | head -1)
@@ -262,7 +262,7 @@ description: Use when asked to check, verify or review a change to export.py in 
    - Not checked: what this check does not cover, such as other callers of `export_rows` and inputs the test has no case for.
 ```
 
-在 `~/tools-practice` 里再启动一个会话（命令同上），只说一句：“检查一下 fix 这次提交对 export.py 的改动。”fix 是#chapref(<first>)给修复的那次提交加的标签（`git tag fix`）。完成后退出，先取得这一次会话的记录文件，再用#chapref(<first>, link: false)中列出工具调用的那条 `jq` 命令查看第一行：
+在 `~/tools-practice` 里再启动一个会话（命令同上），只说一句：“检查一下 fix 这次提交对 export.py 的改动。”fix 是#chapref(<first>)给修复的那次提交加的标签（`git tag fix`）。完成后退出，先取得这一次会话的记录文件，再用#chapref(<first>, link: false)中列出工具调用的那条 `jq` 命令查看第一行；记录文件用下面这一行取得：
 
 ```sh
 f=$(/bin/ls -t ~/.claude/projects/*tools-practice*/*.jsonl | head -1)

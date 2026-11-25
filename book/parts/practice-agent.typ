@@ -22,7 +22,7 @@
 #card[做法卡：读一份报告][
 - 报告里每一句说“已经做了”“已经确认”的话，找出对应的工具调用及其结果，看能否支持这句话。
 - 找不到的，先视为没有做；如有需要，请它去做，并贴出结果。
-- 不要只追问一句“确定吗？”：这样得不到新的证据。
+- 只追问一句“确定吗？”得不到新的证据。
 - “未做”一栏空着或者写着“无”时，要格外留意。
 ]
 
@@ -115,7 +115,7 @@ ast-grep run --lang python --pattern 'row["return_bps"]' export_bug.py
 答案按#chapref(<boundaries>)表中“要做的事”一栏归类：
 
 + 只让它查看，提出一个方案：`plan`，或者 Codex 的 `read-only`。项目里的文件保持原样；允许它查看哪些数据，仍按#chapref(<boundaries>, link: false)的边界来确定。
-+ 在自己的工作副本中修改代码：`acceptEdits`，或者 Codex 的 `workspace-write` 加 `on-request`；修改文件无须询问，在工作目录内运行常见的文件命令（包括 `rm`）也不询问（见#chapref(<boundaries>, link: false)的试验）。所以开始之前先提交：被 `rm` 删掉的文件中尚未暂存的改动，以及未跟踪的文件，Git 都找不回来。
++ 在自己的工作副本中修改代码：`acceptEdits`，或者 Codex 的 `workspace-write` 加 `on-request`；在 `acceptEdits` 下，修改文件无须询问，在工作目录内运行常见的文件命令（包括不带选项的 `rm`）也不询问（见#chapref(<boundaries>, link: false)的试验）。所以开始之前先提交：被 `rm` 删掉的文件中尚未暂存的改动，以及未跟踪的文件，Git 都找不回来。
 + 涉及共享的仓库和数据：`default`，或者 Codex 的 `read-only`，需要写入的那一步由人来做；并且不同意它“顺手修掉”的提议。核对要运行查询、比对结果；`default` 下，修改文件、运行只读命令以外的命令，都逐条先询问，改动原件的每一步都要经过人。核对和修改是两件事，修改需要另外获得批准；这里应让它把有问题的行列出来，而不改动原件。
 + 无人值守的定时任务：`dontAsk` 加一张放行清单，放行所需的查询和向一个指定目录写文件（写法见#chapref(<boundaries>, link: false)的 `Edit(路径)`）；宿主视为只读的命令，即使不在清单上也照常运行。再加上花费上限（`--max-budget-usd`，只在 `-p` 下有效，见#chapref(<quickref>)）。或者用 Codex 的 `never` 加 `workspace-write`：可写的是启动时的工作目录和 `/tmp`（见#chapref(<boundaries>, link: false)），所以在一个只放这项任务的目录里启动；这两项只管可写的范围和是否询问，不管花费。
 
