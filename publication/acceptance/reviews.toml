@@ -462,3 +462,10 @@ settled = "6ef03de: corrected, read again by both families with no error (reread
 [[reading.point]]
 point = "reread of 6ef03de: talent.typ:82 「下一期仍是 S 或 A」 raised by Codex; two Claude notes on figure 2 (「只有」 read as 「仅有」, the alternative text's 「四个可用值」)"
 declined = "judged no error by two Claude judges and by the Codex judge; 「4 只有值」 matches the text beside the figure, and the alternative text is correct as it stands"
+
+[[release]]
+version = "0.2.7"
+pdf = "47024263dc44ad428282fdfdcfd32c1ca549a5e3108c27b56453c3744fcfe57e"
+read = 2026-11-26T03:55:47+08:00
+findings = "build/evidence/reader-run-next-edition/release-v0.2.7/FINDINGS.md"
+verdict = "no finding"
