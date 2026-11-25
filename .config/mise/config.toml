@@ -1,18 +1,3 @@
-[tasks.build]
-description = "Build the candidate PDF, figures drawn in the same compile"
-run = "just --justfile publication/justfile build"
-
-[tasks.check]
-description = "Check authored inputs through native formatting and Typst readers"
-run = "just --justfile publication/justfile check"
-
-[tasks.fix]
-description = "Format the declared authored files"
-run = "just --justfile publication/justfile format"
-
-[tasks.render]
-description = "Render every PDF page for visual review"
-run = "just --justfile publication/justfile render"
 [settings]
 locked = true
 minimum_release_age = "24h"
@@ -45,6 +30,3 @@ macos-arm64 = { url = "https://github.com/HengYangDS/ethos/releases/download/v0.
 description = "Supply a CI runner's account with the fonts, Typst packages, test environment and PDF tools the full proof reads"
 run = "just --justfile publication/justfile ci-supply"
 
-[tasks.bootstrap]
-description = "Inspect existing publication supply without installing software"
-run = "just --justfile publication/justfile bootstrap"

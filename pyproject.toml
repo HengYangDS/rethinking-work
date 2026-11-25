@@ -22,13 +22,3 @@ test = [
   "pygments==2.21.0",
   "pytest-reportlog==1.0.0",
 ]
-
-[build-system]
-requires = ["setuptools==84.2.1"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = []
-
-[tool.setuptools.dynamic]
-version = { file = "VERSION" }

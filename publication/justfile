@@ -48,8 +48,9 @@ render:
     mkdir -p build/artifacts/pages
     typst compile --root . --format png --ppi 144 book/main.typ build/artifacts/pages/page-{0p}.png
 
+# The tests, run as the proof runs them, without its reports.
 test: pdf-tools-check
-    python3.12 -B -m unittest discover -s tests -v
+    uv run --locked --offline --no-build --no-python-downloads --python python3.12 python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests
 
 # The same unittest cases, with native same-attempt test and subprocess coverage reports.
 test-proof output: pdf-tools-check
@@ -93,14 +94,17 @@ edition-archive:
     find "$work" -type d -exec chmod 755 {} +
     find "$work" -exec touch -t "$stamp" {} +
     archive="build/artifacts/edition/rethinking-work-$version.tgz"
-    rm -f build/artifacts/edition/rethinking-work-*.tgz build/artifacts/edition/rethinking-work-*.zip
+    rm -f build/artifacts/edition/rethinking-work-*.tgz
     (cd "$work" && find 重新理解工作 | LC_ALL=C sort) | COPYFILE_DISABLE=1 tar --create --gzip --file "$archive" --directory "$work" --no-recursion --files-from - --uid 0 --gid 0 --uname '' --gname '' --no-xattrs --no-acls --no-fflags --no-mac-metadata --options gzip:!timestamp
 
+# Prettier with the repository's own configuration and inputs.
+prettier := "prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore"
+
 format-check:
-    prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --check .
+    {{prettier}} --check .
 
 format:
-    prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore --write .
+    {{prettier}} --write .
 
 # The book's decided wording and decidable punctuation (the book style in .config/checks/vale):
 # the rules' own cases first, then the rules over book/. A host's own Vale configuration is not loaded.
@@ -115,8 +119,8 @@ ci-artifacts: build edition-archive
     git diff --exit-code -- .config/mise
     shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/edition/rethinking-work-*.tgz
 
-# Present supply that matches the manifests is kept; only missing or changed supply is fetched.
 # Supply a CI runner's account with fonts, Typst packages, tests and PDF tools.
+# Present supply that matches the manifests is kept; only missing or changed supply is fetched.
 [script]
 ci-supply:
     #!/usr/bin/env bash
