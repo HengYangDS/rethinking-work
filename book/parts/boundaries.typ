@@ -196,7 +196,7 @@ claude --permission-mode default
 PreToolUse:Edit hook error: [sh "$CLAUDE_PROJECT_DIR"/.claude/hooks/guard.sh]: refused by guard.sh: edits are allowed only under work/ (got …/notes.txt)
 ```
 
-这里不用 `acceptEdits`，是因为第一条路在那一档下无人把守。#chapref(<case-records>)所记的两次运行都以那一档启动，智能体两次都用一条 `echo` 命令把那一行追加进了 `notes.txt`；宿主没有询问，钩子没有触发。官方文档所列那一档下不询问的文件命令是 `mkdir`、`touch`、`rm`、`rmdir`、`mv`、`cp` 和 `sed`，没有提到输出重定向。逐条试验的结果是：前六条不带选项、只涉及工作目录以内的文件时，确实不询问；`sed` 也不询问，唯有 macOS 上原地修改文件的写法（`sed -i ''`）要询问；把输出写到工作目录里的重定向，如 `echo … >> 文件`，同样不询问。
+这里不用 `acceptEdits`，是因为第一条路在那一档下无人把守。#chapref(<case-records>)所记的两次运行都以那一档启动，智能体两次都用一条 `echo` 命令把那一行追加进了 `notes.txt`；宿主没有询问，钩子没有触发。官方文档所列那一档下不询问的文件命令是 `mkdir`、`touch`、`rm`、`rmdir`、`mv`、`cp` 和 `sed`，没有提到输出重定向。逐条试验的结果是：前六条不带选项、只涉及工作目录以内的文件时，确实不询问；`sed` 也不询问，唯有 macOS 上原地修改文件的写法（`sed -i ''`）要询问；把输出重定向写进工作目录里的文件，同样不询问，比如 `echo … >> 文件`。
 
 退出后运行 `cat notes.txt`，输出应当仍然只有 `keep` 一行。要从记录里核对，把#chapref(<first>)中给变量 `f` 赋值的那一行里的 `first-session` 换成 `guard-practice`，再运行列出工具结果的那条 `jq`；智能体若用过写文件的工具，上面那样的报错就在其中。还要看 `work/export.py` 改成了什么：#chapref(<case-records>, link: false)“钩子守住的边界”一行所记的那一次，它排除的是 `None` 和空字符串；空字符串算不算空值，委托里没有写。钩子只检查改的是哪个文件，不检查改成了什么；空值怎样处理，只有读了改动才看得出来。
 
