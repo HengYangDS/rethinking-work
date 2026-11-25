@@ -1,390 +1,104 @@
 # Publication design and execution
 
-This directory owns presentation and the native task interface. It does not own
-manuscript claims or a second edition identity.
+This directory owns the book's presentation, its build and check tasks, their supply, the reader notes of the edition
+archive, the review records and the rights notices. It does not own manuscript claims or the edition's identity
+(`book/metadata.typ`).
 
-- [style.typ](layout/style.typ) owns the `publication-design` show rule and typography
-  helpers, tables, notes and reader figures over the unchanged publisher package.
-- [justfile](justfile) exposes the executable build and check commands.
-- [brewfile](brewfile) declares the Homebrew-owned PDF inspection supply.
-- [figures.typ](layout/figures.typ) declares the look of every figure drawn with
-  fletcher, and [palette.typ](layout/palette.typ) the colours it shares with the text.
-- [toolchain.json](supply/toolchain.json) records the selected supply and reproduction
-  limits, rather than installing software.
-- [instrumented.typ](diagnostics/instrumented.typ) is a diagnostic entrypoint that exposes
-  native page-bound text for complete-content comparison, not a second book.
-- [third-party-notices.md](rights/third-party-notices.md) preserves publisher attribution
-  and distinguishes third-party rights from the authored publication.
+- [layout/style.typ](layout/style.typ): the `publication-design` show rule, the faces, the measure and spacing, tables,
+  notes and reader figures, over the unchanged publisher package.
+- [layout/figures.typ](layout/figures.typ) and [layout/palette.typ](layout/palette.typ): the look of every figure drawn
+  with fletcher, and the colours the figures share with the text.
+- [justfile](justfile): the native tasks; `just --justfile publication/justfile` lists them.
+- [brewfile](brewfile): the Homebrew-owned PDF inspection supply.
+- [supply/](supply/): the checksums of the Typst packages, the Noto Sans CJK SC archive and its three faces.
+- [acceptance/reviews.toml](acceptance/reviews.toml): the reviews a head that changes the book's text or exercises
+  needs, read by the tests.
+- [archive-start.zh.txt](archive-start.zh.txt) and [reader-start.zh.txt](reader-start.zh.txt): the reader notes of the
+  edition archive, filled with the edition's identity when it is built.
+- [rights/](rights/): the publisher's notice and the third-party notices.
 
-The document entrypoint selects the publisher and passes it the edition metadata
-with the paper, margins and fonts that the layout module declares. The local show
-rule owns repeated page-design behavior; manuscript
-parts consume it without owning another style system. Change a global heading,
-table or caption rule here and check every affected page.
+The document entrypoint, `book/main.typ`, selects the publisher and passes it the edition metadata with the paper,
+margins and faces that the layout declares; `publication-design` owns every repeated page-design rule, and chapters
+use it without a style of their own. Change a global rule here and look at every affected page. This follows Typst's
+[separate-template pattern](https://typst.app/docs/tutorial/making-a-template/); the pinned package is not modified.
 
-This follows Typst's [separate-template pattern](https://typst.app/docs/tutorial/making-a-template/):
-keep reusable presentation in an imported module and compose it through a show
-rule. It does not add a publisher framework or modify the pinned package.
+## Tasks
 
-## Native tasks
-
-Run from the repository root:
-
-| Task                             | Effect                                                        |
-| -------------------------------- | ------------------------------------------------------------- |
-| `bootstrap`                      | Print installed executor versions; install nothing            |
-| `pdf-tools-check`                | Check declared, already-installed PDF inspection tools        |
-| `pdf-tool <command> [arguments]` | Run PDF inspection in the declared Homebrew environment       |
-| `pdf`                            | Compile a candidate, figures included                         |
-| `build`                          | Compile the candidate, as `pdf` does                          |
-| `render`                         | Render all pages for visual inspection                        |
-| `test`                           | Check publication and exercises                               |
-| `exercises`                      | Check synthetic data, export, search and API contracts        |
-| `edition-archive`                | Package the PDF and tracked exercises as one versioned `.tgz` |
-| `format-check` / `format`        | Check / apply Prettier to declared authored formats           |
-| `check`                          | Run formatting, publication and exercise checks               |
-| `ci-supply`                      | Supply a CI account with fonts, packages, tests and PDF tools |
-| `typst-package-check supply`     | Check the complete official Typst package trees               |
-| `ci-publication [supply]`        | Check package inputs, build the PDF and edition archive       |
-
-The invocation is `just --justfile publication/justfile <task>`.
-The figures are drawn from `diagrams/` in the same compile as the text, so every
-task that compiles the book draws them from their current sources. Rendering
-does not inspect its own output.
-`exercises` runs only the companion checks through existing DuckDB, Python 3.12,
-ast-grep and oasdiff; it does not compile the PDF. See the
-[exercise instructions](../exercises/README.md#check-every-example).
+Run from the repository root as `just --justfile publication/justfile <task>`. `build` compiles the PDF, figures
+included, and grants no editorial approval; `test` runs the publication and exercise checks; `exercises` runs only the
+companion checks, without the PDF (see the [exercises](../exercises/README.md#check-every-example)); `edition-archive`
+packages the PDF and the tracked exercises as one versioned `.tgz`; `check` runs formatting, the prose rules and the
+tests; `ci-supply` gives a CI account its fonts, Typst packages, test environment and PDF tools; `ci-artifacts` builds
+the PDF and the archive and prints their hashes. `render` writes every page as an image for review and does not inspect
+its own output.
 
 ## Source CI
 
-Source CI follows the verification model of the owner's other repositories. The
-installed ETHOS release owns the common model; this repository supplies its
-parameters in [verification.toml](../.config/ci/verification.toml), the runner
-prerequisites in [runners.toml](../.config/ci/runners.toml) and one job of its
-own in [pipeline.cue](../.config/ci/pipeline.cue). `ethos lane project` writes
-`.github/workflows/verify.yml` and `.gitlab-ci.yml` from them, and
-`ethos lane project --check` refuses drift; the generated files are not edited
-by hand.
+Both peers run the verification model of the owner's other repositories. The installed ETHOS release owns the model;
+this repository supplies its parameters in [verification.toml](../.config/ci/verification.toml), the runner
+prerequisites in [runners.toml](../.config/ci/runners.toml) and its own publication jobs in
+[pipeline.cue](../.config/ci/pipeline.cue). `ethos lane project` writes `.github/workflows/verify.yml` and
+`.gitlab-ci.yml` from them, and `ethos lane project --check` refuses drift; the generated files are not edited by hand.
 
-Each verification job installs the locked tools, runs `mise run ci-supply` and
-then the full proof that local integration runs,
-`mise exec --locked -- ethos prove --host --execute --full`. Its report,
-`build/evidence/ci/verification.json`, is kept as the job's artifact. The tools
-and their versions come from [config.toml](../.config/mise/config.toml) and its
-macOS arm64 lock; the ETHOS console is declared there by the release's own file.
-`ci-supply` puts the Regular, Bold and Black faces of Noto Sans CJK SC into the
-account's font folder and the Typst packages into its package cache, checked against
-[ci-noto.sha256](supply/ci-noto.sha256), the font lines of
-[typst-inputs.sha256](supply/typst-inputs.sha256) and
-[typst-packages.sha256](supply/typst-packages.sha256). It synchronizes the
-locked test environment with uv and checks the PDF tools of [brewfile](brewfile),
-installing them only where the account owns Homebrew. Present supply that
-matches is kept.
+Every job takes its supply the same way: `mise install --locked` installs the tools of
+[config.toml](../.config/mise/config.toml) at their locked versions, and `mise run ci-supply` puts the Regular, Bold and
+Black faces of Noto Sans CJK SC into the account's font folder and the Typst packages into its package cache, each
+checked against [noto-faces.sha256](supply/noto-faces.sha256), [ci-noto.sha256](supply/ci-noto.sha256) and
+[typst-packages.sha256](supply/typst-packages.sha256), synchronizes the locked test environment and checks the PDF
+tools of [brewfile](brewfile). Supply that matches is kept. A verification job then runs the full proof,
+`mise exec --locked -- ethos prove --host --execute --full`, and keeps its report as an artifact; a publication job runs
+`ci-artifacts` and keeps the PDF and the edition archive for 14 days.
 
-Configuration and fixtures are trusted source inputs, not credentials or
-business data. CUE and oasdiff retain disclosed unresolved Go advisories; DuckDB
-and ast-grep scans did not establish complete dependency identity. The owner's
-approval of this macOS toolchain was bounded to configuration checks and
-synthetic exercises, without services, accounts or upstream dependency changes;
-the full proof applies the same tools to the same trusted inputs. The lock keeps
-its Linux x64 records from the earlier private-peer job; no pipeline reads them.
-
-GitHub runs the verification job on hosted macOS arm64 for pushes to `dev`,
-`main` and `proposal/` branches, `v*` tags, pull requests and manual dispatch.
-GitLab runs it on the owner's local macOS arm64 runners, as the owner's other
-repositories do: a protected shell runner (tag `ci-macos-arm64-shell`) for the
-protected `dev` and `main` branches and `v*` tags, and a review runner (tag
-`ci-macos-arm64-review`) for merge requests and `proposal/` branches. Each is
-locked to this project and runs under its own account in the CI guest, whose
-Mise store, font folder and package cache keep their supply between jobs.
-`MISE_CONFIG_DIR` and `MISE_CEILING_PATHS` keep the account's own Mise settings
-and parent directories out of the job. The guest's Homebrew supplies Poppler.
-Each runner account holds its own copy of Homebrew's package index; without it,
+GitHub runs the jobs on hosted macOS arm64 (`macos-latest`) for pushes to `dev`, `main` and `proposal/` branches, `v*`
+tags, pull requests and manual dispatch; a full checkout carries the tags, so a tag event builds that tag's edition.
+GitLab runs them on the owner's local macOS arm64 runners, as his other repositories do: a protected runner for `dev`,
+`main` and `v*` tags and a review runner for merge requests and `proposal/` branches, each locked to this project and
+running under its own account in the CI guest. `MISE_CONFIG_DIR` and `MISE_CEILING_PATHS` keep the account's own Mise
+settings out of the job. Each runner account holds its own copy of Homebrew's package index; without it,
 `brew bundle check` fails on a lock it cannot write.
 
-Until 2026-11-17 both peers ran a hand-written source job of pipeline
-projections, formatting and the 17 exercises; the full proof replaced it. Until
-2026-11-16 the GitLab job ran on a department Kubernetes runner under Linux x64.
-That runner's evening downloads from public hosts were too slow for the tool
-installation (6 to 12 kB/s per download from GitHub release hosts on
-2026-11-16), so jobs ended before any check. Two remedies were measured on it
-and withdrawn: a job cache, which the runner saved and never restored, and a
-public GitHub proxy, which was slower and dropped connections. The records are
-under `build/evidence/publication-foundation/` on the authoring host, in
-`gitlab-download-cache-20261116/` and `gitlab-mirror-trial-20261116/`.
+Configuration and fixtures are trusted source inputs, not credentials or business data. A passing job is the full
+proof, or the built artifacts, at that commit on that platform; it does not certify typography or approve an edition.
+[Publication acceptance](../docs/publication-acceptance.md) is separate. The job records stay with each Forge.
 
-Hosted acceptance on 2026-11-14 verified all four branch jobs at commit
-`9e293fab29bf079435766b4e21b22c2ab75f136d`. Each passed event and platform identity,
-locked installation, pipeline projections, formatting and all 17 exercises,
-without changing the locks. The two GitLab rows ran on the earlier Linux
-runner. The initial GitHub `dev` attempt failed before a hosted Runner acquired
-the job; the unchanged-commit rerun passed.
+## Supply
 
-| Peer   | Branch | Run or pipeline        | Job          | Result  |
-| ------ | ------ | ---------------------- | ------------ | ------- |
-| GitHub | `dev`  | 43483107986, attempt 2 | 132095925245 | Success |
-| GitHub | `main` | 43483340206            | 132085231533 | Success |
-| GitLab | `dev`  | 15484                  | 70302        | Success |
-| GitLab | `main` | 15485                  | 70303        | Success |
+Homebrew owns the host installation; the tasks install nothing and run the executors their environment selects. Mise
+binds the tools to the versions of [config.toml](../.config/mise/config.toml) through its lock. Poppler supplies
+`pdfinfo` and `pdftotext` for the PDF checks: [brewfile](brewfile) declares it, `pdf-tool` checks its presence with
+Homebrew Bundle and runs the requested command in that bundle's environment, and `pdf-tools-check` checks both
+executables before `test` and `bootstrap`. Homebrew auto-update is disabled for these tasks. The Brewfile does not lock
+Poppler's exact version.
 
-Hosted acceptance on 2026-11-17 verified both GitLab branch jobs on the local
-runners at commit `c885a3b8c31c4db253234af3df8528ce76775a23`. Each ran
-`verify:macos:protected` on runner `ci-p1444-macos-arm64-shell-protected` and
-passed the same source checks without changing the locks. The first job installed the
-eight tools; the second found them installed.
+Typst imports `@preview/neat-book:0.1.0` with its dependencies, and `@preview/fletcher:0.6.0` with
+`@preview/cetz:0.5.3` for the figures. A first build may fetch these official packages; `ci-supply` fetches each
+package root that [typst-packages.sha256](supply/typst-packages.sha256) lists and checks every file.
 
-| Branch | Pipeline | Job   | Duration | Result  |
-| ------ | -------- | ----- | -------- | ------- |
-| `dev`  | 16094    | 72276 | 72 s     | Success |
-| `main` | 16095    | 72277 | 7 s      | Success |
+The faces are declared once in [style.typ](layout/style.typ) (`declared-faces`), and a test holds the PDF to them:
 
-Hosted acceptance on 2026-11-17 verified the family's verification model at
-commit `3e693f686b97b7ee2f62ccd8a0523fd8aad29cdc` on both peers. Each
-verification job passed all twelve gates of the full proof. On GitLab the two
-jobs ran on runner `ci-p1444-macos-arm64-shell-protected`, with all twelve tools
-and the headless shell already supplied, in 165 s and 153 s. On GitHub the
-publication job also built and uploaded the PDF and the practice archive.
+| Family           | Use                                      | Supply                             |
+| ---------------- | ---------------------------------------- | ---------------------------------- |
+| Songti SC        | Chinese body text                        | macOS system font                  |
+| Charter          | Latin body text                          | macOS system font                  |
+| Noto Sans CJK SC | Headings, tables, figures, Chinese code  | Homebrew font cask, or `ci-supply` |
+| DejaVu Sans Mono | Code                                     | Embedded font of the locked Typst  |
+| Libertinus Serif | Symbols in code that the code faces lack | Embedded font of the locked Typst  |
 
-The review runner `ci-p1444-macos-arm64-shell-review` ran its first hosted job
-on 2026-11-17 for a `proposal/` push of the same commit: pipeline 16147, job
-72430, passed all twelve gates in 182 s. A merge request whose source adds no
-commit gets no merge-request pipeline from GitLab, so that trigger is exercised
-by a merge request that carries a commit.
-
-| Peer   | Branch | Run or pipeline | Jobs                                          | Result  |
-| ------ | ------ | --------------- | --------------------------------------------- | ------- |
-| GitHub | `dev`  | 43969851081     | verify 133658824993, publication 133658825372 | Success |
-| GitHub | `main` | 43969850935     | verify 133658824363, publication 133658824693 | Success |
-| GitLab | `dev`  | 16118           | 72344                                         | Success |
-| GitLab | `main` | 16119           | 72345                                         | Success |
-
-The job records and traces, including predecessor failures, remain under
-`build/evidence/publication-foundation/` on the authoring host, in
-`hosted-ci-20261113/` and `gitlab-local-runner-20261116/`. They are not
-portable source inputs. A passing verification job is the full proof at that
-commit on that platform; it does not certify typography, approve an edition or
-establish merge protection.
-[Publication acceptance](../docs/publication-acceptance.md) remains separate.
-
-## Hosted publication build
-
-The public macOS pipeline has a second job of the repository's own,
-`publication`, which runs the native `ci-publication` task beside the
-verification job. It bootstraps the checksum-bound official Mise that
-[verification.toml](../.config/ci/verification.toml) names, as the verification
-job does, and installs the locked tools
-into job-local Mise state; it does not alter the authoring host or project lockfiles.
-The private peer's `publication:macos` jobs run the native `ci-artifacts` task
-on the project's macOS runners with the Mise those runners carry.
-
-The job fetches the official Noto Sans CJK SC archive, verifies
-[ci-noto.sha256](supply/ci-noto.sha256), and makes its Regular, Bold and Black
-faces available to Typst. Songti SC, Charter and Apple Color Emoji remain
-native Apple-system inputs, referenced only inside the licensed macOS job. No
-standalone Apple font is included in the outputs. The font hashes are recorded
-in the job log; differing Apple fonts can change the rendered PDF.
-
-The complete official Typst package trees of the package manifest are provisioned under
-`build/runtime/ci/typst/packages/preview/` and checked against
-[typst-packages.sha256](supply/typst-packages.sha256) before compilation.
-Typst's supported environment settings disable ambient system-font discovery
-and select the job-local font and package paths. Embedded fonts remain enabled.
-
-The task compiles the book, figures included, and produces
-`build/artifacts/pdf/rethinking-work.pdf` and
-`build/artifacts/edition/rethinking-work-<version>.tgz`, then refuses any
-project-lock drift and prints both hashes. The edition archive holds one folder
-`重新理解工作/` with a Chinese `先读.txt`, the PDF named with its version, the
-exercises under `实战练习/` (only tracked `VERSION`, `LICENSE`, `exercises/` and
-`tests/test_exercises.py`, plus their own `先读.txt`) and a `SHA256SUMS` of every
-other file. Both reader notes name the edition as the cover does (`book-edition` in
-`book/metadata.typ`, from the justfile's `edition_inputs`), and the exercises' note with the number of checks in
-`tests/test_exercises.py`; a leftover token fails the task. The archive is a gzipped
-tar, the format of the owner's other repositories: entries are sorted, dated to
-the edition, owned by no host user and carry their names as UTF-8 in pax
-headers, so a rebuild of the same commit yields the same bytes. The archive test checks the layout,
-every checksum, both notes' version and reproducibility, and runs every
-exercise check after extraction.
-
-Official Noto bytes and all 299 listed package files have passed local input
-verification. Hosted execution and artifact readback at `ea65454` are recorded
-in task 1.4; successful source CI, compilation and author review are distinct
-evidence boundaries.
-
-## Supply and reproduction
-
-Homebrew remains the host installation owner. The native tasks install nothing
-and run the executors selected by their invocation environment. The project
-Mise environment uses the tools and versions of
-[config.toml](../.config/mise/config.toml). Version checks and the native
-`check` pass on the authoring host; coverage, as locked in `uv.lock`, also passes
-its pytest-cov consumer checks. The earlier isolated six-tool qualification used Prettier
-3.9.10. Neither journey qualifies an independent-machine bootstrap.
-[toolchain.json](supply/toolchain.json) retains its original edition's supply and
-font binding rather than describing later tool updates.
-
-Poppler supplies `pdfinfo` and `pdftotext` for PDF Info, XMP and visible-cover
-checks. [brewfile](brewfile) declares the package; the native `pdf-tool` task
-checks its presence with Homebrew Bundle and executes the requested command in
-that bundle's environment. `pdf-tools-check` checks both executables and is a
-prerequisite of `test` and `bootstrap`. These tasks install or upgrade nothing
-and disable Homebrew auto-update. The binding and native checks pass on the
-authoring host. The Brewfile does not lock Poppler's exact version or qualify a
-second-machine bootstrap; [toolchain.json](supply/toolchain.json) records the version
-used by the current build.
-
-For example, inspect a candidate through the same declared binding:
-
-```sh
-just --justfile publication/justfile pdf-tool pdfinfo build/artifacts/pdf/rethinking-work.pdf
-```
-
-Typst imports `@preview/neat-book:0.1.0` and its publisher-declared dependencies,
-and `@preview/fletcher:0.6.0` with its dependency `@preview/cetz:0.5.3` for the
-figures. Their first use may fetch official packages; subsequent builds can use the
-existing package cache. The compiler's `inputs.json` records the actual package
-and source closure, not a complete font closure. Do not call a first build offline
-unless that supply exists.
-
-The delivered prose/supply successor includes substantive manuscript
-revisions and has passed complete-content, structural navigation,
-metadata and every-page author visual self-review. The current 113-page Documents
-PDF loaded in Preview; representative contents jumps, cross-references, returns
-and the DuckDB official link passed. The owned PDF window and external browser
-tab closed; the remaining Open panel was dismissed, and Preview reported no
-available windows. Original foreground restoration remains unproved because its
-identity was not captured, as recorded in task 2.4 of the
-[archived Change](../openspec/changes/archive/2026-11-17-publication-foundation/tasks.md). Human
-editorial acceptance and measured teaching effectiveness also remain unproved
-in task 2.1. Earlier tool and companion-reference journeys retain their original
-edition bindings. Reuse each result only for its bound edition and demonstrated
-scope.
-
-The current PDF uses the following font supply.
-
-| Family            | Publication use                          | Supply                            |
-| ----------------- | ---------------------------------------- | --------------------------------- |
-| Songti SC         | Chinese body text                        | Existing macOS system font        |
-| Charter           | Latin body text                          | Existing macOS system font        |
-| Noto Sans CJK SC  | Headings, tables and figure labels       | Existing Homebrew font cask       |
-| DejaVu Sans Mono  | Code                                     | Embedded font of the locked Typst |
-| Libertinus Serif  | Symbols in code that the code faces lack | Embedded font of the locked Typst |
-| Apple Color Emoji | Observed fallback for the memory credit  | Existing macOS system font        |
-
-DejaVu Sans Mono and Libertinus Serif do not require a separate host installation with the current
-Typst binary. The actual delivered PDF's font list can be inspected with
-Poppler's `pdffonts`. The
-[font notices](rights/third-party-notices.md#authored-publication-fonts) distinguish
-standalone font files from PDF embedding and explain the applicable rights.
-
-The current layout depends on macOS font supply. A second-machine build has not
-been qualified. Same-host byte-identical replay is qualified only for the bound
-inputs described below. Different font files can change wrapping and page
-count even with identical source.
-Typst's supported `--font-path`, `--ignore-system-fonts` and
-`--ignore-embedded-fonts` options control discovery; they do not supply fonts or
-grant distribution rights. An open-font substitution requires a separate layout
-decision, complete relayout and successor acceptance, not a silent build change.
-
-The edition's date, read from git once (`edition_inputs`: the release tag's date,
-or a draft's commit date), supplies Typst's document date and PDF timestamps; no
-date is written by hand. This reduces time drift
-but does not establish byte-identical reproduction across machines. Match the
-actual font files as well as the compiler and resolved packages before
-assessing reproduction.
-
-The Mise declaration exposes the same tasks. The native lock at
-`.config/mise/mise.lock` and its `aube-lock.yaml` and `package.json` sidecars bind
-the declared tools. The scoped Prettier 3.10.1 update regenerated its two
-sidecars through native Mise without changing other tool records. Each native
-tool has a macOS arm64 record, and the lock shows which also have Linux x64
-records; Prettier uses its npm sidecars.
-Native resolution recognizes the installed tools and their sidecar-derived
-paths. This adoption does not qualify an independent-machine bootstrap. Generated
-Aube YAML remains byte-exact and outside the prose formatter's inputs. Poppler's
-separate Homebrew Bundle binding is
-described above; it is not an exact-version lock. See the
-[archived Change](../openspec/changes/archive/2026-11-17-publication-foundation/tasks.md) for those
-acceptance boundaries rather than treating a configuration file as runtime proof.
-Frozen edition manifests retain the exact state they qualified; later contributor
-documentation changes are not backdated into those manifests.
-
-## Bound Typst input replay
-
-`supply/typst-inputs.sha256` binds the existing compiler executable, the font files
-it names and every file in the resolved Typst package roots. It contains no
-font binaries, package source, credentials or private paths. The executable
-binding also fixes its embedded fonts; this does not separately verify their
-source provenance.
-
-Provide these already-admitted inputs in one local supply directory:
-
-```text
-supply/
-  bin/typst
-  fonts/                     # The font files named in the checksum manifest
-  packages/preview/          # The complete, unmodified package roots it names
-```
-
-Use the native checksum and compiler tasks from the repository root:
-
-```sh
-just --justfile publication/justfile typst-input-check /path/to/supply
-just --justfile publication/justfile pdf-isolated /path/to/supply
-```
-
-The second task depends on the first. A missing or altered required input fails
-before compilation. It selects only the supplied font directory and package
-roots; Typst's embedded fonts remain enabled. Do not add alternate fonts or
-packages to that directory. The checksum task verifies listed bytes, not the
-absence of extra files. It neither downloads supply nor grants font-copying or
-distribution rights. Keep Apple fonts local to a licensed Apple environment;
-review the [font terms](rights/third-party-notices.md#authored-publication-fonts).
-
-The output is `build/artifacts/pdf-isolated/rethinking-work.pdf`; this task never
-replaces the reader edition. It draws the figures from their current sources in
-`diagrams/`, with the fletcher and CeTZ package roots of the supply.
-
-The 2026-11-10 same-host qualification used a separate local input directory,
-disabled network access and denied reads of the original font directories and
-Typst package cache. All 245 required files were compared. The complete output
-was byte-identical to the delivered edition. This proves a bounded replay with
-those actual inputs, not an independent-machine bootstrap, dependency security,
-source integration or complete locked publication supply. The original Change
-retains those remaining acceptance boundaries.
-
-The November 11 successor also reproduced byte-for-byte under the same isolation,
-after two drifted diagram images were restored from its frozen edition inputs.
-The failed replay and changed images remain with its qualification evidence.
+The [font notices](rights/third-party-notices.md#authored-publication-fonts) distinguish standalone font files from
+PDF embedding. The layout depends on macOS fonts; different font files can change wrapping and page count with
+identical source. The edition's date comes from git once (`edition_inputs`: the release tag's date, or a draft's
+commit date) and sets the document date and the PDF timestamps.
 
 ## Reader spacing rhythm
 
-The body uses aligned paragraph starts, with the type size `body-size` and the
-baseline `body-line` of [style.typ](layout/style.typ). A paragraph transition is
-one complete empty body line (`par-space`), not a manually inserted blank text
-object. The module `space` relates heading, note and table spacing. Tables keep
-a compact row baseline of their own; notes keep body line leading with a smaller
-internal paragraph interval. Contents and code
-keep their own native roles. No manuscript chapter overrides body leading.
+The body uses aligned paragraph starts with the type size `body-size` and the baseline `body-line` of
+[style.typ](layout/style.typ). A paragraph transition is one empty body line (`par-space`). The module's `space` relates
+heading, note and table spacing; tables keep a compact row baseline, and notes keep body leading with a smaller
+paragraph interval. No chapter overrides body leading.
 
-Numbered chapters begin on a new page. Unnumbered topic sections remain inside
-their chapter and use a smaller, consistent hierarchy; the contents show chapter
-entries rather than treating every topic as a second chapter. Short notes stay
-intact. Sticky headings and repeated table headers preserve navigation; a
-full-page visual pass remains required after changing the rhythm.
+Numbered chapters begin on a new page; sections stay inside their chapter. A short block moves to the next page whole,
+and a taller one leaves at least the least part the layout declares on each page. Matrix cells, note margins and note
+insets are multiples of `space`. A full-page look follows any change of the rhythm.
 
-Matrix cells, note margins and note insets are multiples of `space`, declared
-in `matrix` and `note` of the same file. These repeated furniture spaces can be
-tuned without shrinking body type or changing the paragraph rhythm. Evidence-scope
-guidance follows the work-route matrix rather than orphaning the reading entry.
-
-Worked reports retain framed notes. Short field reminders use an unframed
-`takeaway` paragraph at full body size; they do not need a separate title row
-and padded box. Complete short workflow tables can be kept together through
-Typst's native block. Deliberate section breaks balance developed cases without
-inserting filler or reducing body spacing. The official-link reference block
-uses a compact reference rhythm, not the body-paragraph rule.
-
-The contents use two generated native outlines in a grid, divided at the code
-search chapter. The split preserves chapter order and destinations while
-balancing the column lengths; no title or page number is manually copied.
+The contents group the chapters by the parts that `book/manuscript.typ` declares; no title or page number is copied by
+hand.

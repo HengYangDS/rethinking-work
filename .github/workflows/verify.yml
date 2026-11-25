@@ -1,86 +1,23 @@
 jobs:
   publication:
     runs-on: macos-latest
-    timeout-minutes: 20
-    env:
-      MISE_LOCKED: "1"
-      MISE_EXEC_AUTO_INSTALL: "0"
-      MISE_TRUSTED_CONFIG_PATHS: ${{ github.workspace }}
-      MISE_DATA_DIR: ${{ github.workspace }}/build/runtime/ci/mise/data
-      MISE_CACHE_DIR: ${{ github.workspace }}/build/runtime/ci/mise/cache
-      MISE_STATE_DIR: ${{ github.workspace }}/build/runtime/ci/mise/state
-      CHECKOUT_URL: ${{ github.server_url }}/${{ github.repository }}.git
-      CHECKOUT_SHA: ${{ github.sha }}
-      TYPST_IGNORE_SYSTEM_FONTS: "true"
-      TYPST_FONT_PATHS: ${{ github.workspace }}/build/runtime/ci/typst/fonts
-      TYPST_PACKAGE_PATH: ${{ github.workspace }}/build/runtime/ci/typst/packages
-      TYPST_PACKAGE_CACHE_PATH: ${{ github.workspace }}/build/runtime/ci/typst/packages
-    defaults:
-      run:
-        shell: bash
+    timeout-minutes: 45
     steps:
-      - name: Initialize checkout
-        run: git init .
-      - name: Select the public event repository
-        run: git remote add origin "$CHECKOUT_URL"
-      - name: Fetch the exact event commit
-        run: git -c protocol.version=2 fetch --no-tags --depth=1 origin "$CHECKOUT_SHA"
-      - name: Check out the fetched commit
-        run: git -c core.hooksPath=/dev/null checkout --detach FETCH_HEAD
-      - name: Fetch the event tag
-        if: github.ref_type == 'tag'
-        run: git -c protocol.version=2 fetch --no-tags --depth=1 origin "+$GITHUB_REF:$GITHUB_REF"
-      - run: mkdir -p build/runtime/ci/bootstrap
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/bootstrap/mise.tar.gz https://github.com/jdx/mise/releases/download/v2026.11.10/mise-v2026.11.10-macos-arm64.tar.gz
-      - run: shasum --algorithm 256 --check publication/supply/ci-mise-macos-arm64.sha256
-      - run: tar -xzf build/runtime/ci/bootstrap/mise.tar.gz -C build/runtime/ci/bootstrap --strip-components=2 mise/bin/mise
-      - run: build/runtime/ci/bootstrap/mise --version
-      - run: build/runtime/ci/bootstrap/mise install node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue typst
-      - run: mkdir -p build/runtime/ci/downloads build/runtime/ci/typst/fonts
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 180 --output build/runtime/ci/downloads/noto.zip https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip
-      - run: shasum --algorithm 256 --check publication/supply/ci-noto.sha256
-      - run: unzip -q build/runtime/ci/downloads/noto.zip -d build/runtime/ci/downloads/noto
-      - run: cp build/runtime/ci/downloads/noto/NotoSansCJKsc-Regular.otf build/runtime/ci/typst/fonts/
-      - run: cp build/runtime/ci/downloads/noto/NotoSansCJKsc-Bold.otf build/runtime/ci/typst/fonts/
-      - run: cp build/runtime/ci/downloads/noto/NotoSansCJKsc-Black.otf build/runtime/ci/typst/fonts/
-      - run: test -f "/System/Library/Fonts/Supplemental/Songti.ttc"
-      - run: ln -s "/System/Library/Fonts/Supplemental/Songti.ttc" "build/runtime/ci/typst/fonts/Songti.ttc"
-      - run: test -f "/System/Library/Fonts/Supplemental/Charter.ttc"
-      - run: ln -s "/System/Library/Fonts/Supplemental/Charter.ttc" "build/runtime/ci/typst/fonts/Charter.ttc"
-      - run: test -f "/System/Library/Fonts/Apple Color Emoji.ttc"
-      - run: ln -s "/System/Library/Fonts/Apple Color Emoji.ttc" "build/runtime/ci/typst/fonts/Apple Color Emoji.ttc"
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/algorithmic/1.0.7
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/algorithmic-1.0.7.tar.gz https://packages.typst.org/preview/algorithmic-1.0.7.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/algorithmic-1.0.7.tar.gz -C build/runtime/ci/typst/packages/preview/algorithmic/1.0.7
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/cetz/0.5.3
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/cetz-0.5.3.tar.gz https://packages.typst.org/preview/cetz-0.5.3.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/cetz-0.5.3.tar.gz -C build/runtime/ci/typst/packages/preview/cetz/0.5.3
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/codly/2.0.0
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/codly-2.0.0.tar.gz https://packages.typst.org/preview/codly-2.0.0.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/codly-2.0.0.tar.gz -C build/runtime/ci/typst/packages/preview/codly/2.0.0
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/codly-languages/0.1.10
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/codly-languages-0.1.10.tar.gz https://packages.typst.org/preview/codly-languages-0.1.10.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/codly-languages-0.1.10.tar.gz -C build/runtime/ci/typst/packages/preview/codly-languages/0.1.10
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/elembic/1.1.1
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/elembic-1.1.1.tar.gz https://packages.typst.org/preview/elembic-1.1.1.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/elembic-1.1.1.tar.gz -C build/runtime/ci/typst/packages/preview/elembic/1.1.1
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/fletcher/0.6.0
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/fletcher-0.6.0.tar.gz https://packages.typst.org/preview/fletcher-0.6.0.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/fletcher-0.6.0.tar.gz -C build/runtime/ci/typst/packages/preview/fletcher/0.6.0
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/neat-book/0.1.0
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/neat-book-0.1.0.tar.gz https://packages.typst.org/preview/neat-book-0.1.0.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/neat-book-0.1.0.tar.gz -C build/runtime/ci/typst/packages/preview/neat-book/0.1.0
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/octique/0.1.1
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/octique-0.1.1.tar.gz https://packages.typst.org/preview/octique-0.1.1.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/octique-0.1.1.tar.gz -C build/runtime/ci/typst/packages/preview/octique/0.1.1
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/showybox/2.0.4
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/showybox-2.0.4.tar.gz https://packages.typst.org/preview/showybox-2.0.4.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/showybox-2.0.4.tar.gz -C build/runtime/ci/typst/packages/preview/showybox/2.0.4
-      - run: mkdir -p build/runtime/ci/typst/packages/preview/theorion/0.6.0
-      - run: curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output build/runtime/ci/downloads/theorion-0.6.0.tar.gz https://packages.typst.org/preview/theorion-0.6.0.tar.gz
-      - run: tar -xzf build/runtime/ci/downloads/theorion-0.6.0.tar.gz -C build/runtime/ci/typst/packages/preview/theorion/0.6.0
-      - run: shasum --algorithm 256 build/runtime/ci/typst/fonts/*
-      - run: build/runtime/ci/bootstrap/mise exec node python just npm:prettier duckdb ast-grep github:oasdiff/oasdiff cue typst -- just --justfile publication/justfile ci-publication
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b
+        with:
+          version: 2026.11.10
+          install: false
+          cache: false
+      - name: Acquire locked product supply
+        run: mise install --locked --jobs=1
+      - name: Check locked supply
+        run: mise run ci-supply
+      - name: Build the PDF and the edition archive
+        run: mise exec --locked -- just --justfile publication/justfile ci-artifacts
       - name: Upload PDF without re-archiving
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:

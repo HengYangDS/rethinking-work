@@ -5,6 +5,7 @@
 // one box per figure may be emphasised, and a box off the main path is dashed.
 #import "@preview/fletcher:0.6.0" as fletcher
 #import "palette.typ": ink, tint, slate, muted
+#import "style.typ": sans-face
 #let figure-node(pos, name, title, detail: none, width: 30mm, height: auto, emphasis: false, quiet: false) = fletcher.node(
   pos, name: name, width: width, height: height, inset: 5pt, corner-radius: 3pt,
   fill: if emphasis { ink } else if quiet { white } else { tint },
@@ -22,6 +23,6 @@
   ..args.pos(), ..args.named())
 #let figure-label(body) = text(size: 7.5pt, fill: muted, body)
 #let figure-diagram(..args) = {
-  set text(font: "Noto Sans CJK SC", size: 9pt, fill: ink)
+  set text(font: sans-face, size: 9pt, fill: ink)
   fletcher.diagram(..args)
 }

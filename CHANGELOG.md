@@ -61,6 +61,13 @@ itself claim editorial acceptance.
   `snapshot_minus_expected_bps`, the direction the keyed reconciliation uses.
 - Figures 1, 2, 5 and 6 use their chapter's words and steps, without an
   unexplained dark box.
+- GitHub's publication job takes its supply as every other job does, through
+  `mise install --locked` and `mise run ci-supply`, instead of 48 shell steps of
+  its own; `ci-supply` reads the Typst packages from their manifest. The offline
+  replay of 2026-11-10 (`typst-inputs.sha256`, `pdf-isolated` and its tests),
+  `toolchain.json` and the unused diagnostic entrypoint are retired; the layout
+  declares its faces once and the font test reads them there. The publication
+  README states the current contract only.
 - The book's parts are declared once in `book/manuscript.typ`; the chapter heads
   and the contents follow them, and the tests check rules (numbered chapters
   without a gap, each part's chapters together) instead of pinned lists. Layout

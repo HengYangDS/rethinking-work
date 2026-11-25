@@ -58,11 +58,9 @@ source tree when the native task interface and topic owners already suffice.
 
 ## Build a candidate
 
-Use the existing installed tools declared in
-[publication/supply/toolchain.json](publication/supply/toolchain.json). The build requires
-the pinned Typst packages and the declared fonts; the figures are drawn in the
-same compile. See [supply and reproduction](publication/README.md#supply-and-reproduction)
-before running it on a new machine; these commands do not install tools.
+Use the tools that [.config/mise/config.toml](.config/mise/config.toml) declares and its lock binds. The build requires
+the pinned Typst packages and the declared fonts; the figures are drawn in the same compile. See
+[supply](publication/README.md#supply) before running it on a new machine; these commands do not install tools.
 
 ```sh
 just --justfile publication/justfile bootstrap

@@ -128,13 +128,12 @@ class PublicationInputs(edition.Edition):
         self.assertEqual(self.edition.warnings.strip(), "")
 
     def test_embedded_fonts_are_the_declared_ones(self):
-        # The toolchain declares the publication's fonts once; the PDF embeds no other. A face's
+        # The layout declares the publication's faces once; the PDF embeds no other. A face's
         # PostScript name holds its family's name once case, spaces and punctuation are dropped.
         def letters(name):
             return re.sub(r"[^a-z]", "", name.lower())
 
-        declared = json.loads((ROOT / "publication/supply/toolchain.json").read_text())["fonts"]
-        families = [letters(name) for name in declared]
+        families = [letters(name) for name in self.fact("declared faces")]
         embedded = {
             line.split()[0].split("+")[-1] for line in self.read("fonts").splitlines()[2:] if line
         }

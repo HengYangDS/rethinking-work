@@ -83,6 +83,8 @@ FACTS = {
     " query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
     " page:it.location().page(), part:book-part.at(it.location()).name)) }",
     "closing page": "query(<closing>).first().location().page()",
+    # The faces the layout declares (`publication/layout/style.typ`).
+    "declared faces": '{ import "/publication/layout/style.typ": declared-faces; declared-faces }',
     "raws": "query(raw).map(it => (text:it.text, lang:it.lang, block:it.block,"
     " page:it.location().page()))",
     "practice page": "query(<practice-thinking>).first().location().page()",

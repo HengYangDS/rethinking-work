@@ -52,13 +52,18 @@
   else { "" }
 }
 // The face of commands and outputs; a paragraph set in it is a line of code.
-#let code-face = ("DejaVu Sans Mono", "Noto Sans CJK SC", "Libertinus Serif")
+// The faces the edition uses, each declared once: the body's Chinese and Latin faces, the sans face of headings,
+// tables and figures, and the code faces. The PDF embeds no other (tests/test_publication.py).
+#let body-faces = (chinese: "Songti SC", latin: "Charter")
+#let sans-face = "Noto Sans CJK SC"
+#let code-face = ("DejaVu Sans Mono", sans-face, "Libertinus Serif")
+#let declared-faces = (body-faces.chinese, body-faces.latin, sans-face, ..code-face).dedup()
 // What the edition asks of the publisher: language, paper, margins, faces and size. The entrypoint
 // passes it with the edition's identity.
 #let publisher-design = (
   lang: "zh", paper: "a4", cover: false, toc: false,
   margin: (x: (210mm - text-width) / 2, top: 22mm, bottom: 22mm),
-  fonts: (chinese: "Songti SC", english: "Charter", japanese: "Songti SC", sans: "Noto Sans CJK SC", mono: code-face.first()),
+  fonts: (chinese: body-faces.chinese, english: body-faces.latin, japanese: body-faces.chinese, sans: sans-face, mono: code-face.first()),
   accent: ink, cjk-oblique: none, font-size: body-size,
 )
 // Punctuation marks around a curly quotation mark, set in cells. The body face's own quotation marks are narrow, so
@@ -112,7 +117,7 @@
   set heading(numbering: none)
   show heading.where(level: 1): it => {
     block(above: 6 * space, below: 3 * space, sticky: true)[
-      #text(font: "Noto Sans CJK SC", weight: "bold", size: 25pt, it.body)
+      #text(font: sans-face, weight: "bold", size: 25pt, it.body)
       #v(2 * space)
       #line(length: 100%, stroke: .6pt + rule)
     ]
@@ -185,7 +190,7 @@
     if last-set.get() == "lead-in" { v(par.spacing) }
     last-set.update("block"); it; last-set.update("paragraph")
   }
-  show table.cell.where(y: 0): set text(font: "Noto Sans CJK SC", weight: "bold", size: 9pt)
+  show table.cell.where(y: 0): set text(font: sans-face, weight: "bold", size: 9pt)
   show figure.caption: set text(size: 8.5pt, fill: muted)
   // Commands are meant to be copied: no line-number gutter in the text layer, and a short inline command never breaks
   // across lines. A box may break on either side, so the word joiner keeps a closing mark that follows the command on
@@ -245,7 +250,7 @@
   let text = [第#numbers.map(n => zh-number(int(n))).join("、")章]
   if link { std.link(targets.pos().first(), text) } else { text }
 }
-#let contents-return() = link(<contents>, text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[返回目录 ↗])
+#let contents-return() = link(<contents>, text(font: sans-face, size: 8pt, fill: muted)[返回目录 ↗])
 // The part a chapter belongs to, declared once for its chapters in `book/manuscript.typ`: its number and name head
 // each chapter and group the contents. The back group has no number; its chapters name their own heads.
 #let book-part = state("book-part", none)
@@ -257,7 +262,7 @@
     #set par(first-line-indent: 0pt, leading: 5.5pt, spacing: 2 * space)
     #metadata((chapter: n))<chapter-navigation>
     #grid(columns: (1fr, auto),
-      text(font: "Noto Sans CJK SC", size: 8pt, fill: muted)[#if head == auto {
+      text(font: sans-face, size: 8pt, fill: muted)[#if head == auto {
         context { let part = book-part.get(); [#part.number / #part.name] }
       } else [#head] / #n],
       contents-return(),
@@ -285,7 +290,7 @@
 #let note(title, body) = flow-block(width: 100%, fill: tint, mark: <sample-box>,
   stroke: (left: 1.5pt + slate), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
   #set par(first-line-indent: 0pt, justify: false, leading: 5.5pt, spacing: 13.5pt)
-  #block(sticky: true, above: 0pt, below: 2 * space)[#text(font: "Noto Sans CJK SC", weight: "bold", size: 10pt, title)]
+  #block(sticky: true, above: 0pt, below: 2 * space)[#text(font: sans-face, weight: "bold", size: 10pt, title)]
   #body
 ]
 // Whether a cell holds a number alone: digits with their separators, sign and percent, or a count of a total such as

@@ -12,7 +12,7 @@ memory must not create another progress authority.
 
 Manuscript meaning and reader references belong in `book/`; edition identity
 belongs in `book/metadata.typ`; presentation belongs in `publication/layout/`,
-diagnostics in `publication/diagnostics/`, supply manifests in
+supply manifests in
 `publication/supply/`, and third-party notices in `publication/rights/`.
 The native task interface remains `publication/justfile`; editable figures
 belong in `diagrams/`; synthetic teaching

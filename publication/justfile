@@ -41,19 +41,6 @@ pdf:
     mkdir -p build/artifacts/pdf
     typst compile --root . {{edition_inputs}} --deps build/artifacts/pdf/inputs.json book/main.typ build/artifacts/pdf/rethinking-work.pdf
 
-# Check the exact existing compiler, fonts and complete package inputs.
-typst-input-check supply:
-    cd "{{supply}}" && shasum --algorithm 256 --check "{{justfile_directory()}}/supply/typst-inputs.sha256"
-
-# Verify the complete upstream package trees before hosted compilation.
-typst-package-check supply:
-    cd "{{supply}}" && shasum --algorithm 256 --check "{{justfile_directory()}}/supply/typst-packages.sha256"
-
-# Compile current figure inputs without ambient font or package discovery.
-pdf-isolated supply: (typst-input-check supply)
-    mkdir -p build/artifacts/pdf-isolated
-    "{{supply}}/bin/typst" compile --root . --ignore-system-fonts --font-path "{{supply}}/fonts" --package-path "{{supply}}/packages" --package-cache-path "{{supply}}/packages" --deps build/artifacts/pdf-isolated/inputs.json book/main.typ build/artifacts/pdf-isolated/rethinking-work.pdf
-
 build: pdf
 
 # Native per-page previews used by visual review.
@@ -128,9 +115,6 @@ ci-artifacts: build edition-archive
     git diff --exit-code -- .config/mise
     shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/edition/rethinking-work-*.tgz
 
-# The hosted macOS job first checks the supply it fetched into its own workspace.
-ci-publication supply="build/runtime/ci/typst": (typst-package-check supply) ci-artifacts
-
 # Present supply that matches the manifests is kept; only missing or changed supply is fetched.
 # Supply a CI runner's account with fonts, Typst packages, tests and PDF tools.
 [script]
@@ -144,7 +128,7 @@ ci-supply:
     mkdir -p "$work" build/runtime/ci/downloads "$HOME/Library/Fonts"
     faces_match() {
         for face in Regular Bold Black; do
-            expected=$(awk -v f="fonts/NotoSansCJKsc-$face.otf" '$2 == f {print $1}' "$manifests/typst-inputs.sha256")
+            expected=$(awk -v f="fonts/NotoSansCJKsc-$face.otf" '$2 == f {print $1}' "$manifests/noto-faces.sha256")
             actual=$(shasum --algorithm 256 "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-$face.otf" 2>/dev/null | cut -d ' ' -f 1 || true)
             [ -n "$expected" ] && [ "$expected" = "$actual" ] || return 1
         done
@@ -165,7 +149,8 @@ ci-supply:
     if (cd "$cache" 2>/dev/null && shasum --algorithm 256 --check --quiet --status "$manifests/typst-packages.sha256"); then
         echo "Typst packages: present"
     else
-        for package in algorithmic/1.0.7 cetz/0.5.3 codly/2.0.0 codly-languages/0.1.10 elembic/1.1.1 fletcher/0.6.0 neat-book/0.1.0 octique/0.1.1 showybox/2.0.4 theorion/0.6.0; do
+        # Each package root the manifest lists, as name/version.
+        for package in $(awk '{print $2}' "$manifests/typst-packages.sha256" | awk -F/ '{print $3 "/" $4}' | sort -u); do
             archive="$work/${package/\//-}.tar.gz"
             curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output "$archive" "https://packages.typst.org/preview/${package/\//-}.tar.gz"
             rm -rf "$cache/packages/preview/$package"

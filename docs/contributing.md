@@ -81,18 +81,9 @@ the pipelines with `ethos lane project` (preview, then its printed apply) and
 check them with `ethos lane project --check`. None of these approves an edition
 or configures forge merge protection.
 
-The public macOS pipeline also has a `publication` job that calls
-`ci-publication`. It installs the locked publication tools, verifies complete official
-Typst package trees, supplies checksum-bound Noto fonts and uses the Runner's
-licensed Apple fonts. It then builds the PDF and the
-`.tgz` practice archive. This path does not install Poppler or replace the
-Documents edition; actual hosted artifacts still need independent readback.
-
-For an already-provisioned equivalent environment, set Typst's supported font
-and package paths, then run
-`just --justfile publication/justfile ci-publication /path/to/supply`.
-The supply directory contains `fonts/` and `packages/preview/` as described in
-[publication reproduction](../publication/README.md#hosted-publication-build).
+Each peer also has a `publication` job that supplies its account as the verification jobs do (`mise install --locked`,
+`mise run ci-supply`) and runs `ci-artifacts`, which builds the PDF and the `.tgz` practice archive and prints their
+hashes; the artifacts still need independent readback before delivery.
 Run `edition-archive` after `build` to package the PDF and the tracked
 synthetic inputs as one versioned `.tgz`. Its extracted archive is checked by
 `tests/test_practice_pack.py`, including the reader notes' version, every
