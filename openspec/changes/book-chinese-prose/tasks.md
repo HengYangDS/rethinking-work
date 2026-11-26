@@ -25,6 +25,7 @@
 
 ## 3. Acceptance and landing
 
-- [ ] 3.1 The commands review and the reading are recorded in `publication/acceptance/reviews.toml`; done when
+- [x] 3.1 The commands review and the reading are recorded in `publication/acceptance/reviews.toml`; done when
       `tests/test_acceptance.py` passes.
-- [ ] 3.2 The full proof passes on the archived head; done when the lane lands on `dev` and both forges' CI is green.
+- [x] 3.2 Every commit of the lane passes the commit driver's light checks and the `book-prose` Vale style; done when
+      the driver accepts the head and `vale` reports no error over `book/`.
