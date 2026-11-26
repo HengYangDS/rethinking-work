@@ -297,8 +297,9 @@ class EditionLayout(edition.Edition):
                 paragraph_steps.append((page, top(first) - top(lines[position - 1])))
         self.assertEqual(indented, [])
         # A reader that lost a whole chapter's paragraphs would still find steps elsewhere. A numbered
-        # chapter is prose throughout, so each must show both kinds; practices and appendices are
-        # partly lists and tables, and the closing and the afterword are short.
+        # chapter is mainly prose and runs past its opening page, so each must show both kinds;
+        # practices and appendices are partly lists and tables, and the closing and the afterword
+        # are short.
         marks = self.fact("chapter marks")
 
         def chapter(page):

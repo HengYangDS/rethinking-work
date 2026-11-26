@@ -21,13 +21,14 @@ removed; this is the third of the three Changes that answer it.
   block's, declares the top and bottom margin once, and declares the language. The cover and the contents are set by
   `publication/layout/front.typ` from the declared faces and sizes; the front matter gives the cover its words and
   the contents their heading, and `book/metadata.typ` declares the English title.
-- The layout declares the closing marks, with which no line may begin, and the pattern of a number cell; the checks read them, the
-  opening marks and the language from the layout instead of copying them. A check that guards against finding too
-  little derives what it must find from other facts of the edition, not from a fixed count.
+- The layout declares the closing marks, with which no line may begin, and the pattern of a number cell; the checks
+  read them, the opening marks and the language from the layout instead of copying them. A check that guards against
+  finding too little derives what it must find from other facts of the edition, not from a fixed count.
 - The practice-pack test reads the draft's commit from the archive task's inputs; the CI supply declares its fetch
   options once, and the justfile declares once the tests' command and the test environment it ran in several places,
-  and names the Brewfile once. The tests' waits take their limit from the one minute that `tests/edition.py` declares; the reader's
-  whole check of the pack has its longer limit named in its test, and the exercises' own test, which ships alone in
+  and names the Brewfile once. The tests' waits take their limit from the one minute that `tests/edition.py` declares;
+  the reader's whole check of the pack has its longer limit named in its test, and the exercises' own test, which ships
+  alone in
   the pack, keeps its own.
 
 The PDF does not change: built from the same inputs, it is the same file.

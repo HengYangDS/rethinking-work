@@ -29,4 +29,4 @@
 - [x] 3.1 Build the PDF from the Change's head and from the head before it with the same inputs; done when the two
       files are identical and the compile has no warning.
 - [x] 3.2 State the requirement; done when `openspec validate declare-layout-once --strict` passes.
-- [ ] 3.3 Answer each finding of the independent review in code or in this design; done when none is open.
+- [x] 3.3 Answer each finding of the independent review in code or in this design; done when none is open.

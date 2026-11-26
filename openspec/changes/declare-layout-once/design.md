@@ -51,12 +51,12 @@ that owner; every other mention reads it.
   not what counts as a number; that is the layout's to say.
 - **Coverage from other facts, not counts.** A fixed lower count (`> 100` steps, `> 40` tables, `> 50` blocks, `> 30`
   specimen lines) guarded against a reader that finds nothing or too little. Each guard now derives what must be found
-  from another fact: the body's line and paragraph steps are measured in every numbered chapter, which is prose
-  throughout (practices and appendices are partly lists and tables, and the closing and the afterword are short);
-  every tagged block is a printed command, which the command check reads unless it is a script's text, or one of the
-  declared languages of a file's content, and an output stays untagged; every page of the specimen, one per kind of
-  block, is measured. The tables come from one query, which
-  cannot find part of them, so finding some suffices there.
+  from another fact: the body's line and paragraph steps are measured in every numbered chapter, which is mainly prose
+  and runs past its opening page (practices and appendices are partly lists and tables, and the closing and the
+  afterword are short); every tagged block is a printed command, which the command check reads unless it is a
+  script's text, or one of the declared languages of a file's content, and an output stays untagged; every page of the
+  specimen, one per kind of block, is measured. The tables come from one query, which cannot find part of them, so
+  finding some suffices there.
 - **The draft's commit.** The practice-pack test reads `commit=` from the archive task's `edition_inputs` in its fixture
   and requires the full commit to begin with it, instead of cutting the commit to seven characters itself.
 - **Time limits.** `QUIET` carries the one-minute limit; the compile's wait reads it, and the tests' guide points to it.
@@ -73,8 +73,9 @@ that owner; every other mention reads it.
   same file, and a check already fails when the compile reads a package file the manifest does not pin.
 - A role shared by two texts couples them → only texts that stand together as one kind share a role; the rest keep
   their own.
-- A numbered chapter with no two body lines in a row, or no two adjacent paragraphs on a page, would fail its guard →
-  the book has none, the failure names the chapter, and such a chapter is reviewed with its content. A new language
+- A numbered chapter with no two body lines in a row, or no two adjacent paragraphs on a page, past its opening page
+  would fail its guard → the book had none when the guard first ran (2026-11-27), the failure names the chapter, and
+  such a chapter is reviewed with its content. A new language
   for a file's content fails until `FILE_LANGUAGES` names it.
 - Relative side margins assume a paper wider than the text block → the measure and the paper are both declared in the
   layout, where a change of either is reviewed on every page.
