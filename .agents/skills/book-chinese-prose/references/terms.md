@@ -37,5 +37,5 @@ One concept, one name, throughout the book. The Vale style `book` holds the deci
 
 ## Words used across chapters
 
-下一环、最可能错在哪里、询问人、做成一道检查 recur across chapters in one sense. A reader who finds one of them unusual
-changes all of them or none; changing one place would split the term.
+A word the book uses in one sense across chapters, such as 最可能错在哪里 or 询问人, is changed everywhere or nowhere: the
+editor decides for the whole book, because changing one place would split the term.

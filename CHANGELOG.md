@@ -172,7 +172,7 @@ itself claim editorial acceptance.
   like the book's other briefs.
 - Further errors found before the release and their kinds are corrected, except
   page 148's 「都合乎题材和读者」, which restates the shared rules'
-  definition of 雅.
+  definition of 雅 and is left until that definition is settled.
 - More errors and their kinds across the book are corrected: figures are set
   where they are called, inside their own section and after the text that
   introduces them, where three had floated above its heading; a code block that
@@ -200,8 +200,7 @@ itself claim editorial acceptance.
   of the printed commands (keyed by the trees of `book/` and `exercises/`) and
   each reading of changed passages (keyed by `book/`), with how every point was
   settled or declined, and `tests/test_acceptance.py` fails a head that no
-  record covers. The stage had lived in a local script, and three book commits
-  landed without it.
+  record covers.
 - The book's decided wording and the decidable cases of Chinese punctuation are
   checked on every change: a Vale style in `.config/checks/vale/` holds
   the replacements and avoided words decided in the whole-book review of
@@ -297,7 +296,7 @@ itself claim editorial acceptance.
 
 ### Changed
 
-- Faults found across the whole book before the release are repaired.
+- The whole book is reviewed and repaired.
 - Book-wide terms are fixed once and used alike in every chapter; names that one
   chapter defines (the record's five fields, the conditions for handing work
   over, the role names, the stop conditions) are copied verbatim elsewhere.
@@ -541,8 +540,7 @@ itself claim editorial acceptance.
   related to a point were cut. The preface opens on one scenario whose stake is
   a decision; appendix D keeps the run conditions of the demonstrated sessions
   and the table of premises. A section heading now starts the next page unless
-  about six body lines fit under it. The PDF and practice archive were delivered
-  to the reader targets.
+  about six body lines fit under it.
 - Check the edition's layout over every body paragraph: the publication test now
   joins Typst's own paragraph positions with the PDF's lines and requires flush
   starts, 16 pt line steps and 32 pt paragraph steps, instead of locating two

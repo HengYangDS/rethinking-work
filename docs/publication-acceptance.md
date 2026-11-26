@@ -16,7 +16,7 @@ register.
 
 ## Check complete meaning
 
-Prose is judged under 信、达、雅 as [chapter 24](../book/parts/writing.typ) states them, which is the owner's one
+Prose is judged under 信、达、雅 as [chapter 24](../book/parts/writing.typ) states them, which is the shared
 definition: fidelity is the root, clarity comes before elegance, and when they conflict fidelity prevails over clarity
 and clarity over elegance. A review brief cites that definition instead of wording its own.
 
@@ -33,8 +33,9 @@ change nothing in the repository. The lane's editor records each review with its
 against what, when, the verdict, and how many points were settled and how many declined. The findings stay in the
 reviewer's local evidence folder and are neither named nor copied; the record itself is the evidence that the proof and
 CI read. A point ends settled or declined with its reason; a review with an open point is not recorded. The record
-keeps the reviews read since the last release and that release's reading; Git keeps the earlier ones. A declined
-point whose reason holds beyond its passage becomes a rule: a judgement below, a term in the skill, or a Vale rule.
+keeps the last release's reading, the reviews that cover that release's trees and every review read after them; Git
+keeps the rest. A declined point whose reason holds beyond its passage becomes a rule: a judgement below, a term in the
+skill, or a Vale rule.
 [`tests/test_acceptance.py`](../tests/test_acceptance.py) fails a head without these records.
 
 Read the complete changed prose and its qualifications. Where a passage was shortened or reworded,
@@ -169,8 +170,8 @@ worded better, and the editors correct what is inappropriate.
   their ？.
 - A measured value with three or more significant digits is in Arabic numerals (GB/T 15835—2011 4.1.1); a round
   count of one or two digits (十八万、五千、约三百) may be in either, the same within one place (4.3). So may a
-  fraction (七分之一) where the paragraph writes no other fraction of the same quantity (4.3).
-- Words quoted from a file or a brief keep their own form, case and spelling included.
+  fraction (七分之一), the same within one place (4.3).
+- Words quoted from a file or a brief in their own form, case and spelling included, are not an error.
 - A figure stands after the text that introduces it and inside its section (3-5, item 5, 1 point).
 - A protocol named in the text is in capitals (HTTP, HTTPS); an address keeps its own spelling (`https://`), in code
   type.
@@ -209,13 +210,15 @@ releases need the owner's word each time; landing a proved lane on `dev` does no
    `book/` and `exercises/` trees in `publication/acceptance/reviews.toml`, complete the release Change's tasks and
    archive it.
 2. Read the release PDF built at that head: the cover and its edition line, the colophon and the printed blocks; record
-   the reading as a `[[release]]` entry.
+   the reading as the `[[release]]` entry in place of the previous release's, and remove the reviews read before the
+   reviews of this release's trees.
 3. Prove the head with the full proof, land it on `dev`, and publish `dev` and then `main` to both peers, one receipt
    each.
 4. Tag it with `ethos land --release`, a signed `v<VERSION>` on that head. A clean checkout of the tag builds the
    release edition (`edition_inputs`); the tag event's publication jobs build it on both peers.
 5. Build the edition archive from the tagged head, create the release on both forges with the PDF and the archive, and
-   read both back by SHA-256.
+   read both back by SHA-256. The release notes state how the edition was qualified: which reviews it passed and that
+   they are self-tests, not a publisher's check.
 6. Note on the previous release's pages that this edition supersedes it, deliver the archive beside the earlier
    editions, and retire the lane once both peers' jobs are green.
 

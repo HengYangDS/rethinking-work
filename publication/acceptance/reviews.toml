@@ -1,8 +1,8 @@
 # The reviews a head that changes the book's text or exercises needs before it is proved and landed
 # (docs/publication-acceptance.md, "Check complete meaning"); tests/test_acceptance.py reads this record in the
 # proof and both CIs. Each entry holds exactly the fields below and nothing else: no reviewer's words and no
-# path to local evidence. The record keeps the reviews read since the last release and that release's
-# reading; Git keeps the earlier ones. A review with an open point is not recorded.
+# path to local evidence. The record keeps the last release's reading, the reviews that cover that release's
+# trees and every review read after them; Git keeps the rest. A review with an open point is not recorded.
 #
 # [[commands]]  the printed commands and the prose beside them, against the run records; keyed by the trees
 #               of book/ and exercises/ (`git rev-parse <subject>:book`).
@@ -13,13 +13,36 @@
 # [[reading]]   every changed passage, read by a reader who did not write it; keyed by the tree of book/:
 #   subject, against, read, verdict, settled and declined, as above.
 # [[release]]   the release PDF checked before its tag (cover, metadata date, blocks, page text); keyed by the
-#   PDF's SHA-256: version, pdf, read and verdict. The release procedure reads it.
+#   PDF's SHA-256: version, pdf, read, verdict, settled and declined. The release procedure reads it.
+
+[[commands]]
+book = "4ae058c8364872ed35f032e9907b0e0bbe33f424"
+exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+subject = "ef1b881"
+blocks_against = "v0.2.7"
+prose_against = "f609d1c"
+pdf = "917ff6ebd8f1c12435a9a527c389341c5df02f893fc000c7ed9ac1936a0eec24"
+read = 2026-11-26T12:23:21+08:00
+verdict = "no finding"
+settled = 0
+declined = 0
+
+[[reading]]
+book = "4ae058c8364872ed35f032e9907b0e0bbe33f424"
+subject = "ef1b881"
+against = "f609d1c"
+read = 2026-11-26T12:23:21+08:00
+verdict = "settled"
+settled = 4
+declined = 1
 
 [[release]]
 version = "0.2.8"
 pdf = "96ef6aa4e651152bbc8d085a3a76de890327c3a0808b5abbc4aef3311e2bb8aa"
 read = 2026-11-26T13:54:13+08:00
 verdict = "no finding"
+settled = 0
+declined = 0
 
 [[reading]]
 book = "ee528e9993c4790d05bb6c78745d2972102574e2"

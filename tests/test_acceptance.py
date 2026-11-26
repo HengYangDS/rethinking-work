@@ -19,14 +19,26 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "publication/acceptance/reviews.toml"
-# The fields of each kind of entry, and no others: a record holds no reviewer's words and no path.
+# The fields of each kind of entry, and no others, each value in its shape: a record holds no
+# reviewer's words and no path.
 REVIEW = {"read", "verdict", "settled", "declined"}
 FIELDS = {
     "commands": {"book", "exercises", "subject", "blocks_against", "prose_against", "pdf"} | REVIEW,
     "reading": {"book", "subject", "against"} | REVIEW,
-    "release": {"version", "pdf", "read", "verdict"},
+    "release": {"version", "pdf"} | REVIEW,
 }
-VERDICTS = ("no finding", "settled")
+COMMIT = r"[0-9a-f]{7,40}"
+SHAPES = {
+    "book": r"[0-9a-f]{40}",
+    "exercises": r"[0-9a-f]{40}",
+    "subject": COMMIT,
+    "against": COMMIT,
+    "prose_against": COMMIT,
+    "blocks_against": r"v\d+\.\d+\.\d+",
+    "pdf": r"[0-9a-f]{64}|none",
+    "version": r"\d+\.\d+\.\d+",
+    "verdict": r"no finding|settled",
+}
 
 
 def git(*args, check=True):
@@ -86,22 +98,29 @@ class RecordedReviews(unittest.TestCase):
             if (review.get("book"), review.get("exercises")) == head
         ]
 
-    def test_an_entry_holds_exactly_its_fields(self):
+    def test_the_record_holds_only_its_kinds(self):
+        self.assertLessEqual(self.record.keys(), FIELDS.keys())
+        self.assertLessEqual(len(self.record.get("release", [])), 1, "one release reading")
+
+    def test_an_entry_holds_exactly_its_fields_in_their_shapes(self):
         for kind, fields in FIELDS.items():
             for entry in self.record.get(kind, []):
                 with self.subTest(kind=kind, entry=entry.get("subject", entry.get("version"))):
                     self.assertEqual(set(entry), fields)
-                    self.assertIn(entry["verdict"], VERDICTS)
+                    for field, shape in SHAPES.items():
+                        if field in entry:
+                            self.assertIsInstance(entry[field], str, field)
+                            self.assertRegex(entry[field], rf"\A(?:{shape})\Z", field)
 
     def test_a_verdict_agrees_with_its_points(self):
         # "no finding" counts no point; "settled" counts each point settled, or declined with its
-        # reason. A review with an open point is not recorded at all.
-        for kind in ("commands", "reading"):
-            for review in self.record[kind]:
-                with self.subTest(kind=kind, subject=review["subject"]):
-                    counts = (review["settled"], review["declined"])
-                    self.assertTrue(all(isinstance(n, int) and n >= 0 for n in counts), counts)
-                    self.assertEqual(review["verdict"] == "settled", sum(counts) > 0)
+        # reason. The counts cannot show an open point: a review with one is not recorded.
+        for kind in FIELDS:
+            for entry in self.record.get(kind, []):
+                with self.subTest(kind=kind, entry=entry.get("subject", entry.get("version"))):
+                    counts = (entry["settled"], entry["declined"])
+                    self.assertTrue(all(type(n) is int and n >= 0 for n in counts), counts)
+                    self.assertEqual(entry["verdict"] == "settled", sum(counts) > 0)
 
     def test_the_head_has_a_commands_review_of_its_text_and_exercises(self):
         self.assertTrue(

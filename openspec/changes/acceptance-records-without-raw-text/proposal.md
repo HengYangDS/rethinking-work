@@ -13,9 +13,10 @@ attributions and measurement history. CHANGELOG narrates how editions were quali
 ## What Changes
 
 - The review record holds exactly its declared fields: what was read, against what, when, the verdict, and how many
-  points were settled and how many declined. It keeps the reviews read since the last release and that release's
-  reading; Git keeps the earlier ones.
-- `tests/test_acceptance.py` holds every entry to exactly its fields and every verdict to its counts.
+  points were settled and how many declined, each value in a declared shape. It keeps the last release's reading, the
+  reviews that cover that release's trees and every review read after them; Git keeps the rest.
+- `tests/test_acceptance.py` holds the record to its kinds, every entry to exactly its fields and their shapes, and
+  every verdict to its counts.
 - Declined points whose reasons hold beyond their passage become rules: two judgements in the acceptance document and a
   rule for words used across chapters in the prose skill.
 - `docs/publication-acceptance.md` records reviews by their declared fields; its calibration paragraph loses its times

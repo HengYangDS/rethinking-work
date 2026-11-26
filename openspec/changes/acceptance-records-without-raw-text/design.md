@@ -2,13 +2,13 @@
 
 The owner's decision of 2026-11-26 and the redesign he approved place every raw working record outside the tracked
 tree: reviewer findings, briefs and run logs stay in local evidence and expire once their consumer releases them; the
-lasting facts of a run go into a bounded Attestation. Five read-only surveys of the same day found such records in all
-fifteen repositories that ETHOS governs; the family-wide rule and check are requested from ETHOS. This Change brings
-this repository's tracked files outside its archived Changes to that standard.
+lasting facts of a run go into a bounded Attestation. Such records exist across the repositories ETHOS governs, and
+the family-wide rule and check belong to ETHOS. This Change brings this repository's tracked files outside its
+archived Changes to that standard.
 
 ## Goals / Non-Goals
 
-**Goals:** a review record that cannot hold text; acceptance guidance, skill and profile without raw detail; a
+**Goals:** a review record whose fields cannot hold text; acceptance guidance, skill and profile without raw detail; a
 changelog of product changes.
 
 **Non-Goals:** rewriting archived Changes by hand (they are immutable records); building review Attestations or a
@@ -16,11 +16,14 @@ separate acceptance policy file before ETHOS provides the Attestation; any chang
 
 ## Decisions
 
-- **Fields, not prose.** Each kind of entry has a closed set of fields, and the test compares the set exactly, so text
-  has nowhere to go. Points are counted, not quoted: the count is what the gate needs (an open point blocks), and the
-  wording of a point lives with the findings.
-- **The record covers the present.** It keeps the reviews read after the last release's reading, which form the chain
-  from that release to the head, and that release's reading. Earlier entries leave the file; Git keeps them.
+- **Fields, not prose.** The record holds only its declared kinds; each kind has a closed set of fields, and each value
+  a declared shape (a tree, a commit, a tag, a digest, a time, a verdict, a count), so text has nowhere to go. Points
+  are counted, not quoted; the wording of a point lives with the findings. The counts cannot show an open point: a
+  review with one is not recorded, which the procedure holds, not the test.
+- **The record covers the present.** It keeps the last release's reading, the reviews that cover that release's trees
+  (a head whose trees equal the release's, such as a documentation-only lane after a release, needs them) and every
+  review read after them, which form the chain from that release to the head. The release procedure removes the older
+  entries when it records the next release's reading; Git keeps them.
 - **A reason that generalises becomes a rule.** Of the seventeen declined points, three carry reasons beyond their
   passage: a fraction in either numeral form (GB/T 15835—2011 4.3), quoted words keeping their form, and words used
   across chapters changing all at once. They go where rules live: the acceptance document's judgements and the skill's
@@ -35,4 +38,7 @@ separate acceptance policy file before ETHOS provides the Attestation; any chang
 
 - Reviews before the last release leave the tracked file. Git history and the released editions keep them.
 - The changelog no longer reports error-rate samples. How each edition was qualified will be stated in a per-edition
-  qualification statement once Attestations exist; until then the release notes on both forges state it.
+  qualification statement once Attestations exist; until then the release notes on both forges state it, as the
+  release procedure's fifth step now requires.
+- A declined point's reason lives only in local findings, which expire. When the same point is raised again after they
+  have gone, it is judged again; a reason that generalises is kept as a rule before then.
