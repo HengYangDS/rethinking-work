@@ -52,7 +52,7 @@ includes a failing old-function control and is not silently changed to pass.
 ## Companion contracts
 
 [test_exercises.py](test_exercises.py) runs the documented synthetic exercises
-through existing DuckDB, Python 3.12, ast-grep and oasdiff installations. Run
+through existing DuckDB, Python, ast-grep and oasdiff installations. Run
 `just --justfile publication/justfile exercises` for this subset without a PDF
 build. The normal `test` and `check` tasks discover these checks too.
 Missing executors fail the checks; the task does not install or skip them.

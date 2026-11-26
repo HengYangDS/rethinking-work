@@ -125,10 +125,6 @@ default-groups = ["test"]
 [package.dev-dependencies]
 test = [
     { name = "coverage" },
-    { name = "iniconfig" },
-    { name = "packaging" },
-    { name = "pluggy" },
-    { name = "pygments" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-reportlog" },
@@ -138,12 +134,8 @@ test = [
 
 [package.metadata.requires-dev]
 test = [
-    { name = "coverage", specifier = "==7.17.3" },
-    { name = "iniconfig", specifier = "==2.3.1" },
-    { name = "packaging", specifier = "==26.3" },
-    { name = "pluggy", specifier = "==1.7.0" },
-    { name = "pygments", specifier = "==2.21.0" },
-    { name = "pytest", specifier = "==9.2.0" },
-    { name = "pytest-cov", specifier = "==7.1.0" },
-    { name = "pytest-reportlog", specifier = "==1.0.0" },
+    { name = "coverage" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "pytest-reportlog" },
 ]

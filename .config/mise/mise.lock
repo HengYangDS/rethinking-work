@@ -122,22 +122,28 @@ specifiers = ["3.10.1"]
 [[tools.python]]
 version = "3.12.16"
 backend = "core:python"
-specifiers = ["3.12.16"]
+specifiers = ["3.12"]
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:6a9e62dad033790aef722dbd370e0ce76ce17b73627ba3ae679f537049350b39"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.12.16+20261110-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:7e1adaea26c959d13aa1120be1ae62a1ea1bb52adcb382679fffe9217e22adff"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261124/cpython-3.12.16+20261124-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:2f11b8aa3726bdbd87dd9eb76568412faddf4f47e26913fa45d6a2e424972acd"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.12.16+20261110-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:9d6d9d0d85feda3f9cb4eb3e048f0fed21ed280feda087927eaa4fbc7124826f"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261124/cpython-3.12.16+20261124-aarch64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.typst]]
 version = "0.15.1"
 backend = "aqua:typst/typst"
 specifiers = ["0.15.1"]
+
+[tools.typst."platforms.linux-x64"]
+checksum = "sha256:a6d077d0a95eed5a2eba715b2dae06be954f624ccbf85758a03f389ded33118c"
+checksum_source = "mise-versions"
+url = "https://github.com/typst/typst/releases/download/v0.15.1/typst-x86_64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/typst/typst/releases/assets/480300761"
 
 [tools.typst."platforms.macos-arm64"]
 checksum = "sha256:48f62ed034aa3a7978309579ac6ca00045e2ef0da73114e8af27cfd8e74dc05a"
@@ -149,6 +155,12 @@ url_api = "https://api.github.com/repos/typst/typst/releases/assets/480299147"
 version = "0.13.9"
 backend = "aqua:astral-sh/uv"
 specifiers = ["0.13.9"]
+
+[tools.uv."platforms.linux-x64"]
+checksum = "sha256:a7fbaff2b9a271d85c1bdb540941090fd1ce011797b4abeb48e4dcd39c2471d5"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.9/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/758513954"
+provenance = "github-attestations"
 
 [tools.uv."platforms.macos-arm64"]
 checksum = "sha256:5aeca67f2283f75235de40d0bd9c0a5bbc5fce23b6d48b3bf9fa1b2db08382ca"

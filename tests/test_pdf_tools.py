@@ -8,7 +8,7 @@ import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from edition import QUIET, ROOT
 
 
 class PdfToolPrerequisite(unittest.TestCase):
@@ -38,11 +38,8 @@ class PdfToolPrerequisite(unittest.TestCase):
                     ["typst", "compile", str(source), str(pdf)],
                     cwd=root,
                     env=environment,
-                    stdin=subprocess.DEVNULL,
-                    capture_output=True,
-                    text=True,
-                    timeout=60,
                     check=True,
+                    **QUIET,
                 )
                 command = [
                     "just",
@@ -58,11 +55,8 @@ class PdfToolPrerequisite(unittest.TestCase):
                 command,
                 cwd=root,
                 env=environment,
-                stdin=subprocess.DEVNULL,
-                capture_output=True,
-                text=True,
-                timeout=60,
                 check=False,
+                **QUIET,
             )
 
     def test_pdf_stdout_remains_parseable_with_spaces_in_paths(self):

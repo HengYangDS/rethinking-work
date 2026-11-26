@@ -66,8 +66,8 @@ supply, `exercises` runs the synthetic exercise contracts and `format-check` the
 `tests/test_practice_pack.py` checks the extracted archive. How the proof and the local tasks run the tests, and what
 the tests hold themselves to, is in [the test notes](tests/README.md).
 
-The repository keeps Python on the 3.12 line; `VERSION` owns the version. Install the locked test environment with
-`uv sync --locked --no-build --no-python-downloads --python python3.12`.
+`.config/mise/config.toml` declares the Python line and the Mise lock pins its release; `VERSION` owns the edition's
+version. Install the locked test environment on that line with `just --justfile publication/justfile test-env`.
 
 ## Format only authored inputs
 

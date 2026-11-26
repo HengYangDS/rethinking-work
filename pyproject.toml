@@ -1,7 +1,10 @@
 [project]
 name = "rethinking-work"
 description = "Native verification tools for the Rethinking Work publication"
+# The Python line .config/mise/config.toml installs, repeated here for uv and ETHOS, which read it from this
+# table; uv refuses an environment whose interpreter falls outside it.
 requires-python = ">=3.12,<3.13"
+# The version is the edition's, read from VERSION when a resolution needs the project's metadata.
 dynamic = ["version"]
 dependencies = []
 
@@ -13,12 +16,16 @@ exclude-newer = "24 hours"
 
 [dependency-groups]
 test = [
-  "pytest==9.2.0",
-  "pytest-cov==7.1.0",
-  "coverage==7.17.3",
-  "iniconfig==2.3.1",
-  "packaging==26.3",
-  "pluggy==1.7.0",
-  "pygments==2.21.0",
-  "pytest-reportlog==1.0.0",
+  "coverage",
+  "pytest",
+  "pytest-cov",
+  "pytest-reportlog",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "VERSION"
+pattern = "(?P<version>.+)"

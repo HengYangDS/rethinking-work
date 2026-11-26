@@ -21,13 +21,10 @@ From the repository root:
 just --justfile publication/justfile exercises
 ```
 
-From the root of an unpacked practice pack, which has no `publication/` directory:
+From the root of an unpacked practice pack, which has no `publication/` directory, run the command that the
+`先读.txt` there gives; it names the Python line the checks run on.
 
-```sh
-python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
-```
-
-The check uses the installed Python 3.12, DuckDB, ast-grep and oasdiff and installs nothing. It passes only when each
+The check uses the installed Python, DuckDB, ast-grep and oasdiff and installs nothing. It passes only when each
 example shows its stated outcome, the deliberate failures included.
 
 ## Add or change an example

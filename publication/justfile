@@ -1,4 +1,7 @@
 set working-directory := ".."
+# A recipe evaluates only the variables it uses, so a task that needs no edition, Python or output name runs
+# without them.
+set lazy
 
 # The edition's identity comes from git, read once here for every compile, test and archive: a checkout at the
 # commit that the signed tag v<VERSION> names, with no tracked file changed, is that version's edition dated by its
@@ -15,6 +18,14 @@ edition_inputs := ```
     fi
 ```
 
+# The Python line, as the Mise configuration declares it; every Python command here runs on it.
+python_line := `mise config get -f .config/mise/config.toml tools.python`
+python := "python" + python_line
+
+# The build's outputs, named once; the tests and the Forge jobs read the folders they lie in.
+pdf := "build/artifacts/pdf/rethinking-work.pdf"
+archive := "build/artifacts/edition/rethinking-work-" + trim(read("VERSION")) + ".tgz"
+
 default:
     @just --justfile publication/justfile --list
 
@@ -23,7 +34,7 @@ bootstrap: pdf-tools-check
     typst --version
     just --version
     prettier --version
-    python3.12 --version
+    {{python}} --version
 
 # Require the declared, already-installed PDF supply; never install or upgrade.
 _pdf-tools-installed:
@@ -38,8 +49,8 @@ pdf-tools-check: (pdf-tool "pdfinfo" "-v") (pdf-tool "pdftotext" "-v")
 
 # Build only; this command grants no editorial approval or publication.
 pdf:
-    mkdir -p build/artifacts/pdf
-    typst compile --root . {{edition_inputs}} --deps build/artifacts/pdf/inputs.json book/main.typ build/artifacts/pdf/rethinking-work.pdf
+    mkdir -p "{{parent_directory(pdf)}}"
+    typst compile --root . {{edition_inputs}} --deps "{{parent_directory(pdf)}}/inputs.json" book/main.typ "{{pdf}}"
 
 build: pdf
 
@@ -50,19 +61,19 @@ render:
 
 # The tests, run as the proof runs them, without its reports.
 test: pdf-tools-check
-    uv run --locked --offline --no-build --no-python-downloads --python python3.12 python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests
+    uv run --locked --offline --no-build --no-python-downloads --python {{python}} python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests
 
 # The same unittest cases, with native same-attempt test and subprocess coverage reports.
 test-proof output: pdf-tools-check
     mkdir -p "{{output}}"
-    env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python python3.12 python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests --junitxml="{{output}}/tests.xml" --report-log="{{output}}/pytest.jsonl" --cov --cov-config .config/checks/coverage/coverage.toml --cov-report="xml:{{output}}/coverage.xml"
+    env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python {{python}} python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests --junitxml="{{output}}/tests.xml" --report-log="{{output}}/pytest.jsonl" --cov --cov-config .config/checks/coverage/coverage.toml --cov-report="xml:{{output}}/coverage.xml"
 
 # Run only the synthetic companion contracts; no PDF is required.
 exercises:
-    python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
+    {{python}} -B -m unittest discover -s tests -p test_exercises.py -v
 
 # One edition archive: the PDF, the tracked teaching inputs and a checksum list, in one folder whose
-# reader notes are filled from VERSION, the edition date and the number of exercise checks. A
+# reader notes are filled from VERSION, the edition date, the Python line and the number of exercise checks. A
 # gzipped tar, the format of the owner's other repositories: entries sorted, dated to the edition,
 # owned by no host user, without extended attributes, and names beyond ASCII in pax headers as
 # UTF-8, so a rebuild of one commit gives the same bytes.
@@ -71,21 +82,21 @@ edition-archive:
     #!/usr/bin/env bash
     set -euo pipefail
     export TZ=UTC
-    pdf=build/artifacts/pdf/rethinking-work.pdf
+    pdf="{{pdf}}"
     test -f "$pdf" || { echo "No PDF at $pdf: build it first." >&2; exit 1; }
     version=$(tr -d '[:space:]' < VERSION)
-    identity() { typst eval --root . {{edition_inputs}} "import \"/book/metadata.typ\": book-date, book-edition; $1" --format json | python3.12 -c 'import json, sys; print(json.load(sys.stdin))'; }
+    identity() { typst eval --root . {{edition_inputs}} "import \"/book/metadata.typ\": book-date, book-edition; $1" --format json | {{python}} -c 'import json, sys; print(json.load(sys.stdin))'; }
     edition=$(identity book-edition)
     stamp=$(identity 'book-date.display("[year][month][day]")')0000
     commit=$(git rev-parse HEAD)
     checks=$(grep -c '^    def test_' tests/test_exercises.py)
     work=build/runtime/work/edition-archive
-    rm -rf "$work"; mkdir -p "$work" build/artifacts/edition
+    rm -rf "$work"; mkdir -p "$work" "{{parent_directory(archive)}}"
     trap 'rm -r "$work"' EXIT
     folder="$work/重新理解工作"
     mkdir -p "$folder/实战练习"
     git ls-files -z VERSION LICENSE exercises tests/test_exercises.py | tar --null -T - -cf - | tar -xf - -C "$folder/实战练习"
-    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@EDITION@|$edition|g" -e "s|@COMMIT@|$commit|g" -e "s|@CHECKS@|$checks|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
+    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@EDITION@|$edition|g" -e "s|@COMMIT@|$commit|g" -e "s|@CHECKS@|$checks|g" -e "s|@PYTHON@|{{python_line}}|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
     fill publication/reader-start.zh.txt "$folder/实战练习/先读.txt"
     fill publication/archive-start.zh.txt "$folder/先读.txt"
     cp "$pdf" "$folder/重新理解工作-$version.pdf"
@@ -93,8 +104,8 @@ edition-archive:
     find "$work" -type f -exec chmod 644 {} +
     find "$work" -type d -exec chmod 755 {} +
     find "$work" -exec touch -t "$stamp" {} +
-    archive="build/artifacts/edition/rethinking-work-$version.tgz"
-    rm -f build/artifacts/edition/rethinking-work-*.tgz
+    archive="{{archive}}"
+    rm -f "{{parent_directory(archive)}}"/*.tgz
     (cd "$work" && find 重新理解工作 | LC_ALL=C sort) | COPYFILE_DISABLE=1 tar --create --gzip --file "$archive" --directory "$work" --no-recursion --files-from - --uid 0 --gid 0 --uname '' --gname '' --no-xattrs --no-acls --no-fflags --no-mac-metadata --options gzip:!timestamp
 
 # Prettier with the repository's own configuration and inputs.
@@ -117,7 +128,16 @@ check: format-check prose-check test
 # Build the PDF and the edition archive and print their identities, as a Forge job keeps them.
 ci-artifacts: build edition-archive
     git diff --exit-code -- .config/mise
-    shasum --algorithm 256 build/artifacts/pdf/rethinking-work.pdf build/artifacts/edition/rethinking-work-*.tgz
+    shasum --algorithm 256 "{{pdf}}" "{{archive}}"
+
+# The locked test environment, on the declared Python line.
+test-env:
+    uv sync --locked --no-build --no-python-downloads --python {{python}}
+
+# Where a CI runner's account keeps its supply for later jobs: Typst reads fonts from the account's
+# font folder and packages from its own cache folder.
+user_fonts := home_directory() / "Library" / "Fonts"
+typst_cache := cache_directory() / "typst"
 
 # Supply a CI runner's account with fonts, Typst packages, tests and PDF tools.
 # Present supply that matches the manifests is kept; only missing or changed supply is fetched.
@@ -129,42 +149,48 @@ ci-supply:
     manifests="$PWD/publication/supply"
     work=build/runtime/work/ci-supply
     rm -rf "$work"
-    mkdir -p "$work" build/runtime/ci/downloads "$HOME/Library/Fonts"
+    mkdir -p "$work" "{{user_fonts}}"
+    # The faces, the archive's place and its source, each as its manifest states it.
+    faces=$(awk '{print $2}' "$manifests/noto-faces.sha256")
+    download=$(awk '{print $2}' "$manifests/ci-noto.sha256")
     faces_match() {
-        for face in Regular Bold Black; do
-            expected=$(awk -v f="fonts/NotoSansCJKsc-$face.otf" '$2 == f {print $1}' "$manifests/noto-faces.sha256")
-            actual=$(shasum --algorithm 256 "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-$face.otf" 2>/dev/null | cut -d ' ' -f 1 || true)
-            [ -n "$expected" ] && [ "$expected" = "$actual" ] || return 1
+        [ -n "$faces" ] || return 1
+        for face in $faces; do
+            expected=$(awk -v f="$face" '$2 == f {print $1}' "$manifests/noto-faces.sha256")
+            actual=$(shasum --algorithm 256 "{{user_fonts}}/rethinking-$(basename "$face")" 2>/dev/null | cut -d ' ' -f 1 || true)
+            [ "$expected" = "$actual" ] || return 1
         done
     }
     if faces_match; then
         echo "Noto faces: present"
     else
-        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output build/runtime/ci/downloads/noto.zip https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/08_NotoSansCJKsc.zip
-        shasum --algorithm 256 --check publication/supply/ci-noto.sha256
-        unzip -q build/runtime/ci/downloads/noto.zip -d "$work/noto"
-        for face in Regular Bold Black; do
-            cp "$work/noto/NotoSansCJKsc-$face.otf" "$HOME/Library/Fonts/rethinking-NotoSansCJKsc-$face.otf"
+        mkdir -p "$(dirname "$download")"
+        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output "$download" "$(cat "$manifests/noto.url")"
+        shasum --algorithm 256 --check "$manifests/ci-noto.sha256"
+        unzip -q "$download" -d "$work/noto"
+        for face in $faces; do
+            cp "$work/noto/$(basename "$face")" "{{user_fonts}}/rethinking-$(basename "$face")"
         done
         faces_match
         echo "Noto faces: installed"
     fi
-    cache="$HOME/Library/Caches/typst"
+    cache="{{typst_cache}}"
     if (cd "$cache" 2>/dev/null && shasum --algorithm 256 --check --quiet --status "$manifests/typst-packages.sha256"); then
         echo "Typst packages: present"
     else
-        # Each package root the manifest lists, as name/version.
-        for package in $(awk '{print $2}' "$manifests/typst-packages.sha256" | awk -F/ '{print $3 "/" $4}' | sort -u); do
-            archive="$work/${package/\//-}.tar.gz"
-            curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output "$archive" "https://packages.typst.org/preview/${package/\//-}.tar.gz"
-            rm -rf "$cache/packages/preview/$package"
-            mkdir -p "$cache/packages/preview/$package"
-            tar -xzf "$archive" -C "$cache/packages/preview/$package"
+        # Each package root the manifest lists, as namespace/name/version, from the official registry.
+        for package in $(awk '{print $2}' "$manifests/typst-packages.sha256" | cut -d / -f 2-4 | sort -u); do
+            name="${package#*/}"
+            archive="$work/${name/\//-}.tar.gz"
+            curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output "$archive" "https://packages.typst.org/${package%%/*}/${name/\//-}.tar.gz"
+            rm -rf "$cache/packages/$package"
+            mkdir -p "$cache/packages/$package"
+            tar -xzf "$archive" -C "$cache/packages/$package"
         done
         (cd "$cache" && shasum --algorithm 256 --check --quiet "$manifests/typst-packages.sha256")
         echo "Typst packages: installed"
     fi
-    uv sync --locked --no-python-downloads --python python3.12
+    just --justfile publication/justfile test-env
     if env -u HOMEBREW_BUNDLE_CHECK brew bundle check --file publication/brewfile --no-upgrade --quiet; then
         echo "PDF tools: present"
     else

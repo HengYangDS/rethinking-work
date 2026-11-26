@@ -3,6 +3,7 @@
 import hashlib
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -11,29 +12,26 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from edition import QUIET, ROOT
+
 FOLDER = "重新理解工作"
 EXERCISES = f"{FOLDER}/实战练习"
 NOTES = ("publication/reader-start.zh.txt", "publication/archive-start.zh.txt")
+# What the archive task reads besides the selected files: its tasks, the toolchain's Python line,
+# the edition's identity and the reader notes.
+INPUTS = ("publication/justfile", ".config/mise/config.toml", "book/metadata.typ", *NOTES)
+JUSTFILE = ("--justfile", "publication/justfile")
 
 
 def run(arguments, cwd, **options):
-    return subprocess.run(
-        arguments,
-        cwd=cwd,
-        stdin=subprocess.DEVNULL,
-        capture_output=True,
-        text=True,
-        timeout=options.pop("timeout", 60),
-        **options,
-    )
+    return subprocess.run(arguments, cwd=cwd, **(QUIET | options))
 
 
 def reader_environment():
     """Return this environment without the test environment's own programs.
 
     Under the proof the tests run inside the locked test environment, whose interpreter would
-    otherwise answer `python3.12` and could import the test packages. A reader has neither.
+    otherwise answer the reader's command and could import the test packages. A reader has neither.
     """
     environment = dict(os.environ)
     if sys.prefix != sys.base_prefix:
@@ -58,13 +56,10 @@ class EditionArchive(unittest.TestCase):
                 ROOT,
                 check=True,
             ).stdout.splitlines()
-            for relative in selected + ["publication/justfile", "book/metadata.typ", *NOTES]:
+            for relative in [*selected, *INPUTS]:
                 target = root / relative
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT / relative, target)
-            pdf = root / "build/artifacts/pdf/rethinking-work.pdf"
-            pdf.parent.mkdir(parents=True)
-            pdf.write_bytes(b"%PDF-1.7 stand-in for the built edition\n")
             identity = {
                 "GIT_AUTHOR_NAME": "Test",
                 "GIT_AUTHOR_EMAIL": "test@example.invalid",
@@ -76,7 +71,7 @@ class EditionArchive(unittest.TestCase):
             }
             run(["git", "init", "--quiet"], root, check=True, env=identity)
             run(
-                ["git", "add", "--", *selected, "publication", "book"],
+                ["git", "add", "--", *selected, "publication", "book", ".config"],
                 root,
                 check=True,
                 env=identity,
@@ -89,13 +84,21 @@ class EditionArchive(unittest.TestCase):
             )
             commit = run(["git", "rev-parse", "HEAD"], root, check=True).stdout.strip()
             (root / "exercises/untracked.txt").write_text("Not a publication input\n")
+            # The build's outputs, as the justfile names them.
+            named = {
+                name: root / run(["just", *JUSTFILE, "--evaluate", name], root, check=True).stdout
+                for name in ("pdf", "archive")
+            }
+            pdf = named["pdf"]
+            pdf.parent.mkdir(parents=True)
+            pdf.write_bytes(b"%PDF-1.7 stand-in for the built edition\n")
 
-            built = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
+            built = run(["just", *JUSTFILE, "edition-archive"], root)
             self.assertEqual(built.returncode, 0, built.stderr)
             version = (root / "VERSION").read_text().strip()
-            archive = root / f"build/artifacts/edition/rethinking-work-{version}.tgz"
+            archive = named["archive"]
             first = archive.read_bytes()
-            rebuilt = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
+            rebuilt = run(["just", *JUSTFILE, "edition-archive"], root)
             self.assertEqual(rebuilt.returncode, 0, rebuilt.stderr)
             self.assertEqual(archive.read_bytes(), first, "the archive is not reproducible")
 
@@ -155,19 +158,12 @@ class EditionArchive(unittest.TestCase):
                 f"重新理解工作-{version}.pdf", (folder / "先读.txt").read_text(encoding="utf-8")
             )
 
+            # The reader's command, exactly as the pack's note prints it.
+            note = (folder / "实战练习/先读.txt").read_text(encoding="utf-8")
+            printed = re.findall(r"^python\S* -B -m unittest .*$", note, re.MULTILINE)
+            self.assertEqual(len(printed), 1, note)
             result = run(
-                [
-                    "python3.12",
-                    "-B",
-                    "-m",
-                    "unittest",
-                    "discover",
-                    "-s",
-                    "tests",
-                    "-p",
-                    "test_exercises.py",
-                    "-v",
-                ],
+                shlex.split(printed[0]),
                 folder / "实战练习",
                 timeout=120,
                 env=reader_environment(),
@@ -191,7 +187,7 @@ class EditionArchive(unittest.TestCase):
                 check=True,
                 env=tagged,
             )
-            released = run(["just", "--justfile", "publication/justfile", "edition-archive"], root)
+            released = run(["just", *JUSTFILE, "edition-archive"], root)
             self.assertEqual(released.returncode, 0, released.stderr)
             with tarfile.open(archive, "r:gz") as package:
                 notes = {

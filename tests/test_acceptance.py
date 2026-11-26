@@ -15,9 +15,9 @@ import subprocess
 import tomllib
 import unittest
 from datetime import datetime
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from edition import QUIET, ROOT
+
 RECORD = ROOT / "publication/acceptance/reviews.toml"
 # The fields of each kind of entry, and no others, each value in its shape: a record holds no
 # reviewer's words and no path.
@@ -46,11 +46,8 @@ def git(*args, check=True):
     return subprocess.run(
         ["git", *args],
         cwd=ROOT,
-        stdin=subprocess.DEVNULL,
-        capture_output=True,
-        text=True,
-        timeout=60,
         check=check,
+        **QUIET,
     )
 
 

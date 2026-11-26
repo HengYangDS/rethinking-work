@@ -1,12 +1,12 @@
 #import "/publication/layout/style.typ": *
+// The Python line the pack's checks run on, as the toolchain declares it.
+#let python-line = toml("/.config/mise/config.toml").tools.python
 #chapter("A", "随书练习", [在自己的机器上运行#chapref(<practice-thinking>, link: false)至#chapref(<practice-collaborating>, link: false)和各章的“上手”。], head: "附录")<companion>
 本书与随书的练习包同在一个压缩包中。解压后得到“重新理解工作”文件夹，内有全书的 PDF、练习包所在的“实战练习”目录和一份校验清单，三者的版本号相同。先读文件夹中的“先读.txt”，再读“实战练习”目录中的同名文件。数据均为小规模的合成数据，不含业务数据；读取数据、运行检查都不需要账号。
 
-练习包不会替读者安装任何软件。要运行它自带的全部检查，机器上须已安装 Python 3.12、DuckDB、ast-grep 和 oasdiff；缺少其中一项时，仍可阅读相应练习的数据，并预测结果。在“实战练习”目录中运行：
+练习包不会替读者安装任何软件。要运行它自带的全部检查，机器上须已安装 Python #python-line、DuckDB、ast-grep 和 oasdiff；缺少其中一项时，仍可阅读相应练习的数据，并预测结果。在“实战练习”目录中运行：
 
-```sh
-python3.12 -B -m unittest discover -s tests -p test_exercises.py -v
-```
+#raw("python" + python-line + " -B -m unittest discover -s tests -p test_exercises.py -v", block: true, lang: "sh")
 
 预期输出的末尾有一行以 `Ran` 开头，写明运行了多少项检查，最后一行是 `OK`。其中两项检查针对有错误的版本，要求它确实失败：一是旧的导出函数漏掉零值，二是接口变更删除了原有的路径。错误的版本失败，这两项才算通过，所以输出仍以 `OK` 结束；这也表明检查能识别这两种错误。
 

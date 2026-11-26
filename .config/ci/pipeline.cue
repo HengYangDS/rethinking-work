@@ -1,77 +1,68 @@
 package ci
 
+import "list"
+
 // The installed common model (ETHOS `.config/ci/verification.cue`) generates the verification
 // jobs of both Forges from `verification.toml`, and `ethos lane project` writes the native files.
 // This file adds what the model leaves to the repository: on each Forge, a macOS job that builds
-// the PDF and the practice archive and keeps them as artifacts for `artifactDays`.
-artifactDays: 14
+// the PDF and the practice archive and keeps them as artifacts. Each takes its supply, rules, time
+// limit and artifact lifetime from the verification job of the same Forge, runner and trust, so a
+// change to the model or to `verification.toml` reaches it unchanged.
 
-// The hosted job takes its supply as the verification jobs and the private peer's publication job do: the locked
-// tools through Mise, then `ci-supply` for fonts, Typst packages, tests and PDF tools, checked against their manifests.
-// A full checkout carries the tags, so a tag event builds that tag's edition (publication/justfile, `edition_inputs`).
+// The build's outputs lie alone in their folders (publication/justfile, `pdf` and `archive`); a
+// tag event builds that tag's edition, since a full checkout carries the tags.
+outputs: [
+	{label: "PDF", path: "build/artifacts/pdf/*.pdf"},
+	{label: "Edition archive", path: "build/artifacts/edition/*.tgz"},
+]
+build: "mise exec --locked -- just --justfile publication/justfile ci-artifacts"
+
+let verify = compiled.providers.github.jobs.verify
+
+// The verification job's supply is every step before the one that prepares its evidence directory.
+let evidenceStep = [for i, step in verify.steps if step.name != _|_ if step.name == "Prepare owned evidence directory" {i}][0]
+
 publicationJob: {
 	"runs-on":         _inputs.ci.github.runners[0]
-	"timeout-minutes": 45
-	steps: [{
-		uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
-		with: {"fetch-depth": 0, ref: "${{ github.event.pull_request.head.sha || github.sha }}"}
-	}, {
-		uses: "jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b"
-		with: {version: _inputs.ci.supply.mise_version, install: false, cache: false}
-	}, {
-		name: "Acquire locked product supply"
-		run:  "mise install --locked --jobs=1"
-	}, {
-		name: "Check locked supply"
-		run:  "mise run ci-supply"
-	}, {
+	"timeout-minutes": verify["timeout-minutes"]
+	steps: list.Concat([list.Slice(verify.steps, 0, evidenceStep), [{
 		name: "Build the PDF and the edition archive"
-		run:  "mise exec --locked -- just --justfile publication/justfile ci-artifacts"
-	}, for artifact in [
-		{label: "PDF", path: "build/artifacts/pdf/rethinking-work.pdf"},
-		{label: "Edition archive", path: "build/artifacts/edition/rethinking-work-*.tgz"},
-	] {
+		run:  build
+	}], [for artifact in outputs {
 		name: "Upload \(artifact.label) without re-archiving"
-		uses: "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9"
+		uses: [for step in verify.steps if step.uses != _|_ if step.uses =~ "^actions/upload-artifact@" {step.uses}][0]
 		with: {
 			path:                artifact.path
 			archive:             false
 			"if-no-files-found": "error"
-			"retention-days":    artifactDays
+			"retention-days": [for step in verify.steps if step.with != _|_ if step.with["retention-days"] != _|_ {step.with["retention-days"]}][0]
 		}
-	}]
+	}]])
 }
 
 compiled: providers: github: jobs: publication: publicationJob
 
 // The private peer builds the same two artifacts on the owner's local macOS runners, after the
-// supply task has given the runner account its fonts and packages. Its rules
-// follow the generated verification jobs of the same trust.
-gitlabPublication: {
-	stage:         "verify"
-	timeout:       "30 minutes"
-	interruptible: true
-	variables: {
-		MISE_CONFIG_DIR:           "$CI_PROJECT_DIR/build/runtime/work/mise-config"
-		MISE_CEILING_PATHS:        "$CI_PROJECT_DIR/.."
-		MISE_TRUSTED_CONFIG_PATHS: "$CI_PROJECT_DIR/.config/mise/config.toml"
-		MISE_YES:                  "1"
-	}
-	before_script: ["mise install --locked --jobs=1", "mise run ci-supply"]
-	script: ["mise exec --locked -- just --justfile publication/justfile ci-artifacts"]
-	artifacts: {
-		paths: ["build/artifacts/pdf/rethinking-work.pdf", "build/artifacts/edition/rethinking-work-*.tgz"]
-		expire_in: "\(artifactDays) days"
-	}
-}
+// supply task has given the runner account its fonts and packages.
+for name, runner in _inputs.ci.gitlab.runners if runner.system == "macos" {
+	for trust in ["review", "protected"] {
+		let verification = compiled.providers.gitlab["verify:\(name):\(trust)"]
 
-compiled: providers: gitlab: {
-	"publication:macos:review": gitlabPublication & {
-		tags: _inputs.ci.gitlab.runners.macos.review_tags
-		rules: [{if: "$ETHOS_OFFLINE_CANDIDATE", when: "never"}, {if: "$CI_PIPELINE_SOURCE == \"merge_request_event\" || ($CI_COMMIT_BRANCH =~ /^proposal\\// && $CI_PIPELINE_SOURCE == \"push\")"}]
-	}
-	"publication:macos:protected": gitlabPublication & {
-		tags: _inputs.ci.gitlab.runners.macos.protected_tags
-		rules: [{if: "$ETHOS_OFFLINE_CANDIDATE", when: "never"}, {if: "$CI_COMMIT_REF_PROTECTED == \"true\" && ($CI_COMMIT_BRANCH == \"dev\" || $CI_COMMIT_BRANCH == \"main\" || $CI_COMMIT_TAG =~ /^v[^\\/]*$/)"}]
+		// Its supply is every command before the one that prepares the evidence directory.
+		let evidenceCommand = [for i, command in verification.before_script if command =~ "build/evidence/ci$" {i}][0]
+		compiled: providers: gitlab: "publication:\(name):\(trust)": {
+			stage:         verification.stage
+			tags:          verification.tags
+			rules:         verification.rules
+			timeout:       verification.timeout
+			interruptible: verification.interruptible
+			variables:     verification.variables
+			before_script: list.Slice(verification.before_script, 0, evidenceCommand)
+			script: [build]
+			artifacts: {
+				paths: [for artifact in outputs {artifact.path}]
+				expire_in: verification.artifacts.expire_in
+			}
+		}
 	}
 }
