@@ -463,7 +463,7 @@ A head whose `book/` or `exercises/` tree differs from every reviewed one SHALL 
 
 #### Scenario: A record names another baseline
 
-- **WHEN** a commands review that covers a proved head records as its baseline a tag other than the last release, the latest release tag that the reviewed commit descends from and that was made before the review
+- **WHEN** the latest commands review that covers a proved head records as its baseline a tag other than the last release, the latest signed release tag in the head's history that was made no later than the review
 - **THEN** a check fails and names the recorded tag and the last release, because the printed commands are compared with the last release's.
 
 ### Requirement: Chapter references are derived
