@@ -55,16 +55,18 @@ into a success story.
    `format-check` and the OpenSpec validation; do not rebuild unchanged inputs.
 5. For a new edition, run `render` and look at every affected page, then qualify the complete candidate before
    delivery, as [edition acceptance](docs/publication-acceptance.md) describes.
-6. Commit and follow the native proof and landing result. Source integration, artifact promotion and remote
-   publication are separate, and a passing test grants no landing permission.
+6. Commit and follow the native proof and landing result. A Change that changes code has one independent review of
+   its whole change before its archive, by a reviewer that has not seen it, and the change goes only to a model
+   service the owner has agreed to for this repository (the owner's rule since 2026-11-23). Source integration,
+   artifact promotion and remote publication are separate, and a passing test grants no landing permission.
 
 ## Verify source behavior
 
 The full proof, run locally through the host's admission as the ETHOS guidance describes, is the same one that the
 hosted jobs and integration run ([source CI](publication/README.md#source-ci)). For a quick check without the PDF
 supply, `exercises` runs the synthetic exercise contracts and `format-check` the formatting. After editing
-`.config/ci/`, write the pipelines with `ethos lane project` (preview, then its printed apply) and check them with
-`ethos lane project --check`. `edition-archive` packages the PDF and the tracked exercises as one versioned `.tgz`;
+`.config/ci/`, write the pipelines with `ethos lane project` while the Change is active (preview, then its printed
+apply) and check them with `ethos lane project --check`. `edition-archive` packages the PDF and the tracked exercises as one versioned `.tgz`;
 `tests/test_practice_pack.py` checks the extracted archive. How the proof and the local tasks run the tests, and what
 the tests hold themselves to, is in [the test notes](tests/README.md).
 

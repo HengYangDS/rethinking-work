@@ -7,11 +7,11 @@ metadata:
 
 # Delivering a change of the book
 
-ETHOS owns the delivery journey: `ethos status --root <lane> --json` and each command's own result name the next step,
-and ETHOS's guidance says to follow that result rather than a remembered sequence. [Contributing](../../../CONTRIBUTING.md)
-owns the editing journey and [edition acceptance](../../../docs/publication-acceptance.md) the qualification and the
-release of an edition. This Skill adds what they leave to practice here: the preconditions this repository sets before
-a step, and the refusals met on the way, each with what prevents it.
+ETHOS's current result names the next step, and its guidance says how to act on it. [Contributing](../../../CONTRIBUTING.md)
+owns the editing journey, [edition acceptance](../../../docs/publication-acceptance.md) the qualification and release
+of an edition, and the specifications what a head must hold. This Skill adds what none of them says: facts about this
+repository and about ETHOS 0.2.0-beta.11 that an agent needs before a step, and the refusals met here, each with what
+prevents it. The refusal codes are that version's.
 
 ## When to Use
 
@@ -21,34 +21,32 @@ a step, and the refusals met on the way, each with what prevents it.
 
 ## Workflow
 
-1. Read `ethos status --root <lane> --json` and run only the step its `next` names; read the result again after each
-   effect.
-2. Set up the lane once. Set `ETHOS_ACTOR` to your own identity, or the commit hook refuses the commit
-   (`invocation_actor_missing`); name the lane by its subject alone, since ETHOS adds the date and refuses a dated name
-   (`work_lane_name_dated`); keep one active Change in it, since with two every commit is refused
-   (`openspec_active_change_ambiguous`) even after `ethos lane prewrite` admitted its patch.
-3. Commit on the checks' own verdicts: each gate's result and a `pass` from `ethos lane prewrite` for the exact index
-   patch. A check piped into `tail` or `grep` reports the last command's status, not the check's. A change to a
-   Skill's files records the package's new digest, or the skills gate fails.
-4. Record what the proof will hold. A head that changes `book/` or `exercises/` needs its commands review and its
-   reading in `publication/acceptance/reviews.toml` ("Reviewed text before landing" in
-   `openspec/specs/editorial-acceptance/`); the acceptance guide gives the steps.
-5. Review before the archive. A Change that changes code, tests or configuration gets one independent review of its
-   whole diff, by a reviewer who has not seen it, and an answer to each finding in the code or in the Change. An
-   archived Change cannot be reopened once a later commit sits on it (`openspec_archive_compensation_unavailable`), so
-   a finding after the archive costs another Change.
-6. Archive, then prove once. `ethos lane archive-change --apply` commits the archive, formats the archived
-   specifications and then reports `proof_not_proven` with the proof of the archive head: that report is the request
-   for the one proof landing needs, not a failure. Before the proof is queued, the readiness gates pass on that head
-   (`ethos prove --readiness --execute`); the static-analysis gate, which holds comments to 100 characters where the
-   formatter does not, is refused when run alone.
-7. Generate the pipelines after editing `.config/ci/` with `ethos lane project` inside the active Change; outside one
-   the apply is refused (`openspec_material_path_uncovered`).
-8. Land, close out, publish and retire in the order the results give: `ethos land` from the lane,
-   `ethos land --closeout` from the canonical checkout, `ethos publish --ref` per ref after its probe, and
-   `ethos lane retire landed` once each peer's run of the landed head is read back. A peer may drop a connection
-   opened seconds after another; the publication then ends `outcome_unknown` after its push. Wait for the pipeline
-   that push started, then read the ref back before anything else.
+1. Act on each result as ETHOS's guidance says (its path is `governance_context.agent_guidance` in
+   `ethos status --root <lane> --json`); nothing below replaces a step the result names.
+2. Give ETHOS your identity in every shell that commits or runs an ETHOS effect, through `ETHOS_ACTOR` or the
+   command's `--actor`; without it the commit hook refuses the commit (`invocation_actor_missing`). Name a lane by its
+   subject alone: ETHOS adds the date and refuses a dated name (`work_lane_name_dated`).
+3. Keep one active Change in a lane. With two, the commit hook refuses every commit
+   (`openspec_active_change_ambiguous`), even after `ethos lane prewrite` admitted the patch; archive the finished
+   Change before writing the next.
+4. Commit on the checks' own verdicts: each gate's result and a `pass` from `ethos lane prewrite`. A check piped into
+   `tail` or `grep` reports the last command's status, not the check's. When a file that a Skill's package lists
+   changes, copy the `digest` the skills gate reports into the package's `expected_digest`.
+5. Before the archive, record the reviews that "Reviewed text before landing" in
+   `openspec/specs/editorial-acceptance/` requires of the head, and have a change of code reviewed as Contributing
+   says. An archived Change cannot be reopened once a later commit sits on it
+   (`openspec_archive_compensation_unavailable`), so a finding after the archive costs another Change.
+6. `ethos lane archive-change --apply` commits the archive, formats the specifications it updates, and then reports
+   `proof_not_proven` with the proof of the archive head: that report asks for the one proof landing needs. A full
+   proof runs its readiness gates first; where it waits in a host's queue before starting, run them on the head
+   beforehand (`ethos prove --readiness --execute`). The static-analysis gate among them holds comments to 100
+   characters, which the formatter does not, and ETHOS refuses it when run alone.
+7. Closeout runs in the checkout of the accepted branch, here the canonical checkout on `dev`. Landing a proved lane
+   on `dev` and publishing `dev` need no further word; publishing `main`, a tag or a release needs the owner's word
+   each time, as the acceptance guide's Release section says.
+8. A peer may drop a connection opened seconds after another, and the publication then ends `outcome_unknown` after
+   its push, which may already have started a pipeline. Wait for that pipeline, then read the ref back before
+   repeating anything.
 
 ## Evidence
 
@@ -60,6 +58,5 @@ a step, and the refusals met on the way, each with what prevents it.
 
 - ETHOS's current result and the repository's files are the source of truth: the result decides the next step, and a
   step it names is not proof that its preconditions hold. This Skill routes to them and overrides neither.
-- Landing, publication and a release are separate effects, each with its own admission. A release, and anything
-  outside this repository, is the owner's decision; the acceptance guide gives the release's steps and read-back.
+- Landing, publication and a release are separate effects, each with its own admission.
 - This Skill grants no authority and names no host, account, credential or path outside the repository.

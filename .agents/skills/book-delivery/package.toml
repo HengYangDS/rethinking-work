@@ -8,7 +8,7 @@ include = [
   "SKILL.md",
 ]
 required_sections = ["When to Use", "Workflow", "Evidence", "Trust Boundary"]
-expected_digest = "sha256:2a144ad58fd1f15ad95283a231a34d03b7a48d91d3aad77a8f7a9bc209f0aef1"
+expected_digest = "sha256:ab58175b8f4751ba135c4a1f56cfba3ee374864a000c3fcefadeb01b7d19505c"
 
 [quality]
 placeholder_allowed = false
