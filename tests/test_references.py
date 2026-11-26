@@ -57,7 +57,7 @@ class RelativeReferences(unittest.TestCase):
         plain = [
             (path.name, word)
             for path, text in sorted(sources.items())
-            for word in re.findall("上一部|下一部", RELATIVE_PART.sub("", text))
+            for word in re.findall("(?:上一部|下一部)(?!分)", RELATIVE_PART.sub("", text))
         ]
         self.assertEqual(plain, [])
 

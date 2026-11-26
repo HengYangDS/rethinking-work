@@ -34,7 +34,9 @@ what it was before the Change, apart from the sentence the proposal names.
 - **`@PACK_PATH@` in printed commands.** `pack-code` takes the authored block and returns one with the declared path,
   keeping its language and block form, so the source stays a readable code block and the document carries the literal
   path. A show rule was rejected: it would leave both blocks in the document for the checks that query code blocks. The
-  notes' tokens have other names (`@PACK_NAME@` is the folder's name), and no printed block may keep a token.
+  notes' tokens have other names (`@PACK_NAME@` is the folder's name), and no printed block may keep a token. The check
+  command takes the folder before the check file's last slash; a check file at the pack's root would leave none, and
+  the build stops there rather than print a wrong command.
 - **Relative part references name their part.** `partrel("上一部", "智能体")` prints the word and stops the build when
   the named part is not the neighbour; a source check requires every 上一部 and 下一部 to be written that way. 这一部 and
   本部 mean the part they stand in and hold under any order.
@@ -47,7 +49,7 @@ what it was before the Change, apart from the sentence the proposal names.
 - **The notes are a tree.** Moving them to `publication/notes/` gives a commands review one tree to record. Earlier
   reviews record `none`, which states that they did not read the notes.
 - **「第一行的路径」 stays.** The review's reading suggested 「第一行等号后面的路径」 in the chapter on boundaries, as
-  four other lead-ins write it. The longer wording moves the next paragraph and its block to the following page and
+  two other lead-ins write it. The longer wording moves the next paragraph and its block to the following page and
   leaves a page short beyond the layout's bound for a whole block; the first line, `PACK=…`, holds one path, so the
   shorter wording is exact.
 - **Files in the pack name roles, not values.** The pack's guides say "the reader note" and "the companion appendix",

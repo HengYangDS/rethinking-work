@@ -286,7 +286,9 @@
   let step = ("上一部": -1, "下一部": 1).at(word, default: none)
   if step == none { panic("partrel: " + repr(word) + " is neither 上一部 nor 下一部") }
   let at = if here == none { -1 } else { here + step }
-  if at < 0 or names.at(at, default: none) != name { panic("partrel: " + word + " here is not " + repr(name)) }
+  if at < 0 or names.at(at, default: none) != name {
+    panic("partrel: " + word + " of " + repr(book-part.get().name) + " is not " + repr(name))
+  }
   word
 }
 #let part-chapters(name) = context {
