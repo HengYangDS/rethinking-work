@@ -558,3 +558,10 @@ settled = "ef1b881: one instance holds the prediction, its proof and the direct 
 [[reading.point]]
 point = "optional, not an error: 「委托和验收的过程记录」 would keep the conclusion out of the first item even on a strict reading"
 declined = "the reviewer found the overlap gone as written; another wording would open another round for a point that is not an error"
+
+[[release]]
+version = "0.2.8"
+pdf = "96ef6aa4e651152bbc8d085a3a76de890327c3a0808b5abbc4aef3311e2bb8aa"
+read = 2026-11-26T13:54:13+08:00
+findings = "build/evidence/reader-run-next-edition/release-v0.2.8/FINDINGS.md"
+verdict = "no finding"
