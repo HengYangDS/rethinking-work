@@ -23,7 +23,7 @@ The publication SHALL maintain one editable owner for manuscript meaning, editio
 #### Scenario: A reader starts the exercises
 
 - **WHEN** a reader opens the practice pack
-- **THEN** appendix A is the one index of the exercises, and the pack holds no second copy of an exercise or its answer.
+- **THEN** the companion appendix is the one index of the exercises, and the pack holds no second copy of an exercise or its answer.
 
 #### Scenario: A chapter joins a part
 
@@ -344,7 +344,7 @@ An edition SHALL be qualified before its release is approved, through the stages
 #### Scenario: The stages of qualification
 
 - **WHEN** an edition is qualified
-- **THEN** readers who did not edit a passage have read it under 信、达、雅 as chapter 24 states them, a sentence-level cold read has covered the whole book and any passage changed after it has been read again, the prose beside each printed command has been compared with the run records and each command prints whole in the PDF, the built PDF's contents, links and metadata have been checked and every page of it has been looked at, and a sample of the final text has met the national error-rate bar.
+- **THEN** readers who did not edit a passage have read it under 信、达、雅 as the book's chapter on writing states them, a sentence-level cold read has covered the whole book and any passage changed after it has been read again, the prose beside each printed command has been compared with the run records and each command prints whole in the PDF, the built PDF's contents, links and metadata have been checked and every page of it has been looked at, and a sample of the final text has met the national error-rate bar.
 
 #### Scenario: A release is recommended
 
@@ -454,11 +454,11 @@ The book's sources SHALL use none of the words that the book-wide decisions repl
 
 ### Requirement: Reviewed text before landing
 
-A head SHALL pass the proof only when the repository records, for its `book/` and `exercises/` trees and the Python line its printed commands name, a review of those commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it. Each record SHALL name what was read, against what, when, its verdict, and how many points were settled and how many declined.
+A head SHALL pass the proof only when the repository records, for its `book/` and `exercises/` trees, its reader notes and the Python line its printed commands name, a review of those commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it. Each record SHALL name what was read, against what, when, its verdict, and how many points were settled and how many declined.
 
 #### Scenario: A change to the text has no review
 
-- **WHEN** a head changes `book/` or `exercises/` and no record covers its trees
+- **WHEN** a head changes `book/`, `exercises/` or the reader notes and no record covers them
 - **THEN** a check fails and names the trees.
 
 #### Scenario: Only the Python line changes
@@ -483,22 +483,27 @@ A head SHALL pass the proof only when the repository records, for its `book/` an
 
 ### Requirement: Chapter references are derived
 
-The manuscript SHALL derive every reference to a chapter, a practice or an appendix by its number from the number that the chapter's opening declares, and SHALL point each relative reference, 上一章 or 下一章, at the chapter just before or after the one it stands in, in the manuscript's reading order.
+The manuscript SHALL take each chapter's, practice's and appendix's number, counted within its kind, and each part's number from the reading order that `book/manuscript.typ` declares, SHALL derive every reference to a chapter, a practice, an appendix or a part by its number from that order, and SHALL point each relative reference, 上一章 or 下一章, 上一部 or 下一部, at the chapter or part just before or after the one it stands in.
 
 #### Scenario: A chapter is renumbered
 
-- **WHEN** a chapter is inserted, removed or moved and the openings' numbers change
-- **THEN** every reference by number reads the new number without an edit at the reference.
+- **WHEN** a chapter or a part is inserted, removed or moved in the reading order
+- **THEN** every number and every reference by number reads the new order without an edit at the chapter, the part or the reference.
 
 #### Scenario: A reference is written by hand
 
-- **WHEN** a change writes 「第X章」 in the manuscript's prose
+- **WHEN** a change writes 「第X章」 or 「第X部」 in the manuscript's prose
 - **THEN** a check fails and names the file and the line.
 
 #### Scenario: A relative reference points elsewhere
 
 - **WHEN** 上一章 or 下一章 names a chapter that is not adjacent in the reading order, or names none
-- **THEN** a check fails and names the file and the word.
+- **THEN** a check fails and names the file, the reference and the chapter it should name.
+
+#### Scenario: A relative part reference points elsewhere
+
+- **WHEN** 上一部 or 下一部 names a part that is not adjacent in the reading order, or names none
+- **THEN** the build or a check fails and names the reference.
 
 ### Requirement: Edition identity from the release tag
 
@@ -631,3 +636,17 @@ The Python line, each tool's release and download address, the CI supply sources
 
 - **WHEN** the installed verification model or `verification.toml` changes a verification job's supply, rules, time limit, variables or artifact lifetime
 - **THEN** after projection each peer's publication jobs carry the same, and before it the projection check names the files that differ.
+
+### Requirement: Edition facts declared once
+
+The edition SHALL declare once the names its archive gives the folder, the PDF, the practice pack, the reader notes and the checksum list, where the book says the pack lies, the companion appendix's title, the tools the pack's checks need and the command that runs them. The book, both reader notes, the archive and its checks SHALL take them from there.
+
+#### Scenario: A declared name changes
+
+- **WHEN** the declaration renames the pack's folder or changes the check command
+- **THEN** the printed commands, the prose, both reader notes, the archive's layout and the archive's check carry the new value without another edit.
+
+#### Scenario: A printed block keeps a token
+
+- **WHEN** a printed code block still carries a token meant to be filled from the declaration
+- **THEN** a check fails and names the page.
