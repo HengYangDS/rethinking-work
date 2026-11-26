@@ -27,6 +27,10 @@ itself claim editorial acceptance.
   release but the last one, the latest signed release tag in the head's history
   made no later than the review, so that a baseline copied from an older record
   cannot pass; a review time must carry its offset.
+- Four places that the blind judging of 0.2.7's unjudged notes found are
+  corrected: what the outer circle of chapter 13 cannot undo, what appendix C
+  says Hermes reports, and two sentences of chapter 29 brought to DDWG's
+  wording. The sample's 100 notes gave no error; its 0.47 per 10,000 stands.
 - The hosted jobs install Mise 2026.11.14, the latest stable release, as the
   owner asked of every repository ETHOS manages.
 
