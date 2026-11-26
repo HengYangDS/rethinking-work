@@ -519,3 +519,42 @@ against = "6ef03de"
 read = 2026-11-26T06:11:06+08:00
 report = "build/evidence/reader-run-next-edition/review-788b8eb/FINDINGS.md"
 verdict = "no finding"
+
+[[commands]]
+book = "4ae058c8364872ed35f032e9907b0e0bbe33f424"
+exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+subject = "ef1b881"
+blocks_against = "v0.2.7"
+prose_against = "f609d1c"
+pdf = "917ff6ebd8f1c12435a9a527c389341c5df02f893fc000c7ed9ac1936a0eec24"
+read = 2026-11-26T12:23:21+08:00
+findings = "build/evidence/reader-run-next-edition/review-ef1b881/FINDINGS.md"
+verdict = "no finding"
+
+[[reading]]
+book = "4ae058c8364872ed35f032e9907b0e0bbe33f424"
+subject = "ef1b881"
+against = "f609d1c"
+read = 2026-11-26T12:23:21+08:00
+report = "build/evidence/reader-run-next-edition/review-ef1b881/FINDINGS.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "blind judging of the read-through's unjudged notes (owner's 「判 1」, notes-judging/README.md): RCN49 boundaries.typ:78 「做了就无法撤回」 against the next paragraph's undoable edits"
+settled = "ef1b881: 「做了往往无法撤回」"
+
+[[reading.point]]
+point = "RCN121 back-matter.typ:56, appendix C's Hermes: 「有无产出由脚本报告」, while chapter 18 lets a task run a brief alone"
+settled = "ef1b881: 「脚本任务有无产出，由脚本报告」"
+
+[[reading.point]]
+point = "RCN106 talent.typ:50: acceptance named in both 「委托与验收的记录」 and 「验收的结论」"
+settled = "ef1b881: 「委托和验收时留下的记录，交付的状态和验收得出的结论」, both of DDWG grow.md line 171's items kept; the reviewer found the overlap gone"
+
+[[reading.point]]
+point = "RCN109 talent.typ:87: the reach of 「至少一次」 unclear"
+settled = "ef1b881: one instance holds the prediction, its proof and the direct use, as DDWG grow.md line 252"
+
+[[reading.point]]
+point = "optional, not an error: 「委托和验收的过程记录」 would keep the conclusion out of the first item even on a strict reading"
+declined = "the reviewer found the overlap gone as written; another wording would open another round for a point that is not an error"
