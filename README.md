@@ -24,7 +24,7 @@ evidence of editorial acceptance.
 | Explain a relationship visually       | [Editable diagrams](diagrams/README.md)                                               |
 | Practice with public synthetic inputs | [Companion exercises](exercises/README.md)                                            |
 | Maintain and qualify an edition       | [Contributing](CONTRIBUTING.md), [edition acceptance](docs/publication-acceptance.md) |
-| Understand the accepted requirements  | [OpenSpec specification](openspec/specs/publication-source/spec.md)                   |
+| Understand the accepted requirements  | [OpenSpec specifications](openspec/specs/), one per capability                        |
 
 The companion-exercise index and the statement of run conditions and limits belong in
 [book/back-matter.typ](book/back-matter.typ). Examples are scenarios set in a
