@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.8] - 2026-11-26
+
 ### Changed
 
 - The transfer cases are three Chinese questions with their points
