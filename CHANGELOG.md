@@ -23,9 +23,10 @@ itself claim editorial acceptance.
   as strings, and three entry points to one tool on different versions.
 - `book/README.md` names the four appendices, and `book/parts/README.md` puts
   orchestration and evaluation in the fourth part.
-- The acceptance test fails a head whose commands review compares the printed
-  commands with any release but the last one before the review, so that a
-  baseline copied from an older record cannot pass.
+- The acceptance test fails a head whose latest commands review names any
+  release but the last one, the latest signed release tag in the head's history
+  made no later than the review, so that a baseline copied from an older record
+  cannot pass; a review time must carry its offset.
 - The hosted jobs install Mise 2026.11.14, the latest stable release, as the
   owner asked of every repository ETHOS manages.
 

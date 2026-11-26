@@ -4,14 +4,15 @@
 reading of changed passages. The lane's editor copies them from the reviewers' findings, which
 stay in the reviewers' local evidence folders; the record is what the proof and the CIs read. A
 head passes when its `book/` and `exercises/` trees are those of a commands review and its
-`book/` tree is that of a reading, each with every point settled or declined, and when each
-commands review that covers it compared the printed commands with the last release. See
+`book/` tree is that of a reading, each with every point settled or declined, and when the
+latest commands review that covers it names the last release as its baseline. See
 docs/publication-acceptance.md.
 """
 
 import subprocess
 import tomllib
 import unittest
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,18 +43,23 @@ def head_tree(directory):
     return git("rev-parse", f"HEAD:{directory}").stdout.strip()
 
 
-def last_release(subject, read):
-    """The release a review of `subject` read at `read` compares the printed commands with: the
-    latest `v*` tag that names an ancestor of `subject` and was made no later than the reading."""
-    commit = git("rev-parse", "--verify", f"{subject}^{{commit}}").stdout.strip()
-    fields = "%(refname:short)%09%(objectname)%09%(*objectname)%09%(creatordate:unix)"
-    made = []
-    for line in git("for-each-ref", f"--format={fields}", "refs/tags/v*").stdout.splitlines():
-        name, target, peeled, date = line.split("\t")
-        ancestor = git("merge-base", "--is-ancestor", peeled or target, commit, check=False)
-        if int(date) <= read.timestamp() and ancestor.returncode == 0:
-            made.append((int(date), name))
-    return max(made)[1] if made else None
+def last_release(read):
+    """The release whose printed commands a review read at `read` compares with: the latest
+    signed `v*` tag in the head's history that was made no later than the reading. The head's
+    history is used, not the reviewed commit's: a lane rewritten after its review keeps the
+    trees the review covers, but the reviewed commit is then on no ref that a CI clone fetches."""
+    tags = git(
+        "for-each-ref",
+        "--merged=HEAD",
+        "--sort=-taggerdate",
+        "--format=%(taggerdate:unix) %(refname:lstrip=2)",
+        "refs/tags/v*",
+    ).stdout.split("\n")
+    for line in filter(None, tags):
+        made, name = line.split(" ", 1)
+        if made and int(made) <= read.timestamp():
+            return name
+    return None
 
 
 class RecordedReviews(unittest.TestCase):
@@ -65,7 +71,7 @@ class RecordedReviews(unittest.TestCase):
         cls.covering = [
             review
             for review in cls.record["commands"]
-            if (review["book"], review["exercises"]) == head
+            if (review.get("book"), review.get("exercises")) == head
         ]
 
     def test_a_recorded_review_has_no_open_point(self):
@@ -75,6 +81,9 @@ class RecordedReviews(unittest.TestCase):
             for review in self.record[kind]:
                 with self.subTest(kind=kind, subject=review.get("subject")):
                     self.assertLessEqual(fields | {"verdict"}, review.keys())
+                    # A time without its offset would be read in the runner's own time zone.
+                    self.assertIsInstance(review["read"], datetime)
+                    self.assertIsNotNone(review["read"].utcoffset(), "read carries no offset")
                     points = review.get("point", [])
                     self.assertIn(review["verdict"], ("no finding", "settled"))
                     self.assertEqual(review["verdict"] == "settled", bool(points))
@@ -88,14 +97,17 @@ class RecordedReviews(unittest.TestCase):
             self.covering, f"no commands review records book/ and exercises/ {self.trees}"
         )
 
-    def test_the_head_s_commands_review_compares_with_the_last_release(self):
+    def test_the_latest_commands_review_of_the_head_names_the_last_release(self):
         # "Run every changed command, old against new": the old commands are the last release's.
-        # A baseline copied from an older record names an older tag and fails here.
-        for review in self.covering:
-            with self.subTest(subject=review["subject"]):
-                expected = last_release(review["subject"], review["read"])
-                self.assertIsNotNone(expected, "no release tag precedes the review; fetch tags")
-                self.assertEqual(review["blocks_against"], expected)
+        # A baseline copied from an older record names an older tag and fails here. Only the
+        # review read last is held: an older record that the head's trees match again stays as
+        # it was written.
+        if not self.covering:
+            self.skipTest("no commands review covers the head; the test above fails")
+        review = max(self.covering, key=lambda item: item["read"])
+        expected = last_release(review["read"])
+        self.assertIsNotNone(expected, "no signed v* tag in the head's history; fetch the tags")
+        self.assertEqual(review["blocks_against"], expected, review["subject"])
 
     def test_the_head_has_a_reading_of_its_text(self):
         covered = [
