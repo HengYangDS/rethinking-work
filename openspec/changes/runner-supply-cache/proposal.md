@@ -8,11 +8,12 @@ writes Typst's default package cache, `cache_directory()/typst`, which restates 
 
 ## What Changes
 
-- The supply task keeps the faces in a folder of the account's cache, declared once in the justfile, and every task
-  names that folder to Typst through Typst's own setting, `TYPST_FONT_PATHS`. On a host without the folder, Typst
-  reads the system's fonts as before. The faces keep their own file names.
-- The supply task and the check that every package read is supplied take Typst's package cache from the compiler
-  (`typst info --format json`); the package manifest lists each file relative to that cache.
+- The supply task keeps the faces in a folder of the account's cache, declared once in the justfile under the
+  repository's name, which the justfile now declares once for its outputs too. Every task names that folder to Typst
+  through Typst's own setting, `TYPST_FONT_PATHS`, after any font paths the caller set. On a host without the folder,
+  Typst reads the caller's font paths and the system's fonts as before. The faces keep their own file names.
+- The supply task and the check that every package read is supplied take Typst's package folders from the compiler
+  (`typst info --format json`); the package manifest lists each file relative to the package cache.
 - The faces the old task installed in the font folders of the two GitLab runner accounts are removed.
 
 The supply stays outside the checkout, not under `build/runtime/tool-cache/` as the plan named: the GitLab runner

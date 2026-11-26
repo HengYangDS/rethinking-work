@@ -172,11 +172,15 @@ def declared():
 
 
 @functools.cache
-def package_cache():
-    """Where Typst keeps the packages it fetched, as the compiler reports it."""
+def package_folders():
+    """The folders Typst reads packages from, as the compiler reports them and as a compile run from
+    the root resolves them: its own package folder, which it reads first, and its package cache."""
     command = ["typst", "info", "--format", "json"]
-    result = subprocess.run(command, cwd=ROOT, **QUIET, check=True)
-    return Path(json.loads(result.stdout)["packages"]["package-cache-path"])
+    packages = json.loads(subprocess.run(command, cwd=ROOT, **QUIET, check=True).stdout)["packages"]
+    if not packages.get("package-cache-path"):
+        raise AssertionError(f"typst info reports no package cache: {packages}")
+    folders = (packages.get(key) for key in ("package-path", "package-cache-path"))
+    return tuple((ROOT / folder).resolve() for folder in folders if folder)
 
 
 def cpu_seconds():

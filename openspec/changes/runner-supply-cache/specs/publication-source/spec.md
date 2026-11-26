@@ -2,8 +2,9 @@
 
 ### Requirement: Runner supply in the account's caches
 
-A CI runner's supply of fonts and Typst packages SHALL be kept in the runner account's cache, outside the checkout,
-and SHALL reach Typst through Typst's own settings. The supply task SHALL NOT write into the account's font folder.
+A CI runner's supply of fonts SHALL be kept in the runner account's cache, outside the checkout, and its Typst
+packages in the package cache that Typst reports, by default also the account's. Both SHALL reach Typst through
+Typst's own settings, and the supply task SHALL NOT write into the account's font folder.
 
 #### Scenario: A job starts after the checkout lost its ignored files
 

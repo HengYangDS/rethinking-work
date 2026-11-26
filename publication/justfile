@@ -29,9 +29,11 @@ pytest := "uv run --offline " + uv_environment + " python -m pytest --config-fil
 # The PDF inspection supply, which Homebrew Bundle owns.
 brewfile := "publication/brewfile"
 
+# The repository's name, which names its outputs and the runner's supply folder.
+project := "rethinking-work"
 # The build's outputs, named once; the tests and the Forge jobs read the folders they lie in.
-pdf := "build/artifacts/pdf/rethinking-work.pdf"
-archive := "build/artifacts/edition/rethinking-work-" + trim(read("VERSION")) + ".tgz"
+pdf := "build/artifacts/pdf/" + project + ".pdf"
+archive := "build/artifacts/edition/" + project + "-" + trim(read("VERSION")) + ".tgz"
 
 default:
     @just --justfile publication/justfile --list
@@ -152,10 +154,11 @@ test-env:
     uv sync {{uv_environment}}
 
 # Where a CI runner's account keeps the faces for later jobs: in its cache folder, outside the checkout, whose ignored
-# files the GitLab runner removes when each job starts. Every task points Typst there through Typst's own setting, so
-# nothing is written into the account's font folder; on a host without this folder Typst reads the system's fonts.
-supply_fonts := cache_directory() / "rethinking-work" / "fonts"
-export TYPST_FONT_PATHS := supply_fonts
+# files the GitLab runner removes when each job starts. Every task names it to Typst after any font paths the caller
+# set, through Typst's own setting, so nothing is written into the account's font folder; on a host without this
+# folder Typst reads the caller's font paths and the system's fonts as before.
+supply_fonts := cache_directory() / project / "fonts"
+export TYPST_FONT_PATHS := if env("TYPST_FONT_PATHS", "") == "" { supply_fonts } else { env("TYPST_FONT_PATHS") + PATH_VAR_SEP + supply_fonts }
 # How the supply downloads: over HTTPS only, redirects included, failing on an HTTP error, and giving up when no
 # connection opens within 15 seconds; each download sets how long it may take.
 fetch := "curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15"
@@ -197,7 +200,7 @@ ci-supply:
         echo "Noto faces: installed"
     fi
     # Typst's package cache, as the compiler reports it; the manifest lists each file relative to it.
-    cache=$(typst info --format json | {{python}} -c 'import json, sys; print(json.load(sys.stdin)["packages"]["package-cache-path"])')
+    cache=$(typst info --format json | {{python}} -c 'import json, sys; print(json.load(sys.stdin)["packages"]["package-cache-path"] or sys.exit("typst info reports no package cache"))')
     if (cd "$cache" 2>/dev/null && shasum --algorithm 256 --check --quiet --status "$manifests/typst-packages.sha256"); then
         echo "Typst packages: present"
     else

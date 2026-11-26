@@ -52,8 +52,8 @@ Sans CJK SC that [noto-faces.sha256](supply/noto-faces.sha256) lists into a fold
 task names to Typst as a font path, and the Typst packages into the package cache that Typst reports, each checked
 against that list, [ci-noto.sha256](supply/ci-noto.sha256) and [typst-packages.sha256](supply/typst-packages.sha256),
 synchronizes the locked test environment and checks the PDF tools of [brewfile](brewfile). Supply that matches is
-kept; it lives outside the checkout, whose ignored files a runner may remove when a job starts, and the account's font
-folder is not written. A verification job then runs the full proof,
+kept. The faces and the packages live outside the checkout, whose ignored files a runner may remove when a job starts,
+and the account's font folder is not written. A verification job then runs the full proof,
 `mise exec --locked -- ethos prove --host --execute --full`, and keeps its report as an artifact; a publication job runs
 `ci-artifacts` and keeps the PDF and the edition archive. Each publication job takes its supply steps, rules, time limit, variables and
 artifact lifetime from the verification job of the same peer and trust.

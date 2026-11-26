@@ -134,12 +134,15 @@ class PublicationInputs(edition.Edition):
         # supply would fetch it during the compile.
         supply = (ROOT / "publication/supply/typst-packages.sha256").read_text(encoding="utf-8")
         listed = {line.split()[1] for line in supply.splitlines() if line.strip()}
-        cache = edition.package_cache()
-        read = {
-            Path(path).relative_to(cache).as_posix()
-            for path in self.edition.inputs
-            if Path(path).is_relative_to(cache)
-        }
+        # The compile lists a file under the root relative to it and any other file in full.
+        read = set()
+        for path in self.edition.inputs:
+            full = (ROOT / path).resolve()
+            read |= {
+                full.relative_to(folder).as_posix()
+                for folder in edition.package_folders()
+                if full.is_relative_to(folder)
+            }
         self.assertTrue(read, "the compile read no Typst package")
         self.assertEqual(sorted(read - listed), [])
 
