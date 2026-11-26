@@ -461,6 +461,11 @@ A head whose `book/` or `exercises/` tree differs from every reviewed one SHALL 
 - **WHEN** a review ends with a point neither settled nor declined
 - **THEN** it is not recorded, and the head does not pass until a later review is.
 
+#### Scenario: A record names another baseline
+
+- **WHEN** a commands review that covers a proved head records as its baseline a tag other than the last release, the latest release tag that the reviewed commit descends from and that was made before the review
+- **THEN** a check fails and names the recorded tag and the last release, because the printed commands are compared with the last release's.
+
 ### Requirement: Chapter references are derived
 
 The manuscript SHALL derive every reference to a chapter, a practice or an appendix by its number from the number that the chapter's opening declares, and SHALL point each relative reference, 上一章 or 下一章, at the chapter just before or after the one it stands in, in the manuscript's reading order.
