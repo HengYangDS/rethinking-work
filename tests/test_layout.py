@@ -12,6 +12,10 @@ import edition
 from edition import NS, QUIET, ROOT
 
 
+# The Han characters the checks count as ideographs: the CJK Unified Ideographs block.
+IDEOGRAPHS = "\u4e00-\u9fff"
+
+
 def normalized(line):
     return re.sub(r"\s+", " ", line).strip()
 
@@ -48,7 +52,7 @@ class EditionLayout(edition.Edition):
         lines, _ = self.layout_lines()
         bound = edition.declared()["line bound"]
         closing = re.escape(edition.declared()["closing marks"])
-        alone = re.compile(f"[\u4e00-\u9fff][{closing}]*")
+        alone = re.compile(f"[{IDEOGRAPHS}][{closing}]*")
         found = [
             (page, text)
             for page, text, x0, top in lines
@@ -62,8 +66,8 @@ class EditionLayout(edition.Edition):
         # than the layout declares: past it a line reads as letter-spaced. Each ideograph is one em
         # wide, so a run of them gives the opening by its width, and two words that meet at
         # ideographs give it by their gap. Body text is told by its size; code keeps its spaces.
-        size, run = edition.declared()["body size"], re.compile("[\u4e00-\u9fff]+")
-        setting = re.compile("[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef\u201c\u201d\u2018\u2019]+")
+        size, run = edition.declared()["body size"], re.compile(f"[{IDEOGRAPHS}]+")
+        setting = re.compile(f"[{IDEOGRAPHS}\u3000-\u303f\uff00-\uffef\u201c\u201d\u2018\u2019]+")
         pages = self.pages()
         found = []
         for number, page in enumerate(pages, 1):
@@ -233,7 +237,7 @@ class EditionLayout(edition.Edition):
         pages = self.pages()
 
         def ideograph(text):
-            return bool(text) and "\u4e00" <= text[0] <= "\u9fff"
+            return re.match(f"[{IDEOGRAPHS}]", text) is not None
 
         def top(line):
             words = line.findall("pdf:word", NS)
@@ -277,7 +281,7 @@ class EditionLayout(edition.Edition):
                     and flush(following)
                     and top(following) < bound - 4
                 ):
-                    line_steps.append(top(following) - top(first))
+                    line_steps.append((page, top(following) - top(first)))
             previous = paragraphs[index - 1] if index else None
             if (
                 previous
@@ -290,13 +294,21 @@ class EditionLayout(edition.Edition):
                 and position
                 and top(lines[position - 1]) is not None
             ):
-                paragraph_steps.append(top(first) - top(lines[position - 1]))
+                paragraph_steps.append((page, top(first) - top(lines[position - 1])))
         self.assertEqual(indented, [])
-        self.assertTrue(line_steps)
-        self.assertTrue(paragraph_steps)
+        # A reader that lost most paragraphs would still find a few steps; every part of the book
+        # has both kinds, so each part must show both.
+        marks = self.fact("chapter marks")
+
+        def part(page):
+            return next((m["part"] for m in reversed(marks) if m["page"] <= page), None)
+
+        parts = {mark["part"] for mark in marks}
+        for steps in (line_steps, paragraph_steps):
+            self.assertEqual(parts - {part(page) for page, _ in steps}, set())
         line = declared["body line"]
-        self.assertEqual([step for step in line_steps if abs(step - line) > 0.5], [])
-        self.assertEqual([step for step in paragraph_steps if abs(step - 2 * line) > 0.5], [])
+        self.assertEqual([s for s in line_steps if abs(s[1] - line) > 0.5], [])
+        self.assertEqual([s for s in paragraph_steps if abs(s[1] - 2 * line) > 0.5], [])
 
     def test_table_columns_align_as_their_contents_read(self):
         # CY/T 170—2019 7.2.2: the first column names its rows and is set flush left; any other
@@ -425,7 +437,9 @@ class LeadInSpacing(unittest.TestCase):
         # exactly as the one whose paragraphs end with a full stop.
         lead_ins, paragraphs = specimen_steps("："), specimen_steps("。")
         self.assertEqual(len(lead_ins), len(paragraphs))
-        self.assertTrue(lead_ins)
+        # Each kind of block has a page of its own, and each page is measured.
+        pages = set(range(1, len(SPECIMEN_BLOCKS) + 1))
+        self.assertEqual(pages - {page for page, _, _ in lead_ins}, set())
         self.assertEqual(
             [
                 (lead_in, paragraph)

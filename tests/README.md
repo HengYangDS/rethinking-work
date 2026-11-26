@@ -14,7 +14,8 @@ The proof runs them through the gate that
 The checks read every document fact from one evaluation of the book, run beside
 the one compile of the PDF, and each view of the PDF once. That evaluation is
 one layout of the book, and each check must spend less than half of its CPU
-time: a check that lays out the book again fails the run. A fact that fails to
+time: a check that lays out the book again fails the run. Every tool they run
+has the deadline that `QUIET` in `edition.py` declares. A fact that fails to
 evaluate fails every check, with Typst's message pointing at it.
 
 The checks compare visible attribution, PDF Info and XMP to contextual edition
@@ -63,7 +64,8 @@ failure alongside the corrected and empty-input controls; and verify structural
 search and both changed and unchanged API comparisons. An arbitrary nonzero
 exit is not accepted as the intended failure. Commands use only synthetic local
 inputs, disable OpenAPI external references, start no service and create no
-database file. Each subprocess has the deadline that `QUIET` in `edition.py` declares.
+database file. Each subprocess has a one-minute deadline, which the file names
+itself because it ships alone in the practice pack.
 
 Passing these known cases demonstrates repeatability of the teaching examples,
 not independent reader learning, production root cause or investment validity.

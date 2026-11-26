@@ -65,7 +65,7 @@
   chapter: 25pt, section: 14pt, subsection: 11pt, lead: 11pt,
   box-title: 10pt, table: 9.5pt, table-head: 9pt, caption: 8.5pt, small: 8.5pt, navigation: 8pt,
   figure: 9pt, figure-detail: 7.5pt, contents: 9pt,
-  cover: (mark: 9pt, title: 39pt, subtitle: 15pt, line: 12pt),
+  cover: (title-en: 9pt, title: 39pt, subtitle: 15pt, text: 12pt),
 )
 // The language of the text, for hyphenation, line breaking and the PDF's metadata; the checks read it here.
 #let language = (lang: "zh", region: "CN")
@@ -84,7 +84,7 @@
 // sit at the left of their cell and opening marks at the right. A run is joined to its neighbours where a line may not
 // break: before a closing mark, after an opening one, and nowhere inside it (GB/T 15834—2011 5.1.1, 5.1.3).
 #let opening-marks = "“‘（"
-// The marks that never open a line (GB/T 15834—2011 5.1.3), as the book uses them; the checks read them here.
+// Closing marks, which never open a line (GB/T 15834—2011 5.1.3); the checks hold every line to them.
 #let closing-marks = "，。、；：？！）」』”’》"
 #let quote-run(run) = {
   let marks = run.clusters()

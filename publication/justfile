@@ -22,6 +22,13 @@ edition_inputs := ```
 python_line := `mise config get -f .config/mise/config.toml tools.python`
 python := "python" + python_line
 
+# The locked test environment on that line; it never builds a package or downloads a Python.
+uv_environment := "--locked --no-build --no-python-downloads --python " + python
+# The tests, as the proof runs them.
+pytest := "uv run --offline " + uv_environment + " python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests"
+# The PDF inspection supply, which Homebrew Bundle owns.
+brewfile := "publication/brewfile"
+
 # The build's outputs, named once; the tests and the Forge jobs read the folders they lie in.
 pdf := "build/artifacts/pdf/rethinking-work.pdf"
 archive := "build/artifacts/edition/rethinking-work-" + trim(read("VERSION")) + ".tgz"
@@ -38,12 +45,12 @@ bootstrap: pdf-tools-check
 
 # Require the declared, already-installed PDF supply; never install or upgrade.
 _pdf-tools-installed:
-    env -u HOMEBREW_BUNDLE_CHECK HOMEBREW_NO_AUTO_UPDATE=1 brew bundle check --file publication/brewfile --no-upgrade --quiet
+    env -u HOMEBREW_BUNDLE_CHECK HOMEBREW_NO_AUTO_UPDATE=1 brew bundle check --file {{brewfile}} --no-upgrade --quiet
 
 # Only PDF inspection enters Brew's environment; other executors keep their owner.
 [positional-arguments]
 pdf-tool +arguments: _pdf-tools-installed
-    env -u HOMEBREW_BUNDLE_SERVICES -u HOMEBREW_BUNDLE_CHECK HOMEBREW_NO_AUTO_UPDATE=1 brew bundle exec --file publication/brewfile -- "$@"
+    env -u HOMEBREW_BUNDLE_SERVICES -u HOMEBREW_BUNDLE_CHECK HOMEBREW_NO_AUTO_UPDATE=1 brew bundle exec --file {{brewfile}} -- "$@"
 
 pdf-tools-check: (pdf-tool "pdfinfo" "-v") (pdf-tool "pdftotext" "-v")
 
@@ -61,12 +68,12 @@ render:
 
 # The tests, run as the proof runs them, without its reports.
 test: pdf-tools-check
-    uv run --locked --offline --no-build --no-python-downloads --python {{python}} python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests
+    {{pytest}}
 
 # The same unittest cases, with native same-attempt test and subprocess coverage reports.
 test-proof output: pdf-tools-check
     mkdir -p "{{output}}"
-    env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python {{python}} python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests --junitxml="{{output}}/tests.xml" --report-log="{{output}}/pytest.jsonl" --cov --cov-config .config/checks/coverage/coverage.toml --cov-report="xml:{{output}}/coverage.xml"
+    env COVERAGE_FILE="{{output}}/.coverage" {{pytest}} --junitxml="{{output}}/tests.xml" --report-log="{{output}}/pytest.jsonl" --cov --cov-config .config/checks/coverage/coverage.toml --cov-report="xml:{{output}}/coverage.xml"
 
 # Run only the synthetic companion contracts, by the command that the book and the pack's note print (`book-check` in
 # book/metadata.typ); no PDF is required.
@@ -142,7 +149,7 @@ ci-artifacts: build edition-archive
 
 # The locked test environment, on the declared Python line.
 test-env:
-    uv sync --locked --no-build --no-python-downloads --python {{python}}
+    uv sync {{uv_environment}}
 
 # Where a CI runner's account keeps its supply for later jobs: Typst reads fonts from the account's
 # font folder and packages from its own cache folder.
@@ -204,9 +211,9 @@ ci-supply:
         echo "Typst packages: installed"
     fi
     just --justfile publication/justfile test-env
-    if env -u HOMEBREW_BUNDLE_CHECK brew bundle check --file publication/brewfile --no-upgrade --quiet; then
+    if just --justfile publication/justfile _pdf-tools-installed; then
         echo "PDF tools: present"
     else
-        brew bundle install --file publication/brewfile --no-upgrade
+        brew bundle install --file {{brewfile}} --no-upgrade
     fi
     rm -rf "$work"

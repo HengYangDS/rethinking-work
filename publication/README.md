@@ -8,7 +8,7 @@ archive, the review records and the rights notices. It does not own manuscript c
   language, the measure and spacing, tables, notes and reader figures, over the unchanged publisher package, and the
   rules the checks read.
 - [layout/front.typ](layout/front.typ): the cover and the contents, set from those faces and sizes; the front matter
-  gives their words.
+  gives the cover's words and the contents' heading, and the entries come from the chapters and parts.
 - [layout/figures.typ](layout/figures.typ) and [layout/palette.typ](layout/palette.typ): the look of every figure drawn
   with fletcher, and the colours the figures share with the text.
 - [layout/packages.typ](layout/packages.typ): the Typst packages the edition imports, each at one version.
@@ -77,8 +77,8 @@ Homebrew Bundle and runs the requested command in that bundle's environment, and
 executables before `test` and `bootstrap`. Homebrew auto-update is disabled for these tasks. The Brewfile does not lock
 Poppler's exact version.
 
-Typst imports the packages that [packages.typ](layout/packages.typ) declares: Neat Book, the publisher package, and
-fletcher for the figures, with the packages they import. A first build may fetch these official packages;
+Typst imports the packages that [packages.typ](layout/packages.typ) declares: Neat Book (the publisher package) and
+fletcher (for the figures), with the packages they import. A first build may fetch these official packages;
 [typst-packages.sha256](supply/typst-packages.sha256) pins every file of them, a test fails when the compile reads a
 file it does not pin, and `ci-supply` fetches each package root it lists and checks every file.
 

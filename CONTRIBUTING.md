@@ -21,7 +21,9 @@ edition, and how a release is made.
 
 ## Select one responsibility
 
-An unclear argument belongs in its chapter. A repeated presentation defect belongs in `publication/layout/style.typ`.
+An unclear argument belongs in its chapter. A repeated presentation defect belongs in `publication/layout/style.typ`;
+the cover and the contents are set in `publication/layout/front.typ`, and a Typst package's version is declared in
+`publication/layout/packages.typ`.
 A wrong relationship belongs in the figure's source in `diagrams/` and its nearby explanation; the look shared by all
 figures belongs in `publication/layout/figures.typ`. A teaching failure belongs in the case, fixture or instructions
 that produced it. Title and author belong only in `book/metadata.typ`; the edition and its date come from git

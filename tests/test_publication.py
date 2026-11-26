@@ -12,6 +12,11 @@ from pathlib import Path
 import edition
 from edition import BACK_MATTER_SECTIONS, QUIET, ROOT
 
+# The book prints a command as a `sh` block; a block in any of the other languages shows a file's
+# content. A block in a language outside both fails a check until it is placed in one.
+COMMAND_LANGUAGE = "sh"
+FILE_LANGUAGES = {"json", "md", "python", "sql", "yaml"}
+
 
 def bare_comment_lines(script):
     """Lines of a shell text with a word beginning with `#` outside quotes and here-documents."""
@@ -169,9 +174,14 @@ class PublicationInputs(edition.Edition):
         blocks = [
             (index, item)
             for index, item in enumerate(raws)
-            if item["block"] and item["lang"] == "sh" and not item["text"].startswith("#!")
+            if item["block"]
+            and item["lang"] == COMMAND_LANGUAGE
+            and not item["text"].startswith("#!")
         ]
         self.assertTrue(blocks)
+        # Every other block shows a file's content, so this check sees every printed command.
+        other = {item["lang"] for item in raws if item["block"] and item["lang"]}
+        self.assertEqual(other - {COMMAND_LANGUAGE, *FILE_LANGUAGES}, set())
         commented, unwaited = {}, []
         for _, item in blocks:
             marks = bare_comment_lines(item["text"])

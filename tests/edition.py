@@ -99,7 +99,8 @@ PDF_READS = {
 QUIET = {"stdin": subprocess.DEVNULL, "capture_output": True, "text": True, "timeout": 60}
 
 # What the layout (`publication/layout/style.typ`) declares for the checks, by name, lengths in
-# pt. A check reads a rule or a bound here and holds no copy of it.
+# pt and the justification's opening in em. A check reads a rule or a bound here and holds no
+# copy of it.
 DECLARED = {
     "body size": "body-size.pt()",
     "body line": "body-line.pt()",
@@ -241,6 +242,7 @@ class Edition(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.edition = build()
+        # Read once here, outside each check's CPU budget.
         declared()
 
     def setUp(self):

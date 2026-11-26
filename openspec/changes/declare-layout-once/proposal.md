@@ -22,10 +22,11 @@ removed; this is the third of the three Changes that answer it.
   `publication/layout/front.typ` from the declared faces and sizes; the front matter keeps their words, and
   `book/metadata.typ` declares the English title.
 - The layout declares the marks that never open a line and the pattern of a number cell; the checks read them, the
-  opening marks and the language from the layout instead of copying them. A check that guards against finding nothing
-  asks for something found, not for a fixed count.
+  opening marks and the language from the layout instead of copying them. A check that guards against finding too
+  little derives what it must find from other facts of the edition, not from a fixed count.
 - The practice-pack test reads the draft's commit from the archive task's inputs; the CI supply declares its fetch
-  options once. The tests' waits take their limit from the one minute that `tests/edition.py` declares; the reader's
+  options once, and the justfile declares once the tests' command, the test environment and the Brewfile it ran in
+  several places. The tests' waits take their limit from the one minute that `tests/edition.py` declares; the reader's
   whole check of the pack has its longer limit named in its test, and the exercises' own test, which ships alone in
   the pack, keeps its own.
 
@@ -42,8 +43,8 @@ None.
 
 ### Modified Capabilities
 
-- `publication-source`: "Layout rules declared once" covers the packages, type sizes, paper, language, the cover and
-  contents, and the rules the checks read.
+- `publication-source`: a new requirement, "Presentation facts declared once", covers the packages, type sizes, paper,
+  language, the cover and contents, and the rules the checks read, beside "Layout rules declared once".
 
 ## Impact
 

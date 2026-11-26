@@ -25,7 +25,7 @@ READER_CHECK_LIMIT = 120
 
 
 @functools.cache
-def declared():
+def archive_names():
     """The archive's names and the reader's command, as book/metadata.typ declares them."""
     return evaluate(
         '{ import "/book/metadata.typ": *; (folder: book-title, pdf: book-pdf, pack: book-pack,'
@@ -61,7 +61,7 @@ class EditionArchive(unittest.TestCase):
     def test_archive_pairs_the_pdf_and_exercises_under_one_version(self):
         workspace = ROOT / "build/runtime/work"
         workspace.mkdir(parents=True, exist_ok=True)
-        names = declared()
+        names = archive_names()
         folder_name, pack, note_name = names["folder"], names["pack"], names["note"]
         with tempfile.TemporaryDirectory(prefix="edition-tests-", dir=workspace) as tmp:
             root = Path(tmp)
@@ -102,6 +102,7 @@ class EditionArchive(unittest.TestCase):
             named_commit = dict(
                 item.split("=", 1) for item in inputs.stdout.split() if "=" in item
             )["commit"]
+            self.assertTrue(named_commit)
             self.assertTrue(commit.startswith(named_commit), named_commit)
             (root / "exercises/untracked.txt").write_text("Not a publication input\n")
             # The build's outputs, as the justfile names them.
