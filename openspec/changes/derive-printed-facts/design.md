@@ -1,7 +1,7 @@
 ## Context
 
 See [proposal.md](proposal.md). Each fact below has one carrier; every other mention reads it, and the PDF's text stays
-what it was before the Change, apart from the two sentences the proposal names.
+what it was before the Change, apart from the sentence the proposal names.
 
 ## Goals / Non-Goals
 
@@ -46,6 +46,10 @@ what it was before the Change, apart from the two sentences the proposal names.
   out the book and its test copy the whole book. The title is declared and names the appendix unambiguously.
 - **The notes are a tree.** Moving them to `publication/notes/` gives a commands review one tree to record. Earlier
   reviews record `none`, which states that they did not read the notes.
+- **「第一行的路径」 stays.** The review's reading suggested 「第一行等号后面的路径」 in the chapter on boundaries, as
+  four other lead-ins write it. The longer wording moves the next paragraph and its block to the following page and
+  leaves a page short beyond the layout's bound for a whole block; the first line, `PACK=…`, holds one path, so the
+  shorter wording is exact.
 - **Files in the pack name roles, not values.** The pack's guides say "the reader note" and "the companion appendix",
   and send the reader to the note for the tools it needs. The archive note's 「随书练习」 describes the folder (exercises
   that come with the book), not the appendix's title, and stays true if the appendix is renamed.

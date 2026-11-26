@@ -26,9 +26,8 @@ Change by the one that declared the toolchain once.
 - Outside the book, a chapter named by number is named by its file in the maintainers' guides and by its title in the
   files the pack carries; the pack's guides name the reader note and the companion appendix by what they are.
 
-The PDF's text changes in two sentences that the review found inexact: the companion appendix says that the PDF and
-the pack share a version (the checksum list has none), and one lead-in names the part of the first line to replace, as
-the others do. In the pack, the note names the companion appendix by its title without its letter, and the two
+The PDF's text changes in one sentence that the review found inexact: the companion appendix says that the PDF and the
+pack share a version, since the checksum list has none. In the pack, the note names the companion appendix by its title without its letter, and the two
 templates name their chapters by title.
 
 Out of scope: the layout's constants, which follow in a Change of their own; the maintainer's local scripts outside the
