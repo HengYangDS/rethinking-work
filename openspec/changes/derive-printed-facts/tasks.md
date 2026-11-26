@@ -25,6 +25,6 @@
 
 ## 3. Review
 
-- [ ] 3.1 Answer each finding of the independent review in code or in this design; done when none is open.
-- [ ] 3.2 Record the commands review and the reading of the changed `book/`, `exercises/` and note passages; done when
+- [x] 3.1 Answer each finding of the independent review in code or in this design; done when none is open.
+- [x] 3.2 Record the commands review and the reading of the changed `book/`, `exercises/` and note passages; done when
       the acceptance test passes on the head.
