@@ -469,3 +469,53 @@ pdf = "47024263dc44ad428282fdfdcfd32c1ca549a5e3108c27b56453c3744fcfe57e"
 read = 2026-11-26T03:55:47+08:00
 findings = "build/evidence/reader-run-next-edition/release-v0.2.7/FINDINGS.md"
 verdict = "no finding"
+
+[[commands]]
+book = "fb158efaab04bf4f43b08646b9a279d6f88d06cb"
+exercises = "6397704ce7dcca8bb944698346f1c50161aba337"
+subject = "788b8eb"
+blocks_against = "v0.2.7"
+prose_against = "v0.2.7"
+pdf = "72e45851d1bce84eaad709e25db986d20d9b0d10c6939cfe7a7350bc1d4e58f8"
+read = 2026-11-26T06:11:06+08:00
+findings = "build/evidence/reader-run-next-edition/review-788b8eb/FINDINGS.md"
+verdict = "settled"
+
+[[commands.point]]
+point = "transfer-cases.zh.md, second points, item 3: a test of export_rows alone cannot reach the read step where the conversion is added"
+settled = "f609d1c: the test goes from a CSV through reading to export, as the reviewer proposed (review-f609d1c)"
+
+[[commands.point]]
+point = "first points, item 2: 「排序随手定的」 misstates the last sort key, row_no, and is below the written register"
+settled = "f609d1c: 「这个值取决于排序的最后一项，也就是行号，而不取决于数据」"
+
+[[commands.point]]
+point = "question 1, item 1: 「把这处差异归给谁」 leaves the reader guessing"
+settled = "f609d1c: 「从它的输出看，错在哪一边？」"
+
+[[commands.point]]
+point = "title 「迁移题」 differs from the book's names for these questions"
+settled = "f609d1c: 「换了条件的题目」"
+
+[[commands.point]]
+point = "「第 6、7 行」 counts row_no, not the file's lines under the header"
+settled = "f609d1c: 「row_no 为 6 和 7 的两行」"
+
+[[commands]]
+book = "fb158efaab04bf4f43b08646b9a279d6f88d06cb"
+exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+subject = "f609d1c"
+blocks_against = "v0.2.7"
+prose_against = "788b8eb"
+pdf = "72e45851d1bce84eaad709e25db986d20d9b0d10c6939cfe7a7350bc1d4e58f8"
+read = 2026-11-26T06:22:20+08:00
+findings = "build/evidence/reader-run-next-edition/review-f609d1c/FINDINGS.md"
+verdict = "no finding"
+
+[[reading]]
+book = "fb158efaab04bf4f43b08646b9a279d6f88d06cb"
+subject = "788b8eb"
+against = "6ef03de"
+read = 2026-11-26T06:11:06+08:00
+report = "build/evidence/reader-run-next-edition/review-788b8eb/FINDINGS.md"
+verdict = "no finding"
