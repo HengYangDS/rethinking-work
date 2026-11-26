@@ -454,7 +454,7 @@ The book's sources SHALL use none of the words that the book-wide decisions repl
 
 ### Requirement: Reviewed text before landing
 
-A head whose `book/` or `exercises/` tree differs from every reviewed one SHALL NOT pass the proof. The repository SHALL record, for the head's `book/` and `exercises/` trees, a review of the printed commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it; each record SHALL name what was read, against what, when, where the findings are, and how each point was settled or why it was declined.
+A head whose `book/` or `exercises/` tree differs from every reviewed one SHALL NOT pass the proof. The repository SHALL record, for the head's `book/` and `exercises/` trees, a review of the printed commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it; each record SHALL name what was read, against what, when, its verdict, and how many points were settled and how many declined.
 
 #### Scenario: A change to the text has no review
 
@@ -598,3 +598,12 @@ Chinese prose SHALL reach its point through a concrete situation, in standard wr
 
 - **WHEN** an agent writes, revises or cold-reads the book's Chinese
 - **THEN** it works from the repository skill `book-chinese-prose`, whose terms, translated forms, human voice and reading brief are the standard, and a reading marks translated or wrong Chinese, coldness toward people, behaviour unlike people, unclear sentences, and word choice or composition below the standard.
+
+### Requirement: Review records hold only their declared fields
+
+Each entry of the review record SHALL hold exactly the fields its kind declares; a reviewer's words and paths to local evidence SHALL stay with the findings, outside the tracked tree.
+
+#### Scenario: A record holds more than its fields
+
+- **WHEN** an entry of the review record holds a field its kind does not declare, such as the path of its findings or a point in the reviewer's words
+- **THEN** a check fails and names the entry, because the record carries the review's facts, not its text.
