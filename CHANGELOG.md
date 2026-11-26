@@ -30,12 +30,10 @@ itself claim editorial acceptance.
   the review, so that a baseline copied from an older record cannot pass; a
   review time must carry its offset, and reviews are recorded in the order they
   were read. GitLab's verification jobs fetch every tag.
-- Four places that the blind judging of 0.2.7's unjudged notes found are
-  corrected: what the outer circle of chapter 13 cannot undo, what appendix C
-  says Hermes reports, and two sentences of chapter 29 brought to DDWG's
-  wording. The sample's 100 notes gave no error; its 0.47 per 10,000 stands.
-- The hosted jobs install Mise 2026.11.14, the latest stable release, as the
-  owner asked of every repository ETHOS manages.
+- Four places are corrected: what the outer circle of chapter 13 cannot undo,
+  what appendix C says Hermes reports, and two sentences of chapter 29 brought
+  to DDWG's wording.
+- The hosted jobs install Mise 2026.11.14, the latest stable release.
 
 ## [0.2.7] - 2026-11-26
 
@@ -44,12 +42,11 @@ itself claim editorial acceptance.
 - The six figures are drawn in Typst with fletcher, in the book's own compile:
   vector, in the book's sans face and the layout's colours, their text
   selectable, each with its alternative text. Mermaid CLI, Puppeteer and the
-  Chrome headless shell are gone from the supply, the tasks, CI and the tests,
-  as the owner chose; fletcher and CeTZ join the locked Typst packages. The
-  colophon names the new tool.
-- Windows is no longer supported, as the owner decided for every repository ETHOS
-  manages: the Mise supply pins ETHOS for macOS and Linux only, and the archive
-  promises its reader macOS or Linux.
+  Chrome headless shell are gone from the supply, the tasks, CI and the tests;
+  fletcher and CeTZ join the locked Typst packages. The colophon names the new
+  tool.
+- Windows is no longer supported: the Mise supply pins ETHOS for macOS and Linux
+  only, and the archive promises its reader macOS or Linux.
 - The edition's identity comes from git, not from a written date: only a clean
   build of the commit that the signed tag `v<VERSION>` names is that version's
   edition, dated by its tag; every other build is a draft that names its commit
@@ -57,28 +54,21 @@ itself claim editorial acceptance.
   the PDF metadata and in both reader notes. The justfile reads it once for
   every compile, test and archive; the hosted publication job fetches a tag
   event's tag. Tests hold the draft and the release forms.
-- The third sample of 0.2.6, recounted by the readings that the calibration of
-  2026-11-25 settled, is 1.26 errors per 10,000 characters (13.3 errors), over
-  the limit as 0.2.6's notes said (1.08 there; the recount differs chiefly at
-  page 173, where one list named a word and a word that contains it, a logic
-  error under 1-11). Page 148's 「都合乎题材和读者」 is corrected to 「都切合题材、适合读者」, as the
-  shared rules now define 雅. The places that calibration found to be errors and
-  three it found improper are corrected: four quoted questions keep their
-  question mark, 「换算」 becomes 「重新归类」 for re-classified industries, and three
-  sentences in chapters 2, 27 and 29 are reworded.
+- Page 148's 「都合乎题材和读者」 is corrected to 「都切合题材、适合读者」, as the
+  shared rules now define 雅. Further places are corrected: four quoted
+  questions keep their question mark, 「换算」 becomes 「重新归类」 for
+  re-classified industries, and three sentences in chapters 2, 27 and 29 are
+  reworded.
 - `docs/publication-acceptance.md` states how the error-rate sample counts and
-  reads: a note judged an error counts; every two-point error or note goes to a
-  second, blind judge from outside the raising family and counts when either
-  finds an error, at the higher figure; the calibrated readings stand in their
-  own subsection.
+  reads its notes.
 - Each figure and its caption stand centred in the text column, held by a
   layout test.
-- The text says each fact once, where it belongs, after two content reviews: a
-  run's conditions and versions stay in appendices C and D, results are no
-  longer told before the 上手 section that produces them, part introductions and
-  repeated examples go, chapters 14 and 30 open on a scene, chapter 18 describes
-  its paid scheduled task instead of registering and deleting it, chapter 28's
-  four marks of 突出 move to chapter 29, and the ending is one paragraph.
+- The text says each fact once, where it belongs: a run's conditions and
+  versions stay in appendices C and D, results are no longer told before the
+  上手 section that produces them, part introductions and repeated examples go,
+  chapters 14 and 30 open on a scene, chapter 18 describes its paid scheduled
+  task instead of registering and deleting it, chapter 28's four marks of 突出
+  move to chapter 29, and the ending is one paragraph.
 - The practice pack has one reader index, appendix A: the Chinese reader guide,
   which repeated the exercises with their answers, and six English templates the
   book never cited are removed. The snapshot difference is named
@@ -110,22 +100,19 @@ itself claim editorial acceptance.
   functions nobody called and the second way of writing a relative reference
   are gone, and the entry file's layout rules live in the layout module. The
   PDF's text is unchanged.
-- Both families read the whole book at `c3bce38`; the 27 places judged errors
-  are corrected, except a quoted brief kept as it was written.
-- The error-rate sample of `e650b93` passed at 0.47 per 10,000; its five errors
-  and two more places of the same kind are corrected: a figure box's measure
-  word, what host rules lessen, ordered series set with 顿号, a gloss at the
-  first use of 「token」, and a git label in code type.
+- Errors found across the whole book before the release are corrected, except
+  a quoted brief kept as it was written.
+- Further errors and two more places of the same kind are corrected: a figure
+  box's measure word, what host rules lessen, ordered series set with 顿号, a
+  gloss at the first use of 「token」, and a git label in code type.
 - oxifmt, which CeTZ imports, joins the locked Typst packages and the notices; a
   test holds every package the compile reads to the supply.
-- After the commands review: chapter 17 says five of six runs named their basis;
-  appendix D gives the first kind of run its host, model and dates; chapters 11
-  and 15 again say what their runs did not test; figure 2 sends the set-aside
-  securities from the step where each leaves. The book is 197 pages.
-- The editors' decisions on the third sample's 92 reader notes are applied: 26
-  places are reworded, 59 kept with a reason, 4 were already gone, 3 left as
-  they are after the editor's check. Clock times take two-digit hours
-  throughout, and chapter 24's lead ends on its question.
+- Chapter 17 says five of six runs named their basis; appendix D gives the first
+  kind of run its host, model and dates; chapters 11 and 15 again say what their
+  runs did not test; figure 2 sends the set-aside securities from the step where
+  each leaves. The book is 197 pages.
+- Twenty-six places are reworded. Clock times take two-digit hours throughout,
+  and chapter 24's lead ends on its question.
 - Chapters 28 and 29 say that judging rests on work performance and name
   nothing it does not rest on, as DDWG 10.1.2 does; 37 sentences across the
   book that denied a meaning nobody gave, repeated the point just made or
@@ -157,15 +144,13 @@ itself claim editorial acceptance.
   (in each of two pieces of work a method another adopted, the methods free to
   differ; a borne-out prediction in a sentence of its own), and a worked example
   read tier by tier.
-- Chapter 3's passage on responsibility takes the readers' four points, as the
-  owner chose.
-- Every CI job runs on the macOS label `macos-latest`, as the owner chose for
-  all repositories: GitHub's two jobs, and GitLab's jobs with `review` or
-  `protected`; each forge's label is declared once in
-  `.config/ci/verification.toml` and read by `.config/ci/pipeline.cue`.
+- Chapter 3's passage on responsibility is revised.
+- Every CI job runs on the macOS label `macos-latest`: GitHub's two jobs, and
+  GitLab's jobs with `review` or `protected`; each forge's label is declared
+  once in `.config/ci/verification.toml` and read by `.config/ci/pipeline.cue`.
 - Text is tightened where the new measure left a loose or short line, a lone
   character or a chapter's last page nearly empty, each edit keeping its facts;
-  49 of the first sample's reader notes are applied.
+  other passages are revised as well.
 
 ### Fixed
 
@@ -180,48 +165,30 @@ itself claim editorial acceptance.
   rules moved pages, text was tightened or split, each change keeping its
   facts; four tables have column widths that keep their cells whole; the
   preface's return link is set right. The book is 200 pages, its ceiling.
-- A first error-rate sample (pages 11–61 of `80710fe`'s PDF and
-  the cover and contents, two model families judging each other blind,
-  105,823 characters) found 0.02 errors per 10,000 against a limit of 1,
-  counted by the readers' brief. Its
-  two errors are corrected: a quoted brief's full stop now sits inside its
-  closing quotation mark (chapter 9), and a computed percentage is written
-  in Arabic numerals (chapter 11), as the book writes others. A search of
-  the book corrected the same kinds in practice 4 and chapter 29, and the
-  brief of chapter 10 ends with a full stop like the book's other briefs.
-- A second sample (pages 70–120 of `67399ac`'s PDF, 105,823 characters) found,
-  by the classes of CY/T 266 Table 1, 0.43 errors per 10,000 for the places
-  both families judged errors and 0.62 with two notes one judge found errors
-  (0.33 by the readers' brief, which put a contradiction between passages
-  under 1-8). Its errors and their kinds are corrected, and the editors'
-  decisions on its 77 reader notes are applied, as the owner chose.
-- A third sample (pages 128–178 of `6dc17d4`'s PDF) was over the limit by
-  `docs/publication-acceptance.md`: 0.89 errors per 10,000 for the places both
-  families judged errors, 1.08 with a note one judge found an error and the
-  other did not (the stricter figure decides), 1.17 with one more note; the
-  readers' brief gave 0.60. Its errors and their kinds are corrected, except
-  page 148's 「都合乎题材和读者」, which restates the shared rules' definition of
-  雅 and waits for the owner; both families read the changed passages again and
-  found no error. The corrected text is not sampled again.
-- Both families read the pages no sample had read, 5–9, 62–69, 121–127 and
-  179–186 of `aaf100a`'s PDF, as the owner chose; this reading replaces a
-  fourth sample and gives no rate. Its twelve errors and their kinds across the
-  book are corrected: figures are set where they are called, inside their own
-  section and after the text that introduces them, where three had floated above
-  its heading; a code block that continues on the next page parts between two
-  commands, never inside a command continued with `\`; a measured size of five
-  digits is in Arabic numerals; quotations match the words they quote; a
-  colon's scope no longer runs past a semicolon or holds a second colon (eighteen
-  places); the hook sentence of chapter 12 no longer says that every hook
-  matches a tool; practice 4's card takes chapter 26's second question. Tests
-  hold the figure and code-block rules.
-- Both families then read the appendices and the preface the same way, as the
-  owner chose; their sixteen errors are corrected: the preface no longer says
-  that every example is from data work, every exercise file is in the pack, or
-  every tool sits in a layer; appendix C's first column reads 「层或类别」 and its
-  `AGENTS.md` row says when Claude Code reads it; appendix D's run descriptions
-  match their counts and conditions, and its punctuation follows the book's
-  rules. A quoted question keeps its question mark where the words
+- A quoted brief's full stop now sits inside its closing quotation mark
+  (chapter 9), and a computed percentage is written in Arabic numerals
+  (chapter 11), as the book writes others. The same kinds are corrected in
+  practice 4 and chapter 29, and the brief of chapter 10 ends with a full stop
+  like the book's other briefs.
+- Further errors found before the release and their kinds are corrected, except
+  page 148's 「都合乎题材和读者」, which restates the shared rules'
+  definition of 雅.
+- More errors and their kinds across the book are corrected: figures are set
+  where they are called, inside their own section and after the text that
+  introduces them, where three had floated above its heading; a code block that
+  continues on the next page parts between two commands, never inside a command
+  continued with `\`; a measured size of five digits is in Arabic numerals;
+  quotations match the words they quote; a colon's scope no longer runs past a
+  semicolon or holds a second colon (eighteen places); the hook sentence of
+  chapter 12 no longer says that every hook matches a tool; practice 4's card
+  takes chapter 26's second question. Tests hold the figure and code-block
+  rules.
+- Errors in the appendices and the preface are corrected: the preface no longer
+  says that every example is from data work, every exercise file is in the pack,
+  or every tool sits in a layer; appendix C's first column reads 「层或类别」
+  and its `AGENTS.md` row says when Claude Code reads it; appendix D's run
+  descriptions match their counts and conditions, and its punctuation follows
+  the book's rules. A quoted question keeps its question mark where the words
   are quoted as asked, here and in chapter 9 and practice 2.
 
 ## [0.2.5] - 2026-11-24
@@ -257,12 +224,10 @@ itself claim editorial acceptance.
 
 ### Changed
 
-- A sentence-level cold read of the whole book, by seven readers who had not
-  written it, found 188 places where a reader would stop, reread or be misled;
-  195 repairs restore missing premises and referents, narrow overstatements to
-  what the book and its records support, explain terms where they first appear
-  and keep each in one sense, and split crowded sentences. Chapter 19 keeps its
-  six pages through cuts reviewed for it earlier.
+- Across the book, 195 repairs restore missing premises and referents, narrow
+  overstatements to what the book and its records support, explain terms where
+  they first appear and keep each in one sense, and split crowded sentences.
+  Chapter 19 keeps its six pages.
 - The definition of 信 quoted in the chapter on writing names who does the work
   beside who is responsible, following the shared definition of 2026-11-23.
 - Chapter 29 lists the four hard lines of the department's standard (truth,
@@ -287,25 +252,22 @@ itself claim editorial acceptance.
   were cut or merged, the closing blocks of chapters 3, 25 and 28 lost their
   headings as the other chapters' do, and chapter 26's section 「苗头」 joined
   the section before it. No printed command, output, case date, qualification
-  or exercise changed; readers who had not edited the passages read every
-  change, and their findings were repaired.
+  or exercise changed.
 - The accepted specification declares what qualifies an edition for release
   (fresh readers under chapter 24's 信、达、雅, a whole-book cold read with
   later changes read again, the prose beside printed commands against the run
   records and every command whole in the PDF, every page looked at, and an
   error-rate sample of the final text), and the acceptance guide describes each
-  stage as it was run for 0.2.4.
+  stage.
 - Tests check that the PDF embeds only the declared fonts, compiles without
   warnings, and ends no body paragraph with a single character alone.
 
 ### Fixed
 
-- An error-rate sample of the final text, read by two model families on pages no
-  earlier sample read (105,823 characters), found 0.15 errors per 10,000 against a
-  limit of 1. Its errors are corrected with the same kinds elsewhere in the book:
-  a word, punctuation between clauses joined by 却 or 但, a colon after 如下,
-  list items separated by 顿号, corner brackets in a comment, and one table's
-  durations, now all in Arabic numerals.
+- Errors found before the release are corrected with the same kinds elsewhere
+  in the book: a word, punctuation between clauses joined by 却 or 但, a colon
+  after 如下, list items separated by 顿号, corner brackets in a comment, and
+  one table's durations, now all in Arabic numerals.
 - Typst's own Libertinus Serif, which draws the ℹ of one printed output, is
   declared in the toolchain and the notices instead of being reached unnamed.
 - No body paragraph ends with one character alone on its last line: eight are
@@ -335,19 +297,13 @@ itself claim editorial acceptance.
 
 ### Changed
 
-- The whole book was reviewed and repaired. Each part was read by two readers
-  under one written standard (logic and reliability; wording and flow) and the
-  whole book by a structure reader; twelve editors repaired every finding, and
-  readers who had not seen the edits read every changed passage. A reviewer of
-  another model family then read every file; the findings the editors did not
-  adopt in full were settled with it to one wording each. The prose beside each
-  printed command was read against the reader-run records.
+- Faults found across the whole book before the release are repaired.
 - Book-wide terms are fixed once and used alike in every chapter; names that one
   chapter defines (the record's five fields, the conditions for handing work
   over, the role names, the stop conditions) are copied verbatim elsewhere.
-- Chapter 3 states the responsibility convention as the owner approved it:
-  responsibility follows the decision that let an error through, not rank.
-- Chapter 24 states 信、达、雅 as the owner's one definition does: 信 is
+- Chapter 3 states the responsibility convention: responsibility follows the
+  decision that let an error through, not rank.
+- Chapter 24 states 信、达、雅 as the shared definition does: 信 is
   fidelity, 达 is clarity on which the reader can act, and 雅 is grace on top
   of both, with restraint and concision as means to it, not its definition; the
   order is a precedence when they conflict. Exercise four measures 雅 the same way.
@@ -393,25 +349,23 @@ itself claim editorial acceptance.
   own; inline code is kept whole by its display width, so short commands with
   Chinese words no longer break. A test checks every line of a code block with a
   declared language.
-- The errors that the error-rate sample found are corrected, each with its kind
-  across the book: figure 6 matches chapter 15, the Hermes `--no-agent` sentence
-  and the `is_async` reference say what the text around them says, practice-card
-  titles keep to their items, and an ordinal, a direct question and a status
-  value follow the book's punctuation and type.
-- The errors that a second sample by another model family found are corrected:
-  chapter 4 names both of its deviations as behaviours, chapter 5 states the
-  limit of ingest time as its example shows, and three questions, two
-  percentage-point figures and one colon follow the book's convention.
+- Errors found before the release are corrected, each with its kind across the
+  book: figure 6 matches chapter 15, the Hermes `--no-agent` sentence and the
+  `is_async` reference say what the text around them says, practice-card titles
+  keep to their items, and an ordinal, a direct question and a status value
+  follow the book's punctuation and type.
+- Further errors are corrected: chapter 4 names both of its deviations as
+  behaviours, chapter 5 states the limit of ingest time as its example shows,
+  and three questions, two percentage-point figures and one colon follow the
+  book's convention.
 
 ## [0.2.3] - 2026-11-20
 
 ### Fixed
 
-- Corrections from running every printed command of 0.2.2 as a reader, with a
-  new empty home directory on the same machine (2026-11-20: 80 of 90 blocks matched, 9 differed, 1 was only
-  dry-run). Chapter 18 now says that the registered `reconcile` job is live
-  and prints its removal; chapter 20 says that dispatching a card starts the
-  gateway. The boundary exercise of chapter 13 starts in the `default` mode:
+- Chapter 18 now says that the registered `reconcile` job is live and prints
+  its removal; chapter 20 says that dispatching a card starts the gateway. The
+  boundary exercise of chapter 13 starts in the `default` mode:
   in `acceptEdits` the host wrote the protected file through a shell command
   without asking and the hook never fired. Chapter 10 drops two trailing `#`
   comments that an interactive zsh passes to the command, states that an
@@ -425,7 +379,7 @@ itself claim editorial acceptance.
   numbers and the delay before an observation appears. Chapter 20 and the
   appendices state that only a helper of the general type reads the project's
   instruction files; Explore and Plan helpers do not. Appendix D records the
-  run.
+  run of 0.2.2's printed commands.
 
 ### Added
 
@@ -462,8 +416,8 @@ itself claim editorial acceptance.
 ### Changed
 
 - **Breaking:** the edition archive is now a gzipped tar,
-  `rethinking-work-<version>.tgz`, the format of the owner's other
-  repositories, instead of a zip. Its folder, reader notes, PDF, exercises and
+  `rethinking-work-<version>.tgz`, the format of the other repositories ETHOS
+  manages, instead of a zip. Its folder, reader notes, PDF, exercises and
   `SHA256SUMS` are unchanged; a rebuild of the same commit still gives the same
   bytes, names beyond ASCII travel as UTF-8, and no host user name enters the
   archive.
@@ -533,12 +487,8 @@ itself claim editorial acceptance.
   strong and light models were rerun under the same refusals.
 - Appendix A lists install lines and the commands each chapter needs, appendix
   B the commands the chapters teach, appendix C every tool with its version.
-- Readers of two model families read the changed chapters sentence by
-  sentence, then the revised passages again; disagreements between readers
-  were settled by the readers. The hands-on material was then compressed from
-  208 to 190 pages without dropping an argument, a run's conclusion or a
-  command a reader needs, and every compressed file was checked against its
-  previous version and the run records.
+- The hands-on material was compressed from 208 to 190 pages without dropping
+  an argument, a run's conclusion or a command a reader needs.
 - The diagram browser build is declared once, and the diagram task refuses
   clearly when no browser is available. Chinese inside commands and outputs
   uses the sans face. The layout test counts a chapter's closing block as a
@@ -575,33 +525,24 @@ itself claim editorial acceptance.
   each on a stronger and a lighter model, the hook and skill files of the tools
   chapter, two model-free evaluation files and two Chinese templates in the
   book's own terms, and its self-check has seventeen tests.
-- Qualified the rebuilt edition of 2026-11-17 for delivery. Details that could
-  identify a vendor, a colleague, an internal system or a schedule were
-  rewritten or dropped, and the practice figures of the second part's fourth
-  exercise were replaced by an invented set; an independent panel read the whole book for argument and teaching, for Chinese
-  prose and for disclosure, and its accepted findings were applied and checked
-  against the records. A readability round then read every sentence in parts of
-  about thirty pages; terms are explained at first use and keep one meaning, and
-  hands-on steps say where to run, what to do and what to expect. The edition
-  acceptance guide now requires this cold read after the last content edit.
-  The whole book was then rewritten for standard written Chinese in the
-  author's register: non-standard words and calques replaced, oral fillers and
-  colon-and-semicolon chains reduced, and fitting idioms used where they say a
-  thing more exactly; verifiers checked every change for meaning, usage and
-  idiom fit, and disagreements between checkers were settled by the checkers
-  themselves. The whole book was then rewritten in an objective third-person
-  register: the business context is stated once, examples are scenarios that do
-  not claim to have happened, nothing stresses who did or wrote what, and
-  details weakly related to a point were cut. The preface opens on one scenario
-  whose stake is a decision; appendix D keeps the run conditions of the
-  demonstrated sessions and the table of premises. Fresh readers read every
-  sentence again in parts, and readers of a different model family read the
-  first three parts, the fifth and sixth, and the whole book once for
-  continuity. A section heading now starts the next page unless about
-  six body lines fit under it. The edition's complete text, code, tables,
-  figures, outline, links and metadata were checked against the native
-  document, every page was reviewed, and the PDF and practice archive were
-  delivered to the reader targets and read back.
+- Details that could identify a vendor, a colleague, an internal system or a
+  schedule were rewritten or dropped, and the practice figures of the second
+  part's fourth exercise were replaced by an invented set; the book was revised
+  for argument and teaching, for Chinese prose and for disclosure. Terms are
+  explained at first use and keep one meaning, and hands-on steps say where to
+  run, what to do and what to expect. The edition acceptance guide now requires
+  a cold read of every sentence after the last content edit. The whole book was
+  then rewritten for standard written Chinese in the author's register:
+  non-standard words and calques replaced, oral fillers and colon-and-semicolon
+  chains reduced, and fitting idioms used where they say a thing more exactly.
+  The whole book was then rewritten in an objective third-person register: the
+  business context is stated once, examples are scenarios that do not claim to
+  have happened, nothing stresses who did or wrote what, and details weakly
+  related to a point were cut. The preface opens on one scenario whose stake is
+  a decision; appendix D keeps the run conditions of the demonstrated sessions
+  and the table of premises. A section heading now starts the next page unless
+  about six body lines fit under it. The PDF and practice archive were delivered
+  to the reader targets.
 - Check the edition's layout over every body paragraph: the publication test now
   joins Typst's own paragraph positions with the PDF's lines and requires flush
   starts, 16 pt line steps and 32 pt paragraph steps, instead of locating two
@@ -614,22 +555,22 @@ itself claim editorial acceptance.
   Apple fonts. Each released version carries both files on both peers.
 - Configure the third-party release age as `0h` in the repository Mise settings,
   keeping the value explicit and adjustable without changing global policy.
-- Run private-peer source verification on the owner's local macOS arm64
-  runners, as the owner's other repositories do, with one runner for protected
-  refs and one for review. The runner supplies Mise and its account keeps the
+- Run private-peer source verification on local macOS arm64 runners, as other
+  repositories do, with one runner for protected refs and one for review. The
+  runner supplies Mise and its account keeps the
   locked tools between jobs. The earlier Linux job on a department runner, its
   job cache and its 15-minute script deadline are withdrawn; the lock keeps its
   Linux x64 records without a consumer.
-- Adopt the verification model of the owner's other repositories: the installed
-  ETHOS release generates both pipelines from `.config/ci/verification.toml`,
-  and each job runs the full proof with ETHOS 0.2.0-beta.10 and uv 0.13.8 locked
-  as tools. A supply task provides the Noto faces, Typst packages, test
-  environment and PDF tools against the repository's manifests. The hosted
-  publication build remains as the repository's own job. The publication-inputs
-  gate's time limit is 300 seconds; 120 seconds was exceeded under host load.
-  On CI runners Mermaid uses Chrome for Testing's headless shell, which the
-  supply task installs checksum-checked; Google Chrome did not start under the
-  local runner's launch context.
+- Adopt the verification model of the other repositories ETHOS manages: the
+  installed ETHOS release generates both pipelines from
+  `.config/ci/verification.toml`, and each job runs the full proof with ETHOS
+  0.2.0-beta.10 and uv 0.13.8 locked as tools. A supply task provides the Noto
+  faces, Typst packages, test environment and PDF tools against the
+  repository's manifests. The hosted publication build remains as the
+  repository's own job. The publication-inputs gate's time limit is 300 seconds;
+  120 seconds was exceeded under host load. On CI runners Mermaid uses Chrome
+  for Testing's headless shell, which the supply task installs checksum-checked;
+  Google Chrome did not start under the local runner's launch context.
 - Organized synthetic exercises by teaching case, separating reusable templates
   and transfer assessment while preserving fixture bytes and behavior.
 - Separated publication layout, diagnostics, supply manifests and third-party

@@ -1,8 +1,7 @@
 # Writing about people as a person would
 
-The owner on 2026-11-26 (16:12): much of the book does not fit human culture, custom or common sense; the
-evaluation chapters objectify people; a person writing about colleagues puts care and encouragement first. This file
-turns that into practice. It governs every passage about people: team, roles, review, evaluation, leading, growth,
+A person writing about colleagues puts care and encouragement first, and writes nothing that runs against human
+culture, custom or common sense or that treats people as objects. This file turns that into practice. It governs every passage about people: team, roles, review, evaluation, leading, growth,
 hiring, the closing chapters, and any scene in which colleagues act.
 
 ## 1. The person is the subject

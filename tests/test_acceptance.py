@@ -1,12 +1,13 @@
 """Hold a head that changes the book's text or exercises to its recorded reviews.
 
-`publication/acceptance/reviews.toml` records each review of the printed commands and each
-reading of changed passages. The lane's editor copies them from the reviewers' findings, which
-stay in the reviewers' local evidence folders; the record is what the proof and the CIs read. A
-head passes when its `book/` and `exercises/` trees are those of a commands review and its
-`book/` tree is that of a reading, each with every point settled or declined, and when the
-latest commands review that covers it names the last release as its baseline. See
-docs/publication-acceptance.md.
+`publication/acceptance/reviews.toml` records each review of the printed commands, each
+reading of changed passages and each release reading, every entry with exactly its declared
+fields: what was read, against what, when, the verdict and how many points were settled and
+declined. The reviewers' findings stay in their local evidence folders and are neither named
+nor copied; the record is what the proof and the CIs read. A head passes when its `book/` and
+`exercises/` trees are those of a commands review and its `book/` tree is that of a reading,
+and when the latest commands review that covers it names the last release as its baseline.
+See docs/publication-acceptance.md.
 """
 
 import re
@@ -18,12 +19,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "publication/acceptance/reviews.toml"
-# The fields every record of a kind carries, besides its verdict and points.
+# The fields of each kind of entry, and no others: a record holds no reviewer's words and no path.
+REVIEW = {"read", "verdict", "settled", "declined"}
 FIELDS = {
-    "commands": {"book", "exercises", "subject", "blocks_against", "prose_against", "pdf", "read"}
-    | {"findings"},
-    "reading": {"book", "subject", "against", "read", "report"},
+    "commands": {"book", "exercises", "subject", "blocks_against", "prose_against", "pdf"} | REVIEW,
+    "reading": {"book", "subject", "against"} | REVIEW,
+    "release": {"version", "pdf", "read", "verdict"},
 }
+VERDICTS = ("no finding", "settled")
 
 
 def git(*args, check=True):
@@ -83,20 +86,22 @@ class RecordedReviews(unittest.TestCase):
             if (review.get("book"), review.get("exercises")) == head
         ]
 
-    def test_a_recorded_review_has_no_open_point(self):
-        # "no finding" carries no point; "settled" carries each point with how it was settled or why
-        # it was declined. A review with an open point is not recorded at all.
+    def test_an_entry_holds_exactly_its_fields(self):
         for kind, fields in FIELDS.items():
+            for entry in self.record.get(kind, []):
+                with self.subTest(kind=kind, entry=entry.get("subject", entry.get("version"))):
+                    self.assertEqual(set(entry), fields)
+                    self.assertIn(entry["verdict"], VERDICTS)
+
+    def test_a_verdict_agrees_with_its_points(self):
+        # "no finding" counts no point; "settled" counts each point settled, or declined with its
+        # reason. A review with an open point is not recorded at all.
+        for kind in ("commands", "reading"):
             for review in self.record[kind]:
-                with self.subTest(kind=kind, subject=review.get("subject")):
-                    self.assertLessEqual(fields | {"verdict"}, review.keys())
-                    points = review.get("point", [])
-                    self.assertIn(review["verdict"], ("no finding", "settled"))
-                    self.assertEqual(review["verdict"] == "settled", bool(points))
-                    for point in points:
-                        self.assertEqual(
-                            len({"settled", "declined"} & point.keys()), 1, point["point"]
-                        )
+                with self.subTest(kind=kind, subject=review["subject"]):
+                    counts = (review["settled"], review["declined"])
+                    self.assertTrue(all(isinstance(n, int) and n >= 0 for n in counts), counts)
+                    self.assertEqual(review["verdict"] == "settled", sum(counts) > 0)
 
     def test_the_head_has_a_commands_review_of_its_text_and_exercises(self):
         self.assertTrue(
@@ -106,8 +111,8 @@ class RecordedReviews(unittest.TestCase):
     def test_a_review_time_carries_its_offset(self):
         # A time without its offset would be read in the runner's own time zone.
         for kind in FIELDS:
-            for review in self.record[kind]:
-                with self.subTest(kind=kind, subject=review.get("subject")):
+            for review in self.record.get(kind, []):
+                with self.subTest(kind=kind, entry=review.get("subject", review.get("version"))):
                     self.assertIsInstance(review["read"], datetime)
                     self.assertIsNotNone(review["read"].utcoffset(), "read carries no offset")
 

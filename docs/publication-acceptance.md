@@ -29,14 +29,16 @@ A head that changes `book/` or `exercises/` is proved and landed only when
 [`publication/acceptance/reviews.toml`](../publication/acceptance/reviews.toml) records, for its `book/` and
 `exercises/` trees, a review of the printed commands and the prose beside them against the run records with no open
 point, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it. The reviewers
-change nothing in the repository: the lane's editor copies each verdict, the trees it covered, its time and the path of
-its findings, which stay in the reviewer's local evidence folder; the record itself is the evidence that the proof and
-CI read. A point ends settled or declined with its reason; a review with an open point is not recorded.
+change nothing in the repository. The lane's editor records each review with its declared fields only: what was read,
+against what, when, the verdict, and how many points were settled and how many declined. The findings stay in the
+reviewer's local evidence folder and are neither named nor copied; the record itself is the evidence that the proof and
+CI read. A point ends settled or declined with its reason; a review with an open point is not recorded. The record
+keeps the reviews read since the last release and that release's reading; Git keeps the earlier ones. A declined
+point whose reason holds beyond its passage becomes a rule: a judgement below, a term in the skill, or a Vale rule.
 [`tests/test_acceptance.py`](../tests/test_acceptance.py) fails a head without these records.
 
 Read the complete changed prose and its qualifications. Where a passage was shortened or reworded,
-ask of every replaced word whether another chapter defines it as a term; a shortening once wrote 放行 where chapter 13
-uses it for a call that runs without asking. Verify that examples
+ask of every replaced word whether another chapter defines it as a term. Verify that examples
 teach the stated mechanism, sources support material claims, and conditions or
 unknowns have not vanished during polishing.
 
@@ -139,11 +141,9 @@ model's sample is a self-test, not a publisher's check, and is reported as such.
 
 ### How a judgement reads the book
 
-The rows are CY/T 266's own (Tables 1 to 3); these readings settle what the rows leave open, as decided at the
-calibration of 2026-11-25 (the owner's delegation at 17:53, answers by the commands reviewer at 18:17, evidence
-`build/evidence/error-rate-sample/next-0.2.7/calibration-answers.md`). Whether a place counts and whether it is
-corrected are separate: a place that does not count may still be worded better, and the editors correct what is
-inappropriate (owner, 2026-11-25 18:30).
+The rows are CY/T 266's own (Tables 1 to 3); these readings settle what the rows leave open, as decided on
+2026-11-25. Whether a place counts and whether it is corrected are separate: a place that does not count may still be
+worded better, and the editors correct what is inappropriate.
 
 - A sentence that is correct and clear but could be more precise, more complete or better worded is not an error;
   the reader lists it as a note. Neither is a reading that needs the reader to ignore the sentence's own context.
@@ -168,7 +168,9 @@ inappropriate (owner, 2026-11-25 18:30).
   回答 or 配一句) takes none. Where both could apply, the word that introduces the quotation decides: words asked keep
   their ？.
 - A measured value with three or more significant digits is in Arabic numerals (GB/T 15835—2011 4.1.1); a round
-  count of one or two digits (十八万、五千、约三百) may be in either, the same within one place (4.3).
+  count of one or two digits (十八万、五千、约三百) may be in either, the same within one place (4.3). So may a
+  fraction (七分之一) where the paragraph writes no other fraction of the same quantity (4.3).
+- Words quoted from a file or a brief keep their own form, case and spelling included.
 - A figure stands after the text that introduces it and inside its section (3-5, item 5, 1 point).
 - A protocol named in the text is in capitals (HTTP, HTTPS); an address keeps its own spelling (`https://`), in code
   type.

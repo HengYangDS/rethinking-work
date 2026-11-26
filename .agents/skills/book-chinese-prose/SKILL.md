@@ -9,7 +9,7 @@ metadata:
 
 The book's own chapter 24 (`book/parts/writing.typ`, 「信、达、雅」) defines the standard; this Skill does not
 restate or reword it. It carries what that chapter leaves to practice: the names the book has fixed, the
-translated forms that keep coming back, and the human perspective the owner asked for on 2026-11-26.
+translated forms that keep coming back, and a human perspective on the people the book writes about.
 
 ## When to Use
 
@@ -49,7 +49,7 @@ translated forms that keep coming back, and the human perspective the owner aske
 - The repository files are the source of truth: chapter 24 for the standard, the department guidelines for grades and
   tiers, the Vale style for decided words. This Skill routes to them and adds the practice they leave open.
 - An edit never adds a fact, softens a limit or changes who is responsible.
-- Judging a person rests on the work that person did, and the book names no other trait (owner, 2026-11-25); it
+- Judging a person rests on the work that person did, and the book names no other trait; it
   does not deny a meaning nobody gave, does not restate what is plain, and does not pile explanation on a fault.
 - Quoted words of a speaker, commands and recorded output keep their form.
 - A reader's yes is not acceptance: the owner reads the result.

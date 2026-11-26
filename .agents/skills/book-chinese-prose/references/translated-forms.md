@@ -54,7 +54,7 @@ break the sentence, put the actor first.
 - 「宜」 as a rule's modal: once in a while is fine; three in a page reads like a standard, not a book. Prefer 「应当」
   for a rule and plain description for a practice.
 
-## Calibration cases the owner rejected (2026-11-17)
+## Calibration cases: forms rejected
 
 「盲处」 (→ 盲点), 「通篇顺滑，没有毛刺」 (engineering image), 「收不回来的事，一步也不省」 (spoken shortcut): each passed
 a model reader because its meaning was recoverable. Test a phrase against "would a careful Chinese editor print this

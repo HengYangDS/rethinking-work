@@ -3,7 +3,7 @@
 The shared definition of 雅 governs this file: on top of fidelity and clarity, the wording, the structure, the rhythm
 and transitions of the prose, and the layout suit the subject and the reader; restraint, concision, order and
 consistency are its means, not its definition. When this file and fidelity or clarity disagree, fidelity and clarity
-prevail. What follows is the practice the owner asked for on 2026-11-26 (「遣词造句，谋篇布局」).
+prevail. What follows is that practice for word choice and sentence making (遣词造句) and for composition (谋篇布局).
 
 ## Words and sentences (遣词造句)
 

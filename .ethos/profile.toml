@@ -24,11 +24,9 @@ evidence_class = "proof"
 trust_bearing = true
 writes_files = true
 network_policy = "offline"
-# A hang guard, not an acceptance limit: the gate took 16-17 s locally (2026-11-19, after the
-# test-performance Change). Hosted macOS runners have taken up to twice the local time for the
-# whole proof, and once more than twice for the former publication-inputs gate, which ran the same
-# tests (over 300 s against 142 s at 4b76625); the GitLab guest runners take less than the local
-# time. The document checks bound their own time; see tests/README.md.
+# A hang guard, not an acceptance limit: hosted macOS runners have taken up to twice the local time
+# of these tests and once more than twice; the GitLab guest runners take less than the local time.
+# The document checks bound their own time; see tests/README.md.
 timeout_seconds = 180
 
 [[proof.gates.native_outputs]]

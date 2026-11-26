@@ -34,3 +34,8 @@ One concept, one name, throughout the book. The Vale style `book` holds the deci
 | 下载回来核对             | 读回             |
 | 合入                     | 落地（指提交）   |
 | 完整验证                 | 证明（指 proof） |
+
+## Words used across chapters
+
+下一环、最可能错在哪里、询问人、做成一道检查 recur across chapters in one sense. A reader who finds one of them unusual
+changes all of them or none; changing one place would split the term.
