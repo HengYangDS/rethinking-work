@@ -7,7 +7,7 @@ material_paths = [
 
 [proof]
 # The repository gates a proof runs; a gate declared below and not listed here never runs.
-code_correctness_gates = ["source-behavior", "source-static-analysis", "formatting", "book-prose"]
+code_correctness_gates = ["source-behavior", "source-static-analysis", "formatting", "book-prose", "skills"]
 
 [proof.code_correctness_map]
 behavior = "source-behavior"
@@ -49,6 +49,17 @@ id = "source-static-analysis"
 kind = "static"
 providers = ["ethos.adapters.gates.code_quality:static_report"]
 dimensions = ["static-analysis"]
+evidence_class = "proof"
+trust_bearing = true
+writes_files = false
+network_policy = "offline"
+
+[[proof.gates]]
+id = "skills"
+kind = "governance"
+# The repository's Skills against their activation record and package manifests, digests included.
+providers = ["provider.skill-portfolio"]
+dimensions = ["projection", "activation", "schema"]
 evidence_class = "proof"
 trust_bearing = true
 writes_files = false

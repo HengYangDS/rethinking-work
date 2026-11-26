@@ -3,8 +3,8 @@ version = 2
 source_of_truth = "repository"
 
 [coverage]
-required_primary_subjects = ["book-chinese-prose"]
-single_owner_subjects = ["book-chinese-prose"]
+required_primary_subjects = ["book-chinese-prose", "book-delivery"]
+single_owner_subjects = ["book-chinese-prose", "book-delivery"]
 
 [[skill]]
 id = "book-chinese-prose"
@@ -32,5 +32,34 @@ during_rules = [
 ]
 post_checks = [
   "ethos prove --host --execute --gate book-prose --json",
+]
+boundary = "workflow-package-projection"
+
+[[skill]]
+id = "book-delivery"
+path = ".agents/skills/book-delivery/SKILL.md"
+package_manifest = ".agents/skills/book-delivery/package.toml"
+subject = "book-delivery"
+operation = "deliver"
+authority = "primary"
+lifecycle = "active"
+subjects = ["book-delivery", "commit", "proof", "landing", "publication"]
+path_globs = [
+  "openspec/changes/**",
+  "publication/acceptance/**",
+  ".config/ci/**",
+]
+intent_tokens = ["commit", "review", "archive", "prove", "land", "publish", "release", "retire", "提交", "合入", "发布", "发版"]
+pre_reads = [
+  "AGENTS.md",
+  "CONTRIBUTING.md",
+  "docs/publication-acceptance.md",
+]
+during_rules = [
+  "follow the current ETHOS result, not a remembered sequence",
+  "one active Change in a lane",
+]
+post_checks = [
+  "ethos status --root . --json",
 ]
 boundary = "workflow-package-projection"
