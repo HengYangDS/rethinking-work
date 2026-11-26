@@ -1,5 +1,6 @@
 #import "/publication/layout/style.typ": *
-#chapter("17", "从头到尾做一遍", "同一份快照，交出两份委托。交回的结果有何不同，其中哪些不同取决于委托？")<walkthrough>
+#import "/book/metadata.typ": *
+#chapter("从头到尾做一遍", "同一份快照，交出两份委托。交回的结果有何不同，其中哪些不同取决于委托？")<walkthrough>
 研究员要用一份他人制作的快照做回测，想知道它是否就是 2026 年 11 月 2 日 09:00（UTC）那一刻系统里实际有的数据。本章把这件事从交出委托到收回结果完整做一遍。所用数据是练习包 `cases/historical-snapshot/` 中的三个 CSV 文件，即#chapref(<practice-thinking>)的练习二用过的那一组。`source-observations.csv` 是日收益的观测数据，每条记录带有公布时间、入库时间和版本号；`universe.csv` 列出研究范围内的六只证券；`research-snapshot.csv` 就是那份快照，共四行。那一刻就是#chapref(<practice-thinking>, link: false)所说的冻结时刻。
 
 把这三个文件复制到两个目录中，再在一个 Claude Code 会话中向两个目录各派一个帮手（Claude Code 称之为子智能体），分别领受两份委托；下文把智能体从领受委托到交回结果的全过程称为一次运行。
@@ -60,15 +61,15 @@
 亲手核对一只。S01 第二版的两个时间都在那一刻之后，用它看不出查询有没有漏掉入库时间这个条件，所以核对 S02。打开 `source-observations.csv`，S02 有两行：第一版 10 月 30 日公布并入库，值为 −100；第二版 11 月 1 日公布，11 月 3 日才入库，值为 −80。11 月 2 日 09:00，系统中只有第一版，应取 −100，与帮手交回的结果一致。再核对探针 S01：帮手交回的是 0，与探针相符。
 
 == 扩大到全部范围
-样品验收通过后，剩下的只是把查询中限定 S01 到 S03 的那一行条件去掉，再运行一次。这一步不必再交给帮手，在案例目录的副本中自己做即可。下面命令的第一行与#chapref(<first>)中的相同，把其中的路径换成“实战练习”目录的位置：
+样品验收通过后，剩下的只是把查询中限定 S01 到 S03 的那一行条件去掉，再运行一次。这一步不必再交给帮手，在案例目录的副本中自己做即可。下面命令的第一行与#chapref(<first>)中的相同，把其中的路径换成“#book-pack”目录的位置：
 
-```sh
-PACK=~/Downloads/重新理解工作/实战练习
+#pack-code(```sh
+PACK=@PACK@
 cd "$PACK/exercises" &&
   cp -R cases/historical-snapshot ~/snapshot-copy && cd ~/snapshot-copy &&
   grep -v "security_id IN ('S01'" session/query.sql > full.sql &&
   duckdb -no-agent -csv < full.sql
-```
+```)
 
 整理后如下（原输出是一份 CSV，列数比这里多）：
 
@@ -109,8 +110,8 @@ cd "$PACK/exercises" &&
 == 自己重做一遍
 开头的两次运行可以近似地重做：在两个目录中各启动一个会话，而不是从一个会话中派出帮手。目录中只放三个 CSV 文件，因为案例目录里还有答案，不能让智能体看到。下面的命令建好三个目录，第三个目录里另放一份只写一句规则的 `AGENTS.md`，最后打印两份委托：
 
-```sh
-PACK=~/Downloads/重新理解工作/实战练习
+#pack-code(```sh
+PACK=@PACK@
 cd "$PACK/exercises/cases/historical-snapshot" &&
   for d in vague precise rule; do
     mkdir ~/snapshot-$d &&
@@ -118,7 +119,7 @@ cd "$PACK/exercises/cases/historical-snapshot" &&
   done &&
   echo '对象、口径有歧义，先列出来问，不要自己定。' > ~/snapshot-rule/AGENTS.md &&
   cat session/brief-vague.txt session/brief-precise.txt
-```
+```)
 
 先运行 `cd ~/snapshot-vague && claude --permission-mode default`，把第一份委托（只有一句）交给它，完成后输入 `/exit` 退出；再在 `~/snapshot-precise` 中照样启动，把以“用途”开头的那一份交给它，完成后同样输入 `/exit` 退出。
 

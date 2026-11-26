@@ -1,10 +1,10 @@
-《重新理解工作》实战练习 · @EDITION@
+《@TITLE@》@PACK@ · @EDITION@
 
-本目录与同一压缩包中的《重新理解工作》（@EDITION@）配套。
-各练习的做法见书末附录 A“随书练习”。
+本目录与同一压缩包中的《@TITLE@》（@EDITION@）配套。
+各练习的做法见书末附录“@COMPANION@”。
 本包为合成教学材料，不含业务数据或凭据。
 完整检查需要已安装的 Python @PYTHON@、DuckDB、ast-grep 和 oasdiff；本包不会安装软件。
 在本目录运行：
-python@PYTHON@ -B -m unittest discover -s tests -p test_exercises.py -v
+@CHECK@
 预期：Ran @CHECKS@ tests / OK，其中包含对故意错误的检查。
 示例通过不代表生产、投资或交易验收。

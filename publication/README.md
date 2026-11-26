@@ -14,8 +14,8 @@ archive, the review records and the rights notices. It does not own manuscript c
   archive's address.
 - [acceptance/reviews.toml](acceptance/reviews.toml): the reviews a head that changes the book's text or exercises
   needs, read by the tests.
-- [archive-start.zh.txt](archive-start.zh.txt) and [reader-start.zh.txt](reader-start.zh.txt): the reader notes of the
-  edition archive, filled with the edition's identity and the Python line when it is built.
+- [notes/](notes/): the reader notes of the edition archive, filled from the edition's declared facts
+  (`book/metadata.typ`) when it is built; a commands review reads them with the book and the exercises.
 - [rights/](rights/): the publisher's notice and the third-party notices.
 
 The document entrypoint, `book/main.typ`, selects the publisher and passes it the edition metadata with the paper,

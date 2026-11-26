@@ -33,13 +33,13 @@
 
 本书只讲一件事：做出来不再需要人亲身经历每一步，弄明白也就不能再指望在动手时顺带完成，而必须当作一件专门的工作来做。怎样思考、怎样做事、怎样协作，都据此重新梳理。
 
-全书沿一条线索展开。第一部共三章，讲工作是什么，大模型和智能体改变了什么，又有什么没有改变：工作可以交给智能体，责任和弄明白却交不出去。其中#chapref(<invariants>, link: false)从工作的定义出发，结合四件事实，推出四个不随工具改变的条件，再由这些条件引出后面各章作判断时所用的三条判据。
+全书沿一条线索展开。#partref("根")共#part-chapters("根")章，讲工作是什么，大模型和智能体改变了什么，又有什么没有改变：工作可以交给智能体，责任和弄明白却交不出去。其中#chapref(<invariants>, link: false)从工作的定义出发，结合四件事实，推出四个不随工具改变的条件，再由这些条件引出后面各章作判断时所用的三条判据。
 
-此后各部讲的，都是怎样弄明白。第二部讲一个人怎样弄明白。工作交出去以后怎样仍能弄明白，分两部来讲：第三部讲承接工作的智能体；第四部讲怎样把事交出去、把结果收回来，怎样凭这一交一收把一件事从头做到尾，历时较长的事怎样做完，出了错怎样查。#chaprun(<orchestrate>, <evaluate>, link: false)还讲同时派出几个智能体时怎样做，换了说明或模型以后怎样判断效果有没有变好。第五部讲一群人怎样一起弄明白：一个人能弄明白的事有限，又有三处缺口无法自行弥补，即自己的错看不见，自己弄明白的留不下，自己的标准守不住；补上这三处，共同的前提是互相看得见。第六部回到人本身，讲一个人的能力从何而来。
+此后各部讲的，都是怎样弄明白。#partref("一个人")讲一个人怎样弄明白。工作交出去以后怎样仍能弄明白，分两部来讲：#partref("智能体")讲承接工作的智能体；#partref("交出去以后")讲怎样把事交出去、把结果收回来，怎样凭这一交一收把一件事从头做到尾，历时较长的事怎样做完，出了错怎样查。#chaprun(<orchestrate>, <evaluate>, link: false)还讲同时派出几个智能体时怎样做，换了说明或模型以后怎样判断效果有没有变好。#partref("一群人")讲一群人怎样一起弄明白：一个人能弄明白的事有限，又有三处缺口无法自行弥补，即自己的错看不见，自己弄明白的留不下，自己的标准守不住；补上这三处，共同的前提是互相看得见。#partref("人")回到人本身，讲一个人的能力从何而来。
 
-第二至第五部各附一组练习。#chapref(<first>)带读者在自己的机器上与智能体完成第一次会话；第三部其余各章，以及#chapspan(<run>, <evaluate>, link: false)和#chapref(<shared>, link: false)，末尾都设有一节“上手”。练习和“上手”要用到的现成文件，收录在随书的练习包中，见#chapref(<companion>)。
+#partspan("一个人", "一群人")各附一组练习。#chapref(<first>)带读者在自己的机器上与智能体完成第一次会话；#partref("智能体")其余各章，以及#chapspan(<run>, <evaluate>, link: false)和#chapref(<shared>, link: false)，末尾都设有一节“上手”。练习和“上手”要用到的现成文件，收录在随书的练习包中，见#chapref(<companion>)。
 
-刚加入团队的读者，可以先读篇幅不长的第一部，然后直接读第三部，亲手完成#chapref(<first>, link: false)的第一次会话，再回头读第二部。常用命令和几份清单集中在#chapref(<quickref>)。书中用到的工具及其职能，#chapref(<toolmap>)按#chapref(<agent>)所划分的层次列出，不属于这几层的排在后面。
+刚加入团队的读者，可以先读篇幅不长的#partref("根")，然后直接读#partref("智能体")，亲手完成#chapref(<first>, link: false)的第一次会话，再回头读#partref("一个人")。常用命令和几份清单集中在#chapref(<quickref>)。书中用到的工具及其职能，#chapref(<toolmap>)按#chapref(<agent>)所划分的层次列出，不属于这几层的排在后面。
 
 #pagebreak()
 #heading(level: 1, outlined: false)[目录]<contents>
@@ -54,7 +54,7 @@
 }
 #let contents-group(title, marks) = {
   block(above: 6 * space, below: 3 * space, text(font: "Noto Sans CJK SC", size: 9pt, fill: muted, title))
-  for mark in marks { contents-entry(mark.value.chapter, query(heading.where(level: 1).before(mark.location())).last()) }
+  for mark in marks { contents-entry(chapter-label(mark), query(heading.where(level: 1).before(mark.location())).last()) }
 }
 #context contents-entry("", query(heading.where(level: 1, outlined: true)).first())
 // One group a part, in reading order, from the parts the chapters declare (`book/manuscript.typ`).

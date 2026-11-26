@@ -1,21 +1,17 @@
-# A reference to a practice, 练一, is derived too (`#chapref(<label>)`). A practice's own name stands in quotes
-# where it is declared (`"练一"`), and 练 is also a word (训练一遍, 再练一个, 熟练一点, 演练一次); the characters around
-# such words are excluded by lookarounds, which consume nothing, so adjacent references are each found. Kept apart
-# from the chapter rule, whose matches a lookaround token would set aside.
+# A reference to a practice, 练一, is derived too (`#chapref(<label>)`), as its number is (`chapter(kind: "practice")`
+# counts it in reading order). 练 is also a word (训练一遍, 再练一个, 熟练一点, 演练一次); the characters around such
+# words are excluded by lookarounds, which consume nothing, so adjacent references are each found. Kept apart from
+# the chapter rule, whose matches a lookaround token would set aside.
 extends: existence
 message: "'%s' is written by hand; derive it with #chapref(<label>)."
 level: error
 nonword: true
 tokens:
-  - '(?<![训再熟演"])练[一二三四](?![遍个次])'
+  - "(?<![训再熟演])练[一二三四](?![遍个次])"
 tests:
   - name: written practice references are found, at the start and side by side
     input: 练一的五个练习。见练一与练三。
     contains: ["1:1:", "1:10:", "1:13:"]
   - name: the word 练 is not a reference
     input: 换一个更强的模型或者训练一遍都无法弥补。再练一个。熟练一点。演练一次。
-    absent: book.derived-practice-references
-  - name: a declared practice name is not a reference
-    input: |
-      #chapter("二 / 一个人", "练一", "思考的练习", "五个练习。")<practice-thinking>
     absent: book.derived-practice-references

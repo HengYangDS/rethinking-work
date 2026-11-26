@@ -1,5 +1,6 @@
 #import "/publication/layout/style.typ": *
-#chapter("11", "上下文：它眼前有什么", "对话进行到第三个小时，智能体把空值补成了零，而开头已经商定“空值不补”。那句话此刻还在它眼前吗？")<context>
+#import "/book/metadata.typ": *
+#chapter("上下文：它眼前有什么", "对话进行到第三个小时，智能体把空值补成了零，而开头已经商定“空值不补”。那句话此刻还在它眼前吗？")<context>
 设想与智能体一起把一件事从上午做到下午。开头商定了“空值不补”，中间一切顺利。到了第三个小时，智能体交回的表里，空值被补成了零。问它原因，它道歉并改了回来；过了一会儿，又补上了。这时要问的不是它是否敷衍，而是那句话此刻是否还在它眼前。
 
 #chapref(<agent>)的第一条性质，说的正是这种情形。
@@ -79,12 +80,12 @@ semble 还可以作为 MCP 服务运行（MCP 是接入工具的一种通行协�
 
 下一节的工具要在目录里写入文件，所以这一节和下一节都在练习包的一份副本里进行。复制之后，用一句英文按“删去收益为空的行”的意思搜索：
 
-```sh
-PACK=~/Downloads/重新理解工作/实战练习
+#pack-code(```sh
+PACK=@PACK@
 cp -R "$PACK/exercises" ~/search-practice && cd ~/search-practice
 semble search "drop rows whose return is missing" cases \
   --top-k 3 --max-snippet-lines 6 --format text
-```
+```)
 
 下面的输出有删节，第一条的正文已略去，后两条各只保留需要看的那一行：
 

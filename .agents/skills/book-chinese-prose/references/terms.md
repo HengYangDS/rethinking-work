@@ -3,7 +3,7 @@
 One concept, one name, throughout the book. The Vale style `book` holds the decidable replacements
 (`.config/checks/vale/styles/book/decided-terms.yml`, `avoided-words.yml`); this table holds the names themselves.
 
-## Roles (chapter 23, `book/parts/roles.typ`)
+## Roles (`book/parts/roles.typ`)
 
 | 名称       | 指什么                                                                                                       | 不写成                           |
 | ---------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------- |
@@ -13,7 +13,7 @@ One concept, one name, throughout the book. The Vale style `book` holds the deci
 | 验收人     | 在获得授权的前提下决定结果能否交付使用的人                                                                   | 收活的人                         |
 | 决策负责人 | 裁定值不值得做、无法撤回的那一步是否执行的人；评定和晋升由部门负责人或他授权的组长决定，这个人就是决策负责人 | 有权决定的人、有权的人、拍板的人 |
 
-## Evaluation (chapter 29, after the department guidelines)
+## Evaluation (`book/parts/talent.typ`, after the department guidelines)
 
 | 名称               | 指什么                                                           | 不写成                   |
 | ------------------ | ---------------------------------------------------------------- | ------------------------ |

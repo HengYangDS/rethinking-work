@@ -1,0 +1,17 @@
+# A reference to a part is derived (`#partref`, `#partspan`, `#part-chapters` in publication/layout/style.typ), as a
+# chapter's is, so that a reordering of the parts in book/manuscript.typ changes it too. 第一部分 is a word, not a
+# reference; the lookahead excludes it and consumes nothing. Kept apart from the chapter rule, whose matches a
+# lookaround token would set aside.
+extends: existence
+message: "'%s' is written by hand; derive it with a part-reference call."
+level: error
+nonword: true
+tokens:
+  - "第[一二三四五六七八九十、至第]{1,12}部(?!分)"
+tests:
+  - name: written part references are found, single, listed and as a range
+    input: 见第三部与第三、四部；第二至第五部各附一组。
+    contains: ["'第三部'", "'第三、四部'", "'第二至第五部'"]
+  - name: a section is not a part
+    input: 第一部分讲定义。
+    absent: book.derived-part-references

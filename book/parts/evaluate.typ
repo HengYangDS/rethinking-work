@@ -1,5 +1,6 @@
 #import "/publication/layout/style.typ": *
-#chapter("21", "评测：变好了没有", "换了说明，换了工具，换了模型。“感觉变好了”与“变好了”之间，差的是什么？")<evaluate>
+#import "/book/metadata.typ": *
+#chapter("评测：变好了没有", "换了说明，换了工具，换了模型。“感觉变好了”与“变好了”之间，差的是什么？")<evaluate>
 一份数据源评估报告先后改了三稿，每一稿都请一个智能体对照原始记录核对事实。交回的问题依次是二十二组、十八组、十三组，一稿比一稿少，看上去起草的做法在改进。事后逐份清点三份核对结果，才发现计法并不相同：中间那一份只计入“与记录不符”一类，计数单位是“条”而不是“组”，若各类都计入，合计四十五条；另外两份则是各类问题的合计。“一稿比一稿少”也就无从说起。
 
 即使分类和单位都统一，三个数仍然无法比较：三次核对的不是同一批文字，第三次核对的是改动过的部分，外加一整节未改动的内容。就算在同一批文字上查出的问题少了，三稿之间做法改了不止一项，也说不清是哪一项起了作用。能说的只有一句：每一轮都还能查出问题。
@@ -95,10 +96,10 @@ accuracy  0.667
 == 上手
 先安装 promptfoo 和 Inspect（#chapref(<companion>)），再把练习包中的 `templates/eval/` 复制到 `~/eval-practice`：
 
-```sh
-PACK=~/Downloads/重新理解工作/实战练习
+#pack-code(```sh
+PACK=@PACK@
 cp -R "$PACK/exercises/templates/eval" ~/eval-practice && cd ~/eval-practice
-```
+```)
 
 把前面 `promptfoo` 和 `inspect` 那两条命令各运行一遍，与书中给出的数字对照。然后改变一处，看尺子量出的结果是否随之变化。打开 `prompts/baseline.txt`，在其中补上一句带时区的冻结时刻，比如 `as of the cutoff 17:00 Asia/Shanghai`，重新运行 `promptfoo`：通过的从四次变为五次。再删去 `candidate.txt` 中写有 `read-only` 的那一句，重新运行：通过的回落到四次。
 

@@ -1,5 +1,6 @@
 """Build the edition archive from a minimal copy, read it back and run its extracted exercises."""
 
+import functools
 import hashlib
 import os
 import re
@@ -12,15 +13,24 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from edition import QUIET, ROOT
+from edition import QUIET, ROOT, evaluate
 
-FOLDER = "重新理解工作"
-EXERCISES = f"{FOLDER}/实战练习"
-NOTES = ("publication/reader-start.zh.txt", "publication/archive-start.zh.txt")
+NOTES = ("publication/notes/reader-start.zh.txt", "publication/notes/archive-start.zh.txt")
 # What the archive task reads besides the selected files: its tasks, the toolchain's Python line,
 # the edition's identity and the reader notes.
 INPUTS = ("publication/justfile", ".config/mise/config.toml", "book/metadata.typ", *NOTES)
 JUSTFILE = ("--justfile", "publication/justfile")
+
+
+@functools.cache
+def declared():
+    """The archive's names and the reader's command, as book/metadata.typ declares them."""
+    return evaluate(
+        '{ import "/book/metadata.typ": *; (folder: book-title, pdf: book-pdf, pack: book-pack,'
+        " note: book-note, sums: book-sums, checks: book-checks, check: book-check) }",
+        inputs=(),
+        within=None,
+    )
 
 
 def run(arguments, cwd, **options):
@@ -49,10 +59,12 @@ class EditionArchive(unittest.TestCase):
     def test_archive_pairs_the_pdf_and_exercises_under_one_version(self):
         workspace = ROOT / "build/runtime/work"
         workspace.mkdir(parents=True, exist_ok=True)
+        names = declared()
+        folder_name, pack, note_name = names["folder"], names["pack"], names["note"]
         with tempfile.TemporaryDirectory(prefix="edition-tests-", dir=workspace) as tmp:
             root = Path(tmp)
             selected = run(
-                ["git", "ls-files", "VERSION", "LICENSE", "exercises", "tests/test_exercises.py"],
+                ["git", "ls-files", "VERSION", "LICENSE", "exercises", names["checks"]],
                 ROOT,
                 check=True,
             ).stdout.splitlines()
@@ -111,7 +123,8 @@ class EditionArchive(unittest.TestCase):
                 for item in members:
                     self.assertTrue(item.isfile() or item.isdir(), item.name)
                     self.assertTrue(
-                        item.name == FOLDER or item.name.startswith(FOLDER + "/"), item.name
+                        item.name == folder_name or item.name.startswith(folder_name + "/"),
+                        item.name,
                     )
                     # A name beyond ASCII travels as UTF-8 in a pax header; no host user enters.
                     if not item.name.isascii():
@@ -119,29 +132,23 @@ class EditionArchive(unittest.TestCase):
                     self.assertEqual((item.uid, item.gid, item.uname, item.gname), (0, 0, "", ""))
                     self.assertEqual(item.mode, 0o755 if item.isdir() else 0o644, item.name)
                 package.extractall(extracted, filter="data")
-            folder = extracted / FOLDER
+            folder = extracted / folder_name
             files = {p.relative_to(folder).as_posix() for p in folder.rglob("*") if p.is_file()}
-            expected = {f"实战练习/{name}" for name in selected}
-            expected |= {
-                "实战练习/先读.txt",
-                "先读.txt",
-                f"重新理解工作-{version}.pdf",
-                "SHA256SUMS",
-            }
+            expected = {f"{pack}/{name}" for name in selected}
+            expected |= {f"{pack}/{note_name}", note_name, names["pdf"], names["sums"]}
             self.assertEqual(files, expected)
+            self.assertIn(version, names["pdf"])
             for name in selected:
                 self.assertEqual(
-                    (folder / "实战练习" / name).read_bytes(), (root / name).read_bytes(), name
+                    (folder / pack / name).read_bytes(), (root / name).read_bytes(), name
                 )
-            self.assertEqual(
-                (folder / f"重新理解工作-{version}.pdf").read_bytes(), pdf.read_bytes()
-            )
+            self.assertEqual((folder / names["pdf"]).read_bytes(), pdf.read_bytes())
 
             listed = {}
-            for line in (folder / "SHA256SUMS").read_text(encoding="utf-8").splitlines():
+            for line in (folder / names["sums"]).read_text(encoding="utf-8").splitlines():
                 digest, name = line.split("  ", 1)
                 listed[name] = digest
-            self.assertEqual(set(listed), expected - {"SHA256SUMS"})
+            self.assertEqual(set(listed), expected - {names["sums"]})
             for name, digest in listed.items():
                 self.assertEqual(
                     hashlib.sha256((folder / name).read_bytes()).hexdigest(), digest, name
@@ -149,34 +156,29 @@ class EditionArchive(unittest.TestCase):
 
             # The fixture's commit carries no tag v<VERSION>: both notes call the archive a draft
             # and name its commit.
-            for note in (folder / "先读.txt", folder / "实战练习/先读.txt"):
+            for note in (folder / note_name, folder / pack / note_name):
                 text = note.read_text(encoding="utf-8")
                 self.assertIn(f"{version} 草稿 · 提交 {commit[:7]}", text, note.name)
                 self.assertNotRegex(text, r"@[A-Z]+@")
-            self.assertIn(commit, (folder / "先读.txt").read_text(encoding="utf-8"))
-            self.assertIn(
-                f"重新理解工作-{version}.pdf", (folder / "先读.txt").read_text(encoding="utf-8")
-            )
+            self.assertIn(commit, (folder / note_name).read_text(encoding="utf-8"))
+            self.assertIn(names["pdf"], (folder / note_name).read_text(encoding="utf-8"))
 
-            # The reader's command, exactly as the pack's note prints it.
-            note = (folder / "实战练习/先读.txt").read_text(encoding="utf-8")
-            printed = re.findall(r"^python\S* -B -m unittest .*$", note, re.MULTILINE)
-            self.assertEqual(len(printed), 1, note)
+            # The reader's command, as the pack's note prints it on a line of its own.
+            note = (folder / pack / note_name).read_text(encoding="utf-8")
+            self.assertEqual(note.splitlines().count(names["check"]), 1, note)
             result = run(
-                shlex.split(printed[0]),
-                folder / "实战练习",
+                shlex.split(names["check"]),
+                folder / pack,
                 timeout=120,
                 env=reader_environment(),
             )
             self.assertEqual(result.returncode, 0, result.stderr)
-            declared = (folder / "实战练习/tests/test_exercises.py").read_text(encoding="utf-8")
-            count = len(re.findall(r"^    def test_", declared, re.MULTILINE))
+            checks = (folder / pack / names["checks"]).read_text(encoding="utf-8")
+            count = len(re.findall(r"^    def test_", checks, re.MULTILINE))
             self.assertGreater(count, 0)
             self.assertIn(f"Ran {count} tests", result.stderr)
             self.assertIn("OK", result.stderr)
-            self.assertIn(
-                f"Ran {count} tests", (folder / "实战练习/先读.txt").read_text(encoding="utf-8")
-            )
+            self.assertIn(f"Ran {count} tests", note)
             self.assertFalse((root / "build/runtime/work/edition-archive").exists())
 
             # Tagged v<VERSION>, the same commit is that version's edition, dated by its tag.
@@ -191,8 +193,8 @@ class EditionArchive(unittest.TestCase):
             self.assertEqual(released.returncode, 0, released.stderr)
             with tarfile.open(archive, "r:gz") as package:
                 notes = {
-                    name: package.extractfile(f"{FOLDER}/{name}").read().decode("utf-8")
-                    for name in ("先读.txt", "实战练习/先读.txt")
+                    name: package.extractfile(f"{folder_name}/{name}").read().decode("utf-8")
+                    for name in (note_name, f"{pack}/{note_name}")
                 }
             for name, text in notes.items():
                 self.assertIn(f"{version} 版 · 2026 年 1 月 2 日", text, name)

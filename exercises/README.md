@@ -1,13 +1,13 @@
 # Companion exercises
 
 Synthetic worked examples and working materials for the book 《重新理解工作》. They hold no business data and need no
-credentials or model service. Readers start from the book's appendix A (随书练习), which lists each exercise with the
+credentials or model service. Readers start from the book's appendix 「随书练习」, which lists each exercise with the
 chapter that uses it; this file is the maintainer's reference.
 
 ## Layout
 
 - `cases/<name>/`: one runnable example each, with its inputs, its queries or code, and its `expected-*` results.
-- `cases/historical-snapshot/session/`: the agent sessions that chapter 17 reports; `control/` keeps their answers as
+- `cases/historical-snapshot/session/`: the agent sessions that the book's chapter 「从头到尾做一遍」 reports; `control/` keeps their answers as
   returned and is never edited.
 - `templates/`: the brief and checkpoint templates the book cites (`*.zh.md`) and `eval/`, a runnable evaluation
   example.

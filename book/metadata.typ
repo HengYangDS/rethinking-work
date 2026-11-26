@@ -26,3 +26,24 @@
   if book-changed { "，另有未提交的改动" }
 }
 #let book-keywords = ("智能体", "工作设计", "团队协作", "判断与责任", "证据与信任", "组织与领导", "数据工作")
+
+// The edition archive, as the book, its reader notes and the archive task (`publication/justfile`) name its parts:
+// one folder named for the book holds the PDF, the practice pack's folder, a note to read first and a SHA-256 list;
+// the pack holds a note of the same name. The book tells the reader where the pack lies once the archive is unpacked
+// in Downloads, which appendix the pack's note points to, and the command that runs the pack's checks on the
+// toolchain's Python line (`.config/mise/config.toml`).
+#let book-pdf = book-title + "-" + book-version + ".pdf"
+#let book-pack = "实战练习"
+#let book-note = "先读.txt"
+#let book-sums = "SHA256SUMS"
+#let book-pack-path = "~/Downloads/" + book-title + "/" + book-pack
+#let book-companion = "随书练习"
+#let book-python-line = toml("/.config/mise/config.toml").tools.python
+#let book-checks = "tests/test_exercises.py"
+#let book-check = {
+  let (folder, file) = book-checks.split("/")
+  "python" + book-python-line + " -B -m unittest discover -s " + folder + " -p " + file + " -v"
+}
+// An authored code block in which `@PACK@` stands for the place of the pack: the block as the reader sees it, with
+// the declared path.
+#let pack-code(it) = raw(it.text.replace("@PACK@", book-pack-path), lang: it.lang, block: it.block)

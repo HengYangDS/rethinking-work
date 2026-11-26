@@ -7,7 +7,7 @@ metadata:
 
 # Chinese prose of the book
 
-The book's own chapter 24 (`book/parts/writing.typ`, 「信、达、雅」) defines the standard; this Skill does not
+The book's own chapter on writing (`book/parts/writing.typ`, 「信、达、雅」) defines the standard; this Skill does not
 restate or reword it. It carries what that chapter leaves to practice: the names the book has fixed, the
 translated forms that keep coming back, and a human perspective on the people the book writes about.
 
@@ -46,7 +46,7 @@ translated forms that keep coming back, and a human perspective on the people th
 
 ## Trust Boundary
 
-- The repository files are the source of truth: chapter 24 for the standard, the department guidelines for grades and
+- The repository files are the source of truth: `book/parts/writing.typ` for the standard, the department guidelines for grades and
   tiers, the Vale style for decided words. This Skill routes to them and adds the practice they leave open.
 - An edit never adds a fact, softens a limit or changes who is responsible.
 - Judging a person rests on the work that person did, and the book names no other trait; it

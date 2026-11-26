@@ -74,13 +74,14 @@ FACTS = {
         for label in BACK_MATTER_SECTIONS
     },
     "link targets": "query(link).map(it => it.dest)",
-    "chapters": "query(<chapter-navigation>).map(it => it.value.chapter)",
+    "chapters": '{ import "/publication/layout/style.typ": chapter-label;'
+    " query(<chapter-navigation>).map(chapter-label) }",
     "contents page": "query(<contents>).first().location().page()",
     "internal links": "query(link).filter(it => type(it.dest) == location)"
     ".map(it => (page:it.location().page(), target:it.dest.page()))",
     # Each chapter in reading order, with its page and the name of the part it is in.
-    "chapter marks": '{ import "/publication/layout/style.typ": book-part;'
-    " query(<chapter-navigation>).map(it => (chapter:it.value.chapter,"
+    "chapter marks": '{ import "/publication/layout/style.typ": book-part, chapter-label;'
+    " query(<chapter-navigation>).map(it => (chapter:chapter-label(it),"
     " page:it.location().page(), part:book-part.at(it.location()).name)) }",
     "closing page": "query(<closing>).first().location().page()",
     # The faces the layout declares (`publication/layout/style.typ`).

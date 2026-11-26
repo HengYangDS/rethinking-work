@@ -16,7 +16,7 @@ register.
 
 ## Check complete meaning
 
-Prose is judged under 信、达、雅 as [chapter 24](../book/parts/writing.typ) states them, which is the shared
+Prose is judged under 信、达、雅 as [the book's chapter on writing](../book/parts/writing.typ) states them, which is the shared
 definition: fidelity is the root, clarity comes before elegance, and when they conflict fidelity prevails over clarity
 and clarity over elegance. A review brief cites that definition instead of wording its own.
 
@@ -25,17 +25,17 @@ The book's decided wording and the decidable cases of Chinese punctuation are ru
 publication/justfile prose-check`), each rule with its source, date and cases. A decision that depends on sense, such
 as 可 as a conjunction or a term copied from the chapter that defines it, stays with the reader below.
 
-A head that changes `book/` or `exercises/` is proved and landed only when
+A head that changes `book/`, `exercises/` or the reader notes in `publication/notes/` is proved and landed only when
 [`publication/acceptance/reviews.toml`](../publication/acceptance/reviews.toml) records, for its `book/` and
-`exercises/` trees and the Python line its commands name, a review of the printed commands and the prose beside them
-against the run records with no open point, and, for its `book/` tree, a reading of every changed passage by a reader
-who did not write it. The reviewers change nothing in the repository. The lane's editor records each review with its declared fields only: what was read,
-against what, when, the verdict, and how many points were settled and how many declined. The findings stay in the
-reviewer's local evidence folder and are neither named nor copied; the record itself is the evidence that the proof and
-CI read. A point ends settled or declined with its reason; a review with an open point is not recorded. The record
-keeps the last release's reading, the reviews that cover that release's trees and every review read after them; Git
-keeps the rest. A declined point whose reason holds beyond its passage becomes a rule: a judgement below, a term in the
-skill, or a Vale rule.
+`exercises/` trees, its reader notes and the Python line its commands name, a review of the printed commands and the
+prose beside them against the run records with no open point, and, for its `book/` tree, a reading of every changed
+passage by a reader who did not write it. The reviewers change nothing in the repository. The lane's editor records
+each review with its declared fields only: what was read, against what, when, the verdict, and how many points were
+settled and how many declined. The findings stay in the reviewer's local evidence folder and are neither named nor
+copied; the record itself is the evidence that the proof and CI read. A point ends settled or declined with its reason;
+a review with an open point is not recorded. The record keeps the last release's reading, the reviews that cover that
+release's trees and every review read after them; Git keeps the rest. A declined point whose reason holds beyond its
+passage becomes a rule: a judgement below, a term in the skill, or a Vale rule.
 [`tests/test_acceptance.py`](../tests/test_acceptance.py) fails a head without these records.
 
 Read the complete changed prose and its qualifications. Where a passage was shortened or reworded,

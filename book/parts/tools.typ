@@ -1,5 +1,6 @@
 #import "/publication/layout/style.typ": *
-#chapter("12", "工具：它能操作什么", "接入工具，它才能动手。怎样让它具备一种能力，又怎样确认这种能力确实可用？")<tools>
+#import "/book/metadata.typ": *
+#chapter("工具：它能操作什么", "接入工具，它才能动手。怎样让它具备一种能力，又怎样确认这种能力确实可用？")<tools>
 刚开始使用大模型时，常见的情形是：自己打开网页，复制公告，粘贴给它；它答完，人再把回答粘贴到表格里，接着去复制下一条。它每一条都答得很快，复制和粘贴却全落在人身上。
 
 这时用的只是一个会回答问题的模型。它接触不到网页，也接触不到表格，从网页到表格，内容只能由人来传递。接入工具之后，它自己就能读取网页、写入表格。
@@ -69,17 +70,17 @@ function search(query: string, repo: unknown, top_k?: number,
 
 技能多了，需要在一处统一管理。skills-manager 把技能集中在 `~/.skills-manager/` 下的一个库里，再按需部署给各个宿主。部署，就是在宿主的用户级技能目录（比如 `~/.claude/skills/`）中建立一个指向库中那份技能的符号链接。这个目录属于宿主的用户级配置，不属于某个项目，所以部署之后，该用户在这个宿主中启动的每个会话都能用到这份技能；本章“上手”则把技能放进项目的 `.claude/skills/`，供在那个目录中启动的会话使用。
 
-初次试用时，把 `HOME` 指向一个临时目录，这样实际使用的技能库和宿主配置都不受影响。下面用命令行程序 `skills-manager-cli`，把练习包里的那份技能安装到库中，再部署给 Claude Code。第一行等号后面的路径，按#chapref(<first>)换成“实战练习”目录的位置：
+初次试用时，把 `HOME` 指向一个临时目录，这样实际使用的技能库和宿主配置都不受影响。下面用命令行程序 `skills-manager-cli`，把练习包里的那份技能安装到库中，再部署给 Claude Code。第一行等号后面的路径，按#chapref(<first>)换成“#book-pack”目录的位置：
 
-```sh
-PACK=~/Downloads/重新理解工作/实战练习
+#pack-code(```sh
+PACK=@PACK@
 T=$(mktemp -d) && mkdir "$T/.claude"
 HOME="$T" skills-manager-cli skills install \
   "$PACK/exercises/cases/export-regression/agent" | jq -c '{ok, name}'
 HOME="$T" skills-manager-cli skills deploy check-export --agent claude_code \
   | jq -c '{ok, agents, changed_pairs}'
 /bin/ls -l "$T/.claude/skills"
-```
+```)
 
 输出有删节，只保留最后一行，行内也有省略：
 
@@ -188,15 +189,15 @@ Bash	grep -rn "export_rows" --include=*.py . ; cat -n cases/export-re
 
 接着安装一条钩子和一份技能。这两项在 `first-session` 的一份副本里做，因为后面几章还要使用原来的目录，那里不应有钩子和技能。钩子的设置和技能都在练习包中，复制到副本里：
 
-```sh
-PACK=~/Downloads/重新理解工作/实战练习
+#pack-code(```sh
+PACK=@PACK@
 A="$PACK/exercises/cases/export-regression/agent"
 mkdir ~/tools-practice && cp -R ~/first-session/. ~/tools-practice/ &&
   cd ~/tools-practice &&
   mkdir -p .claude/hooks .claude/skills/check-export &&
   cp "$A/settings.json" .claude/settings.json &&
   cp "$A/SKILL.md" .claude/skills/check-export/SKILL.md
-```
+```)
 
 钩子是下面这一条：智能体每次用 `Edit` 或 `Write` 改完文件，宿主就运行一遍 `check.sh`。
 

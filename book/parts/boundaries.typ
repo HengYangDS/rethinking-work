@@ -1,5 +1,6 @@
 #import "/publication/layout/style.typ": *
-#chapter("13", "边界：它能触及什么", "它能做事，也听从指令，而且动作很快。哪些事可以放手让它做，哪些地方不该让它触及？")<boundaries>
+#import "/book/metadata.typ": *
+#chapter("边界：它能触及什么", "它能做事，也听从指令，而且动作很快。哪些事可以放手让它做，哪些地方不该让它触及？")<boundaries>
 设想智能体调用一个平台的接口，认证没有通过。它可以停下来报告，也可以改用委托中约定可用、获准做这件事的身份再试；还可以去翻找别处存放的密钥，把凭据直接写进命令，或者把失败的请求原样反复发送。前两种做法可取，后三种不可取。
 
 一条路走不通，智能体可能另找一条路。在本章所引、#chapref(<case-records>)所记的运行中，有十一次遇到拒绝，其中五次随后换了一种工具去做同一件事：有的在写文件的工具被拒绝后改用 shell 命令去写，有的在 shell 命令被拒绝后改用写文件的工具。宿主拒绝时附上的说明也允许这样做，只是不得恶意绕过。难处在于：只禁止某一个工具，挡不住它换一个工具做成同样的事。所以边界要由人事先划定，划的是事，而不是工具。划界的判据，首先是#chapref(<invariants>)“可逆”一条。
@@ -121,10 +122,10 @@ codex sandbox -c 'sandbox_mode="workspace-write"' -- sh probe.sh
 cd /tmp && rm -rf /tmp/sandbox-probe /tmp/probe-b
 ```
 
-最后看宿主怎样拒绝。新建一个目录，放进待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行的路径，按#chapref(<first>)换成“实战练习”目录的位置：
+最后看宿主怎样拒绝。新建一个目录，放进待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行的路径，按#chapref(<first>)换成“#book-pack”目录的位置：
 
-```sh
-PACK=~/Downloads/重新理解工作/实战练习
+#pack-code(```sh
+PACK=@PACK@
 mkdir -p ~/guard-practice/.claude/hooks ~/guard-practice/work &&
   cd ~/guard-practice && echo keep > notes.txt &&
   cp "$PACK/exercises/cases/export-regression/export_bug.py" work/export.py
@@ -143,7 +144,7 @@ case "$path" in
   *) echo "refused by guard.sh: edits are allowed only under work/ (got $path)" >&2; exit 2 ;;
 esac
 EOF
-```
+```)
 
 脚本从标准输入读到这次调用的 JSON，取出要改的文件路径：路径以项目目录下的 `work/` 开头，就以 0 退出，不加阻拦；否则把理由写到标准错误，以 2 退出。先不启动会话，手工把三次模拟的调用交给脚本，看它拒绝哪几次：
 

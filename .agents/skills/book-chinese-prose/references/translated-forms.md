@@ -31,7 +31,7 @@ the book before 2026-11-26. Judge by sense; a form that is right in its place st
 
 ## A circumlocution where the book has a name
 
-「有权决定的人」 → 「决策负责人」 (chapter 23 fixes the five role names for the whole book). A paraphrase of a fixed
+「有权决定的人」 → 「决策负责人」 (`book/parts/roles.typ` fixes the five role names for the whole book). A paraphrase of a fixed
 name makes the reader wonder whether a different person is meant.
 
 ## Rule cascades written like code

@@ -77,7 +77,7 @@ Conditions:
   `对象、口径有歧义，先列出来问，不要自己定。` The other three held no
   instruction file.
 
-The answers and what they show are reported in chapter 17 of the book.
+The answers and what they show are reported in the book's chapter 「从头到尾做一遍」.
 
 Limits: six runs each over two rounds, one model, one task. This group is not comparable
 with the sessions above, which ran as sub-agents on another model under the
@@ -99,7 +99,7 @@ the conditions above, with no instruction file and one allow-list for both:
 `control/model-light.txt` are the final answers, unchanged.
 `control/model-light-query.sql` is the lighter model's saved query.
 
-Chapter 17 of the book reports the two answers.
+The book's chapter 「从头到尾做一遍」 reports the two answers.
 
 The first shell command of both sessions contained a loop, which matches no
 prefix on the list and was refused; neither tried another command, and both

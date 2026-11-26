@@ -68,15 +68,19 @@ test-proof output: pdf-tools-check
     mkdir -p "{{output}}"
     env COVERAGE_FILE="{{output}}/.coverage" uv run --locked --offline --no-build --no-python-downloads --python {{python}} python -m pytest --config-file .config/checks/pytest/pytest.toml --rootdir . tests --junitxml="{{output}}/tests.xml" --report-log="{{output}}/pytest.jsonl" --cov --cov-config .config/checks/coverage/coverage.toml --cov-report="xml:{{output}}/coverage.xml"
 
-# Run only the synthetic companion contracts; no PDF is required.
+# Run only the synthetic companion contracts, by the command that the book and the pack's note print (`book-check` in
+# book/metadata.typ); no PDF is required.
+[script]
 exercises:
-    {{python}} -B -m unittest discover -s tests -p test_exercises.py -v
+    #!/usr/bin/env bash
+    set -euo pipefail
+    $(typst eval --root . 'import "/book/metadata.typ": book-check; book-check' --format json | {{python}} -c 'import json, sys; print(json.load(sys.stdin))')
 
-# One edition archive: the PDF, the tracked teaching inputs and a checksum list, in one folder whose
-# reader notes are filled from VERSION, the edition date, the Python line and the number of exercise checks. A
-# gzipped tar, the format of the owner's other repositories: entries sorted, dated to the edition,
-# owned by no host user, without extended attributes, and names beyond ASCII in pax headers as
-# UTF-8, so a rebuild of one commit gives the same bytes.
+# One edition archive: the PDF, the tracked teaching inputs and a checksum list, in one folder whose names and
+# reader notes are filled from the edition's declared facts (book/metadata.typ), its commit and the number of
+# exercise checks. A gzipped tar, the format of the owner's other repositories: entries sorted, dated to the
+# edition, owned by no host user, without extended attributes, and names beyond ASCII in pax headers as UTF-8, so
+# a rebuild of one commit gives the same bytes.
 [script]
 edition-archive:
     #!/usr/bin/env bash
@@ -84,29 +88,33 @@ edition-archive:
     export TZ=UTC
     pdf="{{pdf}}"
     test -f "$pdf" || { echo "No PDF at $pdf: build it first." >&2; exit 1; }
-    version=$(tr -d '[:space:]' < VERSION)
-    identity() { typst eval --root . {{edition_inputs}} "import \"/book/metadata.typ\": book-date, book-edition; $1" --format json | {{python}} -c 'import json, sys; print(json.load(sys.stdin))'; }
-    edition=$(identity book-edition)
-    stamp=$(identity 'book-date.display("[year][month][day]")')0000
+    # The edition's declared facts, read once as shell variables.
+    eval "$(typst eval --root . {{edition_inputs}} 'import "/book/metadata.typ": *; (edition: book-edition, stamp: book-date.display("[year][month][day]") + "0000", title: book-title, author: book-author, file: book-pdf, pack: book-pack, note: book-note, sums: book-sums, companion: book-companion, python: book-python-line, tests: book-checks, check: book-check)' --format json | {{python}} -c 'import json, shlex, sys; print("\n".join(f"{k}={shlex.quote(v)}" for k, v in json.load(sys.stdin).items()))')"
     commit=$(git rev-parse HEAD)
-    checks=$(grep -c '^    def test_' tests/test_exercises.py)
+    checks=$(grep -c '^    def test_' "$tests")
     work=build/runtime/work/edition-archive
     rm -rf "$work"; mkdir -p "$work" "{{parent_directory(archive)}}"
     trap 'rm -r "$work"' EXIT
-    folder="$work/重新理解工作"
-    mkdir -p "$folder/实战练习"
-    git ls-files -z VERSION LICENSE exercises tests/test_exercises.py | tar --null -T - -cf - | tar -xf - -C "$folder/实战练习"
-    fill() { sed -e "s|@VERSION@|$version|g" -e "s|@EDITION@|$edition|g" -e "s|@COMMIT@|$commit|g" -e "s|@CHECKS@|$checks|g" -e "s|@PYTHON@|{{python_line}}|g" "$1" > "$2"; ! grep -q '@[A-Z]*@' "$2"; }
-    fill publication/reader-start.zh.txt "$folder/实战练习/先读.txt"
-    fill publication/archive-start.zh.txt "$folder/先读.txt"
-    cp "$pdf" "$folder/重新理解工作-$version.pdf"
-    (cd "$folder" && find . -type f ! -name SHA256SUMS | sed 's|^\./||' | LC_ALL=C sort | tr '\n' '\0' | xargs -0 shasum --algorithm 256 > SHA256SUMS)
+    folder="$work/$title"
+    mkdir -p "$folder/$pack"
+    git ls-files -z VERSION LICENSE exercises "$tests" | tar --null -T - -cf - | tar -xf - -C "$folder/$pack"
+    fill() {
+        sed -e "s|@TITLE@|$title|g" -e "s|@AUTHOR@|$author|g" -e "s|@EDITION@|$edition|g" -e "s|@COMMIT@|$commit|g" \
+            -e "s|@PDF@|$file|g" -e "s|@PACK@|$pack|g" -e "s|@NOTE@|$note|g" -e "s|@SUMS@|$sums|g" \
+            -e "s|@COMPANION@|$companion|g" -e "s|@PYTHON@|$python|g" -e "s|@CHECK@|$check|g" -e "s|@CHECKS@|$checks|g" \
+            "$1" > "$2"
+        ! grep -q '@[A-Z]*@' "$2"
+    }
+    fill publication/notes/reader-start.zh.txt "$folder/$pack/$note"
+    fill publication/notes/archive-start.zh.txt "$folder/$note"
+    cp "$pdf" "$folder/$file"
+    (cd "$folder" && find . -type f ! -name "$sums" | sed 's|^\./||' | LC_ALL=C sort | tr '\n' '\0' | xargs -0 shasum --algorithm 256 > "$sums")
     find "$work" -type f -exec chmod 644 {} +
     find "$work" -type d -exec chmod 755 {} +
     find "$work" -exec touch -t "$stamp" {} +
     archive="{{archive}}"
     rm -f "{{parent_directory(archive)}}"/*.tgz
-    (cd "$work" && find 重新理解工作 | LC_ALL=C sort) | COPYFILE_DISABLE=1 tar --create --gzip --file "$archive" --directory "$work" --no-recursion --files-from - --uid 0 --gid 0 --uname '' --gname '' --no-xattrs --no-acls --no-fflags --no-mac-metadata --options gzip:!timestamp
+    (cd "$work" && find "$title" | LC_ALL=C sort) | COPYFILE_DISABLE=1 tar --create --gzip --file "$archive" --directory "$work" --no-recursion --files-from - --uid 0 --gid 0 --uname '' --gname '' --no-xattrs --no-acls --no-fflags --no-mac-metadata --options gzip:!timestamp
 
 # Prettier with the repository's own configuration and inputs.
 prettier := "prettier --config .config/checks/prettier/prettier.toml --ignore-path .config/checks/prettier/prettierignore"

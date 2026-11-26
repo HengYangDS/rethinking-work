@@ -216,20 +216,31 @@
 // turns the page. The mark lets layout checks tell such a page from one left short.
 #let page-turn() = [#metadata(none)<page-turn>#pagebreak(weak: true)]
 // A reference to a chapter, a practice or an appendix is derived from the number its opening
-// declares, so a renumbering changes every reference with it. `chapref` writes 第三章, 练一 or
+// takes from the reading order, so a reordering changes every reference with it. `chapref` writes 第三章, 练一 or
 // 附录 D, linked unless `link: false`; several targets give 第九、第十章. `chapnum` writes the
-// declared number, linked, as the tables list it.
+// opening's number, linked, as the tables list it.
 #let zh-number(n) = {
   let digits = ("零", "一", "二", "三", "四", "五", "六", "七", "八", "九")
   let (tens, ones) = (calc.div-euclid(n, 10), calc.rem(n, 10))
   let unit = if ones > 0 { digits.at(ones) } else { "" }
   if tens == 0 { digits.at(ones) } else if tens == 1 { "十" + unit } else { digits.at(tens) + "十" + unit }
 }
+// A chapter's number comes from its place in the reading order (`book/manuscript.typ`), counted within its kind: a
+// chapter is 01, 02…, a practice 练一, 练二…, an appendix A, B…. The closing and the afterword are not counted; each
+// gives its `mark` and its head. An opening's navigation mark holds its kind and mark; its number is read here.
+#let chapter-kinds = (
+  chapter: (count: n => if n < 10 { "0" + str(n) } else { str(n) }, head: auto),
+  practice: (count: n => "练" + zh-number(n), head: auto),
+  appendix: (count: n => numbering("A", n), head: "附录"),
+)
+#let chapter-label(nav) = if nav.value.mark != none { nav.value.mark } else {
+  (chapter-kinds.at(nav.value.kind).count)(counter("book-" + nav.value.kind).at(nav.location()).first())
+}
 #let chapter-number(target) = {
   let page = locate(target).page()
   let mark = query(<chapter-navigation>).find(it => it.location().page() == page)
   if mark == none { panic("chapref: " + repr(target) + " is not on a chapter's opening page") }
-  mark.value.chapter
+  chapter-label(mark)
 }
 #let chapref(target, link: true) = context {
   let number = chapter-number(target)
@@ -239,7 +250,7 @@
 }
 #let chapnum(target) = context std.link(target, chapter-number(target))
 // A range of chapters, 第十八至二十一章, and a list, 第十、十一、十二章; each prints as the book
-// writes it, from the openings' declared numbers, and links to its first chapter.
+// writes it, from the openings' numbers, and links to its first chapter.
 #let chapspan(first, last, link: true) = context {
   let (a, b) = (chapter-number(first), chapter-number(last))
   let text = [第#zh-number(int(a))至#zh-number(int(b))章]
@@ -252,19 +263,39 @@
 }
 #let contents-return() = link(<contents>, text(font: sans-face, size: 8pt, fill: muted)[返回目录 ↗])
 // The part a chapter belongs to, declared once for its chapters in `book/manuscript.typ`: its number and name head
-// each chapter and group the contents. The back group has no number; its chapters name their own heads.
+// each chapter and group the contents. A part's number is its place among the numbered parts; the back group has
+// none, and its chapters name their own heads.
 #let book-part = state("book-part", none)
-#let chapter(n, title, lead, head: auto) = {
+// A reference to a part is derived in the same way, by the part's name, from the parts the chapters stand in.
+// `partref` writes 第三部, or 第三、四部 for several; `partspan` writes 第二至第五部; `part-chapters` writes how many
+// chapters a part has, 三, practices and appendices not counted. A part has no opening of its own to link to.
+#let part-number(name) = {
+  let part = query(<chapter-navigation>).map(it => book-part.at(it.location())).find(it => it.name == name)
+  if part == none or part.number == none { panic("partref: no numbered part is named " + repr(name)) }
+  part.number
+}
+#let partref(..names) = context [第#names.pos().map(part-number).join("、")部]
+#let partspan(first, last) = context [第#part-number(first)至第#part-number(last)部]
+#let part-chapters(name) = context {
+  let _ = part-number(name)
+  let marks = query(<chapter-navigation>).filter(it => it.value.kind == "chapter")
+  zh-number(marks.filter(it => book-part.at(it.location()).name == name).len())
+}
+#let chapter(title, lead, kind: "chapter", mark: none, head: auto) = {
   set heading(numbering: none)
   pagebreak(weak: true)
   heading(level: 1)[#title]
+  let counted = counter("book-" + kind)
+  if mark == none { counted.step() }
+  let head = if head == auto and mark == none { chapter-kinds.at(kind).head } else { head }
   block(above: 0pt, below: 2 * space, sticky: true)[
     #set par(first-line-indent: 0pt, leading: 5.5pt, spacing: 2 * space)
-    #metadata((chapter: n))<chapter-navigation>
+    #metadata((kind: kind, mark: mark))<chapter-navigation>
     #grid(columns: (1fr, auto),
-      text(font: sans-face, size: 8pt, fill: muted)[#if head == auto {
-        context { let part = book-part.get(); [#part.number / #part.name] }
-      } else [#head] / #n],
+      text(font: sans-face, size: 8pt, fill: muted)[#context {
+        let n = if mark == none { (chapter-kinds.at(kind).count)(counted.get().first()) } else { mark }
+        if head == auto { let part = book-part.get(); [#part.number / #part.name / #n] } else [#head / #n]
+      }],
       contents-return(),
     )
     #parbreak()

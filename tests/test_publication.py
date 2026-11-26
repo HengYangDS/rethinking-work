@@ -210,9 +210,10 @@ class PublicationInputs(edition.Edition):
                     self.assertNotRegex(text, r"/Users/[^/]+/|/private/tmp/", str(path))
 
     def test_chapters_follow_the_declared_parts(self):
-        # The parts in `book/manuscript.typ` give the reading order. Numbered chapters run from 01
-        # without a gap; each part keeps its chapters together; a practice closes its part, the
-        # practices numbered in order; the appendices run from A.
+        # The parts in `book/manuscript.typ` give the reading order, and the order the numbers
+        # (`chapter` in publication/layout/style.typ). Numbered chapters run from 01 without a gap;
+        # each part keeps its chapters together; a practice closes its part, the practices numbered
+        # in order; the appendices run from A.
         marks = self.fact("chapter marks")
         chapters = [mark["chapter"] for mark in marks]
         numbered = [chapter for chapter in chapters if chapter.isdigit()]
