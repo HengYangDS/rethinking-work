@@ -63,6 +63,10 @@ meaning. Fix those findings, then have a different reader read the changed
 passages and verify them against the records. A whole-book impression or a
 fact check does not stand in for this reading.
 
+The readers work from the repository skill `book-chinese-prose` (`.agents/skills/`), whose reading brief names five lenses: translated or wrong Chinese, coldness toward people, behaviour unlike people, unclear sentences, and word choice and composition. A passage
+about colleagues is read for whether the person is its subject, its purpose comes before its mechanism, and its support
+before its requirement.
+
 Follow the argument as a new reader, not as the person who remembers its sources.
 For each consequential scenario, identify the work question it poses, uncertainty,
 alternatives, distinguishing observation, changed judgment and practical result.

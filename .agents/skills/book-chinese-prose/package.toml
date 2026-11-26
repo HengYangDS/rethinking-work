@@ -1,0 +1,30 @@
+schema_version = 2
+id = "book-chinese-prose"
+entrypoint = "SKILL.md"
+boundary = "repository-skill-source"
+truth = "repository-source-docs-rules-and-evidence"
+digest_algorithm = "sha256"
+include = [
+  "SKILL.md",
+  "references/composition.md",
+  "references/human-voice.md",
+  "references/reading-brief.md",
+  "references/terms.md",
+  "references/translated-forms.md",
+]
+required_sections = ["When to Use", "Workflow", "Evidence", "Trust Boundary"]
+expected_digest = "sha256:3178f668ab605d410de5b94fd9d03e5282f35b7963a55020ff642dd691d35e11"
+
+[quality]
+placeholder_allowed = false
+host_projection = false
+
+[[capability]]
+id = "ethos.status"
+kind = "command_readonly"
+command = ["ethos", "status", "--json"]
+
+[[capability]]
+id = "book.prose"
+kind = "command_proof"
+command = ["ethos", "prove", "--host", "--execute", "--gate", "book-prose", "--json"]

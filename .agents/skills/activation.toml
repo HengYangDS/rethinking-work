@@ -1,0 +1,36 @@
+[meta]
+version = 2
+source_of_truth = "repository"
+
+[coverage]
+required_primary_subjects = ["book-chinese-prose"]
+single_owner_subjects = ["book-chinese-prose"]
+
+[[skill]]
+id = "book-chinese-prose"
+path = ".agents/skills/book-chinese-prose/SKILL.md"
+package_manifest = ".agents/skills/book-chinese-prose/package.toml"
+subject = "book-chinese-prose"
+operation = "write"
+authority = "primary"
+lifecycle = "active"
+subjects = ["book-chinese-prose", "manuscript", "editing", "reading"]
+path_globs = [
+  "book/**",
+  "publication/*.zh.txt",
+  "exercises/**/*.zh.md",
+]
+intent_tokens = ["chinese", "prose", "edit", "rewrite", "read", "中文", "改写", "审读"]
+pre_reads = [
+  "AGENTS.md",
+  "book/parts/writing.typ",
+  ".agents/skills/book-chinese-prose/references/terms.md",
+]
+during_rules = [
+  "keep facts, numbers, commands and quoted words unchanged",
+  "one name per concept from references/terms.md",
+]
+post_checks = [
+  "ethos prove --host --execute --gate book-prose --json",
+]
+boundary = "workflow-package-projection"
