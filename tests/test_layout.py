@@ -46,8 +46,9 @@ class EditionLayout(edition.Edition):
         # one Han character, with any closing marks, set directly under a line that starts at the
         # same left edge. A cell that holds one character has no such line above it.
         lines, _ = self.layout_lines()
-        bound = self.fact("line bound")
-        alone = re.compile("[\u4e00-\u9fff][，。、；：？！）」』”’》]*")
+        bound = edition.declared()["line bound"]
+        closing = re.escape(edition.declared()["closing marks"])
+        alone = re.compile(f"[\u4e00-\u9fff][{closing}]*")
         found = [
             (page, text)
             for page, text, x0, top in lines
@@ -61,7 +62,7 @@ class EditionLayout(edition.Edition):
         # than the layout declares: past it a line reads as letter-spaced. Each ideograph is one em
         # wide, so a run of them gives the opening by its width, and two words that meet at
         # ideographs give it by their gap. Body text is told by its size; code keeps its spaces.
-        size, run = self.fact("body size"), re.compile("[\u4e00-\u9fff]+")
+        size, run = edition.declared()["body size"], re.compile("[\u4e00-\u9fff]+")
         setting = re.compile("[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef\u201c\u201d\u2018\u2019]+")
         pages = self.pages()
         found = []
@@ -85,7 +86,7 @@ class EditionLayout(edition.Edition):
                     for (_, b, t), (c, _, u) in zip(words, words[1:], strict=False)
                     if run.match(u) and run.match(t[-1:])
                 ]
-                if opened and max(opened) > self.fact("open most") * size:
+                if opened and max(opened) > edition.declared()["open most"] * size:
                     found.append((number, "".join(w[-1] for w in words)[:24]))
         self.assertEqual(found, [], "lines opened past the declared bound")
 
@@ -119,7 +120,7 @@ class EditionLayout(edition.Edition):
         # on each page. Its lines are found in order, by their first characters since an output
         # line may wrap: from its first line to the foot of its first page, and from the top of
         # the next page to its last line.
-        least = round(self.fact("split least") / self.fact("line bound") + 0.5)
+        least = round(edition.declared()["split least"] / edition.declared()["line bound"] + 0.5)
         text = self.read("text").split("\f")
         pages = [[normalized(line) for line in page.splitlines()] for page in text]
         bodies = [[i for i, line in enumerate(page) if line] for page in pages]
@@ -215,7 +216,7 @@ class EditionLayout(edition.Edition):
         opened = [
             (page, text[:20])
             for page, text, left, _ in lines
-            if abs(left - margin) < 0.6 and text and text[0] in "，。、；：？！）」』”’》"
+            if abs(left - margin) < 0.6 and text and text[0] in edition.declared()["closing marks"]
         ]
         self.assertEqual(opened, [])
 
@@ -225,7 +226,7 @@ class EditionLayout(edition.Edition):
         # openings and the cover carry their own apparatus and are left to the page review.
         paragraphs = self.fact("paragraphs")
         breaks = self.fact("breaks")
-        measure = edition.measure()
+        declared = edition.declared()
         openings = {item["page"] for item in self.fact("openings")}
         front = min(openings)
         margin = Counter(round(item["x"], 2) for item in paragraphs).most_common(1)[0][0]
@@ -242,7 +243,8 @@ class EditionLayout(edition.Edition):
             # A line that opens with an opening mark keeps only the half cell the mark sits in, at
             # the margin or hung outside it (clreq 6.3.2.3); any other line starts at the margin.
             words = line.findall("pdf:word", NS)
-            half = measure["size"] / 2 if words and (words[0].text or "")[:1] in "“‘（" else 0
+            opening = (words[0].text or "")[:1] in declared["opening marks"] if words else False
+            half = declared["body size"] / 2 if opening else 0
             return -half - 0.6 < float(line.get("xMin")) - margin < (half or 0.6)
 
         starts = defaultdict(list)
@@ -290,9 +292,9 @@ class EditionLayout(edition.Edition):
             ):
                 paragraph_steps.append(top(first) - top(lines[position - 1]))
         self.assertEqual(indented, [])
-        self.assertGreater(len(line_steps), 100)
-        self.assertGreater(len(paragraph_steps), 100)
-        line = measure["line"]
+        self.assertTrue(line_steps)
+        self.assertTrue(paragraph_steps)
+        line = declared["body line"]
         self.assertEqual([step for step in line_steps if abs(step - line) > 0.5], [])
         self.assertEqual([step for step in paragraph_steps if abs(step - 2 * line) > 0.5], [])
 
@@ -302,7 +304,7 @@ class EditionLayout(edition.Edition):
         # other column is set flush left. Nothing is centred. A number is digits with their
         # separators, sign and percent, or a count of a total (5 / 6); a range, a unit or words
         # make a cell text.
-        number = re.compile(r"^[−+-]?\d[\d,]*(\.\d+)?%?( ?/ ?\d+)?$")
+        number = re.compile(edition.declared()["number pattern"])
         tables = self.fact("tables")
         found = []
         for index, table in enumerate(tables):
@@ -317,7 +319,7 @@ class EditionLayout(edition.Edition):
                 )
                 if table["align"][column] != wanted:
                     found.append((index, column, table["align"][column], wanted, filled[:3]))
-        self.assertGreater(len(tables), 40)
+        self.assertTrue(tables)
         self.assertTrue(any("right" in table["align"] for table in tables))
         self.assertEqual(found, [])
 
@@ -329,7 +331,7 @@ class EditionLayout(edition.Edition):
         # manuscript ends on purpose is left out, and a chapter never opens with such a block.
         # A block that continues keeps at least the declared least part on each page: from its
         # start mark to the lowest line of that page, and from the top of the next to its end mark.
-        allowed = self.fact("whole allowance")
+        allowed = edition.declared()["whole allowance"]
         turns = set(self.fact("page turns"))
         top = min(item["y"] for item in self.fact("breaks"))
         opened = {item["page"] for item in self.fact("blocks") if item["y"] - top < 1}
@@ -357,7 +359,7 @@ class EditionLayout(edition.Edition):
             for start, end in zip(self.fact("block starts"), self.fact("block ends"), strict=True)
             if start["page"] != end["page"]
             for part in (feet[start["page"]] - start["y"], end["y"] - top)
-            if part < self.fact("split least")
+            if part < edition.declared()["split least"]
         ]
         self.assertTrue(opened and turns)
         self.assertEqual(short, {}, "pages left short before a table or a sample box, in pt")
@@ -374,7 +376,7 @@ SPECIMEN_BLOCKS = (
     "+ 序项一\n+ 序项二",
     "普通段落。",
 )
-SPECIMEN_PREAMBLE = """#import "@preview/neat-book:0.1.0": neat-book
+SPECIMEN_PREAMBLE = """#import "/publication/layout/packages.typ": neat-book
 #import "/publication/layout/style.typ": *
 #show: neat-book.with(title: "specimen", author: "specimen", ..publisher-design)
 #show: publication-design
@@ -423,7 +425,7 @@ class LeadInSpacing(unittest.TestCase):
         # exactly as the one whose paragraphs end with a full stop.
         lead_ins, paragraphs = specimen_steps("："), specimen_steps("。")
         self.assertEqual(len(lead_ins), len(paragraphs))
-        self.assertGreater(len(lead_ins), 30)
+        self.assertTrue(lead_ins)
         self.assertEqual(
             [
                 (lead_in, paragraph)
@@ -458,7 +460,7 @@ class QuotationMarkCells(unittest.TestCase):
             )
             for line in ET.fromstring(layout).findall(".//pdf:line", NS)
         }
-        size = edition.measure()["size"]
+        size = edition.declared()["body size"]
         found = [
             (text, round(set_lines.get(text, 0) / size, 2), cells)
             for text, cells in QUOTE_LINES

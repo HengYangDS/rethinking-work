@@ -1,5 +1,7 @@
 // One edition identity for the cover, colophon and native PDF metadata.
 #let book-title = "重新理解工作"
+// The title in English, which the cover prints above the Chinese one.
+#let book-title-en = "Rethinking Work"
 #let book-subtitle = "智能体时代的工作与团队"
 #let book-author = "衡阳"
 // The repository version is the one in VERSION. Whether this build is that version's edition, and its date, come

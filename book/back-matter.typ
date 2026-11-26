@@ -1,5 +1,6 @@
 #import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
+#import "/publication/layout/packages.typ": package-versions, version-line
 #chapter(kind: "appendix", book-companion, [在自己的机器上运行#chapref(<practice-thinking>, link: false)至#chapref(<practice-collaborating>, link: false)和各章的“上手”。])<companion>
 本书与随书的练习包同在一个压缩包中。解压后得到“#book-title”文件夹，内有全书的 PDF、练习包所在的“#book-pack”目录和一份校验清单；PDF 和练习包的版本号相同。先读文件夹中的“#book-note”，再读“#book-pack”目录中的同名文件。数据均为小规模的合成数据，不含业务数据；读取数据、运行检查都不需要账号。
 
@@ -110,4 +111,4 @@ ollama pull <模型名>
 #matrix(columns: (1.1fr, 1.58fr, 1.32fr), [*结论*], [*依据*], [*何时重新审视*], [四个条件：求实、显性、“不确定”那一条、“可以依靠”那一条], [工作的定义拆成五个部分，除“变成”以外的四个部分各补充一件事实：事实不由人定；意思每传一次都可能走样；做的过程会出错，错了未必看得出；一个人能弄明白的事有限], [四条都不随工具改变。“责任落在人身上”一行变了时，“可以依靠”那一条中承担责任的“人”指谁，要随之重新审视], [责任落在人身上], [后果落不到智能体身上；“谁决定，谁负责”是一种约定], [后果能够落到智能体身上，使它有所失去并因此改变做法的时候，或者这项约定改变的时候。给它权限、身份和记录，改变的是它能做什么，而不是由谁承担后果], [四类事要有人事先弄明白；带宽是最紧缺的资源], [无法撤回的、下游要在其上继续工作的、出错而不显露的，不能等出了错再查；第一次遇到的，还没有检查可以代人把关。这四类，负责的人须事先弄明白。一个人能弄明白的事有限，而做出来已不再昂贵], [“责任落在人身上”一行变了时], [核验交出去以后，限度在于尚无检查覆盖的错误], [检查是固化下来的理解：已有检查覆盖的错误，结果再多也查得过来；尚无检查覆盖的错误，要靠人去识别，这一步跟不上结果数量的增长], [“四类事”一行变了时], [六个性质，出自模型], [模型只接着眼前的文字往下写，两次调用之间不保留任何内容；另加两项事实：它的知识止于某一天，往下写时带有一定的随机性], [模型不再这样工作的时候。其中第六条“要求含糊，或者手边没有与你的方案相悖的依据时，它往往先做后问”是观察到的一种倾向，最容易改变], [#partref("智能体", "交出去以后")讲的做法], [六个性质，三条判据], [哪个性质或哪条判据变了，与它对应的那几章随之重新审视], [团队的理由], [须在别人使用之前弄明白的结论（#chapref(<invariants>)那四类）超出一个人的带宽；一个人想不到要查的地方，要由另一个人来看，查什么不由他指定；他的标准要有人和他一起守住；他弄明白的，要留给接手的人], [“责任落在人身上”或“四类事”一行变了时], [书中的几种分类和清单], [团队的约定、习惯和经验。分成几种、各叫什么名字，属于约定或习惯，例如#chapref(<question>)的六种说法、#chapref(<bounds>)的九个状态、#chapref(<choice>)等待决定的三种情况、#chapref(<roles>)的几种角色和五种应当停下的情况、#chapref(<review>)分歧所在的几层。选人属于经验，见#chapref(<leading>)], [这些约定、习惯和经验有了改变；正文给出理由的，那条理由不再成立])
 
 #v(2 * space)
-#small[本书使用 #link("https://typst.app/docs/")[Typst] 0.15 排版，插图在同一次排版中用 Typst 的 #link("https://typst.app/universe/package/fletcher")[fletcher] 0.6 绘制，练习中的查询在 #link("https://duckdb.org/docs/stable/")[DuckDB] 上运行。]
+#small[本书使用 #link("https://typst.app/docs/")[Typst] #version-line(sys.version) 排版，插图在同一次排版中用 Typst 的 #link("https://typst.app/universe/package/fletcher")[fletcher] #version-line(package-versions.fletcher) 绘制，练习中的查询在 #link("https://duckdb.org/docs/stable/")[DuckDB] 上运行。]

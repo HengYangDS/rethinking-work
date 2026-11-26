@@ -20,6 +20,8 @@ NOTES = ("publication/notes/reader-start.zh.txt", "publication/notes/archive-sta
 # the edition's identity and the reader notes.
 INPUTS = ("publication/justfile", ".config/mise/config.toml", "book/metadata.typ", *NOTES)
 JUSTFILE = ("--justfile", "publication/justfile")
+# The reader's whole check runs every exercise's tools in turn, each within the exercises' limit.
+READER_CHECK_LIMIT = 120
 
 
 @functools.cache
@@ -95,6 +97,12 @@ class EditionArchive(unittest.TestCase):
                 env=identity,
             )
             commit = run(["git", "rev-parse", "HEAD"], root, check=True).stdout.strip()
+            # The commit as the archive task names a draft by it.
+            inputs = run(["just", *JUSTFILE, "--evaluate", "edition_inputs"], root, check=True)
+            named_commit = dict(
+                item.split("=", 1) for item in inputs.stdout.split() if "=" in item
+            )["commit"]
+            self.assertTrue(commit.startswith(named_commit), named_commit)
             (root / "exercises/untracked.txt").write_text("Not a publication input\n")
             # The build's outputs, as the justfile names them.
             named = {
@@ -158,7 +166,7 @@ class EditionArchive(unittest.TestCase):
             # and name its commit.
             for note in (folder / note_name, folder / pack / note_name):
                 text = note.read_text(encoding="utf-8")
-                self.assertIn(f"{version} 草稿 · 提交 {commit[:7]}", text, note.name)
+                self.assertIn(f"{version} 草稿 · 提交 {named_commit}", text, note.name)
                 self.assertNotRegex(text, r"@[A-Z_]+@")
             self.assertIn(commit, (folder / note_name).read_text(encoding="utf-8"))
             self.assertIn(names["pdf"], (folder / note_name).read_text(encoding="utf-8"))
@@ -169,7 +177,7 @@ class EditionArchive(unittest.TestCase):
             result = run(
                 shlex.split(names["check"]),
                 folder / pack,
-                timeout=120,
+                timeout=READER_CHECK_LIMIT,
                 env=reader_environment(),
             )
             self.assertEqual(result.returncode, 0, result.stderr)

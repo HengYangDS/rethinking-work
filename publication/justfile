@@ -148,6 +148,9 @@ test-env:
 # font folder and packages from its own cache folder.
 user_fonts := home_directory() / "Library" / "Fonts"
 typst_cache := cache_directory() / "typst"
+# How the supply downloads: over HTTPS only, redirects included, failing on an HTTP error, and giving up when no
+# connection opens within 15 seconds; each download sets how long it may take.
+fetch := "curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15"
 
 # Supply a CI runner's account with fonts, Typst packages, tests and PDF tools.
 # Present supply that matches the manifests is kept; only missing or changed supply is fetched.
@@ -175,7 +178,7 @@ ci-supply:
         echo "Noto faces: present"
     else
         mkdir -p "$(dirname "$download")"
-        curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 600 --output "$download" "$(cat "$manifests/noto.url")"
+        {{fetch}} --max-time 600 --output "$download" "$(cat "$manifests/noto.url")"
         shasum --algorithm 256 --check "$manifests/ci-noto.sha256"
         unzip -q "$download" -d "$work/noto"
         for face in $faces; do
@@ -192,7 +195,7 @@ ci-supply:
         for package in $(awk '{print $2}' "$manifests/typst-packages.sha256" | cut -d / -f 2-4 | sort -u); do
             name="${package#*/}"
             archive="$work/${name/\//-}.tar.gz"
-            curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 90 --output "$archive" "https://packages.typst.org/${package%%/*}/${name/\//-}.tar.gz"
+            {{fetch}} --max-time 90 --output "$archive" "https://packages.typst.org/${package%%/*}/${name/\//-}.tar.gz"
             rm -rf "$cache/packages/$package"
             mkdir -p "$cache/packages/$package"
             tar -xzf "$archive" -C "$cache/packages/$package"

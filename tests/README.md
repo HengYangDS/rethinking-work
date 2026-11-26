@@ -63,7 +63,7 @@ failure alongside the corrected and empty-input controls; and verify structural
 search and both changed and unchanged API comparisons. An arbitrary nonzero
 exit is not accepted as the intended failure. Commands use only synthetic local
 inputs, disable OpenAPI external references, start no service and create no
-database file. Each subprocess has a 60-second deadline.
+database file. Each subprocess has the deadline that `QUIET` in `edition.py` declares.
 
 Passing these known cases demonstrates repeatability of the teaching examples,
 not independent reader learning, production root cause or investment validity.

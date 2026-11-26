@@ -45,17 +45,6 @@ FACTS = {
     ".map(c => if c.func() == table.header { c.children } else { (c,) }).flatten()"
     ".map(c => plain-text(c.body).trim()),"
     " align: range(t.columns.len()).map(x => repr((t.align)(x, 1).x)))) }",
-    # The layout's own bound for a page left short by a block that moved whole, in pt.
-    "whole allowance": '{ import "/publication/layout/style.typ": whole-allowance;'
-    " whole-allowance.pt() }",
-    # The farthest one line of a block is set below the one above it: a body line and one unit of
-    # space, which a sample box's looser leading takes.
-    "line bound": '{ import "/publication/layout/style.typ": body-line, space;'
-    " (body-line + space).pt() }",
-    "page ceiling": '{ import "/publication/layout/style.typ": page-ceiling; page-ceiling }',
-    "split least": '{ import "/publication/layout/style.typ": split-least; split-least.pt() }',
-    "open most": '{ import "/publication/layout/style.typ": open-most; open-most.em }',
-    "body size": '{ import "/publication/layout/style.typ": body-size; body-size.pt() }',
     **{f"block {end}s": f"query(<block-{end}>).map(it => {PLACE})" for end in ("start", "end")},
     # Each figure drawn from `diagrams/`: the diagram it names and its alternative text.
     "figures": "query(figure.where(kind: image)).map(it => (source:"
@@ -84,8 +73,6 @@ FACTS = {
     " query(<chapter-navigation>).map(it => (chapter:chapter-label(it),"
     " page:it.location().page(), part:book-part.at(it.location()).name)) }",
     "closing page": "query(<closing>).first().location().page()",
-    # The faces the layout declares (`publication/layout/style.typ`).
-    "declared faces": '{ import "/publication/layout/style.typ": declared-faces; declared-faces }',
     "raws": "query(raw).map(it => (text:it.text, lang:it.lang, block:it.block,"
     " page:it.location().page()))",
     "practice page": "query(<practice-thinking>).first().location().page()",
@@ -111,18 +98,25 @@ PDF_READS = {
 # How every tool here runs: no input, its output kept as text, at most a minute.
 QUIET = {"stdin": subprocess.DEVNULL, "capture_output": True, "text": True, "timeout": 60}
 
-
-@functools.cache
-def measure():
-    """The body's type size and baseline the layout declares, in points; nothing is laid out."""
-    expression = (
-        '{ import "/publication/layout/style.typ": body-size, body-line;'
-        " (size: body-size.pt(), line: body-line.pt()) }"
-    )
-    found = subprocess.run(
-        ["typst", "eval", "--root", ".", expression], cwd=ROOT, **QUIET, check=True
-    ).stdout
-    return json.loads(found)
+# What the layout (`publication/layout/style.typ`) declares for the checks, by name, lengths in
+# pt. A check reads a rule or a bound here and holds no copy of it.
+DECLARED = {
+    "body size": "body-size.pt()",
+    "body line": "body-line.pt()",
+    # The farthest one line of a block is set below the one above it: a body line and one unit of
+    # space, which a sample box's looser leading takes.
+    "line bound": "(body-line + space).pt()",
+    # The most a page is left short by a block that moved whole.
+    "whole allowance": "whole-allowance.pt()",
+    "split least": "split-least.pt()",
+    "open most": "open-most.em",
+    "page ceiling": "page-ceiling",
+    "declared faces": "declared-faces",
+    "opening marks": "opening-marks",
+    "closing marks": "closing-marks",
+    "number pattern": "number-pattern",
+    "language": "language.lang",
+}
 
 
 @functools.cache
@@ -166,6 +160,14 @@ def evaluate(expression, inputs=None, within="book/main.typ"):
     if result.returncode:
         raise AssertionError(f"typst eval failed:\n{result.stderr}")
     return json.loads(result.stdout)
+
+
+@functools.cache
+def declared():
+    """Every declaration of DECLARED, read in one evaluation of the layout that lays nothing out."""
+    entries = ", ".join(f"{json.dumps(name)}: {value}" for name, value in DECLARED.items())
+    expression = '{ import "/publication/layout/style.typ": *; (' + entries + ") }"
+    return evaluate(expression, inputs=(), within=None)
 
 
 def cpu_seconds():
@@ -214,7 +216,7 @@ def build():
             layout = cpu_seconds() - started
         finally:
             try:
-                errors = compiling.communicate(timeout=60)[1]
+                errors = compiling.communicate(timeout=QUIET["timeout"])[1]
             except subprocess.TimeoutExpired:
                 compiling.kill()
                 raise
@@ -239,6 +241,7 @@ class Edition(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.edition = build()
+        declared()
 
     def setUp(self):
         self.started = cpu_seconds()

@@ -1,4 +1,4 @@
-#import "@preview/neat-book:0.1.0": neat-book
+#import "/publication/layout/packages.typ": neat-book
 #import "/publication/layout/style.typ": *
 #import "metadata.typ": *
 #show: neat-book.with(title: book-title, author: book-author, ..publisher-design)

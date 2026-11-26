@@ -1,5 +1,5 @@
 // Document-level style over the unchanged publisher package.
-#import "@preview/neat-book:0.1.0": codly
+#import "packages.typ": codly
 #import "palette.typ": *
 #let body-size = 10.5pt
 // The text block holds a whole number of characters, so that a line of Chinese fills it without squeezing its
@@ -58,11 +58,23 @@
 #let sans-face = "Noto Sans CJK SC"
 #let code-face = ("DejaVu Sans Mono", sans-face, "Libertinus Serif")
 #let declared-faces = (body-faces.chinese, body-faces.latin, sans-face, ..code-face).dedup()
+// The type sizes, by the role a reader sees; the body's is `body-size`. Texts that stand together as one kind share a
+// role: the navigation line under a chapter's title and its link back to the contents; a figure's detail and an
+// arrow's label. Texts that only happen to share a size keep their own role.
+#let type-size = (
+  chapter: 25pt, section: 14pt, subsection: 11pt, lead: 11pt,
+  box-title: 10pt, table: 9.5pt, table-head: 9pt, caption: 8.5pt, small: 8.5pt, navigation: 8pt,
+  figure: 9pt, figure-detail: 7.5pt, contents: 9pt,
+  cover: (mark: 9pt, title: 39pt, subtitle: 15pt, line: 12pt),
+)
+// The language of the text, for hyphenation, line breaking and the PDF's metadata; the checks read it here.
+#let language = (lang: "zh", region: "CN")
 // What the edition asks of the publisher: language, paper, margins, faces and size. The entrypoint
-// passes it with the edition's identity.
+// passes it with the edition's identity. The text block is centred: a side margin relative to the page is resolved
+// against its width, so the paper's width is not written here.
 #let publisher-design = (
-  lang: "zh", paper: "a4", cover: false, toc: false,
-  margin: (x: (210mm - text-width) / 2, top: 22mm, bottom: 22mm),
+  lang: language.lang, paper: "a4", cover: false, toc: false,
+  margin: (x: 50% - text-width / 2, y: 22mm),
   fonts: (chinese: body-faces.chinese, english: body-faces.latin, japanese: body-faces.chinese, sans: sans-face, mono: code-face.first()),
   accent: ink, cjk-oblique: none, font-size: body-size,
 )
@@ -72,6 +84,8 @@
 // sit at the left of their cell and opening marks at the right. A run is joined to its neighbours where a line may not
 // break: before a closing mark, after an opening one, and nowhere inside it (GB/T 15834—2011 5.1.1, 5.1.3).
 #let opening-marks = "“‘（"
+// The marks that never open a line (GB/T 15834—2011 5.1.3), as the book uses them; the checks read them here.
+#let closing-marks = "，。、；：？！）」』”’》"
 #let quote-run(run) = {
   let marks = run.clusters()
   let opens(c) = opening-marks.contains(c)
@@ -99,7 +113,7 @@
 #let inline-command-width = 44
 #let display-width(text) = text.clusters().map(c => if c.match(regex("[\\p{Han}\\p{Hiragana}\\p{Katakana}\\p{Hangul}\u{3000}-\u{303F}\u{FF00}-\u{FFEF}]")) != none { 2 } else { 1 }).sum(default: 0)
 #let publication-design(body) = {
-  set text(lang: "zh", region: "CN", top-edge: .8em, bottom-edge: -.2em)
+  set text(..language, top-edge: .8em, bottom-edge: -.2em)
   // Chinese inside commands and outputs takes the sans face, not the serif body face. A symbol that
   // neither face holds, such as ℹ, takes Typst's own Libertinus Serif, declared as a fallback here
   // rather than reached by accident.
@@ -117,7 +131,7 @@
   set heading(numbering: none)
   show heading.where(level: 1): it => {
     block(above: 6 * space, below: 3 * space, sticky: true)[
-      #text(font: sans-face, weight: "bold", size: 25pt, it.body)
+      #text(font: sans-face, weight: "bold", size: type-size.chapter, it.body)
       #v(2 * space)
       #line(length: 100%, stroke: .6pt + rule)
     ]
@@ -125,9 +139,9 @@
   set figure(numbering: "1")
   set par(first-line-indent: 0pt, leading: body-line - body-edges, spacing: par-space)
   show heading.where(level: 2): set block(above: 6 * space, below: 2 * space)
-  show heading.where(level: 2): set text(size: 14pt)
+  show heading.where(level: 2): set text(size: type-size.section)
   show heading.where(level: 3): set block(above: 4 * space, below: 2 * space)
-  show heading.where(level: 3): set text(size: 11pt)
+  show heading.where(level: 3): set text(size: type-size.subsection)
   // A section heading starts the next page unless `heading-lines` body lines fit under it; the
   // reserved space is taken back afterwards, so spacing on the page is unchanged.
   show heading.where(level: 2).or(heading.where(level: 3)): it => {
@@ -190,8 +204,8 @@
     if last-set.get() == "lead-in" { v(par.spacing) }
     last-set.update("block"); it; last-set.update("paragraph")
   }
-  show table.cell.where(y: 0): set text(font: sans-face, weight: "bold", size: 9pt)
-  show figure.caption: set text(size: 8.5pt, fill: muted)
+  show table.cell.where(y: 0): set text(font: sans-face, weight: "bold", size: type-size.table-head)
+  show figure.caption: set text(size: type-size.caption, fill: muted)
   // Commands are meant to be copied: no line-number gutter in the text layer, and a short inline command never breaks
   // across lines. A box may break on either side, so the word joiner keeps a closing mark that follows the command on
   // its line: no line opens with one. Short is measured in display width: a Chinese character is set about twice as
@@ -200,7 +214,7 @@
   show raw.where(block: false): it => if display-width(it.text) <= inline-command-width { box(it) + sym.wj } else { it }
   body
 }
-#let small(body) = text(size: 8.5pt, fill: muted, body)
+#let small(body) = text(size: type-size.small, fill: muted, body)
 // Sets a block whole when it is short and lets it continue on the next page when it is tall. Its
 // height is measured in the width it will take. Its spacing, unless given, is the paragraph spacing
 // in force where it is called. `mark` labels the block for layout checks; `most` is the tallest it sets whole.
@@ -261,7 +275,7 @@
   let text = [第#numbers.map(n => zh-number(int(n))).join("、")章]
   if link { std.link(targets.pos().first(), text) } else { text }
 }
-#let contents-return() = link(<contents>, text(font: sans-face, size: 8pt, fill: muted)[返回目录 ↗])
+#let contents-return() = link(<contents>, text(font: sans-face, size: type-size.navigation, fill: muted)[返回目录 ↗])
 // The part a chapter belongs to, declared once for its chapters in `book/manuscript.typ`: its number and name head
 // each chapter and group the contents. A part's number is its place among the numbered parts; the back group has
 // none, and its chapters name their own heads.
@@ -307,14 +321,14 @@
     #set par(first-line-indent: 0pt, leading: 5.5pt, spacing: 2 * space)
     #metadata((kind: kind, mark: mark))<chapter-navigation>
     #grid(columns: (1fr, auto),
-      text(font: sans-face, size: 8pt, fill: muted)[#context {
+      text(font: sans-face, size: type-size.navigation, fill: muted)[#context {
         let n = if mark == none { (chapter-kinds.at(kind).count)(counted.get().first()) } else { mark }
         if head == auto { let part = book-part.get(); [#part.number / #part.name / #n] } else [#head / #n]
       }],
       contents-return(),
     )
     #parbreak()
-    #text(size: 11pt, fill: ink)[#lead]
+    #text(size: type-size.lead, fill: ink)[#lead]
   ]
   last-set.update("block")
 }
@@ -336,14 +350,15 @@
 #let note(title, body) = flow-block(width: 100%, fill: tint, mark: <sample-box>,
   stroke: (left: 1.5pt + slate), inset: (x: 3 * space, y: 2.5 * space), above: 3 * space, below: 3 * space)[
   #set par(first-line-indent: 0pt, justify: false, leading: 5.5pt, spacing: 13.5pt)
-  #block(sticky: true, above: 0pt, below: 2 * space)[#text(font: sans-face, weight: "bold", size: 10pt, title)]
+  #block(sticky: true, above: 0pt, below: 2 * space)[#text(font: sans-face, weight: "bold", size: type-size.box-title, title)]
   #body
 ]
 // Whether a cell holds a number alone: digits with their separators, sign and percent, or a count of a total such as
-// 5 / 6 (CY/T 170—2019 7.2.2.4
-// aligns such a column on its units digit; the book's numbers have no decimals within a column, so the units digit is
-// the right edge). A cell of words, a range, a unit or a mixed value is not a number.
-#let number-cell(c) = plain-text(c).trim().match(regex("^[−+\\-]?\\d[\\d,]*(\\.\\d+)?%?( ?/ ?\\d+)?$")) != none
+// 5 / 6 (CY/T 170—2019 7.2.2.4 aligns such a column on its units digit; the book's numbers have no decimals within a
+// column, so the units digit is the right edge). A cell of words, a range, a unit or a mixed value is not a number.
+// The pattern reads alike in Typst and Python; the checks read it here.
+#let number-pattern = "^[−+\\-]?\\d[\\d,]*(\\.\\d+)?%?( ?/ ?\\d+)?$"
+#let number-cell(c) = plain-text(c).trim().match(regex(number-pattern)) != none
 // How a table's columns are set, after CY/T 170—2019 7.2.2: the first column names its rows and is set flush left
 // (7.2.2.2), whatever it holds, so a step or request number stays a label; any other column whose body cells all hold
 // numbers is set flush right on the units digit (7.2.2.4), its header with it so that each heading stands over its
@@ -363,7 +378,7 @@
   // paragraph for what follows it.
   context if last-set.get() == "lead-in" { v(par.spacing) }
   set par(justify: false, first-line-indent: 0pt, leading: 4.5pt, spacing: 2 * space)
-  set text(size: 9.5pt)
+  set text(size: type-size.table)
   set table.cell(breakable: false)
   let cells = args.pos()
   let aligns = column-align(cells, columns.len())

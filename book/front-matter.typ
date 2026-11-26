@@ -1,28 +1,16 @@
 #import "/publication/layout/style.typ": *
+#import "/publication/layout/front.typ": cover, preface-row, contents
 #import "/book/metadata.typ": *
 
-#[
-#set page(header: none, footer: none, numbering: none)
-#set par(first-line-indent: 0pt, justify: false)
-#v(13mm)
-#text(size: 9pt, fill: ink, tracking: 1.6pt)[RETHINKING WORK]
-#v(17mm)
-#text(font: "Songti SC", size: 39pt, weight: "bold", book-title)
-#v(8mm)
-#text(size: 15pt, fill: ink, book-subtitle)
-#v(14mm)
-#line(length: 32mm, stroke: 1.6pt + slate)
-#v(8mm)
-#text(size: 12pt)[怎样思考，#linebreak()怎样做事，#linebreak()怎样协作。]
-#v(1fr)
-#text(size: 12pt)[#book-author]
-#v(3mm)
-#small[#book-edition]
-]
+#cover(
+  title-en: book-title-en, title: book-title, subtitle: book-subtitle,
+  tagline: [怎样思考，#linebreak()怎样做事，#linebreak()怎样协作。],
+  author: book-author, edition: book-edition,
+)
 
 #pagebreak()
 #heading(level: 1, outlined: true)[序]<premise>
-#block(above: 0pt, below: 2 * space)[#grid(columns: (1fr, auto), [], contents-return())]
+#preface-row
 量化投资机构的数据团队，日常工作是把散落在各个外部来源的原始数据，加工成研究和交易可以放心使用的数据。本书的例子大多以这类业务为背景。
 
 有一份评估报告，要回答能否用新的数据源替换现用的一批表。报告由脚本汇总二十六项比对的结果自动生成。开头的总览称，替换风险较高的有三项；后文的决策矩阵列出的高风险项却有十二项。替换与否，要看高风险项有几项，而这个数，同一份报告给出了两个答案。
@@ -43,26 +31,4 @@
 
 #pagebreak()
 #heading(level: 1, outlined: false)[目录]<contents>
-#v(2 * space)
-#let contents-entry(number, target) = context {
-  let page = counter(page).at(target.location()).first()
-  block(above: 0pt, below: 3 * space, link(target.location(), grid(columns: (11mm, 1fr, auto),
-    text(font: "Noto Sans CJK SC", size: 9pt, fill: muted, number),
-    target.body,
-    text(fill: muted, str(page)),
-  )))
-}
-#let contents-group(title, marks) = {
-  block(above: 6 * space, below: 3 * space, text(font: "Noto Sans CJK SC", size: 9pt, fill: muted, title))
-  for mark in marks { contents-entry(chapter-label(mark), query(heading.where(level: 1).before(mark.location())).last()) }
-}
-#context contents-entry("", query(heading.where(level: 1, outlined: true)).first())
-// One group a part, in reading order, from the parts the chapters declare (`book/manuscript.typ`).
-#context {
-  let marks = query(<chapter-navigation>)
-  let part-of(mark) = book-part.at(mark.location())
-  for part in marks.map(part-of).dedup() {
-    let title = if part.number == none { part.name } else { "第" + part.number + "部　" + part.name }
-    contents-group(title, marks.filter(mark => part-of(mark) == part))
-  }
-}
+#contents()

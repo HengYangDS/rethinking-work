@@ -4,10 +4,14 @@ This directory owns the book's presentation, its build and check tasks, their su
 archive, the review records and the rights notices. It does not own manuscript claims or the edition's identity
 (`book/metadata.typ`).
 
-- [layout/style.typ](layout/style.typ): the `publication-design` show rule, the faces, the measure and spacing, tables,
-  notes and reader figures, over the unchanged publisher package.
+- [layout/style.typ](layout/style.typ): the `publication-design` show rule, the faces, the type sizes by role, the
+  language, the measure and spacing, tables, notes and reader figures, over the unchanged publisher package, and the
+  rules the checks read.
+- [layout/front.typ](layout/front.typ): the cover and the contents, set from those faces and sizes; the front matter
+  gives their words.
 - [layout/figures.typ](layout/figures.typ) and [layout/palette.typ](layout/palette.typ): the look of every figure drawn
   with fletcher, and the colours the figures share with the text.
+- [layout/packages.typ](layout/packages.typ): the Typst packages the edition imports, each at one version.
 - [justfile](justfile): the native tasks; `just --justfile publication/justfile` lists them.
 - [brewfile](brewfile): the Homebrew-owned PDF inspection supply.
 - [supply/](supply/): the checksums of the Typst packages, the Noto Sans CJK SC archive and its faces, and the
@@ -73,9 +77,10 @@ Homebrew Bundle and runs the requested command in that bundle's environment, and
 executables before `test` and `bootstrap`. Homebrew auto-update is disabled for these tasks. The Brewfile does not lock
 Poppler's exact version.
 
-Typst imports `@preview/neat-book:0.1.0` with its dependencies, and `@preview/fletcher:0.6.0` with
-`@preview/cetz:0.5.3` for the figures. A first build may fetch these official packages; `ci-supply` fetches each
-package root that [typst-packages.sha256](supply/typst-packages.sha256) lists and checks every file.
+Typst imports the packages that [packages.typ](layout/packages.typ) declares: Neat Book, the publisher package, and
+fletcher for the figures, with the packages they import. A first build may fetch these official packages;
+[typst-packages.sha256](supply/typst-packages.sha256) pins every file of them, a test fails when the compile reads a
+file it does not pin, and `ci-supply` fetches each package root it lists and checks every file.
 
 The faces are declared once in [style.typ](layout/style.typ) (`declared-faces`), and a test holds the PDF to them:
 

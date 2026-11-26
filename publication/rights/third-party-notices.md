@@ -1,8 +1,9 @@
 # Third-party notices
 
-This publication imports `@preview/neat-book:0.1.0` and, for its figures,
-`@preview/fletcher:0.6.0`, without copying or patching their source. The author
-of this manuscript is separate from the package authors.
+This publication imports Neat Book and, for its figures, fletcher, from Typst
+Universe at the versions that [packages.typ](../layout/packages.typ) declares,
+without copying or patching their source. The author of this manuscript is
+separate from the package authors.
 Neither package use nor a reference implies an endorsement.
 
 ## Neat Book
@@ -51,11 +52,11 @@ repository's MIT License does not replace. Each complete package tree, its
 `LICENSE` files included, is bound by
 [typst-packages.sha256](../supply/typst-packages.sha256).
 
-| Package                   | License           | Source                                         |
-| ------------------------- | ----------------- | ---------------------------------------------- |
-| fletcher 0.6.0            | MIT               | <https://github.com/fletcher-package/fletcher> |
-| CeTZ 0.5.3 (via fletcher) | LGPL-3.0-or-later | <https://github.com/cetz-package/cetz>         |
-| oxifmt 1.0.0 (via CeTZ)   | MIT OR Apache-2.0 | <https://github.com/PgBiel/typst-oxifmt>       |
+| Package             | License           | Source                                         |
+| ------------------- | ----------------- | ---------------------------------------------- |
+| fletcher            | MIT               | <https://github.com/fletcher-package/fletcher> |
+| CeTZ (via fletcher) | LGPL-3.0-or-later | <https://github.com/cetz-package/cetz>         |
+| oxifmt (via CeTZ)   | MIT OR Apache-2.0 | <https://github.com/PgBiel/typst-oxifmt>       |
 
 ## Authored publication and local executors
 
@@ -76,13 +77,13 @@ No standalone font binaries are included in this repository's source. The
 delivered PDF embeds its used font faces, which is distinct from distributing
 the original font files. Source-code licenses do not relicense those fonts.
 
-| Font supply            | Source and terms                                                                                                                                                                                                                                                                                                               |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Noto Sans CJK SC 2.004 | Official [Noto CJK Sans release](https://github.com/notofonts/noto-cjk/releases/tag/Sans2.004), under [SIL OFL 1.1](https://github.com/notofonts/noto-cjk/blob/main/Sans/LICENSE).                                                                                                                                             |
-| DejaVu Sans Mono 2.37  | Embedded in Typst 0.15.1's [typst-assets](https://github.com/typst/typst-assets/tree/ab9eed7b046c6a29f6cdb8566f4b44fb46a2f57f); the [font notices](https://dejavu-fonts.github.io/License.html) cover Bitstream Vera, public-domain DejaVu changes and imported Arev glyphs. Typst's Apache-2.0 license does not replace them. |
-| Libertinus Serif 7.051 | Embedded in the same [typst-assets](https://github.com/typst/typst-assets/tree/ab9eed7b046c6a29f6cdb8566f4b44fb46a2f57f); under [SIL OFL 1.1](https://github.com/alerque/libertinus/blob/master/OFL.txt). The delivered PDF uses it for one symbol in a printed output.                                                        |
-| Songti SC and Charter  | Existing Apple system fonts, subject to the applicable Apple Software License Agreement and individual font restrictions.                                                                                                                                                                                                      |
-| Apple Color Emoji      | Existing Apple system font; the delivered PDF uses it for the memory-attribution emoji. The same Apple and individual-font qualifications apply.                                                                                                                                                                               |
+| Font supply           | Source and terms                                                                                                                                                                                                                                                                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Noto Sans CJK SC      | The official [Noto CJK Sans release](https://github.com/notofonts/noto-cjk/releases) whose archive [noto.url](../supply/noto.url) names, under [SIL OFL 1.1](https://github.com/notofonts/noto-cjk/blob/main/Sans/LICENSE).                                                                                                                                   |
+| DejaVu Sans Mono      | Embedded in [typst-assets](https://github.com/typst/typst-assets), the fonts built into the Typst that [config.toml](../../.config/mise/config.toml) declares; the [font notices](https://dejavu-fonts.github.io/License.html) cover Bitstream Vera, public-domain DejaVu changes and imported Arev glyphs. Typst's Apache-2.0 license does not replace them. |
+| Libertinus Serif      | Embedded in the same typst-assets; under [SIL OFL 1.1](https://github.com/alerque/libertinus/blob/master/OFL.txt). The delivered PDF uses it for one symbol in a printed output.                                                                                                                                                                              |
+| Songti SC and Charter | Existing Apple system fonts, subject to the applicable Apple Software License Agreement and individual font restrictions.                                                                                                                                                                                                                                     |
+| Apple Color Emoji     | Existing Apple system font; the delivered PDF uses it for the memory-attribution emoji. The same Apple and individual-font qualifications apply.                                                                                                                                                                                                              |
 
 The inspected macOS license is available through the system's License document
 under `/Library/Documentation/License.lpdf`. Section E, Fonts, permits display

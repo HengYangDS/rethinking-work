@@ -3,9 +3,9 @@
 // `diagrams/`. Five rules keep them plain: the boxes of one figure share one width; a box names its step in bold
 // and may add one muted line; arrows run straight or at right angles; a label sits beside its arrow on white;
 // one box per figure may be emphasised, and a box off the main path is dashed.
-#import "@preview/fletcher:0.6.0" as fletcher
+#import "packages.typ": fletcher
 #import "palette.typ": ink, tint, slate, muted
-#import "style.typ": sans-face
+#import "style.typ": sans-face, type-size
 #let figure-node(pos, name, title, detail: none, width: 30mm, height: auto, emphasis: false, quiet: false) = fletcher.node(
   pos, name: name, width: width, height: height, inset: 5pt, corner-radius: 3pt,
   fill: if emphasis { ink } else if quiet { white } else { tint },
@@ -14,15 +14,15 @@
     text(weight: "bold", fill: if emphasis { white } else { ink }, title)
     if detail != none {
       linebreak()
-      text(size: 7.5pt, fill: if emphasis { tint } else { muted }, detail)
+      text(size: type-size.figure-detail, fill: if emphasis { tint } else { muted }, detail)
     }
   }),
 )
 // An arrow between boxes, one-headed unless a figure says otherwise; its label is small and muted, on white.
 #let figure-edge(..args) = fletcher.edge(stroke: .7pt + slate, marks: "-|>", label-fill: white, label-sep: 3pt,
   ..args.pos(), ..args.named())
-#let figure-label(body) = text(size: 7.5pt, fill: muted, body)
+#let figure-label(body) = text(size: type-size.figure-detail, fill: muted, body)
 #let figure-diagram(..args) = {
-  set text(font: sans-face, size: 9pt, fill: ink)
+  set text(font: sans-face, size: type-size.figure, fill: ink)
   fletcher.diagram(..args)
 }
