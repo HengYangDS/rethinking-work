@@ -48,10 +48,12 @@ prerequisites in [runners.toml](../.config/ci/runners.toml) and its own publicat
 
 Every job takes its supply the same way: `mise install --locked` installs the tools of
 [config.toml](../.config/mise/config.toml) at their locked versions, and `mise run ci-supply` puts the faces of Noto
-Sans CJK SC that [noto-faces.sha256](supply/noto-faces.sha256) lists into the account's font folder and the Typst
-packages into its package cache, each checked against that list, [ci-noto.sha256](supply/ci-noto.sha256) and
-[typst-packages.sha256](supply/typst-packages.sha256), synchronizes the locked test environment and checks the PDF tools
-of [brewfile](brewfile). Supply that matches is kept. A verification job then runs the full proof,
+Sans CJK SC that [noto-faces.sha256](supply/noto-faces.sha256) lists into a folder of the account's cache, which every
+task names to Typst as a font path, and the Typst packages into the package cache that Typst reports, each checked
+against that list, [ci-noto.sha256](supply/ci-noto.sha256) and [typst-packages.sha256](supply/typst-packages.sha256),
+synchronizes the locked test environment and checks the PDF tools of [brewfile](brewfile). Supply that matches is
+kept; it lives outside the checkout, whose ignored files a runner may remove when a job starts, and the account's font
+folder is not written. A verification job then runs the full proof,
 `mise exec --locked -- ethos prove --host --execute --full`, and keeps its report as an artifact; a publication job runs
 `ci-artifacts` and keeps the PDF and the edition archive. Each publication job takes its supply steps, rules, time limit, variables and
 artifact lifetime from the verification job of the same peer and trust.

@@ -134,11 +134,11 @@ class PublicationInputs(edition.Edition):
         # supply would fetch it during the compile.
         supply = (ROOT / "publication/supply/typst-packages.sha256").read_text(encoding="utf-8")
         listed = {line.split()[1] for line in supply.splitlines() if line.strip()}
-        marker = "/packages/preview/"
+        cache = edition.package_cache()
         read = {
-            "packages/preview/" + path.split(marker, 1)[1]
+            Path(path).relative_to(cache).as_posix()
             for path in self.edition.inputs
-            if marker in path
+            if Path(path).is_relative_to(cache)
         }
         self.assertTrue(read, "the compile read no Typst package")
         self.assertEqual(sorted(read - listed), [])

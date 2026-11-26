@@ -171,6 +171,14 @@ def declared():
     return evaluate(expression, inputs=(), within=None)
 
 
+@functools.cache
+def package_cache():
+    """Where Typst keeps the packages it fetched, as the compiler reports it."""
+    command = ["typst", "info", "--format", "json"]
+    result = subprocess.run(command, cwd=ROOT, **QUIET, check=True)
+    return Path(json.loads(result.stdout)["packages"]["package-cache-path"])
+
+
 def cpu_seconds():
     """CPU time of this process and its finished children; it changes little with host load."""
     own = resource.getrusage(resource.RUSAGE_SELF)
