@@ -1,6 +1,6 @@
 ## Purpose
 
-Deliver each released version as one versioned archive, built independently by each peer from the tagged source and published with its checksums, without the build or the release by itself establishing acceptance.
+Release each version from a signed tag on `main` as one versioned archive, with its checksums and the names it declares once, which each peer builds from every event's exact commit; a build or a release does not by itself establish acceptance.
 
 ## ADDED Requirements
 
@@ -52,3 +52,17 @@ An edition SHALL be delivered as one archive holding one folder with a reader no
 
 - **WHEN** a reader unpacks the archive on macOS or Linux
 - **THEN** the folder's names read correctly, the PDF's name and cover and both reader notes state the same version as the tag, and every file matches the folder's SHA-256 list.
+
+### Requirement: Edition facts declared once
+
+The edition SHALL declare once the names its archive gives the folder, the PDF, the practice pack, the reader notes and the checksum list, where the book says the pack lies, the companion appendix's title, the tools the pack's checks need and the command that runs them. The book, both reader notes, the archive and its checks SHALL take them from there.
+
+#### Scenario: A declared name changes
+
+- **WHEN** the declaration renames the pack's folder or changes the check command
+- **THEN** the printed commands, the prose, both reader notes, the archive's layout and the archive's check carry the new value without another edit.
+
+#### Scenario: A printed block keeps a token
+
+- **WHEN** a printed code block still carries a token meant to be filled from the declaration
+- **THEN** a check fails and names the page.

@@ -1,6 +1,6 @@
 ## Purpose
 
-Identify each build as a version's edition or as a draft, from the release tag and one declared set of edition facts, both in what readers see and in the PDF's metadata.
+Identify each build as a version's edition or as a draft, from the release tag, both in what readers see and in the PDF's metadata, from portable inputs that depend on no private store.
 
 ## ADDED Requirements
 
@@ -26,17 +26,3 @@ A build SHALL be that version's edition only when its source is the commit that 
 
 - **WHEN** the PDF is built from a clean checkout of the commit that the signed tag `v<VERSION>` names
 - **THEN** its cover and its reader notes call it that version's edition with the tag's date, and its PDF metadata carries that date.
-
-### Requirement: Edition facts declared once
-
-The edition SHALL declare once the names its archive gives the folder, the PDF, the practice pack, the reader notes and the checksum list, where the book says the pack lies, the companion appendix's title, the tools the pack's checks need and the command that runs them. The book, both reader notes, the archive and its checks SHALL take them from there.
-
-#### Scenario: A declared name changes
-
-- **WHEN** the declaration renames the pack's folder or changes the check command
-- **THEN** the printed commands, the prose, both reader notes, the archive's layout and the archive's check carry the new value without another edit.
-
-#### Scenario: A printed block keeps a token
-
-- **WHEN** a printed code block still carries a token meant to be filled from the declaration
-- **THEN** a check fails and names the page.

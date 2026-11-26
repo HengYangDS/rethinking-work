@@ -18,7 +18,9 @@ requirement.
 - `publication-source` is retired once it holds no requirement.
 - The guides that link to the one specification link to the specifications' folder.
 
-No obligation, scenario or check changes.
+No obligation, scenario or check changes. **BREAKING** for links and Changes outside this one: the name
+`publication-source` and the path `openspec/specs/publication-source/spec.md` go away. Splitting a requirement that
+spans two themes is out of scope.
 
 ## Capabilities
 
@@ -29,7 +31,7 @@ No obligation, scenario or check changes.
 
 ### Modified Capabilities
 
-- `publication-source`: every requirement is removed to the capability of its theme, and the capability is retired.
+- `publication-source`: every requirement moves to the capability of its theme, and the capability is retired.
 
 ## Impact
 

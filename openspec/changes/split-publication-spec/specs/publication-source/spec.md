@@ -176,9 +176,9 @@
 
 ### Requirement: Edition facts declared once
 
-**Reason**: Moved to the `edition-identity` capability when the one specification was split by theme.
+**Reason**: Moved to the `edition-delivery` capability when the one specification was split by theme.
 
-**Migration**: The requirement and its scenarios stand unchanged in `openspec/specs/edition-identity/spec.md`.
+**Migration**: The requirement and its scenarios stand unchanged in `openspec/specs/edition-delivery/spec.md`.
 
 ### Requirement: Presentation facts declared once
 

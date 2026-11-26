@@ -10,9 +10,9 @@ relations:
 
 A candidate becomes a delivered edition only after its meaning, rendered pages
 and target bytes have been checked. The observable requirements belong to the
-[OpenSpec specifications](../openspec/specs/), one per capability; editorial
-acceptance has its own. This guide explains their execution; it is not another
-acceptance or progress register.
+[OpenSpec specifications](../openspec/specs/), one per capability; qualifying an
+edition is in `editorial-acceptance` and releasing it in `edition-delivery`. This
+guide explains their execution; it is not another acceptance or progress register.
 
 ## Check complete meaning
 

@@ -1,6 +1,6 @@
 ## Purpose
 
-Give the manuscript an argument that teaches a team how to think, act and collaborate in the agentic era, reasoned from stated conditions, grounded in recorded runs or named sources, and illustrated by scenarios that disclose nothing internal.
+Give the manuscript an argument that teaches a team how to think, act and collaborate in the agentic era, reasoned from stated conditions and grounded in recorded runs or named sources, and keep every tracked source of the publication free of internal disclosure, its examples scenarios rather than accounts of real events.
 
 ## ADDED Requirements
 

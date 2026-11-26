@@ -1,6 +1,6 @@
 ## Purpose
 
-Give each kind of publication input one editable owner, and derive the book's parts, numbering and references from the one declared reading order.
+Give each kind of publication input one editable owner, keep reproducible generated output out of tracked source, and derive the book's parts, numbering and references from the one declared reading order.
 
 ## ADDED Requirements
 

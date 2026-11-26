@@ -1,6 +1,6 @@
 ## Purpose
 
-Make each command a reader pastes from the book and each companion exercise a reader runs give the result the text states, on the reader's own machine and Python, outside the repository's locked environment.
+Hold the repository's tests and the companion exercises to Python's standard library, and make each command a reader pastes from the book, and each exercise a reader runs, give the result the text states on the reader's own machine and Python, outside the repository's locked environment; a printed command that registers a job is followed by the one that removes it.
 
 ## ADDED Requirements
 
