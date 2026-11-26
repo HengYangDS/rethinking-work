@@ -3,9 +3,8 @@
 The owner asked to release 0.2.8 (「发布 0.2.8」, 2026-11-26 13:46). `dev` at `10689a5` holds the work since 0.2.7: the
 transfer cases as Chinese questions, the four errors found by blind judging of 0.2.7's unjudged notes corrected, the
 review-baseline test, the two book READMEs, the overlapping requirements of the specification merged, and Mise
-2026.11.14 in the hosted jobs. Every passage changed since the sample of `e650b93` (0.47 per 10,000 against a limit of
-
-1. was read again by a reader who did not write it, with no error left open.
+2026.11.14 in the hosted jobs. The sample of `e650b93` gave 0.47 errors per 10,000 characters, under the limit of one;
+every passage changed since was read again by a reader who did not write it, with no error left open.
 
 ## What Changes
 
