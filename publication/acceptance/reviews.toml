@@ -565,3 +565,70 @@ pdf = "96ef6aa4e651152bbc8d085a3a76de890327c3a0808b5abbc4aef3311e2bb8aa"
 read = 2026-11-26T13:54:13+08:00
 findings = "build/evidence/reader-run-next-edition/release-v0.2.8/FINDINGS.md"
 verdict = "no finding"
+
+[[reading]]
+book = "ee528e9993c4790d05bb6c78745d2972102574e2"
+subject = "0f4a0ba"
+against = "c0b4ba7"
+read = 2026-11-26T18:34:00+08:00
+report = "build/evidence/chinese-standard/reading-report.md"
+verdict = "settled"
+
+[[reading.point]]
+point = "cold readings in parts of about thirty pages (lenses A to D), eleven reports: translated forms, unclear referents, cold or unlike-people wording, chapter by chapter"
+settled = "0f4a0ba: each finding applied as proposed or in a wording that answers it; the exceptions are the declined points below"
+
+[[reading.point]]
+point = "fidelity readings of every changed passage against c0b4ba7, eight reports: dropped qualifications, changed actors, moved steps and pointers, words departing from the department guidelines"
+settled = "0f4a0ba: each finding applied, or answered in one wording with the earlier reader; fidelity prevailed where the two disagreed (run.typ clean-up, chapter 3 and 29 qualifications)"
+
+[[reading.point]]
+point = "model.typ: section order (fidelity reader: 「说得通」 must follow step four; structure reader: the chapter must end on its point)"
+settled = "0f4a0ba: the two reviewers agreed 「说得通」 after the steps and 「够用就好」 last, ending on 「什么现象都能解释的模型……什么也预测不了」"
+
+[[reading.point]]
+point = "「询问人」, 「做成一道检查」, 「下一环」, 「最可能错在哪里」 read as unusual"
+declined = "book-wide terms, defined or used across chapters; changing one place would split the term"
+
+[[reading.point]]
+point = "talent.typ 「成员本人不在其中」 states the obvious"
+declined = "the department guidelines' rule that no assessor is the member (neither of them the member)"
+
+[[reading.point]]
+point = "talent.typ: say what the department does after a first boundary crossing"
+declined = "the guidelines give no basis; adding it would add a rule"
+
+[[reading.point]]
+point = "boundaries.typ: whether the browser restores the open pages after the crash"
+declined = "a fact this pass cannot check; the case is left as recorded"
+
+[[reading.point]]
+point = "back-matter.typ 「按书中步骤运行」 as a noun phrase"
+declined = "a label that the appendix table cites"
+
+[[reading.point]]
+point = "growth.typ 「先肯定一处进步」 adds a step the base did not have"
+declined = "the owner's request of 2026-11-26 16:12 for encouragement; reworded to 「有进步的地方先肯定一处」, which no longer assumes progress every time"
+
+[[reading.point]]
+point = "growth.typ: chapter 29's sentence on its two sides moved into chapter 31, a move across chapters"
+declined = "the owner's decision of 2026-11-26 18:20 (「同意建议」)"
+
+[[commands]]
+book = "ee528e9993c4790d05bb6c78745d2972102574e2"
+exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+subject = "0f4a0ba"
+blocks_against = "v0.2.8"
+prose_against = "c0b4ba7"
+pdf = "none"
+read = 2026-11-26T19:00:36+08:00
+findings = "build/evidence/chinese-standard/reports/commands-review-0f4a0ba.md"
+verdict = "settled"
+
+[[commands.point]]
+point = "context.typ:78 「留在内存中」 is not semble's own words (the run record: indexes are cached for the session); review-7d569f7 point 10 had settled the same sentence"
+settled = "38ec5eb: 「建过的索引在整个会话期间都由这个服务保留着」, the reviewer's wording"
+
+[[commands.point]]
+point = "tools.typ:285 「两次扫描都做完再删除这个目录」 can be counted from the scan already done, so a reader may delete the directory too early"
+settled = "38ec5eb: 「下面两次扫描都在这个目录里做，做完再删除它」, the reviewer's wording"
