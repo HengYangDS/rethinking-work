@@ -160,7 +160,7 @@ acceptance.
 
 ### Requirement: Independent publication build
 
-Each publication peer SHALL build, in a macOS job of its own, the edition archive from the exact event commit and complete declared publication inputs, and keep it as a job artifact for 14 days.
+Each publication peer SHALL build, in a macOS job of its own, the edition archive from the exact event commit and complete declared publication inputs, and keep it as a job artifact for as long as the same peer's verification job keeps its own.
 It SHALL preserve project locks and exclude credentials, business data and
 standalone restricted fonts from its outputs. A hosted success SHALL NOT
 establish reader delivery or editorial approval.
@@ -454,12 +454,17 @@ The book's sources SHALL use none of the words that the book-wide decisions repl
 
 ### Requirement: Reviewed text before landing
 
-A head whose `book/` or `exercises/` tree differs from every reviewed one SHALL NOT pass the proof. The repository SHALL record, for the head's `book/` and `exercises/` trees, a review of the printed commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it; each record SHALL name what was read, against what, when, its verdict, and how many points were settled and how many declined.
+A head SHALL pass the proof only when the repository records, for its `book/` and `exercises/` trees and the Python line its printed commands name, a review of those commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it. Each record SHALL name what was read, against what, when, its verdict, and how many points were settled and how many declined.
 
 #### Scenario: A change to the text has no review
 
 - **WHEN** a head changes `book/` or `exercises/` and no record covers its trees
 - **THEN** a check fails and names the trees.
+
+#### Scenario: Only the Python line changes
+
+- **WHEN** a head changes the declared Python line and no commands review records it with the head's trees
+- **THEN** a check fails and names the trees and the line, because the printed commands name the line.
 
 #### Scenario: A review has an open point
 
@@ -607,3 +612,22 @@ Each entry of the review record SHALL hold exactly the fields its kind declares;
 
 - **WHEN** an entry of the review record holds a field its kind does not declare, such as the path of its findings or a point in the reviewer's words
 - **THEN** a check fails and names the entry, because the record carries the review's facts, not its text.
+
+### Requirement: Toolchain facts declared once
+
+The Python line, each tool's release and download address, the CI supply sources and the build's output names SHALL each be declared once, in the configuration of the tool that installs or produces it. Every task, test, reader note, printed command and CI job that names one SHALL read that declaration; a tool that cannot read it MAY repeat it only in its own field, where it refuses a disagreement.
+
+#### Scenario: The Python line changes
+
+- **WHEN** the declared Python line changes together with `requires-python`
+- **THEN** the test environment, the reader note, the back matter and the practice-pack test follow without another edit, and the command the reader note prints runs on that line.
+
+#### Scenario: One declaration of the Python line changes alone
+
+- **WHEN** the Mise configuration and `requires-python` name different lines
+- **THEN** building the test environment fails.
+
+#### Scenario: The verification model changes a job
+
+- **WHEN** the installed verification model or `verification.toml` changes a verification job's supply, rules, time limit, variables or artifact lifetime
+- **THEN** after projection each peer's publication jobs carry the same, and before it the projection check names the files that differ.
