@@ -26,6 +26,8 @@ itself claim editorial acceptance.
 - The acceptance test fails a head whose commands review compares the printed
   commands with any release but the last one before the review, so that a
   baseline copied from an older record cannot pass.
+- The hosted jobs install Mise 2026.11.14, the latest stable release, as the
+  owner asked of every repository ETHOS manages.
 
 ## [0.2.7] - 2026-11-26
 
