@@ -16,7 +16,7 @@ A head whose `book/` or `exercises/` tree differs from every reviewed one SHALL 
 
 #### Scenario: A record names another baseline
 
-- **WHEN** the latest commands review that covers a proved head records as its baseline a tag other than the last release, the latest signed release tag made no later than the review
+- **WHEN** the latest commands review that covers a proved head records as its baseline a tag other than the last release, the latest release tag `v<major>.<minor>.<patch>` that carries a signature and was made no later than the review's findings were written
 - **THEN** a check fails and names the recorded tag and the last release, because the printed commands are compared with the last release's.
 
 #### Scenario: A review time has no offset

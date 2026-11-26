@@ -9,6 +9,7 @@ latest commands review that covers it names the last release as its baseline. Se
 docs/publication-acceptance.md.
 """
 
+import re
 import subprocess
 import tomllib
 import unittest
@@ -43,23 +44,31 @@ def head_tree(directory):
     return git("rev-parse", f"HEAD:{directory}").stdout.strip()
 
 
-def last_release(read):
-    """The release whose printed commands a review read at `read` compares with: the latest
-    signed release tag made no later than the reading. Releases are tagged in turn on `main`, so
-    the time alone names it; neither the reviewed commit, which a rewritten lane leaves on no
-    fetched ref, nor the head, which a rebase can move past a later release, enters."""
+def releases():
+    """The release tags, newest first: names `v<major>.<minor>.<patch>` that carry a signature, with
+    the time each was made. The CIs fetch every tag (`GIT_FETCH_EXTRA_FLAGS` on GitLab)."""
     signed = "%(if)%(contents:signature)%(then)signed%(else)unsigned%(end)"
     tags = git(
         "for-each-ref",
+        "--sort=-version:refname",
         "--sort=-taggerdate",
         f"--format=%(taggerdate:unix) %(refname:lstrip=2) {signed}",
         "refs/tags/v[0-9]*",
     ).stdout.split("\n")
+    found = []
     for line in filter(None, tags):
         made, name, state = line.rsplit(" ", 2)
-        if made and state == "signed" and int(made) <= read.timestamp():
-            return name
-    return None
+        if made and state == "signed" and re.fullmatch(r"v\d+\.\d+\.\d+", name):
+            found.append((int(made), name))
+    return found
+
+
+def last_release(read, tags):
+    """The release whose printed commands a review read at `read` compares with: the latest
+    release made no later than the reading. Releases are tagged in turn on `main`, so the time
+    alone names it; neither the reviewed commit, which a rewritten lane leaves on no fetched
+    ref, nor the head, which a rebase can move past a later release, enters."""
+    return next((name for made, name in tags if made <= read.timestamp()), None)
 
 
 class RecordedReviews(unittest.TestCase):
@@ -102,6 +111,12 @@ class RecordedReviews(unittest.TestCase):
                     self.assertIsInstance(review["read"], datetime)
                     self.assertIsNotNone(review["read"].utcoffset(), "read carries no offset")
 
+    def test_commands_reviews_are_recorded_in_the_order_they_were_read(self):
+        # A record copied whole from an older one carries the older time and its baseline; the
+        # order of reading shows it.
+        times = [review["read"] for review in self.record["commands"]]
+        self.assertEqual(times, sorted(times))
+
     def test_the_latest_commands_review_of_the_head_names_the_last_release(self):
         # "Run every changed command, old against new": the old commands are the last release's.
         # A baseline copied from an older record names an older tag and fails here. When later
@@ -109,9 +124,12 @@ class RecordedReviews(unittest.TestCase):
         if not self.covering:
             self.skipTest("no commands review covers the head; the test above fails")
         review = max(self.covering, key=lambda item: item["read"])
-        expected = last_release(review["read"])
-        self.assertIsNotNone(expected, "no signed release tag before the review; fetch the tags")
-        self.assertEqual(review["blocks_against"], expected, review["subject"])
+        tags = releases()
+        names = [name for _, name in tags]
+        self.assertIn(
+            review["blocks_against"], names, "not a release in this clone; fetch the tags"
+        )
+        self.assertEqual(review["blocks_against"], last_release(review["read"], tags))
 
     def test_the_head_has_a_reading_of_its_text(self):
         covered = [

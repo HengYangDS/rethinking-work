@@ -7,3 +7,6 @@
       `ef1b881`, and passes in UTC, Asia/Shanghai and America/Los_Angeles.
 - [x] 1.2 The acceptance document, the specification and the record's header say what the test reads; done when
       `openspec validate --strict` passes.
+- [x] 1.3 The third review's findings are answered: GitLab fetches every tag, a missing tag fails, releases are
+      `vX.Y.Z` with a signature, records keep their reading order; done when the test fails on a recorded
+      `v0.2.8-rc1` and on `ef1b881` copied with `6ef03de`'s time and baseline.

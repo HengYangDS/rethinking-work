@@ -82,6 +82,7 @@ verify:macos:review:
     MISE_CEILING_PATHS: $CI_PROJECT_DIR/..
     MISE_TRUSTED_CONFIG_PATHS: $CI_PROJECT_DIR/.config/mise/config.toml
     MISE_YES: "1"
+    GIT_FETCH_EXTRA_FLAGS: --prune --quiet --tags
   script:
     - mise exec --locked -- ethos prove --host --execute --full --json > build/evidence/ci/verification.json
   artifacts:
@@ -110,6 +111,7 @@ verify:macos:protected:
     MISE_CEILING_PATHS: $CI_PROJECT_DIR/..
     MISE_TRUSTED_CONFIG_PATHS: $CI_PROJECT_DIR/.config/mise/config.toml
     MISE_YES: "1"
+    GIT_FETCH_EXTRA_FLAGS: --prune --quiet --tags
   script:
     - mise exec --locked -- ethos prove --host --execute --full --json > build/evidence/ci/verification.json
   artifacts:

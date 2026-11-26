@@ -106,10 +106,10 @@ layout review, not a requirement to capture every changed paragraph separately.
 Automated geometry checks complement this judgment rather than replacing it.
 
 Extract each printed command and the prose beside it from the source at the commit being qualified, pair the commands
-with the last release's by text, and compare the prose with the run records. The last release is the latest signed
-release tag made no later than the review; the record names it as `blocks_against`.
-Run every changed command, old against new, without a model. On the built PDF, check that each command prints whole
-and that its first line is in the PDF's text:
+with the last release's by text, and compare the prose with the run records. The last release is the latest release
+tag, `v<major>.<minor>.<patch>` with a signature, made no later than the review's findings were written; the record
+names it as `blocks_against`. Run every changed command, old against new, without a model. On the built PDF, check
+that each command prints whole and that its first line is in the PDF's text:
 a viewer copies a visual line break as a newline, so a command that wraps cannot be copied as printed.
 
 Check all logical links, destinations and clickable text coverage in the PDF.

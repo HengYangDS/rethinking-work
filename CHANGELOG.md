@@ -24,9 +24,10 @@ itself claim editorial acceptance.
 - `book/README.md` names the four appendices, and `book/parts/README.md` puts
   orchestration and evaluation in the fourth part.
 - The acceptance test fails a head whose latest commands review names any
-  release but the last one, the latest signed release tag made no later than
+  release but the last one, the latest signed `vX.Y.Z` tag made no later than
   the review, so that a baseline copied from an older record cannot pass; a
-  review time must carry its offset.
+  review time must carry its offset, and reviews are recorded in the order they
+  were read. GitLab's verification jobs fetch every tag.
 - Four places that the blind judging of 0.2.7's unjudged notes found are
   corrected: what the outer circle of chapter 13 cannot undo, what appendix C
   says Hermes reports, and two sentences of chapter 29 brought to DDWG's

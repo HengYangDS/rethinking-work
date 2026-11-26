@@ -18,6 +18,9 @@ MISE_CONFIG_DIR = "$CI_PROJECT_DIR/build/runtime/work/mise-config"
 MISE_CEILING_PATHS = "$CI_PROJECT_DIR/.."
 MISE_TRUSTED_CONFIG_PATHS = "$CI_PROJECT_DIR/.config/mise/config.toml"
 MISE_YES = "1"
+# Every release tag, not only those the pipeline's commit reaches: the acceptance test names the last release
+# by the review's time (tests/test_acceptance.py). GitLab's default flags are "--prune --quiet".
+GIT_FETCH_EXTRA_FLAGS = "--prune --quiet --tags"
 
 [gitlab.runners.macos]
 system = "macos"
