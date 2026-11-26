@@ -19,9 +19,9 @@ Synthetic teaching data for 《重新理解工作》. Nothing here is business d
 
 ## How to check
 
-Run from the directory above this one the command that `先读.txt` there gives; it
-names the Python line the checks run on. In the source repository, which has no
-`先读.txt`, run `just --justfile publication/justfile exercises` there instead.
+In the directory above this one, run the command that its `先读.txt` gives; the
+command names the Python line the checks run on. In the source repository, which
+has no `先读.txt`, run `just --justfile publication/justfile exercises` there.
 
 Expected: a line `Ran … tests` with the number of checks, then `OK`. Run DuckDB as
 `duckdb -no-agent`.

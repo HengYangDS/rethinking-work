@@ -27,9 +27,9 @@ as 可 as a conjunction or a term copied from the chapter that defines it, stays
 
 A head that changes `book/` or `exercises/` is proved and landed only when
 [`publication/acceptance/reviews.toml`](../publication/acceptance/reviews.toml) records, for its `book/` and
-`exercises/` trees, a review of the printed commands and the prose beside them against the run records with no open
-point, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it. The reviewers
-change nothing in the repository. The lane's editor records each review with its declared fields only: what was read,
+`exercises/` trees and the Python line its commands name, a review of the printed commands and the prose beside them
+against the run records with no open point, and, for its `book/` tree, a reading of every changed passage by a reader
+who did not write it. The reviewers change nothing in the repository. The lane's editor records each review with its declared fields only: what was read,
 against what, when, the verdict, and how many points were settled and how many declined. The findings stay in the
 reviewer's local evidence folder and are neither named nor copied; the record itself is the evidence that the proof and
 CI read. A point ends settled or declined with its reason; a review with an open point is not recorded. The record
@@ -112,8 +112,9 @@ closer judgment. Record that selection and the review scale. This is a page and
 layout review, not a requirement to capture every changed paragraph separately.
 Automated geometry checks complement this judgment rather than replacing it.
 
-Extract each printed command and the prose beside it from the source at the commit being qualified, pair the commands
-with the last release's by text, and compare the prose with the run records. The last release is the latest release
+Extract each printed command and the prose beside it from the source at the commit being qualified, evaluating the
+parts the source derives, such as the Python line from the toolchain declaration; pair the commands with the last
+release's by text, and compare the prose with the run records. The last release is the latest release
 tag, `v<major>.<minor>.<patch>` with a signature, made no later than the review's findings were written; the record
 names it as `blocks_against`. Run every changed command, old against new, without a model. On the built PDF, check
 that each command prints whole and that its first line is in the PDF's text:

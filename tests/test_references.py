@@ -7,9 +7,9 @@ of book/manuscript.typ. Read from the sources; no build is needed.
 
 import re
 import unittest
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from edition import ROOT
+
 OPENING = re.compile(r"#chapter\(.*?\)<([a-z-]+)>", re.S)
 RELATIVE = re.compile(r"#link\(<([a-z-]+)>\)\[(上一章|下一章)\]")
 

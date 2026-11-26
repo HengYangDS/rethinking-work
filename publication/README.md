@@ -10,11 +10,12 @@ archive, the review records and the rights notices. It does not own manuscript c
   with fletcher, and the colours the figures share with the text.
 - [justfile](justfile): the native tasks; `just --justfile publication/justfile` lists them.
 - [brewfile](brewfile): the Homebrew-owned PDF inspection supply.
-- [supply/](supply/): the checksums of the Typst packages, the Noto Sans CJK SC archive and its three faces.
+- [supply/](supply/): the checksums of the Typst packages, the Noto Sans CJK SC archive and its faces, and the
+  archive's address.
 - [acceptance/reviews.toml](acceptance/reviews.toml): the reviews a head that changes the book's text or exercises
   needs, read by the tests.
 - [archive-start.zh.txt](archive-start.zh.txt) and [reader-start.zh.txt](reader-start.zh.txt): the reader notes of the
-  edition archive, filled with the edition's identity when it is built.
+  edition archive, filled with the edition's identity and the Python line when it is built.
 - [rights/](rights/): the publisher's notice and the third-party notices.
 
 The document entrypoint, `book/main.typ`, selects the publisher and passes it the edition metadata with the paper,
@@ -28,8 +29,9 @@ Run from the repository root as `just --justfile publication/justfile <task>`. `
 included, and grants no editorial approval; `test` runs the publication and exercise checks; `exercises` runs only the
 companion checks, without the PDF (see the [exercises](../exercises/README.md#check-every-example)); `edition-archive`
 packages the PDF and the tracked exercises as one versioned `.tgz`; `check` runs formatting, the prose rules and the
-tests; `ci-supply` gives a CI account its fonts, Typst packages, test environment and PDF tools; `ci-artifacts` builds
-the PDF and the archive and prints their hashes. `render` writes every page as an image for review and does not inspect
+tests; `test-env` installs the locked test environment on the declared Python line; `ci-supply` gives a CI account its
+fonts, Typst packages, test environment and PDF tools; `ci-artifacts` builds the PDF and the archive and prints their
+hashes. `render` writes every page as an image for review and does not inspect
 its own output.
 
 ## Source CI
@@ -41,21 +43,22 @@ prerequisites in [runners.toml](../.config/ci/runners.toml) and its own publicat
 `.gitlab-ci.yml` from them, and `ethos lane project --check` refuses drift; the generated files are not edited by hand.
 
 Every job takes its supply the same way: `mise install --locked` installs the tools of
-[config.toml](../.config/mise/config.toml) at their locked versions, and `mise run ci-supply` puts the Regular, Bold and
-Black faces of Noto Sans CJK SC into the account's font folder and the Typst packages into its package cache, each
-checked against [noto-faces.sha256](supply/noto-faces.sha256), [ci-noto.sha256](supply/ci-noto.sha256) and
-[typst-packages.sha256](supply/typst-packages.sha256), synchronizes the locked test environment and checks the PDF
-tools of [brewfile](brewfile). Supply that matches is kept. A verification job then runs the full proof,
+[config.toml](../.config/mise/config.toml) at their locked versions, and `mise run ci-supply` puts the faces of Noto
+Sans CJK SC that [noto-faces.sha256](supply/noto-faces.sha256) lists into the account's font folder and the Typst
+packages into its package cache, each checked against that list, [ci-noto.sha256](supply/ci-noto.sha256) and
+[typst-packages.sha256](supply/typst-packages.sha256), synchronizes the locked test environment and checks the PDF tools
+of [brewfile](brewfile). Supply that matches is kept. A verification job then runs the full proof,
 `mise exec --locked -- ethos prove --host --execute --full`, and keeps its report as an artifact; a publication job runs
-`ci-artifacts` and keeps the PDF and the edition archive for 14 days.
+`ci-artifacts` and keeps the PDF and the edition archive. Each publication job takes its supply steps, rules, time limit, variables and
+artifact lifetime from the verification job of the same peer and trust.
 
-GitHub runs the jobs on hosted macOS arm64 (`macos-latest`) for pushes to `dev`, `main` and `proposal/` branches, `v*`
-tags, pull requests and manual dispatch; a full checkout carries the tags, so a tag event builds that tag's edition.
-GitLab runs them on the owner's local macOS arm64 runners, as his other repositories do: a protected runner for `dev`,
-`main` and `v*` tags and a review runner for merge requests and `proposal/` branches, each locked to this project and
-running under its own account in the CI guest. `MISE_CONFIG_DIR` and `MISE_CEILING_PATHS` keep the account's own Mise
-settings out of the job. Each runner account holds its own copy of Homebrew's package index; without it,
-`brew bundle check` fails on a lock it cannot write.
+GitHub runs the jobs on the hosted macOS runner that `verification.toml` names, for pushes to its accepted and release
+branches and to `proposal/` branches, `v*` tags, pull requests and manual dispatch; a full checkout carries the tags, so
+a tag event builds that tag's edition. GitLab runs them on the owner's local macOS arm64 runners, as his other
+repositories do: a protected runner for the accepted and release branches and `v*` tags and a review runner for merge
+requests and `proposal/` branches, each locked to this project and running under its own account in the CI guest.
+`MISE_CONFIG_DIR` and `MISE_CEILING_PATHS` keep the account's own Mise settings out of the job. Each runner account
+holds its own copy of Homebrew's package index; without it, `brew bundle check` fails on a lock it cannot write.
 
 Configuration and fixtures are trusted source inputs, not credentials or business data. A passing job is the full
 proof, or the built artifacts, at that commit on that platform; it does not certify typography or approve an edition.

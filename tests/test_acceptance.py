@@ -5,8 +5,9 @@ reading of changed passages and each release reading, every entry with exactly i
 fields: what was read, against what, when, the verdict and how many points were settled and
 declined. The reviewers' findings stay in their local evidence folders and are neither named
 nor copied; the record is what the proof and the CIs read. A head passes when its `book/` and
-`exercises/` trees are those of a commands review and its `book/` tree is that of a reading,
-and when the latest commands review that covers it names the last release as its baseline.
+`exercises/` trees and the Python line its printed commands name are those of a commands review
+and its `book/` tree is that of a reading, and when the latest commands review that covers it
+names the last release as its baseline.
 See docs/publication-acceptance.md.
 """
 
@@ -23,7 +24,8 @@ RECORD = ROOT / "publication/acceptance/reviews.toml"
 # reviewer's words and no path.
 REVIEW = {"read", "verdict", "settled", "declined"}
 FIELDS = {
-    "commands": {"book", "exercises", "subject", "blocks_against", "prose_against", "pdf"} | REVIEW,
+    "commands": {"book", "exercises", "python", "subject", "blocks_against", "prose_against", "pdf"}
+    | REVIEW,
     "reading": {"book", "subject", "against"} | REVIEW,
     "release": {"version", "pdf"} | REVIEW,
 }
@@ -31,6 +33,7 @@ COMMIT = r"[0-9a-f]{7,40}"
 SHAPES = {
     "book": r"[0-9a-f]{40}",
     "exercises": r"[0-9a-f]{40}",
+    "python": r"\d+\.\d+",
     "subject": COMMIT,
     "against": COMMIT,
     "prose_against": COMMIT,
@@ -54,6 +57,14 @@ def git(*args, check=True):
 def head_tree(directory):
     """The git tree of a directory at the checked-out head."""
     return git("rev-parse", f"HEAD:{directory}").stdout.strip()
+
+
+def head_python_line():
+    """The Python line the toolchain declares at the checked-out head. The book and the reader
+    note print the exercise command on it (book/back-matter.typ, publication/justfile), so it
+    belongs to what a commands review reads, beside the trees."""
+    declared = git("show", "HEAD:.config/mise/config.toml").stdout
+    return tomllib.loads(declared)["tools"]["python"]
 
 
 def releases():
@@ -88,11 +99,11 @@ class RecordedReviews(unittest.TestCase):
     def setUpClass(cls):
         cls.record = tomllib.loads(RECORD.read_text(encoding="utf-8"))
         cls.trees = {name: head_tree(name) for name in ("book", "exercises")}
-        head = (cls.trees["book"], cls.trees["exercises"])
+        cls.read = {**cls.trees, "python": head_python_line()}
         cls.covering = [
             review
             for review in cls.record["commands"]
-            if (review.get("book"), review.get("exercises")) == head
+            if all(review.get(name) == value for name, value in cls.read.items())
         ]
 
     def test_the_record_holds_only_its_kinds(self):
@@ -121,7 +132,8 @@ class RecordedReviews(unittest.TestCase):
 
     def test_the_head_has_a_commands_review_of_its_text_and_exercises(self):
         self.assertTrue(
-            self.covering, f"no commands review records book/ and exercises/ {self.trees}"
+            self.covering,
+            f"no commands review records book/, exercises/ and the Python line {self.read}",
         )
 
     def test_a_review_time_carries_its_offset(self):

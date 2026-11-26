@@ -9,8 +9,8 @@ import "list"
 // limit and artifact lifetime from the verification job of the same Forge, runner and trust, so a
 // change to the model or to `verification.toml` reaches it unchanged.
 
-// The build's outputs lie alone in their folders (publication/justfile, `pdf` and `archive`); a
-// tag event builds that tag's edition, since a full checkout carries the tags.
+// The build's outputs (publication/justfile, `pdf` and `archive`) are the only files of their folders
+// in a fresh checkout; a tag event builds that tag's edition, since a full checkout carries the tags.
 outputs: [
 	{label: "PDF", path: "build/artifacts/pdf/*.pdf"},
 	{label: "Edition archive", path: "build/artifacts/edition/*.tgz"},
@@ -22,9 +22,10 @@ let verify = compiled.providers.github.jobs.verify
 // The verification job's supply is every step before the one that prepares its evidence directory.
 let evidenceStep = [for i, step in verify.steps if step.name != _|_ if step.name == "Prepare owned evidence directory" {i}][0]
 
+// The publication job is the verification job on the first declared runner, with its own steps.
 publicationJob: {
-	"runs-on":         _inputs.ci.github.runners[0]
-	"timeout-minutes": verify["timeout-minutes"]
+	for key, value in verify if key != "runs-on" && key != "strategy" && key != "steps" {(key): value}
+	"runs-on": _inputs.ci.github.runners[0]
 	steps: list.Concat([list.Slice(verify.steps, 0, evidenceStep), [{
 		name: "Build the PDF and the edition archive"
 		run:  build

@@ -8,9 +8,9 @@ environment provides would pass the proof and fail for the reader, so the import
 import ast
 import sys
 import unittest
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from edition import ROOT
+
 # The tests, and the exercise cases they run in subprocesses. Templates are run by readers with
 # tools installed for that purpose, and by no test.
 TREES = (ROOT / "tests", ROOT / "exercises/cases")

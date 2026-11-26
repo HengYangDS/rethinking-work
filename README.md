@@ -69,8 +69,8 @@ just --justfile publication/justfile check
 just --justfile publication/justfile render
 ```
 
-The candidate is written to `build/artifacts/pdf/rethinking-work.pdf`; page
-previews go to `build/artifacts/pages/`. These are generated, ignored outputs.
+The candidate is written to `build/artifacts/pdf/`, under the name the task file
+gives as `pdf`; page previews go to `build/artifacts/pages/`. These are generated, ignored outputs.
 A successful build is not reader approval or publication. See
 [edition acceptance](docs/publication-acceptance.md) for the remaining boundary.
 

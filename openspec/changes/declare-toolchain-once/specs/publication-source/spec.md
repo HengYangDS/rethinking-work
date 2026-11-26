@@ -22,6 +22,35 @@ establish reader delivery or editorial approval.
 - **WHEN** a declared Typst package imports a package of its own
 - **THEN** the package supply lists that package too, and a compile whose cache holds only the declared packages fetches nothing and writes nothing to standard error.
 
+### Requirement: Reviewed text before landing
+
+A head SHALL pass the proof only when the repository records, for its `book/` and `exercises/` trees and the Python line its printed commands name, a review of those commands and the prose beside them against the run records, and, for its `book/` tree, a reading of every changed passage by a reader who did not write it. Each record SHALL name what was read, against what, when, its verdict, and how many points were settled and how many declined.
+
+#### Scenario: A change to the text has no review
+
+- **WHEN** a head changes `book/` or `exercises/` and no record covers its trees
+- **THEN** a check fails and names the trees.
+
+#### Scenario: Only the Python line changes
+
+- **WHEN** a head changes the declared Python line and no commands review records it with the head's trees
+- **THEN** a check fails and names the trees and the line, because the printed commands name the line.
+
+#### Scenario: A review has an open point
+
+- **WHEN** a review ends with a point neither settled nor declined
+- **THEN** it is not recorded, and the head does not pass until a later review is.
+
+#### Scenario: A record names another baseline
+
+- **WHEN** the latest commands review that covers a proved head records as its baseline a tag other than the last release, the latest release tag `v<major>.<minor>.<patch>` that carries a signature and was made no later than the review's findings were written
+- **THEN** a check fails and names the recorded tag and the last release, because the printed commands are compared with the last release's.
+
+#### Scenario: A review time has no offset
+
+- **WHEN** a record's time of reading carries no time zone offset
+- **THEN** a check fails and names the record, because the time would be read in the runner's own zone.
+
 ## ADDED Requirements
 
 ### Requirement: Toolchain facts declared once

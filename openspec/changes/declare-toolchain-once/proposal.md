@@ -20,6 +20,8 @@ a Change of its own, made in one declaration once this one has landed.
 - The publication jobs of both peers take their supply steps, rules, time limit, variables and artifact lifetime from
   the generated verification job of the same peer, runner and trust.
 - The tests share one set of options for running a tool, with its time limit, and one repository root.
+- A commands review records the Python line beside the `book/` and `exercises/` trees, since the printed commands
+  name it; the task file evaluates only the variables a recipe uses.
 
 Out of scope: the move to Python 3.14, which the installed ETHOS refuses until its paradigm accepts a Python floor
 above 3.12; the book's identity and structure (chapter numbers, edition names, part counts) and the layout's
@@ -34,10 +36,12 @@ None.
 ### Modified Capabilities
 
 - `publication-source`: "Independent publication build" keeps the artifacts as long as the verification job of the
-  same peer; a new requirement declares each toolchain fact once.
+  same peer; "Reviewed text before landing" keys a commands review on the Python line too; a new requirement declares
+  each toolchain fact once.
 
 ## Impact
 
 `.config/mise/`, `pyproject.toml`, `uv.lock`, `publication/justfile`, `publication/supply/`,
 `publication/reader-start.zh.txt`, `book/back-matter.typ`, `.config/ci/pipeline.cue` and the generated pipeline files,
-`.ethos/profile.toml`, `tests/`, `exercises/README.md`, `exercises/AGENTS.md`, `CONTRIBUTING.md`, the specification.
+`.ethos/profile.toml`, `tests/`, `publication/acceptance/reviews.toml`, `exercises/README.md`, `exercises/AGENTS.md`,
+`CONTRIBUTING.md`, `README.md`, `publication/README.md`, `docs/publication-acceptance.md`, the specification.

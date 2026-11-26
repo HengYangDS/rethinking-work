@@ -5,7 +5,8 @@
 # trees and every review read after them; Git keeps the rest. A review with an open point is not recorded.
 #
 # [[commands]]  the printed commands and the prose beside them, against the run records; keyed by the trees
-#               of book/ and exercises/ (`git rev-parse <subject>:book`).
+#               of book/ and exercises/ (`git rev-parse <subject>:book`) and by the Python line the commands
+#               name, as `.config/mise/config.toml` declares it.
 #   subject, the commit read; blocks_against, the run records' baseline the blocks were paired with;
 #   prose_against, the commit the prose was compared with; pdf, the SHA-256 of the PDF read, or "none" for a
 #   text-only review; read, when the findings were written, with its offset; verdict, "no finding" or
@@ -18,6 +19,7 @@
 [[commands]]
 book = "4ae058c8364872ed35f032e9907b0e0bbe33f424"
 exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+python = "3.12"
 subject = "ef1b881"
 blocks_against = "v0.2.7"
 prose_against = "f609d1c"
@@ -56,6 +58,7 @@ declined = 7
 [[commands]]
 book = "ee528e9993c4790d05bb6c78745d2972102574e2"
 exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+python = "3.12"
 subject = "0f4a0ba"
 blocks_against = "v0.2.8"
 prose_against = "c0b4ba7"
@@ -68,6 +71,7 @@ declined = 0
 [[commands]]
 book = "11e675b7fb29165dfab7f837105d72530a8c045e"
 exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+python = "3.12"
 subject = "9ea1d15"
 blocks_against = "v0.2.8"
 prose_against = "27d66f8"

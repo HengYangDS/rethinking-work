@@ -21,8 +21,8 @@ From the repository root:
 just --justfile publication/justfile exercises
 ```
 
-From the root of an unpacked practice pack, which has no `publication/` directory, run the command that the
-`先读.txt` there gives; it names the Python line the checks run on.
+From the practice pack's folder `实战练习/` in an unpacked edition archive, which has no `publication/` directory, run
+the command that the folder's `先读.txt` gives; it names the Python line the checks run on.
 
 The check uses the installed Python, DuckDB, ast-grep and oasdiff and installs nothing. It passes only when each
 example shows its stated outcome, the deliberate failures included.
