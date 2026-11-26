@@ -64,7 +64,7 @@
 样品验收通过后，剩下的只是把查询中限定 S01 到 S03 的那一行条件去掉，再运行一次。这一步不必再交给帮手，在案例目录的副本中自己做即可。下面命令的第一行与#chapref(<first>)中的相同，把其中的路径换成“#book-pack”目录的位置：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 cd "$PACK/exercises" &&
   cp -R cases/historical-snapshot ~/snapshot-copy && cd ~/snapshot-copy &&
   grep -v "security_id IN ('S01'" session/query.sql > full.sql &&
@@ -111,7 +111,7 @@ cd "$PACK/exercises" &&
 开头的两次运行可以近似地重做：在两个目录中各启动一个会话，而不是从一个会话中派出帮手。目录中只放三个 CSV 文件，因为案例目录里还有答案，不能让智能体看到。下面的命令建好三个目录，第三个目录里另放一份只写一句规则的 `AGENTS.md`，最后打印两份委托：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 cd "$PACK/exercises/cases/historical-snapshot" &&
   for d in vague precise rule; do
     mkdir ~/snapshot-$d &&

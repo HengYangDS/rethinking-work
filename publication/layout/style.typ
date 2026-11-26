@@ -268,7 +268,8 @@
 #let book-part = state("book-part", none)
 // A reference to a part is derived in the same way, by the part's name, from the parts the chapters stand in.
 // `partref` writes 第三部, or 第三、四部 for several; `partspan` writes 第二至第五部; `part-chapters` writes how many
-// chapters a part has, 三, practices and appendices not counted. A part has no opening of its own to link to.
+// chapters a part has, 三, practices and appendices not counted; `partrel` checks a relative one. A part has no
+// opening of its own to link to.
 #let part-number(name) = {
   let part = query(<chapter-navigation>).map(it => book-part.at(it.location())).find(it => it.name == name)
   if part == none or part.number == none { panic("partref: no numbered part is named " + repr(name)) }
@@ -276,6 +277,18 @@
 }
 #let partref(..names) = context [第#names.pos().map(part-number).join("、")部]
 #let partspan(first, last) = context [第#part-number(first)至第#part-number(last)部]
+// A relative reference to a part, 上一部 or 下一部, names the part it means, so that a reordering that makes it point
+// elsewhere stops the build instead of printing a wrong word.
+#let partrel(word, name) = context {
+  let numbered = query(<chapter-navigation>).map(it => book-part.at(it.location())).filter(it => it.number != none)
+  let names = numbered.map(it => it.name).dedup()
+  let here = names.position(it => it == book-part.get().name)
+  let step = ("上一部": -1, "下一部": 1).at(word, default: none)
+  if step == none { panic("partrel: " + repr(word) + " is neither 上一部 nor 下一部") }
+  let at = if here == none { -1 } else { here + step }
+  if at < 0 or names.at(at, default: none) != name { panic("partrel: " + word + " here is not " + repr(name)) }
+  word
+}
 #let part-chapters(name) = context {
   let _ = part-number(name)
   let marks = query(<chapter-navigation>).filter(it => it.value.kind == "chapter")

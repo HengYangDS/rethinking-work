@@ -113,8 +113,9 @@ layout review, not a requirement to capture every changed paragraph separately.
 Automated geometry checks complement this judgment rather than replacing it.
 
 Extract each printed command and the prose beside it from the source at the commit being qualified, evaluating the
-parts the source derives, such as the Python line from the toolchain declaration; pair the commands with the last
-release's by text, and compare the prose with the run records. The last release is the latest release
+parts the source derives, such as the Python line from the toolchain declaration; read the reader notes as the edition
+archive built at that commit fills them. Pair the commands with the last release's by text, and compare the prose with
+the run records. The last release is the latest release
 tag, `v<major>.<minor>.<patch>` with a signature, made no later than the review's findings were written; the record
 names it as `blocks_against`. Run every changed command, old against new, without a model. On the built PDF, check
 that each command prints whole and that its first line is in the PDF's text:
@@ -208,7 +209,7 @@ A release is made in a lane and ends with its edition published on both peers. P
 releases need the owner's word each time; landing a proved lane on `dev` does not.
 
 1. In the lane, set `VERSION`, give the version a dated section in `CHANGELOG.md`, record the reviews of the final
-   `book/` and `exercises/` trees in `publication/acceptance/reviews.toml`, complete the release Change's tasks and
+   `book/` and `exercises/` trees and reader notes in `publication/acceptance/reviews.toml`, complete the release Change's tasks and
    archive it.
 2. Read the release PDF built at that head: the cover and its edition line, the colophon and the printed blocks; record
    the reading as the `[[release]]` entry in place of the previous release's, and remove the reviews read before the

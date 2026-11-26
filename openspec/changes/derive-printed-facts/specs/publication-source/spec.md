@@ -2,12 +2,17 @@
 
 ### Requirement: Edition facts declared once
 
-The edition SHALL declare once the names its archive gives the folder, the PDF, the practice pack, the reader notes and the checksum list, the place where the book tells the reader the pack lies, the companion appendix's title and the command that runs the pack's checks. The book, both reader notes, the archive and its checks SHALL take them from that declaration.
+The edition SHALL declare once the names its archive gives the folder, the PDF, the practice pack, the reader notes and the checksum list, where the book says the pack lies, the companion appendix's title, the tools the pack's checks need and the command that runs them. The book, both reader notes, the archive and its checks SHALL take them from there.
 
 #### Scenario: A declared name changes
 
 - **WHEN** the declaration renames the pack's folder or changes the check command
 - **THEN** the printed commands, the prose, both reader notes, the archive's layout and the archive's check carry the new value without another edit.
+
+#### Scenario: A printed block keeps a token
+
+- **WHEN** a printed code block still carries a token meant to be filled from the declaration
+- **THEN** a check fails and names the page.
 
 ## MODIFIED Requirements
 
@@ -105,7 +110,7 @@ A head SHALL pass the proof only when the repository records, for its `book/` an
 
 ### Requirement: Chapter references are derived
 
-The manuscript SHALL take each chapter's, practice's and appendix's number, counted within its kind, and each part's number from the reading order that `book/manuscript.typ` declares, SHALL derive every reference to a chapter, a practice, an appendix or a part by its number from that order, and SHALL point each relative reference, 上一章 or 下一章, at the chapter just before or after the one it stands in.
+The manuscript SHALL take each chapter's, practice's and appendix's number, counted within its kind, and each part's number from the reading order that `book/manuscript.typ` declares, SHALL derive every reference to a chapter, a practice, an appendix or a part by its number from that order, and SHALL point each relative reference, 上一章 or 下一章, 上一部 or 下一部, at the chapter or part just before or after the one it stands in.
 
 #### Scenario: A chapter is renumbered
 
@@ -121,3 +126,8 @@ The manuscript SHALL take each chapter's, practice's and appendix's number, coun
 
 - **WHEN** 上一章 or 下一章 names a chapter that is not adjacent in the reading order, or names none
 - **THEN** a check fails and names the file, the reference and the chapter it should name.
+
+#### Scenario: A relative part reference points elsewhere
+
+- **WHEN** 上一部 or 下一部 names a part that is not adjacent in the reading order, or names none
+- **THEN** the build or a check fails and names the reference.

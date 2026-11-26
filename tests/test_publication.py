@@ -150,6 +150,16 @@ class PublicationInputs(edition.Edition):
         stray = sorted(name for name in embedded if not any(f in letters(name) for f in families))
         self.assertEqual(stray, [])
 
+    def test_printed_code_carries_no_unfilled_token(self):
+        # A printed block that names the pack's place writes `@PACK_PATH@` inside `pack-code`
+        # (book/metadata.typ), which fills it; a block left outside would print the token itself.
+        unfilled = [
+            (item["page"], token)
+            for item in self.fact("raws")
+            for token in re.findall(r"@[A-Z_]+@", item["text"])
+        ]
+        self.assertEqual(unfilled, [])
+
     def test_printed_commands_work_when_pasted_whole(self):
         # A reader pastes a printed block into an interactive shell with default options. There a
         # trailing `#` is no comment (zsh hands it to the command), a request sent right after a
@@ -234,7 +244,7 @@ class PublicationInputs(edition.Edition):
         self.assertEqual(appendices, [chr(ord("A") + n) for n in range(len(appendices))])
 
     def test_contents_lists_every_chapter_in_reading_order(self):
-        # The contents may run over several pages; it ends where chapter 01 opens.
+        # The contents may run over several pages; it ends where the first chapter opens.
         chapters = self.fact("chapters")
         contents_page = self.fact("contents page")
         first_chapter = next(m["page"] for m in self.fact("chapter marks") if m["chapter"] == "01")

@@ -97,7 +97,7 @@ accuracy  0.667
 先安装 promptfoo 和 Inspect（#chapref(<companion>)），再把练习包中的 `templates/eval/` 复制到 `~/eval-practice`：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 cp -R "$PACK/exercises/templates/eval" ~/eval-practice && cd ~/eval-practice
 ```)
 

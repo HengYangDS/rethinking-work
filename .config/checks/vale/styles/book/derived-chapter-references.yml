@@ -1,6 +1,6 @@
 # A reference to a chapter, a practice or an appendix is derived (`#chapref`, `#chapnum`, `#chapspan`,
 # `#chaprun` in publication/layout/style.typ), so that a renumbering changes it too. Source: the
-# quality-system design of 2026-11-21 (layer L0) and chapter 29's insertion on 2026-11-22, which renumbered two
+# quality-system design of 2026-11-21 (layer L0) and a chapter's insertion on 2026-11-22, which renumbered two
 # chapters and eight written references by hand. Markdown under exercises/ is outside this rule's scope.
 extends: existence
 message: "'%s' is written by hand; derive it with a chapter-reference call."

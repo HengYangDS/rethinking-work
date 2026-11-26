@@ -1,7 +1,7 @@
 ## Context
 
 See [proposal.md](proposal.md). Each fact below has one carrier; every other mention reads it, and the PDF's text stays
-what it was before the Change.
+what it was before the Change, apart from the two sentences the proposal names.
 
 ## Goals / Non-Goals
 
@@ -31,13 +31,24 @@ what it was before the Change.
 - **Edition facts in `book/metadata.typ`.** It already holds the edition's identity, and Typst, the archive task (one
   `typst eval` read into shell variables) and the tests (`typst eval` without a layout) all read it natively. The check
   command is built from the declared check file and the Python line the toolchain declares.
-- **`@PACK@` in printed commands.** `pack-code` takes the authored block and returns one with the declared path, keeping
-  its language and block form, so the source stays a readable code block and the document carries the literal path. A
-  show rule was rejected: it would leave both blocks in the document for the checks that query code blocks.
+- **`@PACK_PATH@` in printed commands.** `pack-code` takes the authored block and returns one with the declared path,
+  keeping its language and block form, so the source stays a readable code block and the document carries the literal
+  path. A show rule was rejected: it would leave both blocks in the document for the checks that query code blocks. The
+  notes' tokens have other names (`@PACK_NAME@` is the folder's name), and no printed block may keep a token.
+- **Relative part references name their part.** `partrel("上一部", "智能体")` prints the word and stops the build when
+  the named part is not the neighbour; a source check requires every 上一部 and 下一部 to be written that way. 这一部 and
+  本部 mean the part they stand in and hold under any order.
+- **Counts follow what they count.** A count of a part's chapters is derived; 「五问」 counts the list of questions that
+  the chapter on the question writes out, which is content. The book gives each chapter of that part one question, so an
+  inserted chapter brings its question, and the derived count beside an unchanged 「五问」 shows a forgotten one in the
+  text instead of hiding it. 「分两部来讲」 counts the two parts its own sentence then names.
 - **The note drops the appendix's letter.** The letter is a layout result; filling it would make the archive task lay
   out the book and its test copy the whole book. The title is declared and names the appendix unambiguously.
 - **The notes are a tree.** Moving them to `publication/notes/` gives a commands review one tree to record. Earlier
   reviews record `none`, which states that they did not read the notes.
+- **Files in the pack name roles, not values.** The pack's guides say "the reader note" and "the companion appendix",
+  and send the reader to the note for the tools it needs. The archive note's 「随书练习」 describes the folder (exercises
+  that come with the book), not the appendix's title, and stays true if the appendix is renamed.
 
 ## Risks / Trade-offs
 

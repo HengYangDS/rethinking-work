@@ -1,9 +1,9 @@
 #import "/publication/layout/style.typ": *
 #import "/book/metadata.typ": *
 #chapter(kind: "appendix", book-companion, [在自己的机器上运行#chapref(<practice-thinking>, link: false)至#chapref(<practice-collaborating>, link: false)和各章的“上手”。])<companion>
-本书与随书的练习包同在一个压缩包中。解压后得到“#book-title”文件夹，内有全书的 PDF、练习包所在的“#book-pack”目录和一份校验清单，三者的版本号相同。先读文件夹中的“#book-note”，再读“#book-pack”目录中的同名文件。数据均为小规模的合成数据，不含业务数据；读取数据、运行检查都不需要账号。
+本书与随书的练习包同在一个压缩包中。解压后得到“#book-title”文件夹，内有全书的 PDF、练习包所在的“#book-pack”目录和一份校验清单；PDF 和练习包的版本号相同。先读文件夹中的“#book-note”，再读“#book-pack”目录中的同名文件。数据均为小规模的合成数据，不含业务数据；读取数据、运行检查都不需要账号。
 
-练习包不会替读者安装任何软件。要运行它自带的全部检查，机器上须已安装 Python #book-python-line、DuckDB、ast-grep 和 oasdiff；缺少其中一项时，仍可阅读相应练习的数据，并预测结果。在“#book-pack”目录中运行：
+练习包不会替读者安装任何软件。要运行它自带的全部检查，机器上须已安装 #book-pack-tools；缺少其中一项时，仍可阅读相应练习的数据，并预测结果。在“#book-pack”目录中运行：
 
 #raw(book-check, block: true, lang: "sh")
 

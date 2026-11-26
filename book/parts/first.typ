@@ -9,7 +9,7 @@
 把#link(<agent>)[上一章]那个导出函数及其测试复制到一个新目录，并提交一次。第一行等号后面的路径，换成“#book-pack”目录的位置：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 mkdir ~/first-session && cd ~/first-session &&
   cp "$PACK/exercises/cases/export-regression/export_bug.py" export.py &&
   cp "$PACK/exercises/cases/export-regression/test_export.py" . &&

@@ -1,7 +1,7 @@
 # Companion exercises
 
 Synthetic worked examples and working materials for the book 《重新理解工作》. They hold no business data and need no
-credentials or model service. Readers start from the book's appendix 「随书练习」, which lists each exercise with the
+credentials or model service. Readers start from the book's companion appendix, which lists each exercise with the
 chapter that uses it; this file is the maintainer's reference.
 
 ## Layout
@@ -21,10 +21,10 @@ From the repository root:
 just --justfile publication/justfile exercises
 ```
 
-From the practice pack's folder `实战练习/` in an unpacked edition archive, which has no `publication/` directory, run
-the command that the folder's `先读.txt` gives; it names the Python line the checks run on.
+From the practice pack's folder in an unpacked edition archive, which has no `publication/` directory, run the command
+that the folder's reader note gives; it names the Python line the checks run on.
 
-The check uses the installed Python, DuckDB, ast-grep and oasdiff and installs nothing. It passes only when each
+The check uses the installed tools that the reader note names and installs nothing. It passes only when each
 example shows its stated outcome, the deliberate failures included.
 
 ## Add or change an example

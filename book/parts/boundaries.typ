@@ -122,10 +122,10 @@ codex sandbox -c 'sandbox_mode="workspace-write"' -- sh probe.sh
 cd /tmp && rm -rf /tmp/sandbox-probe /tmp/probe-b
 ```
 
-最后看宿主怎样拒绝。新建一个目录，放进待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行的路径，按#chapref(<first>)换成“#book-pack”目录的位置：
+最后看宿主怎样拒绝。新建一个目录，放进待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行等号后面的路径，按#chapref(<first>)换成“#book-pack”目录的位置：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 mkdir -p ~/guard-practice/.claude/hooks ~/guard-practice/work &&
   cd ~/guard-practice && echo keep > notes.txt &&
   cp "$PACK/exercises/cases/export-regression/export_bug.py" work/export.py

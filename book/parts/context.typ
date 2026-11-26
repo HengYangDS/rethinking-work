@@ -81,7 +81,7 @@ semble 还可以作为 MCP 服务运行（MCP 是接入工具的一种通行协�
 下一节的工具要在目录里写入文件，所以这一节和下一节都在练习包的一份副本里进行。复制之后，用一句英文按“删去收益为空的行”的意思搜索：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 cp -R "$PACK/exercises" ~/search-practice && cd ~/search-practice
 semble search "drop rows whose return is missing" cases \
   --top-k 3 --max-snippet-lines 6 --format text

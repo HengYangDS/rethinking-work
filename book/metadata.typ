@@ -30,8 +30,8 @@
 // The edition archive, as the book, its reader notes and the archive task (`publication/justfile`) name its parts:
 // one folder named for the book holds the PDF, the practice pack's folder, a note to read first and a SHA-256 list;
 // the pack holds a note of the same name. The book tells the reader where the pack lies once the archive is unpacked
-// in Downloads, which appendix the pack's note points to, and the command that runs the pack's checks on the
-// toolchain's Python line (`.config/mise/config.toml`).
+// in Downloads, which appendix the pack's note points to, what the pack's checks need and the command that runs them
+// on the toolchain's Python line (`.config/mise/config.toml`).
 #let book-pdf = book-title + "-" + book-version + ".pdf"
 #let book-pack = "实战练习"
 #let book-note = "先读.txt"
@@ -41,9 +41,12 @@
 #let book-python-line = toml("/.config/mise/config.toml").tools.python
 #let book-checks = "tests/test_exercises.py"
 #let book-check = {
-  let (folder, file) = book-checks.split("/")
-  "python" + book-python-line + " -B -m unittest discover -s " + folder + " -p " + file + " -v"
+  let segments = book-checks.split("/")
+  let folder = segments.slice(0, -1).join("/")
+  "python" + book-python-line + " -B -m unittest discover -s " + folder + " -p " + segments.last() + " -v"
 }
-// An authored code block in which `@PACK@` stands for the place of the pack: the block as the reader sees it, with
-// the declared path.
-#let pack-code(it) = raw(it.text.replace("@PACK@", book-pack-path), lang: it.lang, block: it.block)
+// What a machine needs before the pack's checks run; the pack installs none of it.
+#let book-pack-tools = ("Python " + book-python-line, "DuckDB", "ast-grep", "oasdiff").join("、", last: " 和 ")
+// An authored code block in which `@PACK_PATH@` stands for the place of the pack: the block as the reader sees it,
+// with the declared path.
+#let pack-code(it) = raw(it.text.replace("@PACK_PATH@", book-pack-path), lang: it.lang, block: it.block)

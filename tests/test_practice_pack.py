@@ -159,7 +159,7 @@ class EditionArchive(unittest.TestCase):
             for note in (folder / note_name, folder / pack / note_name):
                 text = note.read_text(encoding="utf-8")
                 self.assertIn(f"{version} 草稿 · 提交 {commit[:7]}", text, note.name)
-                self.assertNotRegex(text, r"@[A-Z]+@")
+                self.assertNotRegex(text, r"@[A-Z_]+@")
             self.assertIn(commit, (folder / note_name).read_text(encoding="utf-8"))
             self.assertIn(names["pdf"], (folder / note_name).read_text(encoding="utf-8"))
 

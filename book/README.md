@@ -11,7 +11,7 @@ it. Presentation lives in [publication](../publication/README.md).
 - [manuscript.typ](manuscript.typ) owns reading order, not duplicate prose.
 - [front-matter.typ](front-matter.typ) contains the cover, preface and contents.
 - [parts](parts/README.md) contains one module per chapter.
-- [back-matter.typ](back-matter.typ) holds the four appendices: the index of the
+- [back-matter.typ](back-matter.typ) holds the appendices: the index of the
   companion exercises, a quick reference, the map of tools by layer, and the
   conditions of the runs the book cites with the basis of its conclusions.
 

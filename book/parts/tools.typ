@@ -73,7 +73,7 @@ function search(query: string, repo: unknown, top_k?: number,
 初次试用时，把 `HOME` 指向一个临时目录，这样实际使用的技能库和宿主配置都不受影响。下面用命令行程序 `skills-manager-cli`，把练习包里的那份技能安装到库中，再部署给 Claude Code。第一行等号后面的路径，按#chapref(<first>)换成“#book-pack”目录的位置：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 T=$(mktemp -d) && mkdir "$T/.claude"
 HOME="$T" skills-manager-cli skills install \
   "$PACK/exercises/cases/export-regression/agent" | jq -c '{ok, name}'
@@ -190,7 +190,7 @@ Bash	grep -rn "export_rows" --include=*.py . ; cat -n cases/export-re
 接着安装一条钩子和一份技能。这两项在 `first-session` 的一份副本里做，因为后面几章还要使用原来的目录，那里不应有钩子和技能。钩子的设置和技能都在练习包中，复制到副本里：
 
 #pack-code(```sh
-PACK=@PACK@
+PACK=@PACK_PATH@
 A="$PACK/exercises/cases/export-regression/agent"
 mkdir ~/tools-practice && cp -R ~/first-session/. ~/tools-practice/ &&
   cd ~/tools-practice &&

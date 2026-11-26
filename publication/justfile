@@ -74,7 +74,8 @@ test-proof output: pdf-tools-check
 exercises:
     #!/usr/bin/env bash
     set -euo pipefail
-    $(typst eval --root . 'import "/book/metadata.typ": book-check; book-check' --format json | {{python}} -c 'import json, sys; print(json.load(sys.stdin))')
+    command=$(typst eval --root . 'import "/book/metadata.typ": book-check; book-check' --format json | {{python}} -c 'import json, sys; print(json.load(sys.stdin))')
+    eval "$command"
 
 # One edition archive: the PDF, the tracked teaching inputs and a checksum list, in one folder whose names and
 # reader notes are filled from the edition's declared facts (book/metadata.typ), its commit and the number of
@@ -88,8 +89,9 @@ edition-archive:
     export TZ=UTC
     pdf="{{pdf}}"
     test -f "$pdf" || { echo "No PDF at $pdf: build it first." >&2; exit 1; }
-    # The edition's declared facts, read once as shell variables.
-    eval "$(typst eval --root . {{edition_inputs}} 'import "/book/metadata.typ": *; (edition: book-edition, stamp: book-date.display("[year][month][day]") + "0000", title: book-title, author: book-author, file: book-pdf, pack: book-pack, note: book-note, sums: book-sums, companion: book-companion, python: book-python-line, tests: book-checks, check: book-check)' --format json | {{python}} -c 'import json, shlex, sys; print("\n".join(f"{k}={shlex.quote(v)}" for k, v in json.load(sys.stdin).items()))')"
+    # The edition's declared facts, read once as shell variables; a failed evaluation stops the task here.
+    facts=$(typst eval --root . {{edition_inputs}} 'import "/book/metadata.typ": *; (edition: book-edition, stamp: book-date.display("[year][month][day]") + "0000", title: book-title, author: book-author, file: book-pdf, pack: book-pack, note: book-note, sums: book-sums, companion: book-companion, tools: book-pack-tools, tests: book-checks, check: book-check)' --format json | {{python}} -c 'import json, shlex, sys; print("\n".join(f"{k}={shlex.quote(v)}" for k, v in json.load(sys.stdin).items()))')
+    eval "$facts"
     commit=$(git rev-parse HEAD)
     checks=$(grep -c '^    def test_' "$tests")
     work=build/runtime/work/edition-archive
@@ -100,10 +102,10 @@ edition-archive:
     git ls-files -z VERSION LICENSE exercises "$tests" | tar --null -T - -cf - | tar -xf - -C "$folder/$pack"
     fill() {
         sed -e "s|@TITLE@|$title|g" -e "s|@AUTHOR@|$author|g" -e "s|@EDITION@|$edition|g" -e "s|@COMMIT@|$commit|g" \
-            -e "s|@PDF@|$file|g" -e "s|@PACK@|$pack|g" -e "s|@NOTE@|$note|g" -e "s|@SUMS@|$sums|g" \
-            -e "s|@COMPANION@|$companion|g" -e "s|@PYTHON@|$python|g" -e "s|@CHECK@|$check|g" -e "s|@CHECKS@|$checks|g" \
+            -e "s|@PDF@|$file|g" -e "s|@PACK_NAME@|$pack|g" -e "s|@NOTE@|$note|g" -e "s|@SUMS@|$sums|g" \
+            -e "s|@COMPANION@|$companion|g" -e "s|@TOOLS@|$tools|g" -e "s|@CHECK@|$check|g" -e "s|@CHECKS@|$checks|g" \
             "$1" > "$2"
-        ! grep -q '@[A-Z]*@' "$2"
+        ! grep -q '@[A-Z_]*@' "$2"
     }
     fill publication/notes/reader-start.zh.txt "$folder/$pack/$note"
     fill publication/notes/archive-start.zh.txt "$folder/$note"

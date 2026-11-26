@@ -1,8 +1,9 @@
-"""Hold the book's relative chapter references to the manuscript's order.
+"""Hold the book's relative chapter and part references to the manuscript's order.
 
-A reference by number is derived (`#chapref`, `#chapnum`); a relative one, 上一章 or 下一章, is
-written, so it must point at the chapter just before or after the one it stands in, in the order
-of book/manuscript.typ. Read from the sources; no build is needed.
+A reference by number is derived (`#chapref`, `#chapnum`, `#partref`); a relative one, 上一章 or
+下一章, is written, so it must point at the chapter just before or after the one it stands in, in
+the order of book/manuscript.typ. A relative part reference, 上一部 or 下一部, names its part in
+`#partrel`, which the layout checks. Read from the sources; no build is needed.
 """
 
 import re
@@ -12,6 +13,8 @@ from edition import ROOT
 
 OPENING = re.compile(r"#chapter\(.*?\)<([a-z-]+)>", re.S)
 RELATIVE = re.compile(r"#link\(<([a-z-]+)>\)\[(上一章|下一章)\]")
+# A relative part reference names its part, and the layout checks it (`partrel`).
+RELATIVE_PART = re.compile(r'#partrel\("(?:上一部|下一部)", "[^"]+"\)')
 
 
 class RelativeReferences(unittest.TestCase):
@@ -46,6 +49,17 @@ class RelativeReferences(unittest.TestCase):
         ]
         self.assertEqual(plain, [])
         self.assertEqual(wrong, [])
+
+    def test_previous_and_next_part_name_their_part(self):
+        sources = {
+            path: path.read_text(encoding="utf-8") for path in (ROOT / "book").rglob("*.typ")
+        }
+        plain = [
+            (path.name, word)
+            for path, text in sorted(sources.items())
+            for word in re.findall("上一部|下一部", RELATIVE_PART.sub("", text))
+        ]
+        self.assertEqual(plain, [])
 
 
 if __name__ == "__main__":

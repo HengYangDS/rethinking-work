@@ -72,8 +72,8 @@ def head_tree(directory):
 
 def head_python_line():
     """The Python line the toolchain declares at the checked-out head. The book and the reader
-    note print the exercise command on it (book/back-matter.typ, publication/justfile), so it
-    belongs to what a commands review reads, beside the trees."""
+    note print the exercise command on it (`book-check` in book/metadata.typ), so it belongs to
+    what a commands review reads, beside the trees."""
     declared = git("show", "HEAD:.config/mise/config.toml").stdout
     return tomllib.loads(declared)["tools"]["python"]
 
