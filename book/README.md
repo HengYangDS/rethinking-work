@@ -9,8 +9,8 @@ it. Presentation lives in [publication](../publication/README.md).
   names the edition from the build's identity: the version's edition dated by
   its tag, or a draft named by its commit. Front matter and PDF metadata consume it.
 - [manuscript.typ](manuscript.typ) owns reading order, not duplicate prose.
-- [front-matter.typ](front-matter.typ) contains the cover's words, the preface
-  and the contents' heading;
+- [front-matter.typ](front-matter.typ) gives the cover its words and holds the
+  preface and the contents' heading;
   [publication/layout/front.typ](../publication/layout/front.typ) sets the cover
   and lists the contents from the chapters and parts.
 - [parts](parts/README.md) contains one module per chapter.

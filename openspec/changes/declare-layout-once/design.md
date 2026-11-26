@@ -37,8 +37,9 @@ that owner; every other mention reads it.
   navigation line and the link back to the contents; a figure's detail and an arrow's label). Roles that only happen
   to share a size keep their own, so that changing one does not move another.
 - **The paper.** The side margins are `50% - text-width / 2`: Typst resolves a relative side margin against the page's
-  width, so the text block stays centred on any paper without the width being written. `y` sets the top and bottom
-  margin once. A specimen on A4 confirmed the text block's width.
+  width, so the text block stays centred on any paper that holds it without the width being written. `y` sets the
+  top and bottom margin once. A specimen confirmed the rule: on A4, side margins of 50% less 50 mm left a block of
+  100 mm.
 - **Cover and contents.** `front.typ` sets them from the layout's faces and sizes; the front matter passes the words
   (the titles, the author, the tagline, the edition line) and keeps the headings and labels the book links to. The
   cover prints the English title in capitals from `book-title-en`, so the declared title reads as a title. The row
@@ -50,19 +51,21 @@ that owner; every other mention reads it.
   not what counts as a number; that is the layout's to say.
 - **Coverage from other facts, not counts.** A fixed lower count (`> 100` steps, `> 40` tables, `> 50` blocks, `> 30`
   specimen lines) guarded against a reader that finds nothing or too little. Each guard now derives what must be found
-  from another fact: the body's line and paragraph steps are measured in every part of the book; every block with a
-  language is either a printed command, which the command check reads, or one of the declared languages of a file's
-  content; every page of the specimen, one per kind of block, is measured. The tables come from one query, which
+  from another fact: the body's line and paragraph steps are measured in every numbered chapter, which is prose
+  throughout (practices and appendices are partly lists and tables, and the closing and the afterword are short);
+  every tagged block is a printed command, which the command check reads unless it is a script's text, or one of the
+  declared languages of a file's content, and an output stays untagged; every page of the specimen, one per kind of
+  block, is measured. The tables come from one query, which
   cannot find part of them, so finding some suffices there.
 - **The draft's commit.** The practice-pack test reads `commit=` from the archive task's `edition_inputs` in its fixture
   and requires the full commit to begin with it, instead of cutting the commit to seven characters itself.
 - **Time limits.** `QUIET` carries the one-minute limit; the compile's wait reads it, and the tests' guide points to it.
   The reader's whole check of the pack runs every exercise's tools in turn; its limit of two minutes is named at the
   top of its test, its only reader.
-- **Repeated invocations.** The justfile declares once what it ran in several places: the tests' command, which
-  `test` and `test-proof` share, the locked test environment, which `test-env` syncs, the Brewfile, whose check
-  `ci-supply` now runs through `_pdf-tools-installed`, and the options both of the supply's downloads share; each
-  download keeps its own `--max-time`, set once beside the flag.
+- **Repeated invocations.** The justfile declares once what it ran in several places: the tests' command, shared by
+  `test` and `test-proof`; the locked test environment, which `test-env` syncs; the Brewfile's path, whose check
+  `ci-supply` now runs quietly through `_pdf-tools-installed`; and the options both of the supply's downloads share.
+  Each download keeps its own `--max-time`, set once beside the flag.
 
 ## Risks / Trade-offs
 
@@ -70,7 +73,8 @@ that owner; every other mention reads it.
   same file, and a check already fails when the compile reads a package file the manifest does not pin.
 - A role shared by two texts couples them → only texts that stand together as one kind share a role; the rest keep
   their own.
-- A part with no measurable step, or a new language for a file's content, fails a guard that is right to stop → the
-  failure names the part or the language, and the fix is one entry, not a number.
+- A numbered chapter with no two body lines in a row, or no two adjacent paragraphs on a page, would fail its guard →
+  the book has none, the failure names the chapter, and such a chapter is reviewed with its content. A new language
+  for a file's content fails until `FILE_LANGUAGES` names it.
 - Relative side margins assume a paper wider than the text block → the measure and the paper are both declared in the
   layout, where a change of either is reviewed on every page.

@@ -12,8 +12,9 @@ from pathlib import Path
 import edition
 from edition import BACK_MATTER_SECTIONS, QUIET, ROOT
 
-# The book prints a command as a `sh` block; a block in any of the other languages shows a file's
-# content. A block in a language outside both fails a check until it is placed in one.
+# The book prints a command as a `sh` block and an output as an untagged one; a block in any of the
+# other languages shows a file's content (a `sh` block that begins with `#!` is a script's text). A
+# block in a language outside these fails a check until it is placed in one.
 COMMAND_LANGUAGE = "sh"
 FILE_LANGUAGES = {"json", "md", "python", "sql", "yaml"}
 
@@ -179,9 +180,10 @@ class PublicationInputs(edition.Edition):
             and not item["text"].startswith("#!")
         ]
         self.assertTrue(blocks)
-        # Every other block shows a file's content, so this check sees every printed command.
-        other = {item["lang"] for item in raws if item["block"] and item["lang"]}
-        self.assertEqual(other - {COMMAND_LANGUAGE, *FILE_LANGUAGES}, set())
+        # A printed command is a tagged `sh` block and an output an untagged one; every other tagged
+        # block shows a file's content, so no tagged command escapes this check.
+        languages = {item["lang"] for item in raws if item["block"] and item["lang"]}
+        self.assertEqual(languages - {COMMAND_LANGUAGE, *FILE_LANGUAGES}, set())
         commented, unwaited = {}, []
         for _, item in blocks:
             marks = bare_comment_lines(item["text"])

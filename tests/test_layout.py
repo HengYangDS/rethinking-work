@@ -296,16 +296,17 @@ class EditionLayout(edition.Edition):
             ):
                 paragraph_steps.append((page, top(first) - top(lines[position - 1])))
         self.assertEqual(indented, [])
-        # A reader that lost most paragraphs would still find a few steps; every part of the book
-        # has both kinds, so each part must show both.
+        # A reader that lost a whole chapter's paragraphs would still find steps elsewhere. A numbered
+        # chapter is prose throughout, so each must show both kinds; practices and appendices are
+        # partly lists and tables, and the closing and the afterword are short.
         marks = self.fact("chapter marks")
 
-        def part(page):
-            return next((m["part"] for m in reversed(marks) if m["page"] <= page), None)
+        def chapter(page):
+            return next((m["chapter"] for m in reversed(marks) if m["page"] <= page), None)
 
-        parts = {mark["part"] for mark in marks}
+        numbered = {mark["chapter"] for mark in marks if mark["chapter"].isdigit()}
         for steps in (line_steps, paragraph_steps):
-            self.assertEqual(parts - {part(page) for page, _ in steps}, set())
+            self.assertEqual(sorted(numbered - {chapter(page) for page, _ in steps}), [])
         line = declared["body line"]
         self.assertEqual([s for s in line_steps if abs(s[1] - line) > 0.5], [])
         self.assertEqual([s for s in paragraph_steps if abs(s[1] - 2 * line) > 0.5], [])

@@ -211,7 +211,7 @@ ci-supply:
         echo "Typst packages: installed"
     fi
     just --justfile publication/justfile test-env
-    if just --justfile publication/justfile _pdf-tools-installed; then
+    if just --quiet --justfile publication/justfile _pdf-tools-installed; then
         echo "PDF tools: present"
     else
         brew bundle install --file {{brewfile}} --no-upgrade

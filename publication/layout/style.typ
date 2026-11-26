@@ -84,7 +84,7 @@
 // sit at the left of their cell and opening marks at the right. A run is joined to its neighbours where a line may not
 // break: before a closing mark, after an opening one, and nowhere inside it (GB/T 15834—2011 5.1.1, 5.1.3).
 #let opening-marks = "“‘（"
-// Closing marks, which never open a line (GB/T 15834—2011 5.1.3); the checks hold every line to them.
+// Closing marks, with which no line may begin (GB/T 15834—2011 5.1.3); the checks find any line that does.
 #let closing-marks = "，。、；：？！）」』”’》"
 #let quote-run(run) = {
   let marks = run.clusters()

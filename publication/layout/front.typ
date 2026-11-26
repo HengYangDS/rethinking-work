@@ -1,4 +1,5 @@
-// The cover and the contents, set from the layout's faces and sizes; the front matter gives their words.
+// The cover and the contents, set from the layout's faces and sizes. The front matter gives the cover its words and the
+// contents their heading; the entries come from the chapters and parts.
 #import "style.typ": *
 // The cover: the English title in capitals above the title, the subtitle, a rule, the tagline, and at the foot the
 // author and the edition line.
