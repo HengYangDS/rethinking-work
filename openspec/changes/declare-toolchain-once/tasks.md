@@ -21,5 +21,5 @@
 ## 2. Review
 
 - [x] 2.1 Answer each finding of the independent review in code or in this design; done when none is open.
-- [ ] 2.2 Record the commands review and the reading of the changed `book/` and `exercises/` passages; done when the
+- [x] 2.2 Record the commands review and the reading of the changed `book/` and `exercises/` passages; done when the
       acceptance test passes on the head.

@@ -19,7 +19,8 @@ that carrier or points to it.
   release, and this repository's move follows it as a Change of its own.
 - The book's identity, structure and layout constants, and with them the printed pack lines: the exercise command's
   arguments still stand in the task file, the reader note and the back matter, and the reader notes are reader text
-  that no review record covers. The Change that derives the book's printed pack facts takes both.
+  that no review record covers. The Change that derives the book's printed pack facts takes both; the repository's
+  editor opens it next, after this one lands, and reviews this deferral on 2026-11-30 if it is not open by then.
 - A carrier of ETHOS's own for steps that repository jobs share; the selection below stands until one exists.
 
 ## Decisions
