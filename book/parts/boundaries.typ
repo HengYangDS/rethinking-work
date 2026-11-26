@@ -27,11 +27,11 @@ Codex 把“能触及什么”和“何时询问人”拆成两个选项。`--sa
 
 #matrix(columns: (1.2fr, 0.95fr, 2.05fr), [*要做的事*], [*Claude Code*], [*Codex*], [只让它查看，并提出一个方案], [`plan`], [`read-only`], [在自己的工作副本中修改代码], [`acceptEdits`], [`workspace-write` 加 `on-request`], [涉及共享的仓库和数据], [`default`], [`read-only`，需要写入的那一步由人来做], [无人值守的定时任务], [`dontAsk` 加放行清单], [`never` 加 `read-only` 或 `workspace-write`], [在可以随时丢弃的隔离环境中运行批量任务], [`bypassPermissions`], [`--dangerously-bypass-approvals-and-sandbox`])
 
-表中“涉及共享的仓库和数据”一行，两列的做法看似不同，要求却相同：未经人同意，不写入共享的位置，即三个圈中的“先问”。Claude Code 的 `default` 每次写入之前都询问。Codex 若用 `workspace-write`，沙箱会放行工作目录内的写入，`on-request` 又由模型自己判断何时询问，不能保证每次写入之前都问；所以只给它 `read-only`：它在沙箱里运行的命令写不进文件；它请求到沙箱外运行，人一律不同意（见下文“沙箱”）；写入的那一步由人自己来做。
+表中“涉及共享的仓库和数据”一行，两列的做法看似不同，要求却相同：未经人同意，不写入共享的位置，即三个圈中的“先问”。Claude Code 的 `default` 档每次写入之前都询问。Codex 若用 `workspace-write`，沙箱会放行工作目录内的写入，`on-request` 又由模型自己判断何时询问，不能保证每次写入之前都问；所以只给它 `read-only`：它在沙箱里运行的命令写不进文件；它请求到沙箱外运行，人一律不同意（见下文“沙箱”）；写入的那一步由人自己来做。
 
 两个宿主都有一个“全部跳过”的启动开关：Claude Code 是 `--dangerously-skip-permissions`（即进入 `bypassPermissions` 档），Codex 是 `--dangerously-bypass-approvals-and-sandbox`。在自己的机器上、针对共享的仓库打开它们，宿主便不再区分三个圈：凡是运行宿主的那个账户能做的，都不经询问直接执行。Codex 的 `danger-full-access` 与此不同：它只取消沙箱，不改变何时询问。Claude Code 的 `auto` 由一个分类模型代替人决定放行与否；分类模型和其他模型一样会出错，只要误放行一次，无法撤回的事就可能已经发生。
 
-初次使用时，最好选 `default`：这一档询问频繁，便于看清智能体每一步在做什么。命令中不指定档位，初始档位就取决于启动方式、版本和个人设置文件 `~/.claude/settings.json` 中的 `permissions.defaultMode`（#chapref(<first>)），所以启动时应明确指定。
+初次使用时，最好选询问频繁的 `default`，便于看清智能体每一步在做什么。命令中不指定档位，初始档位取决于启动方式、版本和个人设置文件 `~/.claude/settings.json` 中的 `permissions.defaultMode`（#chapref(<first>)），所以启动时应明确指定。
 
 == 沙箱
 档位和清单都由宿主执行。另有一层由操作系统执行，就是沙箱：在沙箱里运行的命令，要写入允许范围以外的文件，或者建立不允许的网络连接，系统都会拒绝，与模型怎样判断无关。按章末“上手”中试验所用的设置，Codex 在 `read-only` 模式下，当前工作目录、`/tmp` 和主目录都写不进，联网被拒绝；在 `workspace-write` 模式下，当前工作目录和 `/tmp` 可写，主目录中工作目录以外的部分不可写，联网同样被拒绝。要另外允许写入某个目录，用 `--add-dir` 加上。Claude Code 的沙箱在会话中用 `/sandbox` 查看和开启，也可以在设置文件中把 `sandbox.enabled` 设为 `true`。
@@ -121,7 +121,7 @@ codex sandbox -c 'sandbox_mode="workspace-write"' -- sh probe.sh
 cd /tmp && rm -rf /tmp/sandbox-probe /tmp/probe-b
 ```
 
-最后看宿主怎样拒绝。新建一个目录，放进待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行等号后面的路径，按#chapref(<first>)换成“实战练习”目录的位置：
+最后看宿主怎样拒绝。新建一个目录，放进待修的 `work/export.py` 和一个 `notes.txt`，再装上一个 `PreToolUse` 钩子，只允许修改 `work/` 下的文件。第一行的路径，按#chapref(<first>)换成“实战练习”目录的位置：
 
 ```sh
 PACK=~/Downloads/重新理解工作/实战练习
