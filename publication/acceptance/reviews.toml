@@ -8,7 +8,7 @@
 #               trees of book/ and exercises/ (`git rev-parse <subject>:book`).
 #   subject, the commit read; blocks_against, the run records' baseline the blocks were paired with;
 #   prose_against, the reviewed commit the prose was compared with; pdf, the SHA-256 of the PDF read, or
-#   "none" for a text-only review; read, when the findings were written; findings, their path;
+#   "none" for a text-only review; read, when the findings were written, with its offset; findings, their path;
 #   verdict, "no finding" or "settled", with one [[commands.point]] per point: point, in the reviewer's
 #   words shortened, and either settled (the commit and wording that settled it) or declined (the
 #   reason, and the review that accepted it).

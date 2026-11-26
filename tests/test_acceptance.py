@@ -45,19 +45,19 @@ def head_tree(directory):
 
 def last_release(read):
     """The release whose printed commands a review read at `read` compares with: the latest
-    signed `v*` tag in the head's history that was made no later than the reading. The head's
-    history is used, not the reviewed commit's: a lane rewritten after its review keeps the
-    trees the review covers, but the reviewed commit is then on no ref that a CI clone fetches."""
+    signed release tag made no later than the reading. Releases are tagged in turn on `main`, so
+    the time alone names it; neither the reviewed commit, which a rewritten lane leaves on no
+    fetched ref, nor the head, which a rebase can move past a later release, enters."""
+    signed = "%(if)%(contents:signature)%(then)signed%(else)unsigned%(end)"
     tags = git(
         "for-each-ref",
-        "--merged=HEAD",
         "--sort=-taggerdate",
-        "--format=%(taggerdate:unix) %(refname:lstrip=2)",
-        "refs/tags/v*",
+        f"--format=%(taggerdate:unix) %(refname:lstrip=2) {signed}",
+        "refs/tags/v[0-9]*",
     ).stdout.split("\n")
     for line in filter(None, tags):
-        made, name = line.split(" ", 1)
-        if made and int(made) <= read.timestamp():
+        made, name, state = line.rsplit(" ", 2)
+        if made and state == "signed" and int(made) <= read.timestamp():
             return name
     return None
 
@@ -81,9 +81,6 @@ class RecordedReviews(unittest.TestCase):
             for review in self.record[kind]:
                 with self.subTest(kind=kind, subject=review.get("subject")):
                     self.assertLessEqual(fields | {"verdict"}, review.keys())
-                    # A time without its offset would be read in the runner's own time zone.
-                    self.assertIsInstance(review["read"], datetime)
-                    self.assertIsNotNone(review["read"].utcoffset(), "read carries no offset")
                     points = review.get("point", [])
                     self.assertIn(review["verdict"], ("no finding", "settled"))
                     self.assertEqual(review["verdict"] == "settled", bool(points))
@@ -97,16 +94,23 @@ class RecordedReviews(unittest.TestCase):
             self.covering, f"no commands review records book/ and exercises/ {self.trees}"
         )
 
+    def test_a_review_time_carries_its_offset(self):
+        # A time without its offset would be read in the runner's own time zone.
+        for kind in FIELDS:
+            for review in self.record[kind]:
+                with self.subTest(kind=kind, subject=review.get("subject")):
+                    self.assertIsInstance(review["read"], datetime)
+                    self.assertIsNotNone(review["read"].utcoffset(), "read carries no offset")
+
     def test_the_latest_commands_review_of_the_head_names_the_last_release(self):
         # "Run every changed command, old against new": the old commands are the last release's.
-        # A baseline copied from an older record names an older tag and fails here. Only the
-        # review read last is held: an older record that the head's trees match again stays as
-        # it was written.
+        # A baseline copied from an older record names an older tag and fails here. When later
+        # reviews cover the same trees, only the one read last is held.
         if not self.covering:
             self.skipTest("no commands review covers the head; the test above fails")
         review = max(self.covering, key=lambda item: item["read"])
         expected = last_release(review["read"])
-        self.assertIsNotNone(expected, "no signed v* tag in the head's history; fetch the tags")
+        self.assertIsNotNone(expected, "no signed release tag before the review; fetch the tags")
         self.assertEqual(review["blocks_against"], expected, review["subject"])
 
     def test_the_head_has_a_reading_of_its_text(self):
