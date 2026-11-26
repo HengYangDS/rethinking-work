@@ -39,20 +39,6 @@ The publication SHALL identify its title, author 衡阳, version, edition and la
 - **WHEN** the PDF is rebuilt through the declared entrypoint
 - **THEN** its author and editorial date agree with the visible attribution, its cover shows the version in `VERSION`, and its references distinguish cases, recommendations and synthetic exercises.
 
-### Requirement: Truthful publication acceptance
-
-A compiled document SHALL NOT be represented as reader-approved or published solely because its build passed. Delivery SHALL verify complete content, navigation, metadata and every final page within its stated review scope.
-
-#### Scenario: Build succeeds before editorial review
-
-- **WHEN** the native build succeeds but editorial revision or visual inspection remains unfinished
-- **THEN** the artifact remains a candidate and the existing reader output is not silently replaced.
-
-#### Scenario: A head is proved
-
-- **WHEN** a head that changed the book's text or exercises is proved
-- **THEN** its `book/` and `exercises/` trees carry a recorded commands review and reading, each point settled or declined.
-
 ### Requirement: An account of work in the agentic era
 
 The manuscript SHALL present an account of work and team collaboration in the agentic era, set in the business context of a quantitative data team, that teaches a team how to think, act and collaborate. It SHALL cover principle, method, how an Agent works and is operated, practice and tooling, and pair each principle with a worked scenario from data work. Each agent layer SHALL be taught through a named tool the team uses for it, with runnable commands and their expected output.
@@ -129,57 +115,6 @@ The tracked publication source SHALL NOT disclose an internal organization schem
 - **WHEN** a chapter adapts an internal incident into a scenario
 - **THEN** the scenario keeps only the elements its point needs, carries no name or detail that identifies a vendor, a person or an internal system, keeps its numbers internally consistent, and neither the chapter nor the back matter says that it happened or who took part.
 
-### Requirement: Objective register
-
-Chinese prose SHALL narrate in the third person and an even tone, stating facts and reasoning from them. It SHALL NOT narrate in the first person, stress who did or wrote something, or assert that an example really happened. Hands-on instructions MAY address the reader.
-
-#### Scenario: A passage carries a detail
-
-- **WHEN** a detail does not serve the point of its passage
-- **THEN** the passage leaves it out, even when the detail is true.
-
-### Requirement: Meaning-led Chinese editorial review
-
-Chinese prose SHALL use accurate concepts and idiomatic paragraph structure. Editorial revision SHALL preserve the source's objects, actors, relationships, numbers, dates, negation, conditions, attribution and uncertainty. Practical instructions SHALL identify the actor, prerequisites, action and observable result. A reviewer score, agreement or word substitution SHALL NOT establish this acceptance.
-
-#### Scenario: One source term has different meanings
-
-- **WHEN** a source term refers to credentials in one passage and sensitive information or non-sensitive metadata in another
-- **THEN** each passage expresses its own intended meaning in natural Chinese, and whole-paragraph source comparison and cold reading qualify the revision rather than a global replacement.
-
-### Requirement: Direct prose with limits stated once
-
-Chinese prose SHALL state what a thing is and does, once. A scope limit SHALL appear once where it applies, at the case or in the back matter, rather than after each passage. Prose SHALL NOT deny or exclude a meaning the text never gave, restate a point just made, or explain what is already plain.
-
-#### Scenario: A case has a limited scope
-
-- **WHEN** a demonstration or worked result holds only under stated conditions
-- **THEN** those conditions appear once, where the result is used or in the back matter, and the chapter does not repeat them after each paragraph that uses the result.
-
-#### Scenario: A judgement is described
-
-- **WHEN** the book states what a judgement of work or of a member rests on
-- **THEN** it names what the judgement rests on and nothing that the judgement does not judge.
-
-#### Scenario: A run is cited
-
-- **WHEN** a chapter rests a claim on a run
-- **THEN** the chapter states the behaviour and its reasoning, and the run's conditions and versions stand once in the appendix it points to.
-
-### Requirement: Plain prose that leads the reader
-
-Chinese prose SHALL reach its point through a concrete situation and standard written Chinese: every word in its dictionary sense, idiomatic collocations, and punctuation by GB/T 15834. It SHALL describe what the team does and why rather than instruct the reader, and SHALL NOT use coined labels, maxims or enumerations whose only purpose is to sound systematic.
-
-#### Scenario: An idiom says it more exactly
-
-- **WHEN** an established idiom, set phrase or allusion says a thing more exactly or more briefly than plain words
-- **THEN** the prose uses it in its dictionary sense, and never as decoration or as a slogan.
-
-#### Scenario: A chapter introduces a principle
-
-- **WHEN** a chapter states a principle or method
-- **THEN** a scenario precedes it, the statement appears once in everyday language with its reason, and the chapter's lead line poses the question the chapter answers.
-
 ### Requirement: Reproducible source verification
 
 Both publication peers SHALL run the installed verification model of the owner's
@@ -247,7 +182,7 @@ establish reader delivery or editorial approval.
 
 ### Requirement: Behaviour claims grounded in runs
 
-A statement about what a tool, a host or an Agent does SHALL rest on a run recorded on the stated version, on a primary source, or on reasoning presented as reasoning. A claim about an Agent's tendency SHALL state the conditions and the number of runs where the result is used, once.
+A statement about what a tool, a host or an Agent does SHALL rest on a run recorded on the stated version, on a primary source such as the vendor's documentation, or on reasoning presented as reasoning, and SHALL say which, with the version it was observed on. A claim about an Agent's tendency SHALL state the conditions and the number of runs where the result is used, once. Where repeated runs gave different results, the text SHALL describe what may happen rather than one outcome.
 
 #### Scenario: A tendency is stated
 
@@ -263,6 +198,16 @@ A statement about what a tool, a host or an Agent does SHALL rest on a run recor
 
 - **WHEN** a chapter states a risk that its own runs did not exercise
 - **THEN** it says what those runs showed and that the risk was not tested.
+
+#### Scenario: A statement rests on the vendor's documentation
+
+- **WHEN** the book states a host's default or rule that was read in the vendor's documentation and not run
+- **THEN** the text says so where the statement stands, with the version the documentation names.
+
+#### Scenario: Runs disagree
+
+- **WHEN** repeated runs of one exercise gave different results
+- **THEN** the text describes the possible results and the reader's check, not one of them as the outcome.
 
 ### Requirement: One versioned edition archive
 
@@ -355,7 +300,7 @@ The layout SHALL keep what is read as one piece on one page only while it is sho
 
 ### Requirement: Printed commands work as pasted
 
-A printed shell block SHALL give the stated result when a reader pastes it whole into an interactive shell with default options: it carries no trailing comment, and a request to a process the block starts in the background waits for it. A printed command that registers a job which later runs by itself SHALL be followed, before the next such registration, by the command that removes it.
+A printed command SHALL give the stated result when a reader copies it from the PDF and pastes it whole into an interactive shell with default options. A printed command that registers a job which later runs by itself SHALL be followed, before the next such registration, by the command that removes it.
 
 #### Scenario: A reader pastes a block into the default macOS terminal
 
@@ -377,24 +322,6 @@ A printed shell block SHALL give the stated result when a reader pastes it whole
 - **WHEN** a change adds a `#` comment to a printed command, removes the wait after a background start, or removes a job's removal command
 - **THEN** a check fails and names the page.
 
-### Requirement: Host behaviour states its basis
-
-A statement in the book about how a host or tool behaves SHALL rest on runs or on the vendor's documentation, and SHALL say which, with the version it was observed on. Where repeated runs gave different results, the text SHALL describe what may happen rather than one outcome.
-
-#### Scenario: A statement rests on the vendor's documentation
-
-- **WHEN** the book states a host's default or rule that was read in the vendor's documentation and not run
-- **THEN** the text says so where the statement stands, with the version the documentation names.
-
-#### Scenario: Runs disagree
-
-- **WHEN** repeated runs of one exercise gave different results
-- **THEN** the text describes the possible results and the reader's check, not one of them as the outcome.
-
-### Requirement: Printed commands survive copying
-
-Copying a printed command from the PDF SHALL give the text that the source prints: every line of a code block with a declared language prints whole on one line, and an inline command prints whole.
-
 #### Scenario: A reader copies a command from the PDF
 
 - **WHEN** a reader copies a line of a code block with a declared language, or an inline command, from the PDF
@@ -407,12 +334,17 @@ Copying a printed command from the PDF SHALL give the text that the source print
 
 ### Requirement: Qualified edition
 
-An edition SHALL be qualified before its release is approved, through the stages that `docs/publication-acceptance.md` describes, each covering the edition's final text.
+An edition SHALL be qualified before its release is approved, through the stages that `docs/publication-acceptance.md` describes, each covering the edition's final text. A build that passed SHALL NOT by that alone be represented as qualified, reader-approved or published; until the edition qualifies, its PDF is a candidate and the copy readers already have is not replaced.
+
+#### Scenario: Build succeeds before editorial review
+
+- **WHEN** the native build succeeds but a stage has not yet covered the edition's final text
+- **THEN** the artifact remains a candidate and the existing reader output is not silently replaced.
 
 #### Scenario: The stages of qualification
 
 - **WHEN** an edition is qualified
-- **THEN** readers who did not edit a passage have read it under 信、达、雅 as chapter 24 states them, a sentence-level cold read has covered the whole book and any passage changed after it has been read again, the prose beside each printed command has been compared with the run records and each command prints whole in the PDF, every page of the built PDF has been looked at, and a sample of the final text has met the national error-rate bar.
+- **THEN** readers who did not edit a passage have read it under 信、达、雅 as chapter 24 states them, a sentence-level cold read has covered the whole book and any passage changed after it has been read again, the prose beside each printed command has been compared with the run records and each command prints whole in the PDF, the built PDF's contents, links and metadata have been checked and every page of it has been looked at, and a sample of the final text has met the national error-rate bar.
 
 #### Scenario: A release is recommended
 
@@ -582,3 +514,62 @@ ends with a colon kept on the page of the block it introduces and spaced as a pa
 
 - **WHEN** a paragraph ending with a colon would end a page
 - **THEN** it moves with the block it introduces, and stands a paragraph step from the text before it.
+
+### Requirement: Chinese prose
+
+Chinese prose SHALL reach its point through a concrete situation, in standard written Chinese and an even, third-person register that states facts and reasons from them, and SHALL state what a thing is and does, and what the team does and why, once. Editorial revision SHALL preserve the source's meaning, and a reviewer score, agreement or word substitution SHALL NOT establish that it did.
+
+#### Scenario: A sentence is written or revised
+
+- **WHEN** a sentence of the book is written or revised
+- **THEN** its concepts are accurate, every word is in its dictionary sense, its collocations and paragraph are idiomatic, and its punctuation follows GB/T 15834.
+
+#### Scenario: A passage could say more than it needs
+
+- **WHEN** a passage would narrate in the first person, stress who did or wrote something, assert that an example really happened, deny or exclude a meaning the text never gave, restate a point just made, explain what is already plain, or use a coined label, maxim or enumeration whose only purpose is to sound systematic
+- **THEN** it does none of these.
+
+#### Scenario: The reader is told what to do
+
+- **WHEN** a hands-on passage tells the reader what to do
+- **THEN** it may address the reader and names the actor, prerequisites, action and observable result, while the rest of the book describes what the team does and why rather than instructing the reader.
+
+#### Scenario: A passage is revised
+
+- **WHEN** an editor revises a passage
+- **THEN** its objects, actors, relationships, numbers, dates, negation, conditions, attribution and uncertainty stay as the source had them.
+
+#### Scenario: A passage carries a detail
+
+- **WHEN** a detail does not serve the point of its passage
+- **THEN** the passage leaves it out, even when the detail is true.
+
+#### Scenario: One source term has different meanings
+
+- **WHEN** a source term refers to credentials in one passage and sensitive information or non-sensitive metadata in another
+- **THEN** each passage expresses its own intended meaning in natural Chinese, and whole-paragraph source comparison and cold reading qualify the revision rather than a global replacement.
+
+#### Scenario: A case has a limited scope
+
+- **WHEN** a demonstration or worked result holds only under stated conditions
+- **THEN** those conditions appear once, where the result is used or in the back matter, and the chapter does not repeat them after each paragraph that uses the result.
+
+#### Scenario: A judgement is described
+
+- **WHEN** the book states what a judgement of work or of a member rests on
+- **THEN** it names what the judgement rests on and nothing that the judgement does not judge.
+
+#### Scenario: A run is cited
+
+- **WHEN** a chapter rests a claim on a run
+- **THEN** the chapter states the behaviour and its reasoning, and the run's conditions and versions stand once in the appendix it points to.
+
+#### Scenario: An idiom says it more exactly
+
+- **WHEN** an established idiom, set phrase or allusion says a thing more exactly or more briefly than plain words
+- **THEN** the prose uses it in its dictionary sense, and never as decoration or as a slogan.
+
+#### Scenario: A chapter introduces a principle
+
+- **WHEN** a chapter states a principle or method
+- **THEN** a scenario precedes it, the statement appears once in everyday language with its reason, and the chapter's lead line poses the question the chapter answers.
