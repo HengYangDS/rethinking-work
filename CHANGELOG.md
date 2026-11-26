@@ -23,6 +23,9 @@ itself claim editorial acceptance.
   as strings, and three entry points to one tool on different versions.
 - `book/README.md` names the four appendices, and `book/parts/README.md` puts
   orchestration and evaluation in the fourth part.
+- The acceptance test fails a head whose commands review compares the printed
+  commands with any release but the last one before the review, so that a
+  baseline copied from an older record cannot pass.
 
 ## [0.2.7] - 2026-11-26
 

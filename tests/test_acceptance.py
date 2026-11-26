@@ -4,7 +4,8 @@
 reading of changed passages. The lane's editor copies them from the reviewers' findings, which
 stay in the reviewers' local evidence folders; the record is what the proof and the CIs read. A
 head passes when its `book/` and `exercises/` trees are those of a commands review and its
-`book/` tree is that of a reading, each with every point settled or declined. See
+`book/` tree is that of a reading, each with every point settled or declined, and when each
+commands review that covers it compared the printed commands with the last release. See
 docs/publication-acceptance.md.
 """
 
@@ -23,19 +24,36 @@ FIELDS = {
 }
 
 
-def head_tree(directory):
-    """The git tree of a directory at the checked-out head."""
-    command = ["git", "rev-parse", f"HEAD:{directory}"]
-    run = subprocess.run(
-        command,
+def git(*args, check=True):
+    """A git command run at the repository root."""
+    return subprocess.run(
+        ["git", *args],
         cwd=ROOT,
         stdin=subprocess.DEVNULL,
         capture_output=True,
         text=True,
         timeout=60,
-        check=True,
+        check=check,
     )
-    return run.stdout.strip()
+
+
+def head_tree(directory):
+    """The git tree of a directory at the checked-out head."""
+    return git("rev-parse", f"HEAD:{directory}").stdout.strip()
+
+
+def last_release(subject, read):
+    """The release a review of `subject` read at `read` compares the printed commands with: the
+    latest `v*` tag that names an ancestor of `subject` and was made no later than the reading."""
+    commit = git("rev-parse", "--verify", f"{subject}^{{commit}}").stdout.strip()
+    fields = "%(refname:short)%09%(objectname)%09%(*objectname)%09%(creatordate:unix)"
+    made = []
+    for line in git("for-each-ref", f"--format={fields}", "refs/tags/v*").stdout.splitlines():
+        name, target, peeled, date = line.split("\t")
+        ancestor = git("merge-base", "--is-ancestor", peeled or target, commit, check=False)
+        if int(date) <= read.timestamp() and ancestor.returncode == 0:
+            made.append((int(date), name))
+    return max(made)[1] if made else None
 
 
 class RecordedReviews(unittest.TestCase):
@@ -43,6 +61,12 @@ class RecordedReviews(unittest.TestCase):
     def setUpClass(cls):
         cls.record = tomllib.loads(RECORD.read_text(encoding="utf-8"))
         cls.trees = {name: head_tree(name) for name in ("book", "exercises")}
+        head = (cls.trees["book"], cls.trees["exercises"])
+        cls.covering = [
+            review
+            for review in cls.record["commands"]
+            if (review["book"], review["exercises"]) == head
+        ]
 
     def test_a_recorded_review_has_no_open_point(self):
         # "no finding" carries no point; "settled" carries each point with how it was settled or why
@@ -60,13 +84,18 @@ class RecordedReviews(unittest.TestCase):
                         )
 
     def test_the_head_has_a_commands_review_of_its_text_and_exercises(self):
-        covered = [
-            review["subject"]
-            for review in self.record["commands"]
-            if (review["book"], review["exercises"])
-            == (self.trees["book"], self.trees["exercises"])
-        ]
-        self.assertTrue(covered, f"no commands review records book/ and exercises/ {self.trees}")
+        self.assertTrue(
+            self.covering, f"no commands review records book/ and exercises/ {self.trees}"
+        )
+
+    def test_the_head_s_commands_review_compares_with_the_last_release(self):
+        # "Run every changed command, old against new": the old commands are the last release's.
+        # A baseline copied from an older record names an older tag and fails here.
+        for review in self.covering:
+            with self.subTest(subject=review["subject"]):
+                expected = last_release(review["subject"], review["read"])
+                self.assertIsNotNone(expected, "no release tag precedes the review; fetch tags")
+                self.assertEqual(review["blocks_against"], expected)
 
     def test_the_head_has_a_reading_of_its_text(self):
         covered = [
