@@ -632,3 +632,22 @@ settled = "38ec5eb: 「建过的索引在整个会话期间都由这个服务保
 [[commands.point]]
 point = "tools.typ:285 「两次扫描都做完再删除这个目录」 can be counted from the scan already done, so a reader may delete the directory too early"
 settled = "38ec5eb: 「下面两次扫描都在这个目录里做，做完再删除它」, the reviewer's wording"
+
+[[reading]]
+book = "11e675b7fb29165dfab7f837105d72530a8c045e"
+subject = "9ea1d15"
+against = "27d66f8"
+read = 2026-11-26T19:43:51+08:00
+report = "build/evidence/chinese-standard/reports/review-9ea1d15.md"
+verdict = "no finding"
+
+[[commands]]
+book = "11e675b7fb29165dfab7f837105d72530a8c045e"
+exercises = "2214f55c4137b7f146cca30ec70829042158d572"
+subject = "9ea1d15"
+blocks_against = "v0.2.8"
+prose_against = "27d66f8"
+pdf = "none"
+read = 2026-11-26T19:43:51+08:00
+findings = "build/evidence/chinese-standard/reports/review-9ea1d15.md"
+verdict = "no finding"
