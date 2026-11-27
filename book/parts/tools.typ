@@ -320,6 +320,6 @@ true
 INFO
 ```
 
-两行依次是 `is_safe` 和 `max_severity` 的值：这一次它判为安全，最高严重级别仍只是那一项 `INFO`。
+两行依次是 `is_safe` 和 `max_severity` 的值：这一次它判为安全，最高严重级别仍是 `INFO`。
 
 智能体读到 `SKILL.md` 里新加的这一步，却可能照此执行。使用之前，仍要自己读完 `SKILL.md`，或者用前面说的 `--use-llm` 分析，再决定是否采用。

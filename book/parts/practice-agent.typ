@@ -66,7 +66,7 @@
 == 练习三：让程序计算
 对应#chapref(<tools>)。共两个小题，命令都在练习包中运行，不在 `~/first-session` 中。
 
-第一题：一个接口发布了新的版本。进入练习包的 `exercises/cases/api-evolution/` 目录，打开其中的 `openapi-before.yaml` 和 `openapi-after.yaml`，先用肉眼比较一遍：新版本会不会让现有的调用方出错？写下你的判断。
+第一题：一个接口发布了新的版本。进入练习包的 `exercises/cases/api-evolution/` 目录，打开其中的 `openapi-before.yaml` 和 `openapi-after.yaml`，先用肉眼比较一遍，看新版本会不会让现有的调用方出错，写下你的判断。
 
 然后让工具比较：
 

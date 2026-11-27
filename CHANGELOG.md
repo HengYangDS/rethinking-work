@@ -42,6 +42,13 @@ itself claim editorial acceptance.
   clauses. All thirteen are corrected, and both kinds are searched across the
   book; one further place of the same kind is corrected. With them the sample
   stands at 2.65 points per 10,000 characters, above the bar of 1.
+- A second sample, of pages not read before, stands at 0.82 per 10,000; its
+  seven places and one more found by re-reading the changed passages are
+  corrected, with their kinds across the book: two summaries of the
+  practice pack's instructions that said more than the file, a severity
+  level spoken of as a finding, 访问 with a matter as its object, the mark
+  after a colon that introduces a question or what a check is to find, a
+  mark after a quotation that ends in ？, and clauses joined by 、.
 - Chapter, practice, appendix and part numbers, and the counts of a part's
   chapters, are derived from the reading order; a reference written by hand
   fails the check. The archive's names, the pack's place, the tools its checks
