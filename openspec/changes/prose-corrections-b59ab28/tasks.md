@@ -13,9 +13,9 @@ task here before it is worked.
 
 - [x] 2.1 The edition builds without warnings and the page count stays at or below `b59ab28`'s 200 ceiling; done when
       the built page count and the chapter openings are read from the new artifact.
-- [ ] 2.2 The readiness gates pass on the commit; the suite itself runs in the full proof that landing requires.
+- [x] 2.2 The readiness gates pass on the commit; the suite itself runs in the full proof that landing requires.
 
 ## 3. Review records
 
-- [ ] 3.1 The commands review and the reading of the changed passages are recorded; done when
+- [x] 3.1 The commands review and the reading of the changed passages are recorded; done when
       `tests/test_acceptance.py` passes.
