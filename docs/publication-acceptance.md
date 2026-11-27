@@ -136,11 +136,13 @@ by the classes of CY/T 266; the edition qualifies at no more than one error per 
 lists and a judge finds to be an error counts as a listed error does. Every error or note a reader raises in a class
 that counts two points goes to a second judge, whatever the first judge found; the second judge does not see the first
 one's reason, and neither judge comes from the family of the model that raised it. It counts when either judge finds an
-error, at the higher of their two figures. The sample's pages are drawn from the commit hash, and a later sample avoids
-the pages already read; layout characters count the running head and page number as lines, and repeated errors are
-capped, both by CY/T 266. The bar is that of Article 5 of 《图书质量管理规定》. The cover and the edition line are read on the
-release commit's PDF before the tag. Correct every error found, and its kind across the book, before the release; a
-model's sample is a self-test, not a publisher's check, and is reported as such.
+error, at the higher of their two figures. The sample's pages are drawn from the commit hash. A later sample of an
+edition avoids the pages its earlier samples read until every body page has been read, in a sample or by readers whose
+every item is judged as a sample's items are, and the errors found are corrected; it is then drawn from the whole body.
+Layout characters count the running head and page number as lines, and repeated errors are capped, both by CY/T 266. The
+bar is that of Article 5 of 《图书质量管理规定》. The cover and the edition line are read on the release commit's PDF before the
+tag. Correct every error found, and its kind across the book, before the release; a model's sample is a self-test, not a
+publisher's check, and is reported as such.
 
 ### How a judgement reads the book
 

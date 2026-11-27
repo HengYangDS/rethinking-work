@@ -42,16 +42,21 @@ itself claim editorial acceptance.
   clauses. All thirteen are corrected, and both kinds are searched across the
   book; one further place of the same kind is corrected. With them the sample
   stands at 2.65 points per 10,000 characters, above the bar of 1.
-- A second sample, of pages not read before, counts nine places; they and
-  one more found by re-reading the changed passages are corrected, with
-  their kinds across the book: two summaries of the practice pack's
-  instructions that said more than the file, a severity level spoken of as
-  a finding, 访问 with a matter as its object, the mark after a colon that
-  introduces a question or what a check is to find, a mark after a
-  quotation that ends in ？, clauses joined by 、, 要求 listed beside the
-  口径 it contains, and spending, which cannot be undone, placed in the
-  middle circle: the cap the decision owner sets beforehand is now named as
-  the decision chapter 3 requires.
+- A second sample, of pages not read before, stands at 1.22 per 10,000, above
+  the bar of 1. Its nine places and one more found by re-reading the changed
+  passages are corrected, with their kinds across the book: two summaries of
+  the practice pack's instructions that said more than the file, a severity
+  level spoken of as a finding, 访问 with a matter as its object, the mark
+  after a colon that introduces a question or what a check is to find, a mark
+  after a quotation that ends in ？, clauses joined by 、, 要求 listed beside
+  口径 and 边界 where it includes them, and spending, which cannot be undone,
+  placed in the middle circle. Chapter 3 now names spending as the exception
+  to its rule that what cannot be undone takes the heaviest procedure: the cap
+  set beforehand is the one agreement, and each payment within it needs no
+  further asking.
+- A later sample of an edition avoids the pages its earlier samples read only
+  until every body page has been read, with every item judged as a sample's
+  are, and its errors corrected; it is then drawn from the whole body.
 - Chapter, practice, appendix and part numbers, and the counts of a part's
   chapters, are derived from the reading order; a reference written by hand
   fails the check. The archive's names, the pack's place, the tools its checks

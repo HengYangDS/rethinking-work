@@ -17,7 +17,8 @@ Non-Goals:
 ## Decisions
 
 1. A summary of a file says no more than the file: 截止时刻 for 时刻, the command that section 3 points to for one it
-   writes out, 输入的 CSV 文件 for 输入数据 (`exercises/AGENTS.md`, lines 14, 22 to 24 and 31).
+   writes out, 输入的 CSV 文件 for 输入数据, the case directory copied and the copy edited for a file copied
+   (`exercises/AGENTS.md`, lines 14, 22 to 24 and 31 to 32).
 2. Where a fix to a colon would leave the sentence on one reading, the sentence is rebuilt so that it reads one way:
    比较一遍，看…，写下… (`practice-agent.typ`); 对照…，找出差别在哪里。 (`diagnose.typ:55`); the suspicion stated, not
    asked (`diagnose.typ:66`); the questions first and 请写下来 after them (`practice-doing.typ:104`).
@@ -28,12 +29,27 @@ Non-Goals:
 4. The same-kind search reads every 、 in the book's prose and table cells (1,096), in two passes: one for items that
    each carry a predicate word, one for items both six characters or longer; every hit is classed, and a series that
    fills one constituent (an object, an attributive, a list resumed by 这些) is not the kind.
-5. A rule and its exception are reconciled at the rule's own terms, not by narrowing the rule: chapter 3 says an
-   irreversible matter is decided by the responsible person before it is done (`invariants.typ:96`); spending in the
-   middle circle is spending within a cap that person has set, so the cap is that decision, and the table and the
-   sentence after it say so.
-6. Coordinate items, one containing another: 把要求逐项想清楚，尤其是口径和边界; 交出去的要求，包括口径和边界.
-   `roles.typ:47` keeps 要求、事实、检查、边界和状态, the five items `standing.typ:66` declares.
+5. A rule and its exception are stated together where the rule is. Chapter 3 says that what cannot be undone takes the
+   heaviest procedure (`invariants.typ:107`) and, earlier, that an irreversible matter is decided by the responsible
+   person before it is done (`invariants.typ:96`). It now names spending as the exception on the second sentence's
+   terms: the cap is that decision, given once, and each payment within it falls under it. The middle circle's 「说明要
+   做什么，等人确认」 is that one agreement, not a confirmation of each payment, which would contradict the permission
+   to spend in `invariants.typ:66` and the unattended run of the `run` chapter; spending with no cap waits for one, so
+   no spending falls outside the circles. The table cell keeps 产生费用 and the sentence after it says this. The other
+   statements of the rule refer to the outer circle's procedure and read with the exception; they are classed in the
+   lane's evidence.
+6. Coordinate items, one containing another. 要求 means two things in the book: in `delegate.typ` what can be said of
+   the work, the delegation's five items (`:17`, `:51`), which include 口径 and 边界; in `standing.typ:68` and
+   `roles.typ:47` what the work is to become, beside 边界. Each corrected place names what it means instead of
+   claiming that 要求 contains 边界: 把委托的五项逐项想清楚，尤其是口径和边界 (`delegate.typ:67`);
+   交出去的事要做成什么样，连同它的口径和边界 (`writing.typ:10`). `roles.typ:47` keeps its five items.
+7. The sampling rule keeps one draw for each sample, by the commit hash: before the whole body is read, from the pages
+   no earlier sample of the edition read; after it, from the whole body. The owner's words allow (可) the whole body; the
+   rule makes it the draw, so that the sampler has no choice of region. This is the editor's reading, taken under
+   delegation and agreed with the sampler; it goes to the owner at closeout as a decision taken, not as his words. A
+   page counts as read when a sample read it, or a reading whose every item went to judges as a sample's items do
+   (blind, outside the raising family, a second judge for a two-point class); the readers may be of one family, as the
+   option the owner chose described its read-through (Claude readers, Codex judges).
 
 ## Risks / Trade-offs
 
