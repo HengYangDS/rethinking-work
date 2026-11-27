@@ -62,6 +62,9 @@ here before it is worked.
 - [x] 5.7 The three places the re-read of `408f4a3` counted (`practice-thinking.typ:166`, `run.typ:127`,
       `talent.typ:88`), all brought in by this Change's own wording, are rewritten and their kinds searched across the
       book; done when design decision 12 and the classed list record each search.
+- [x] 5.8 The three places the re-read of `64d05f2` counted (`agent.typ:134`, `standing.typ:63`, `improve.typ:40`) are
+      rewritten and their kinds searched across the book; done when design decision 13 and the classed list record
+      each search.
 
 ## 6. Review records
 

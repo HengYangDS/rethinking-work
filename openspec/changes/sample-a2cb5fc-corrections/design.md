@@ -114,6 +114,17 @@ Non-Goals:
     (`shared.typ:25`); 智能体 for a 它 left after 对方 (`delegate.typ:43`); the read-only sandbox also refuses the network
     (`first.typ:149`, as `boundaries.typ:38`). Each change after a re-read can bring in an error of its own, as these
     three show, so the notes taken are the fewest that settle what a reader would otherwise have to work out.
+13. The re-read of `64d05f2` counts three places: a second colon inside a sentence that a colon already opened
+    (`agent.typ:134`, now 也就是); a chapter-range pointer over a list that names rules, which only chapter 27 treats
+    (`standing.typ:63`, now names what chapters 11 to 14 treat and points to chapter 27 for rules); 、 between two
+    clauses with their own subjects, the second tied by 又 (`improve.typ:40`, now 达标而且审阅排得下). Their kinds were searched
+    across the book. Sentences of prose with two colons: only the counted one (the others are table cells, a unit in
+    parentheses, or the agent's quoted report). Chapter-range pointers: two, the other exact
+    (`practice-collaborating.typ:3`). 、 before a clause tied to the one before by 又 or 也 with a subject of its own: four
+    more, `agent.typ:47`, `first.typ:60`, `practice-collaborating.typ:154` and `run.typ:115`, now ，; the card at
+    `practice-collaborating.typ:161` lists three conditions under one 的 and drops 又, so they stand as items. Where the
+    clauses share a subject (`invariants.typ:107`, `roles.typ:45`, `:77`, `knowing.typ:75`), 、 joins predicates and
+    stays.
 
 ## Risks / Trade-offs
 
