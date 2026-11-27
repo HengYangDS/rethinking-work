@@ -1,8 +1,8 @@
 ## Why
 
-The second error-rate sample of 0.2.9, drawn from `a2cb5fc` away from the first sample's pages, passes at 0.82 per
-10,000 (8.3 points over 100,878 characters) and counts seven places; the re-read of the passages changed since
-`b59ab28` finds one more, outside the rate. The acceptance document requires every error found, and its kind across
+The second error-rate sample of 0.2.9, drawn from `a2cb5fc` away from the first sample's pages, counts nine places once a
+second judge has read the notes that allege a two-point error, 1.22 per 10,000 (12.3 points over 100,878
+characters), above the bar of 1; the re-read of the passages changed since `b59ab28` finds one more, outside the rate. The acceptance document requires every error found, and its kind across
 the book, to be corrected before the release.
 
 ## What Changes
@@ -15,8 +15,12 @@ the book, to be corrected before the release.
 - Punctuation after a colon: a lead-in that names a question ends with ？ (`memory.typ`); a colon that introduces what a
   comparison or a check is to find ends with 。, and the same shape is corrected in `diagnose.typ` and
   `practice-doing.typ`; no mark follows a quotation that closes on ？ (`memory.typ`).
-- Clauses with their own subjects are no longer joined by 、 (`diagnose.typ`); the same kind is corrected in `run.typ`
-  and `verify.typ`, found by searching every 、 in the book.
+- Clauses with their own subjects are no longer joined by 、 (`diagnose.typ`); the same kind is corrected in `run.typ`,
+  found by searching every 、 in the book.
+- Spending, irreversible, sits in the middle circle of `boundaries.typ` without an exception to chapter 3's rule that an
+  irreversible matter is decided by the responsible person before it is done: the cap is that decision, and the table
+  names spending within it. 要求 no longer stands beside 口径 and 边界, which it contains (`delegate.typ`, and the same
+  kind in `writing.typ`).
 - No requirement of the book changes.
 
 ## Capabilities
@@ -32,4 +36,5 @@ requirement changes, so `skip_specs: true` applies.
 
 ## Impact
 
-Nine chapter files under `book/parts/`. Only wording and punctuation change.
+Eleven chapter files under `book/parts/`. Wording and punctuation change; one table cell of `boundaries.typ` names the
+cap that the requirement of chapter 3 already implied.

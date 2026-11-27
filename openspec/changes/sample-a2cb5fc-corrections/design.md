@@ -22,10 +22,18 @@ Non-Goals:
    比较一遍，看…，写下… (`practice-agent.typ`); 对照…，找出差别在哪里。 (`diagnose.typ:55`); the suspicion stated, not
    asked (`diagnose.typ:66`); the questions first and 请写下来 after them (`practice-doing.typ:104`).
 3. Clauses with their own subjects take ， or a conjunction: 空库正常，旧库的副本失败; the conditions of the Hermes
-   script with 或者 before the last; 旧的错了而新的改对了 where the pair is one alternative of 是…，是…，还是….
+   script with 或者 before the last. 旧的错了而新的改对了 in `verify.typ` is a wording change, not the kind: the pair
+   fills one alternative of 是…，是…，还是…, as 一边有、一边没有 (`practice-doing.typ:116`) and 范围是…、…
+   (`knowing.typ:30`), which keep their 、.
 4. The same-kind search reads every 、 in the book's prose and table cells (1,096), in two passes: one for items that
    each carry a predicate word, one for items both six characters or longer; every hit is classed, and a series that
    fills one constituent (an object, an attributive, a list resumed by 这些) is not the kind.
+5. A rule and its exception are reconciled at the rule's own terms, not by narrowing the rule: chapter 3 says an
+   irreversible matter is decided by the responsible person before it is done (`invariants.typ:96`); spending in the
+   middle circle is spending within a cap that person has set, so the cap is that decision, and the table and the
+   sentence after it say so.
+6. Coordinate items, one containing another: 把要求逐项想清楚，尤其是口径和边界; 交出去的要求，包括口径和边界.
+   `roles.typ:47` keeps 要求、事实、检查、边界和状态, the five items `standing.typ:66` declares.
 
 ## Risks / Trade-offs
 

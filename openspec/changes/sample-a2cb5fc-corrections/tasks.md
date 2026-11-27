@@ -9,6 +9,8 @@ scope enters as a task here before it is worked.
       remains in `book/`.
 - [x] 1.2 The kinds are searched across every chapter and the front and back matter, and each hit is corrected or
       classed as not the kind; done when the classed lists are saved with the lane's evidence.
+- [x] 1.3 The two places the second judge counted (`boundaries.typ:13`, `delegate.typ:67`) and their kinds are
+      corrected; done when the classed list records the search for both kinds.
 
 ## 2. Verification
 
