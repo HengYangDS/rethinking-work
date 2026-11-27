@@ -45,6 +45,9 @@ across the book, to be corrected before the release.
   searched across the book and corrected where found (`knowing.typ`, `practice-doing.typ`), and the comment at the
   head of the practice pack's `quality.sql` says what it lists. Two places that no judge counted are corrected as
   wording (`leading.typ`, `growth.typ`; design decision 9).
+- Wording that the read-through noted and no judge counted, and the reviewers' optional points, are corrected outside
+  the third sample's pages (the owner's 「尽量修复优化」, O170; design decision 10), and the work-loop figure takes
+  the exit for a step out of bounds from the choice of action, as the text does.
 - No requirement of the book changes.
 
 ## Capabilities
@@ -61,6 +64,6 @@ readings; no requirement's text changes, so `skip_specs: true` applies.
 
 ## Impact
 
-Twenty chapter files under `book/parts/`, one comment in `exercises/cases/historical-snapshot/quality.sql`, and
-`docs/publication-acceptance.md`. Wording and punctuation change, and
+Twenty-five chapter files under `book/parts/`, the figure `diagrams/work-loop.typ`, one comment in
+`exercises/cases/historical-snapshot/quality.sql`, and `docs/publication-acceptance.md`. Wording and punctuation change, and
 chapter 3 names one exception to its rule. The release of 0.2.9 waits for a third sample drawn under the changed rule.

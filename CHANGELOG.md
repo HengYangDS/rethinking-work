@@ -64,6 +64,10 @@ itself claim editorial acceptance.
   verb, a subject that shifts within a clause, an answer promised where a
   checklist stands, a quoted question without its ？, a gloss that did not show
   what it named, and clauses joined by 、.
+- Wording that readers noted but no judge counted is made plain: pointers name
+  their section, counts and terms match the files and chapters they describe,
+  补录 names the vendor's backfill throughout, and the work-loop figure takes
+  the exit for a step out of bounds from the choice of action, as the text does.
 - A later sample of an edition avoids the pages its earlier samples read only
   until every body page has been read, with every item judged as a sample's
   are, and the errors found are corrected; it is then drawn from the whole

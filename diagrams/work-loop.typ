@@ -12,6 +12,6 @@
   e(<h>, <a>), e(<a>, <t>), e(<t>, (2, 2), <r>),
   e(<r>, <a>, l[纠偏], label-side: right),
   e(<a>, <end>, l[到上限], label-side: right),
-  e(<r>, <s>, l[越界或缺条件], label-side: right),
+  e(<a>, <s>, l[越界或缺条件], label-side: left),
   e(<r>, <d>, l[完成], label-side: left),
 )

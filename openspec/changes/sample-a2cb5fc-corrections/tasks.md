@@ -42,7 +42,17 @@ here before it is worked.
       judge counted, `invariants.typ:107` and the comment of `quality.sql` are reworded; done when `design.md`
       decision 9 and the classed list record each.
 
-## 5. Review records
+## 5. Wording the judges did not count
 
-- [ ] 5.1 The commands review and the reading of the changed passages are recorded; done when
+- [x] 5.1 The read-through's notes that no judge counted, and the reviewers' optional points, outside pp. 115–165 are
+      corrected or left with a reason (the owner's 「尽量修复优化」, O170); done when `design.md` decision 10 records
+      each.
+- [x] 5.2 The edition still builds at 197 pages, and pp. 115–165 read as in `cb1b09c`, which the third sample reads;
+      done when the new draft's page texts are compared with `cb1b09c`'s.
+- [ ] 5.3 The two notes on pp. 115–165 (`diagnose.typ:3`; 补入 at `practice-doing.typ:32`) are corrected once the third
+      sample's result is in; done when neither wording remains in `book/`.
+
+## 6. Review records
+
+- [ ] 6.1 The commands review and the reading of the changed passages are recorded; done when
       `tests/test_acceptance.py` passes.

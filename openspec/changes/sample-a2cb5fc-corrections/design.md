@@ -72,6 +72,23 @@ Non-Goals:
    its gloss shows presence and the third point is not comparative either. `invariants.typ:107` 无须逐笔另议 avoids
    决定 twice. The comment at the head of `quality.sql` says what the query lists, as `practice-thinking.typ:51` now
    does; the book does not print it.
+10. The read-through's notes that no judge counted, and the reviewers' optional points, are corrected where a reader
+    would otherwise have to work out what is meant, under the owner's 「尽量修复优化」 (O170), outside pp. 115–165 while
+    the third sample reads them. A pointer names its section (`invariants.typ:57`, `growth.typ:12`); a count, a term
+    or a list says what the file and the chapter say: 研究范围内的六只证券 and 十一行数据 for a file with S99 and a
+    header, 两种定义 as `model.typ:10` names them, 有合格数据 as the table heads, 期间 among what
+    `source-selection.sql` filters, S99 among what `quality.sql` still lists at the later time (run on a copy at
+    23:4x), 补录 for the vendor's backfill throughout; a qualifier states its comparison (`bounds.typ:68`, against the
+    share of the files due) or its case (`invariants.typ:91`, 无法撤回的 before acting; `practice-collaborating.typ:94`,
+    the convention 系统当时有什么 by which the missing ingest condition is an omission); the sandbox's limits are on
+    writing, not on running commands (`first.typ:149`); the pack's template is copied before it is edited, as appendix A
+    says (`run.typ:46`); a timed job runs now rather than 次日早上, since its schedule skips weekends (`run.typ:158`);
+    `project` is named as the action AIGW takes on the file (`aigw-cli`, `internal/adapter/claude/settings.go`);
+    `talent.typ` lists the uses its opening lists. The work-loop figure takes the exit for a step out of bounds from the
+    choice of action, as the chapter's text does. Left with a reason: the line breaks at S04–S06 and the compressed
+    marks of one line (typesetting, no clause read against them), 6 步，45 秒 and 09:00 UTC (the reader proposed no
+    change), and `invariants.typ:107`, which keeps the reason for its exception because chapter 3 states the rule.
+    The two notes on pp. 115–165 wait for the third sample's result (task 5.3).
 
 ## Risks / Trade-offs
 
