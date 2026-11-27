@@ -55,14 +55,15 @@ itself claim editorial acceptance.
   set beforehand is the one agreement, and each payment within it is not
   decided again. A summary of the practice pack's rule on copying now says
   what the file says: copy the case directory and work in the copy.
-- A read-through of the 77 body pages that neither sample of 0.2.9 read
-  counts fifteen more places; they are corrected with their kinds: a list of
-  judgments that left one out, a judgment called a statement of fact, the
-  vendor's database and the local one both called 入库, a query's report
-  called the source's problems, 只 where more follows, numbers listed with ，,
-  连同 without a verb, a subject that shifts within a clause, an answer
-  promised where a checklist stands, a quoted question without its ？, a gloss
-  that did not show what it named, and clauses joined by 、.
+- A read-through of the 77 body pages that neither sample of 0.2.9 read counts
+  fifteen more places; they are corrected with their kinds: a list of judgments
+  that left one out, a judgment called a statement of fact, the vendor's ingest
+  time taken as the moment of use without the local collection, the vendor's
+  database called by the local one's name 入库, a query's report called the
+  source's problems, 只 where more follows, numbers listed with ，, 连同 without a
+  verb, a subject that shifts within a clause, an answer promised where a
+  checklist stands, a quoted question without its ？, a gloss that did not show
+  what it named, and clauses joined by 、.
 - A later sample of an edition avoids the pages its earlier samples read only
   until every body page has been read, with every item judged as a sample's
   are, and the errors found are corrected; it is then drawn from the whole

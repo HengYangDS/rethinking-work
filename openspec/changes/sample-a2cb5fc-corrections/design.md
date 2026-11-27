@@ -58,13 +58,20 @@ Non-Goals:
    proposed: 比如 before the four judgments (`change.typ:55`); 对事实如何的断言 (`invariants.typ:33`), which keeps the
    heading's 事实如何 and chapter 4's 判断 apart from 事实; from the vendor's ingest day the usable moment is
    estimated from that time plus the local collection, as `knowing.typ:37`'s chain has it (`:52`); 服务商收入数据库的
-   日期 and 逐日收入 where 入库 meant the vendor's database (`:52`, `:54`, `:67`); 要另行报告的情况 for what
-   `quality.sql` lists (`practice-thinking.typ:51`, the query's own comment); 放入三个 CSV 文件 and 只放数据，即三个
-   CSV 文件 (`walkthrough.typ:97`, `:111`, the second the same kind, judged no); 0、−100、60 as appendix D writes
+   日期 and 逐日收入 where 入库 meant the vendor's database (`:52`, `:54`, `:67`); 要另行报告的情况 for what `quality.sql` lists (`practice-thinking.typ:51`, and the query's own first comment);
+   放入三个 CSV 文件 (`walkthrough.typ:97`), and 只放数据，即三个 CSV 文件 at `:111` as a wording change, not the kind
+   (目录中 means the two directories of the opening runs); 0、−100、60 as appendix D writes
    numbers; 把…原样送达 without 只 (`run.typ:95`); 同时写明 and one subject for 经…认定 and 写明 (`talent.typ`);
-   参考答案或对照要点, with 的答案 dropped from the same sentence so that the chapter keeps its pages
+   参考答案或对照要点, with 其余各题无法靠运行来核对 earlier in the sentence so that the chapter keeps five pages
    (`practice-collaborating.typ:3`); 追问“为什么？” with no mark after it, by the acceptance reading on 问 and 追问;
    交代得更清楚 (`growth.typ:54`). The searches for each kind are in the lane's classed lists.
+9. Two places no judge counted are corrected as wording, so that a term keeps one meaning and a name says what its
+   gloss shows; the sample stage's re-read of `cb1b09c` judged both no (two Codex judges), and the sampler and the
+   internal reader agreed to correct them all the same: `leading.typ:15` sums up `knowing.typ:52` with
+   服务商的数据库里……逐日收入, since `knowing.typ:37` keeps 入库 for the local write; `growth.typ:54` 是否交代清楚, since
+   its gloss shows presence and the third point is not comparative either. `invariants.typ:107` 无须逐笔另议 avoids
+   决定 twice. The comment at the head of `quality.sql` says what the query lists, as `practice-thinking.typ:51` now
+   does; the book does not print it.
 
 ## Risks / Trade-offs
 

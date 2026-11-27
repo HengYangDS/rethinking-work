@@ -418,3 +418,76 @@ read = 2026-11-27T21:28:43+08:00
 verdict = "settled"
 settled = 1
 declined = 0
+
+[[commands]]
+book = "f6f4b3ba4f404fb759e313a5a188defaa3dd54c4"
+exercises = "b7c36e5c8df119eaa8402f70f6000622efee9356"
+notes = "376f7f6c2fda783e9160f819e8db47b8ba1d46d5"
+python = "3.12"
+subject = "bb554ad"
+blocks_against = "v0.2.8"
+prose_against = "f358d91"
+pdf = "c5b939d61ad729b169a440b0a8d5a74a07b8cc3b55b0a6e6ae52efda80279e7f"
+read = 2026-11-27T22:06:08+08:00
+verdict = "no finding"
+settled = 0
+declined = 0
+
+[[reading]]
+book = "f6f4b3ba4f404fb759e313a5a188defaa3dd54c4"
+subject = "bb554ad"
+against = "f358d91"
+read = 2026-11-27T22:06:08+08:00
+verdict = "settled"
+settled = 1
+declined = 0
+
+[[reading]]
+book = "f6f4b3ba4f404fb759e313a5a188defaa3dd54c4"
+subject = "bb554ad"
+against = "f358d91"
+read = 2026-11-27T22:12:19+08:00
+verdict = "settled"
+settled = 11
+declined = 0
+
+[[reading]]
+book = "14156887edd382b28f462ed88ac3627fd767fb9b"
+subject = "c5a2a37"
+against = "bb554ad"
+read = 2026-11-27T22:30:23+08:00
+verdict = "settled"
+settled = 8
+declined = 0
+
+[[commands]]
+book = "0f994501ffb44a33a81f00182a1a7805a1e6eef1"
+exercises = "b7c36e5c8df119eaa8402f70f6000622efee9356"
+notes = "376f7f6c2fda783e9160f819e8db47b8ba1d46d5"
+python = "3.12"
+subject = "cb1b09c"
+blocks_against = "v0.2.8"
+prose_against = "f358d91"
+pdf = "67f8c4ce4641c2f09956f82a1f9691e6a53875ef73c768d4bc972cbfb4b339af"
+read = 2026-11-27T23:04:52+08:00
+verdict = "no finding"
+settled = 0
+declined = 0
+
+[[reading]]
+book = "0f994501ffb44a33a81f00182a1a7805a1e6eef1"
+subject = "cb1b09c"
+against = "f358d91"
+read = 2026-11-27T23:04:52+08:00
+verdict = "no finding"
+settled = 0
+declined = 0
+
+[[reading]]
+book = "0f994501ffb44a33a81f00182a1a7805a1e6eef1"
+subject = "cb1b09c"
+against = "c5a2a37"
+read = 2026-11-27T23:08:52+08:00
+verdict = "settled"
+settled = 6
+declined = 0

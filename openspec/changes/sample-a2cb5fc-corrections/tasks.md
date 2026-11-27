@@ -38,6 +38,9 @@ here before it is worked.
       lists record every search.
 - [x] 4.3 The edition still builds at or below 200 pages with every chapter opening in place; done when the page
       count and openings are read from the new draft.
+- [x] 4.4 The reviews of `cb1b09c` are answered: `leading.typ:15` and `growth.typ:54` are corrected as wording that no
+      judge counted, `invariants.typ:107` and the comment of `quality.sql` are reworded; done when `design.md`
+      decision 9 and the classed list record each.
 
 ## 5. Review records
 

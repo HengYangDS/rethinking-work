@@ -42,7 +42,9 @@ across the book, to be corrected before the release.
   (`run.typ`); 连同 with no verb, and a clause whose subject shifts (`talent.typ`); an answer promised for every
   exercise where one has a checklist (`practice-collaborating.typ`); a quoted question after 追问 without its ？, and
   a gloss that shows clarity, not reliability (`growth.typ`); 、 between clauses (`knowing.typ`). Their kinds are
-  searched across the book and corrected where found (`knowing.typ`, `walkthrough.typ`, `practice-doing.typ`).
+  searched across the book and corrected where found (`knowing.typ`, `practice-doing.typ`), and the comment at the
+  head of the practice pack's `quality.sql` says what it lists. Two places that no judge counted are corrected as
+  wording (`leading.typ`, `growth.typ`; design decision 9).
 - No requirement of the book changes.
 
 ## Capabilities
@@ -59,5 +61,6 @@ readings; no requirement's text changes, so `skip_specs: true` applies.
 
 ## Impact
 
-Nineteen chapter files under `book/parts/` and `docs/publication-acceptance.md`. Wording and punctuation change, and
+Twenty chapter files under `book/parts/`, one comment in `exercises/cases/historical-snapshot/quality.sql`, and
+`docs/publication-acceptance.md`. Wording and punctuation change, and
 chapter 3 names one exception to its rule. The release of 0.2.9 waits for a third sample drawn under the changed rule.

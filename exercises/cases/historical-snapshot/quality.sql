@@ -1,4 +1,4 @@
--- Separate source exceptions from snapshot differences; never turn unknown returns into zero.
+-- List what is reported apart from snapshot differences; never turn unknown returns into zero.
 CREATE VIEW source AS SELECT * FROM read_csv_auto('source-observations.csv');
 CREATE VIEW universe AS SELECT * FROM read_csv_auto('universe.csv');
 CREATE VIEW eligible AS
