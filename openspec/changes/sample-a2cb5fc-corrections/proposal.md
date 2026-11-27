@@ -4,8 +4,9 @@ The second error-rate sample of 0.2.9, drawn from `a2cb5fc` away from the first 
 a second judge has read the notes that allege a two-point error: 1.22 per 10,000 (12.3 points over 100,878
 characters), above the bar of 1. The re-read of the passages changed since `b59ab28` finds one more, outside the rate.
 The read-through of the 77 body pages no 0.2.9 sample read (pp. 5–51, 103–117 and 169–183 of `f358d91`), run under
-the owner's choice of 2026-11-27, finds fifteen more. The acceptance document requires every error found, and its kind
-across the book, to be corrected before the release.
+the owner's choice of 2026-11-27, finds fifteen more. A third sample, drawn from the whole body of `cb1b09c` under the
+changed rule, counts three (0.31 per 10,000, below the bar). The acceptance document requires every error found, and
+its kind across the book, to be corrected before the release.
 
 ## What Changes
 
@@ -48,6 +49,9 @@ across the book, to be corrected before the release.
 - Wording that the read-through noted and no judge counted, and the reviewers' optional points, are corrected outside
   the third sample's pages (the owner's 「尽量修复优化」, O170; design decision 10), and the work-loop figure takes
   the exit for a step out of bounds from the choice of action, as the text does.
+- The third sample, drawn from the whole body under the changed rule, passes at 0.31 per 10,000. Its three places
+  and their kinds are corrected, and its uncounted notes where a reader would otherwise have to work out the meaning
+  (design decision 11).
 - No requirement of the book changes.
 
 ## Capabilities
@@ -64,6 +68,7 @@ readings; no requirement's text changes, so `skip_specs: true` applies.
 
 ## Impact
 
-Twenty-five chapter files under `book/parts/`, the figure `diagrams/work-loop.typ`, one comment in
-`exercises/cases/historical-snapshot/quality.sql`, and `docs/publication-acceptance.md`. Wording and punctuation change, and
-chapter 3 names one exception to its rule. The release of 0.2.9 waits for a third sample drawn under the changed rule.
+Thirty-two chapter files under `book/parts/`, the figure `diagrams/work-loop.typ`, one comment in
+`exercises/cases/historical-snapshot/quality.sql`, and `docs/publication-acceptance.md`. Wording and punctuation change,
+and chapter 3 names one exception to its rule. The release of 0.2.9 waits for the re-read of the passages changed after
+the third sample.

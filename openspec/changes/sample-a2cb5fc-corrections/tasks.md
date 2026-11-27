@@ -49,8 +49,14 @@ here before it is worked.
       each.
 - [x] 5.2 The edition still builds at 197 pages, and pp. 115–165 read as in `cb1b09c`, which the third sample reads;
       done when the new draft's page texts are compared with `cb1b09c`'s.
-- [ ] 5.3 The two notes on pp. 115–165 (`diagnose.typ:3`; 补入 at `practice-doing.typ:32`) are corrected once the third
+- [x] 5.3 The two notes on pp. 115–165 (`diagnose.typ:3`; 补入 at `practice-doing.typ:32`) are corrected once the third
       sample's result is in; done when neither wording remains in `book/`.
+- [x] 5.4 The three places the third sample counted (`orchestrate.typ:113`, `evaluate.typ:4`, `talent.typ:8`) are
+      rewritten and their kinds searched across the book; done when design decision 11 and the classed list record
+      each search.
+- [x] 5.5 The third sample's uncounted notes are corrected where a reader would otherwise have to work out the
+      meaning, or left with a reason; done when the classed list records each and the edition still builds at 197
+      pages with every running head in place.
 
 ## 6. Review records
 

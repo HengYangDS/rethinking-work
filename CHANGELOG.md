@@ -64,6 +64,11 @@ itself claim editorial acceptance.
   verb, a subject that shifts within a clause, an answer promised where a
   checklist stands, a quoted question without its ？, a gloss that did not show
   what it named, and clauses joined by 、.
+- A third sample, drawn from the whole body once every page had been read and
+  corrected, stands at 0.31 per 10,000, below the bar of 1. Its three places
+  are corrected with their kinds: a count stated as fact before the passage
+  corrects its unit, 它 for a party that may be a person, and a colon whose
+  reach crossed a semicolon into a parallel item.
 - Wording that readers noted but no judge counted is made plain: pointers name
   their section, counts and terms match the files and chapters they describe,
   补录 names the vendor's backfill throughout, and the work-loop figure takes
