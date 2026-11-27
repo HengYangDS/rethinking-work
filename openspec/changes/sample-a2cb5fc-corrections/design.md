@@ -23,26 +23,30 @@ Non-Goals:
    比较一遍，看…，写下… (`practice-agent.typ`); 对照…，找出差别在哪里。 (`diagnose.typ:55`); the suspicion stated, not
    asked (`diagnose.typ:66`); the questions first and 请写下来 after them (`practice-doing.typ:104`).
 3. Clauses with their own subjects take ， or a conjunction: 空库正常，旧库的副本失败; the conditions of the Hermes
-   script with 或者 before the last. 旧的错了而新的改对了 in `verify.typ` is a wording change, not the kind: the pair
-   fills one alternative of 是…，是…，还是…, as 一边有、一边没有 (`practice-doing.typ:116`) and 范围是…、…
-   (`knowing.typ:30`), which keep their 、.
+   script with 或者 before the last. A pair of clauses that fills one alternative or one item is the kind as well: the
+   read-through's judge counted 范围是三千多条逐条比对过、2023 年及更早的没有查 (`knowing.typ:30`), which the first
+   search had kept, so it takes a comma inside and semicolons between the three items (GB/T 15834—2011 4.6.3.3);
+   一边有、一边没有 (`practice-doing.typ:116`) becomes 一边有而另一边没有, and 旧的错了而新的改对了 (`verify.typ`)
+   already takes 而.
 4. The same-kind search reads every 、 in the book's prose and table cells (1,096), in two passes: one for items that
    each carry a predicate word, one for items both six characters or longer; every hit is classed, and a series that
    fills one constituent (an object, an attributive, a list resumed by 这些) is not the kind.
 5. A rule and its exception are stated together where the rule is. Chapter 3 says that what cannot be undone takes the
    heaviest procedure (`invariants.typ:107`) and, earlier, that an irreversible matter is decided by the responsible
    person before it is done (`invariants.typ:96`). It now names spending as the exception on the second sentence's
-   terms: the cap is that decision, given once, and each payment within it falls under it. The middle circle's 「说明要
-   做什么，等人确认」 is that one agreement, not a confirmation of each payment, which would contradict the permission
-   to spend in `invariants.typ:66` and the unattended run of the `run` chapter; spending with no cap waits for one, so
-   no spending falls outside the circles. The table cell keeps 产生费用 and the sentence after it says this. The other
-   statements of the rule refer to the outer circle's procedure and read with the exception; they are classed in the
+   terms: the cap is that decision, given once, and each payment within it is not decided again. The middle circle's
+   「说明要做什么，等人确认」 is that one agreement, not a confirmation of each payment, which would contradict the
+   permission to spend in `invariants.typ:66` and the unattended run of the `run` chapter; spending with no cap waits
+   for one, so no spending falls outside the circles. The table cell goes back to 产生费用 and the sentence after it
+   says this. The section on irreversible matters, where `verify.typ:87` and `practice-collaborating.typ:25` send the
+   reader, ends with 产生费用例外，见上文“三个圈”, so that chapter 3's 「完整的规定」 holds there too; the note is short
+   enough to fill its paragraph's last line and move no page. The other statements of the rule are classed in the
    lane's evidence.
 6. Coordinate items, one containing another. 要求 means two things in the book: in `delegate.typ` what can be said of
    the work, the delegation's five items (`:17`, `:51`), which include 口径 and 边界; in `standing.typ:68` and
-   `roles.typ:47` what the work is to become, beside 边界. Each corrected place names what it means instead of
-   claiming that 要求 contains 边界: 把委托的五项逐项想清楚，尤其是口径和边界 (`delegate.typ:67`);
-   交出去的事要做成什么样，连同它的口径和边界 (`writing.typ:10`). `roles.typ:47` keeps its five items.
+   `roles.typ:47` what the work is to become, beside 边界, with 口径 inside it (`diagnose.typ:46`). Each corrected
+   place names the delegation instead, which holds both: 把委托的五项逐一想清楚，尤其是口径和边界 (`delegate.typ:67`);
+   交出去的委托，口径和边界都写在其中 (`writing.typ:10`). `roles.typ:47` keeps its five items.
 7. The sampling rule keeps one draw for each sample, by the commit hash: before the whole body is read, from the pages
    no earlier sample of the edition read; after it, from the whole body. The owner's words allow (可) the whole body; the
    rule makes it the draw, so that the sampler has no choice of region. This is the editor's reading, taken under
@@ -50,6 +54,17 @@ Non-Goals:
    page counts as read when a sample read it, or a reading whose every item went to judges as a sample's items do
    (blind, outside the raising family, a second judge for a two-point class); the readers may be of one family, as the
    option the owner chose described its read-through (Claude readers, Codex judges).
+8. The read-through's places are corrected in the fewest words that remove the counted reading, most as the reader
+   proposed: 比如 before the four judgments (`change.typ:55`); 对事实如何的断言 (`invariants.typ:33`), which keeps the
+   heading's 事实如何 and chapter 4's 判断 apart from 事实; from the vendor's ingest day the usable moment is
+   estimated from that time plus the local collection, as `knowing.typ:37`'s chain has it (`:52`); 服务商收入数据库的
+   日期 and 逐日收入 where 入库 meant the vendor's database (`:52`, `:54`, `:67`); 要另行报告的情况 for what
+   `quality.sql` lists (`practice-thinking.typ:51`, the query's own comment); 放入三个 CSV 文件 and 只放数据，即三个
+   CSV 文件 (`walkthrough.typ:97`, `:111`, the second the same kind, judged no); 0、−100、60 as appendix D writes
+   numbers; 把…原样送达 without 只 (`run.typ:95`); 同时写明 and one subject for 经…认定 and 写明 (`talent.typ`);
+   参考答案或对照要点, with 的答案 dropped from the same sentence so that the chapter keeps its pages
+   (`practice-collaborating.typ:3`); 追问“为什么？” with no mark after it, by the acceptance reading on 问 and 追问;
+   交代得更清楚 (`growth.typ:54`). The searches for each kind are in the lane's classed lists.
 
 ## Risks / Trade-offs
 

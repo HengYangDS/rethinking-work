@@ -1,7 +1,8 @@
 # Tasks
 
-Scope: correct the places the second sample of 0.2.9 and its re-read counted, and their kinds across the book. New
-scope enters as a task here before it is worked.
+Scope: correct the places the second sample of 0.2.9, its re-read and the read-through of the unsampled pages
+counted, and their kinds across the book, and change the sampling rule as the owner chose. New scope enters as a task
+here before it is worked.
 
 ## 1. Corrections
 
@@ -26,9 +27,19 @@ scope enters as a task here before it is worked.
 ## 3. Acceptance rule
 
 - [x] 3.1 A later sample draws from the whole body once every body page has been read, its items judged as a
-      sample's are, and its errors corrected (owner's choice, O169); done when `docs/publication-acceptance.md` says so.
+      sample's are, and the errors found corrected (the owner allowed it, O169; the draw and the read-page condition
+      are the editor's reading, design decision 7); done when `docs/publication-acceptance.md` says so.
 
-## 4. Review records
+## 4. Read-through corrections
 
-- [ ] 4.1 The commands review and the reading of the changed passages are recorded; done when
+- [x] 4.1 The fifteen places the read-through of `f358d91`'s unsampled pages counted are rewritten; done when none of
+      their original wording remains in `book/`.
+- [x] 4.2 Each of their kinds is searched across the book and each hit corrected or classed; done when the classed
+      lists record every search.
+- [x] 4.3 The edition still builds at or below 200 pages with every chapter opening in place; done when the page
+      count and openings are read from the new draft.
+
+## 5. Review records
+
+- [ ] 5.1 The commands review and the reading of the changed passages are recorded; done when
       `tests/test_acceptance.py` passes.

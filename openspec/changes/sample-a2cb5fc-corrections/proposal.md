@@ -3,7 +3,9 @@
 The second error-rate sample of 0.2.9, drawn from `a2cb5fc` away from the first sample's pages, counts nine places once
 a second judge has read the notes that allege a two-point error: 1.22 per 10,000 (12.3 points over 100,878
 characters), above the bar of 1. The re-read of the passages changed since `b59ab28` finds one more, outside the rate.
-The acceptance document requires every error found, and its kind across the book, to be corrected before the release.
+The read-through of the 77 body pages no 0.2.9 sample read (pp. 5–51, 103–117 and 169–183 of `f358d91`), run under
+the owner's choice of 2026-11-27, finds fifteen more. The acceptance document requires every error found, and its kind
+across the book, to be corrected before the release.
 
 ## What Changes
 
@@ -21,16 +23,26 @@ The acceptance document requires every error found, and its kind across the book
 - Spending, irreversible, sat in the middle circle of `boundaries.typ` while chapter 3 said that what cannot be undone
   takes the heaviest procedure, with no exception (`invariants.typ`). Chapter 3 now names spending as the exception on
   its own terms: an irreversible matter is decided by the responsible person before it is done, and for spending that
-  decision is the cap, given once; each payment within it needs no further asking (as `invariants.typ`'s permissions
-  and the `run` chapter have it), and spending with no cap yet waits for one. `boundaries.typ` says the same where it
-  places spending.
+  decision is the cap, given once, so that each payment within it is not decided again (as `invariants.typ`'s
+  permissions and the `run` chapter have it). `boundaries.typ` says the same where it places spending, adds that
+  spending with no cap yet waits for one, and its section on irreversible matters points back to it.
 - 要求 no longer stands beside 口径 and 边界 that it includes: `delegate.typ` names the delegation's five items, of
-  which 口径 and 边界 are two, and `writing.typ` names what the handed-over work is to become, with its 口径 and 边界
-  beside it, as `standing.typ` and `roles.typ` keep 要求 and 边界 apart.
+  which 口径 and 边界 are two, and `writing.typ` names the delegation, with 口径 and 边界 written in it.
 - The acceptance document's sampling rule: a later sample of an edition avoids the pages its earlier samples read only
   until every body page has been read, in a sample or by readers whose every item is judged as a sample's items are,
-  and corrected; it is then drawn from the whole body. The owner chose this on 2026-11-27, after the second sample
-  failed (owner-words O169).
+  and the errors found are corrected; it is then drawn from the whole body. The owner allowed a sample of the whole
+  body once the whole book has been read and corrected (2026-11-27, after the second sample failed; owner-words O169);
+  that it is then the draw, and what counts as a page read, are the editor's reading under delegation (design
+  decision 7).
+- The read-through's fifteen: a list that names four of five links' judgments as if all (`change.typ`); a judgment
+  called a statement of fact (`invariants.typ`); the vendor's ingest time used without saying what it computes, and
+  入库 meaning the vendor's database where the chapter defines it as the local one (`knowing.typ`); a query's report
+  called the source's own problems (`practice-thinking.typ`); 只 where the next sentence adds a file
+  (`walkthrough.typ`); numbers listed with ， (`walkthrough.typ`); 只 where the delivered file carries more
+  (`run.typ`); 连同 with no verb, and a clause whose subject shifts (`talent.typ`); an answer promised for every
+  exercise where one has a checklist (`practice-collaborating.typ`); a quoted question after 追问 without its ？, and
+  a gloss that shows clarity, not reliability (`growth.typ`); 、 between clauses (`knowing.typ`). Their kinds are
+  searched across the book and corrected where found (`knowing.typ`, `walkthrough.typ`, `practice-doing.typ`).
 - No requirement of the book changes.
 
 ## Capabilities
@@ -47,5 +59,5 @@ readings; no requirement's text changes, so `skip_specs: true` applies.
 
 ## Impact
 
-Twelve chapter files under `book/parts/` and `docs/publication-acceptance.md`. Wording and punctuation change, and
+Nineteen chapter files under `book/parts/` and `docs/publication-acceptance.md`. Wording and punctuation change, and
 chapter 3 names one exception to its rule. The release of 0.2.9 waits for a third sample drawn under the changed rule.
