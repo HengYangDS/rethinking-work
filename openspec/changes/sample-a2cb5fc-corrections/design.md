@@ -101,6 +101,19 @@ Non-Goals:
     command of `diagnose.typ` now unsets the key as step one unsets the address; its output, unchanged and marked 有删节,
     is an excerpt of the fourteen lines hindsight 1.2.1 prints without a key against the local service (run 2026-11-28
     00:5x, and by the sampler at 00:40:54). The rest are other wordings of sentences that read as they are, and stay.
+12. The re-read of `408f4a3` counts three places, each brought in by this Change's own wording on read-through pages:
+    the card that summarizes `source-selection.sql` now names 期间 as the text at `practice-thinking.typ:154` does; the
+    lead-in at `run.typ:127` names the line it introduces, not the check; 这个来源 replaces a 其中 whose nearest antecedent
+    was the two calendar errors (`talent.typ:88`). Their kinds were searched across the book: every 做法卡 and table that
+    summarizes a list this Change altered (no other out of step; `bounds.typ:79` checks a conclusion's first sentence,
+    while the card of `practice-collaborating.typ:62` checks a report whose request follows its conclusion), every
+    lead-in 下面是 or 以下是 (15, each followed by what it names), and every 其中 (127 after the correction, each referring to
+    its nearest fitting antecedent). The re-read's notes are taken where both families named the same place or a pointer
+    said more than its target: 技能、规则和说明文件 for what chapter 27 covers, with the shared memory pointed to chapter 14
+    (`standing.typ:63`); rules pointed to this chapter (`shared.typ:10`); `push` pointed to its section
+    (`shared.typ:25`); 智能体 for a 它 left after 对方 (`delegate.typ:43`); the read-only sandbox also refuses the network
+    (`first.typ:149`, as `boundaries.typ:38`). Each change after a re-read can bring in an error of its own, as these
+    three show, so the notes taken are the fewest that settle what a reader would otherwise have to work out.
 
 ## Risks / Trade-offs
 

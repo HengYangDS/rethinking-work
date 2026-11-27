@@ -51,7 +51,8 @@ its kind across the book, to be corrected before the release.
   the exit for a step out of bounds from the choice of action, as the text does.
 - The third sample, drawn from the whole body under the changed rule, passes at 0.31 per 10,000. Its three places
   and their kinds are corrected, and its uncounted notes where a reader would otherwise have to work out the meaning
-  (design decision 11).
+  (design decision 11). The re-read of the passages changed after it counts three places that this Change's own
+  wording brought in; they and their kinds are corrected (design decision 12).
 - No requirement of the book changes.
 
 ## Capabilities

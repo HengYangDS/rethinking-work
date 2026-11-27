@@ -124,7 +124,7 @@ echo "ok $(date +%F)"
 
 登记之后，还要确认到时有网关启动它：`hermes cron create` 只是把任务写进列表。网关没有运行时，`create` 的输出末尾会提示 `Scheduler is not ready`，即没有网关为它服务；`hermes cron status` 的提示更明确：`✗ No scheduler is serving profile 'default' — its cron jobs will NOT fire`。网关在运行时，同一条命令的输出中有一行 `✓ Gateway is running — cron jobs will fire automatically`。
 
-任务错过了预定时刻怎样处理，也要事先定好。机器关机或网关停止时，到时的任务不会运行；恢复以后是否补运行，由登记时的 `--catch-up` 决定：`on` 补运行一次，`off` 不补，只在 `hermes cron runs` 中把那一次记为 `missed`。补运行过的任务，`hermes cron list` 会在那一项下注明。下面是一项每天 09:00 运行的健康检查，`hermes cron list` 为它注明的那一行：
+任务错过了预定时刻怎样处理，也要事先定好。机器关机或网关停止时，到时的任务不会运行；恢复以后是否补运行，由登记时的 `--catch-up` 决定：`on` 补运行一次，`off` 不补，只在 `hermes cron runs` 中把那一次记为 `missed`。补运行过的任务，`hermes cron list` 会在那一项下注明。下面是 `hermes cron list` 为一项每天 09:00 运行的健康检查注明的那一行：
 
 ```
     Dispatch:  ⚠ catch-up after missed fire: scheduled 2026-11-07T09:00:00+08:00, ran 2026-11-17T11:05:29.067739+08:00 (10d 2h late)

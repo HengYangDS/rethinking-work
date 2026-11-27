@@ -57,6 +57,11 @@ here before it is worked.
 - [x] 5.5 The third sample's uncounted notes are corrected where a reader would otherwise have to work out the
       meaning, or left with a reason; done when the classed list records each and the edition still builds at 197
       pages with every running head in place.
+- [x] 5.6 The review of `2f274ba` is answered: the step-two output is again the excerpt `cb1b09c` printed, marked
+      有删节; 它 for 对方 in `delegate.typ` follows the counted kind; done when design decision 11 records both.
+- [x] 5.7 The three places the re-read of `408f4a3` counted (`practice-thinking.typ:166`, `run.typ:127`,
+      `talent.typ:88`), all brought in by this Change's own wording, are rewritten and their kinds searched across the
+      book; done when design decision 12 and the classed list record each search.
 
 ## 6. Review records
 
