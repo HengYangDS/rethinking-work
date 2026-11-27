@@ -14,6 +14,44 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Added
+
+- A repository skill, `.agents/skills/book-chinese-prose`, carries the book's
+  standard of Chinese prose: decided terms, translated forms and their
+  replacements, how to write about people, how to compose a chapter, and the
+  lenses of a reading. A second skill, `book-delivery`, carries what an agent
+  needs to deliver a change here beyond ETHOS's own results. Every proof checks
+  both against their activation record and packages.
+
+### Changed
+
+- Every chapter is revised to that standard and read sentence by sentence by
+  readers who did not edit it: idiomatic Chinese, people first, and composition
+  within and across chapters. 「有权决定的人」 becomes 「决策负责人」
+  throughout, and chapter 29 opens with what assessment is for and agrees the
+  next step with the member. No command, recorded output, fact or number
+  changes.
+- Errors found by the error-rate sample of the revised text, and the same kinds
+  across the book, are corrected: small matters keep a light review instead of
+  none, so that chapters 23 and 25 agree with the five functions every matter
+  needs; a measure word; coordinate items joined by 、; two clauses separated
+  by ，; names in table cells joined by 、; and no second colon inside a
+  sentence.
+- Chapter, practice, appendix and part numbers, and the counts of a part's
+  chapters, are derived from the reading order; a reference written by hand
+  fails the check. The archive's names, the pack's place, the tools its checks
+  need and the command that runs them are declared once in
+  `book/metadata.typ`, and the reader notes, now in `publication/notes/`, read
+  them. The companion appendix says that the PDF and the pack share a version.
+- The toolchain, the layout and the supply each declare their facts once: the
+  Python line, the Typst packages, type sizes, margins, closing marks and the
+  CI supply's sources. The publication jobs of both peers take their steps from
+  the generated verification job, and the runners keep the fonts and packages
+  in the account's cache.
+- The review record holds exactly its declared fields; a commands review also
+  records the reader notes and the Python line that the printed commands name.
+- The specification is split into nine capabilities; no obligation changes.
+
 ## [0.2.8] - 2026-11-26
 
 ### Changed
