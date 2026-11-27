@@ -24,7 +24,7 @@ Possible causes:
   • The server is running on a different address than http://localhost:8888
 ```
 
-若把这段输出概括为“记忆服务不可用”，接着很容易以为服务没有运行，去重启它。原文中却写着地址：命令连接的是默认的 8888 端口，而服务实际运行在 9077 端口上，也就是#chapref(<memory>, link: false)写进 `HINDSIGHT_API_URL` 的那个端口；原文列出的第二种可能，说的正是这种情况。把地址改正以后，`health` 报告 `Status: healthy`。第二步，列出记忆库的页面，这次在环境中不设密钥：
+若把这段输出概括为“记忆服务不可用”，接着很容易以为服务没有运行，去重启它。原文中却写着地址：命令连接的是默认的 8888 端口，而服务实际运行在 9077 端口上，也就是#chapref(<memory>, link: false)写进 `HINDSIGHT_API_URL` 的那个端口；原文列出的第二种可能，说的正是这种情况。把地址改正以后，`health` 报告 `Status: healthy`。第二步，列出记忆库的页面，这次在环境中不设密钥（输出有删节）：
 
 ```sh
 env -u HINDSIGHT_API_KEY hindsight pages tree coding-agent::rethinking-work
@@ -34,9 +34,8 @@ env -u HINDSIGHT_API_KEY hindsight pages tree coding-agent::rethinking-work
 ✗ Authentication failed
 API URL:
   http://127.0.0.1:9077
-Possible causes:
-  • API requires authentication
-  • Invalid or missing credentials
+Server response:
+  Authentication failed: Invalid API key
 ```
 
 报错变成了另一条：地址已经正确，服务也有了响应，报告的是认证失败，因为这一次没有提供密钥。提供密钥以后，查询就正常了。两步各改了一处，每一步的报错都指明了下一步该看哪里，问题都不在服务本身。

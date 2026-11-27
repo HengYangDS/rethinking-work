@@ -89,17 +89,18 @@ Non-Goals:
     marks of one line (typesetting, no clause read against them), 6 步，45 秒 and 09:00 UTC (the reader proposed no
     change), and `invariants.typ:107`, which keeps the reason for its exception because chapter 3 states the rule.
     The two notes on pp. 115–165 wait for the third sample's result (task 5.3).
-11. The third sample (`cb1b09c`, pp. 115–165, 0.31 per 10,000) counts three places, rewritten as its sampler
-    proposed: the reported counts are what the reports recorded (依次记为, `evaluate.typ:4`), so the narration keeps
-    its order, appearance first; 这一方 for a party that may be a person (`orchestrate.typ:113`); 。 before 其次, which
-    stands outside the colon's list (`talent.typ:8`). Their kinds were searched across the book: every 它 after an
-    antecedent that may be a person (one more, `delegate.typ:43`, 对方); every count stated before its passage
-    corrects the unit (none more); every colon whose reach crosses a semicolon into a parallel item, and every colon
-    inside a first item followed by a semicolon (one more, `practice-agent.typ:82`, where the exit code is not part
-    of the report). Its uncounted notes are corrected where both families named the same place or a command or a
-    fact was inexact, as decision 10 does elsewhere; the step-two command of `diagnose.typ` now unsets the key as
-    step one unsets the address, and its output is what hindsight 1.2.1 prints without a key (run 2026-11-28 00:0x,
-    against the local service). The rest are other wordings of sentences that read as they are, and stay.
+11. The third sample (`cb1b09c`, pp. 115–165, 0.31 per 10,000) counts three places, rewritten as its sampler proposed:
+    the reported counts are what the reports recorded (依次记为, `evaluate.typ:4`), so the narration keeps its order,
+    appearance first; 这一方 for a party that may be a person (`orchestrate.typ:113`); 。 before 其次, which stands outside
+    the colon's list (`talent.typ:8`). Their kinds were searched across the book: every 它 after an antecedent that may
+    be a person (three more in `delegate.typ`, :43, :48 and :56, where 对方 is whoever receives the delegation, a person
+    included); every count stated before its passage corrects the unit (none more); every colon whose reach crosses a
+    semicolon into a parallel item, and every colon inside a first item followed by a semicolon (one more,
+    `practice-agent.typ:82`, where the exit code is not part of the report). Its uncounted notes are corrected where
+    both families named the same place or a command or a fact was inexact, as decision 10 does elsewhere; the step-two
+    command of `diagnose.typ` now unsets the key as step one unsets the address; its output, unchanged and marked 有删节,
+    is an excerpt of the fourteen lines hindsight 1.2.1 prints without a key against the local service (run 2026-11-28
+    00:5x, and by the sampler at 00:40:54). The rest are other wordings of sentences that read as they are, and stay.
 
 ## Risks / Trade-offs
 
