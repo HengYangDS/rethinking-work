@@ -6,15 +6,16 @@ document requires every error found, and its kind across the book, to be correct
 
 ## What Changes
 
-- `roles.typ` no longer says that small matters need no reviewer, which contradicted the five functions
-  that every matter requires; small matters may keep the review light.
+- `roles.typ` and `review.typ` no longer say that small matters need no reviewer or no review, which contradicted
+  the five functions that every matter requires; both say that a small matter may keep its review light.
 - `evaluate.typ`: the measure word 句 counts a sentence that states the cut-off time and its zone, not the
   time itself.
 - Coordinate words and phrases are joined by 、, not ，: `diagnose.typ`, `improve.typ` and `practice-doing.typ`.
 - Two clauses that share one 时 are separated by ，, not 、: `review.typ`.
 - Table cells that list names are joined by 、, not ；: the table of orchestration objects (`orchestrate.typ`) and the
   back matter's table of tools (`back-matter.typ`). Cells that list clauses or checklist items keep ； (GB/T 15834—2011 4.6.3.1 and 4.6.3.3).
-- A sentence nests no second colon: `shared.typ`, `walkthrough.typ` and `talent.typ`.
+- A sentence nests no second colon: `shared.typ` and `talent.typ`. The quoted report in `walkthrough.typ` keeps the
+  helper's words.
 
 ## Capabilities
 
@@ -29,5 +30,5 @@ so `skip_specs: true` applies.
 
 ## Impact
 
-Ten chapter files under `book/parts/` and `book/back-matter.typ`. The meaning of the passage in `roles.typ` changes (from no
-reviewer to a light review); the other corrections change punctuation or one collocation.
+Nine chapter files under `book/parts/` and `book/back-matter.typ`. The meaning of the passages in `roles.typ` and
+`review.typ` changes (from no reviewer or no review to a light review); the other corrections change punctuation or one collocation.

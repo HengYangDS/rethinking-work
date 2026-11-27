@@ -15,12 +15,14 @@ Non-Goals:
 
 ## Decisions
 
-1. The contradiction in `roles.typ` is resolved at the exception, not at the rule: the five functions stay required,
-   and a small matter keeps a light review.
+1. The contradiction about small matters is resolved at its exceptions, not at the rule: the five functions stay
+   required (`roles.typ`), and both places that exempted small matters (`roles.typ`, `review.typ`) say that their
+   review may be light. The meaning review of `91f5510` found the second place.
 2. A table cell that lists names joins them with 、; a cell that lists clauses or itemised entries keeps ；
    (GB/T 15834—2011 4.6.3.1 and 4.6.3.3). The tools column of the back matter's table is names; its other columns, the
    exercise contents and the checklist entries are not.
 3. A colon inside a sentence that already has one becomes ， or 。, whichever keeps the label that opens the sentence.
+   A quotation of an agent's output keeps its words: the report quoted in `walkthrough.typ` is not changed.
 4. The kind search is the sampler's own script, run over every chapter and the front and back matter; each hit is
    classed in the lane's evidence as corrected or not the kind, with its reason.
 
