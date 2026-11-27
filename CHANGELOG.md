@@ -37,6 +37,11 @@ itself claim editorial acceptance.
   needs; a measure word; coordinate items joined by 、; two clauses separated
   by ，; names in table cells joined by 、; and no second colon inside a
   sentence.
+- A third judge family read the same sample and counted thirteen more places:
+  eleven where a word does not fit what it names, two where a 、 joins two
+  clauses. All thirteen are corrected, and both kinds are searched across the
+  book; one further place of the same kind is corrected. With them the sample
+  stands at 2.65 points per 10,000 characters, above the bar of 1.
 - Chapter, practice, appendix and part numbers, and the counts of a part's
   chapters, are derived from the reading order; a reference written by hand
   fails the check. The archive's names, the pack's place, the tools its checks
