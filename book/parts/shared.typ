@@ -79,7 +79,7 @@ mkdir $S/ws && cd $S/ws && git init -q
 teamai init https://git.example.invalid/team/agent-env.git --provider git --agent claude,codex
 ```
 
-先扮演维护团队仓库的人：另克隆一份，加一条规则并推送；回到工作目录，核对，取回，再核对：
+先扮演维护团队仓库的人，另克隆一份，加一条规则并推送；回到工作目录，核对，取回，再核对：
 
 ```sh
 git clone -q https://git.example.invalid/team/agent-env.git $S/admin
