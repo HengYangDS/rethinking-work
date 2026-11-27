@@ -11,7 +11,7 @@ task here before it is worked.
 
 ## 2. Verification
 
-- [ ] 2.1 The edition builds without warnings and the page count stays at or below `b59ab28`'s 200 ceiling; done when
+- [x] 2.1 The edition builds without warnings and the page count stays at or below `b59ab28`'s 200 ceiling; done when
       the built page count and the chapter openings are read from the new artifact.
 - [ ] 2.2 The readiness gates pass on the commit; the suite itself runs in the full proof that landing requires.
 
