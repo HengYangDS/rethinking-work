@@ -22,7 +22,7 @@ Non-Goals:
    写入成功 (the write succeeds; the check passes); 执行这个看法 → 把这个看法当作规则…执行; 动手的工夫多由智能体承担 →
    动手做的工作多由智能体承担.
 2. Where the fault is in the syntax rather than a word, the sentence is rebuilt around the actor it already had:
-   the chosen party in `orchestrate.typ`, the reader in `writing.typ` (写给 people, then 写给 a session opened later),
+   the chosen party in `orchestrate.typ`, the reader in `writing.typ` (写给 people, then 写进 a session opened later),
    the observer in `team.typ` (接手 the work, know why). Where the fault is in an example that names an act rather
    than what the sentence is about, the example keeps the sentence's own term: the B sentence in `talent.typ` is about
    judgements left to others, so each of its examples is a judgement (给学徒什么指导、专员的成果能否通过验收).
