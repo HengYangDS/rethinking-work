@@ -12,11 +12,11 @@ before it is worked.
 
 ## 2. Verification
 
-- [ ] 2.1 The PDF builds without warnings and every chapter keeps its pages; done when the page count and the chapter
+- [x] 2.1 The PDF builds without warnings and every chapter keeps its pages; done when the page count and the chapter
       openings equal `b59ab28`'s.
-- [ ] 2.2 The suite passes on the commit.
+- [x] 2.2 The readiness gates pass on the commit; the suite itself runs in the full proof that landing requires.
 
 ## 3. Review records
 
-- [ ] 3.1 The commands review and the reading of the changed passages are recorded; done when
+- [x] 3.1 The commands review and the reading of the changed passages are recorded; done when
       `tests/test_acceptance.py` passes.
