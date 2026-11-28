@@ -29,10 +29,11 @@ wording that treats people as objects, which the same decision covers, found thi
   limits (`leading.typ`); a person's positions are limited by what they can understand (`team.typ`); and the growth
   chapter says who can still see what is wrong, not which two kinds of people appear (`growth.typ`). The prose rules
   name 更换 and 替换 among the words not used of a person.
-- The leading chapter explains selection by the relation of qualities to results (qualities the cause, results the
-  effect; assessment reads the effect, selection looks for the cause cultivation cannot supply) and gives team culture
-  its own section: what people do by default where no rule reaches, where qualities last, set by the leader's conduct.
-  The prose rules' §7 is scoped accordingly.
+- The leading chapter says that what a person achieves comes from ability, conditions and qualities; assessment and
+  the entry grade read the work, and the decision to hire also looks for qualities that cultivation can hardly supply.
+  It gives team culture its own section: what people usually do where no rule reaches, whether a person's will and
+  abilities last, and how the leader's conduct, more than his words, shapes it. The prose rules' §7 is scoped
+  accordingly.
 
 ## Capabilities
 

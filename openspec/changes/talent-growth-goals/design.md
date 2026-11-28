@@ -53,13 +53,16 @@ release.
   itself, as 「标准不因人而降」 requires. The incentive rule opens its paragraph with 应当.
 - **Qualities among the causes.** The owner set this on 2026-11-28: initiative and other good qualities are a cause
   and the work's results the effect; cultivation does not solve everything, and some qualities are reached by
-  selection. The leading chapter places it in its argument, not as a slogan: what a person achieves comes from ability,
-  conditions and qualities; a period's assessment reads what was done because that can be read against a stated
-  standard; selection also looks for the qualities that cultivation can hardly supply, read from how a person has
-  worked across several pieces of work. Methods and habits can be taught (the opening case's support), the will to dig
-  in hardly. Selection keeps the gate within hiring, which answers the overlap of 选人 with 招聘, and the paragraph on
-  density ends with recruiting, cultivating and retaining together. §7 of the prose rules limits its boundary to
-  assessment and lets qualities be named as causes, never as labels that sort colleagues.
+  selection. The leading chapter places it in its argument: what a person achieves comes from ability, conditions and
+  qualities; a period's assessment reads what was done, and the entry grade is set against the grade's written
+  requirements, as the guidelines have it (interview evidence against the grade's description); the decision to hire
+  also looks for qualities that cultivation can hardly supply, read from how a person has worked across several pieces
+  of work before. Methods can be taught, the will to dig in hardly. So the book adds no second bar to the grade: the
+  gate is the decision to hire, beside the entry grade. Whether the guidelines should name it is with the session
+  aligning them (cross-project, O186), put to the owner as an option. Selection keeps the gate within hiring, and the
+  paragraph on density ends with recruiting, cultivating and retaining together. §7 of the prose rules keeps its
+  boundary for assessment, recognition, promotion and the entry grade, and lets qualities be named as causes where the
+  leading chapter speaks of the decision to hire and of culture, never as labels that sort colleagues.
 - **Culture.** The owner named team culture as important on the same day; the book had no word for it. It is derived
   here: what a team's people usually do where no rule reaches, above the floor the rules keep (how deep a check goes,
   whether one asks, whether one names a doubt in a colleague's result, whether a question is pursued to understanding),
@@ -79,12 +82,15 @@ release.
   《道德经》 quotation that a colon introduces (GB/T 15834—2011 4.7.3.5); that quotation was later replaced. The chapter says the baselines correspond (对应) to chapter 3's two sayings, not that they are them.
 - **The review of `23f87f3`** is answered: the period's goals leave what the tier is read against (`talent.typ:39`;
   goals stay where the period is planned and in pay, as the guidelines have them); the heading of `change.typ` no longer
-  says the doer can be replaced (「动手的不再只是人」), which task 2.2's search had classed as said of agents; the four
-  things that raise density each carry their role, so 选人 (守住门槛) no longer stands as a bare coordinate beside 招聘
-  (提升上限); the leader's three questions are named as his (`leading.typ:7`); and the band of 道, the two 也 and the
+  says the doer can be replaced (「动手的不再只是人」), which task 2.2's search had classed as said of agents; 选人 no
+  longer stands as a bare coordinate beside 招聘 (see "Qualities among the causes" for its final form); the leader's three questions are named as his (`leading.typ:7`); and the band of 道, the two 也 and the
   improvement plan's condition are tightened (`talent.typ:18`, `:41`, `:47`). The colon of `leading.typ:45` stays: it
   states that the effort poured in is the leniency, as the chapter meant. `talent.typ:12` keeps 步骤 twice for the
   guidelines' two columns, and `:16` keeps the guidelines' words for the band.
+- **The review of `8e1107b`** is answered: the decision to hire is told apart from the entry grade, which the
+  guidelines set against the grade's description, and §7 says so; the fairness section's 回报和后果 correspond to
+  (对应) two of the leader's acts, not equal them; 习惯 leaves the teachable side, since a quality is read from how a
+  person consistently works; and three wordings are tightened (培养出来, a full stop after 查得出来的部分, 不论深浅).
 
 ## Risks / Trade-offs
 

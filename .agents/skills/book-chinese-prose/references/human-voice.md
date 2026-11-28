@@ -55,9 +55,9 @@ slogans, no sentiment, no first person, no lecture.
 
 ## 7. Boundaries that stay
 
-- A period's assessment, recognition and promotion rest on the work the person did, which can be read against a
-  standard stated in advance; assessment does not grade a person's character. Qualities are among the causes of what a
-  person achieves and may be named as such where the book speaks of selection, culture and growth (`leading.typ`),
-  never as labels that sort colleagues into kinds.
+- A period's assessment, recognition and promotion, and the entry grade, rest on the work the person did, which can be
+  read against a standard stated in advance; none of them grades a person's character. Qualities are among the causes
+  of what a person achieves and may be named as such where the leading chapter speaks of the decision to hire and of
+  culture, never as labels that sort colleagues into kinds.
 - No sentence denies a meaning nobody gave, restates the plain, or piles explanation on a fault.
 - The department guidelines remain the one definition of grades and tiers; the book changes how they are said.
