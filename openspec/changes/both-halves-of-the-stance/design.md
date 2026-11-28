@@ -92,7 +92,10 @@ do; a release.
   chapter's closing box fell alone onto a new page and the layout oscillated (page counter, code-block geometry,
   heading positions); each edit alone converged. Concise rewriting in the agent, evaluate and orchestrate chapters
   brought the edition to 198 pages with no warning (the orchestrate overflow came from the 编排 heading and its
-  unbreakable table moving a page). The reserve is two pages.
+  unbreakable table moving a page). The reserve is two pages. `tests/test_layout.py` on the first commit found three
+  layout faults: a table cell ending with one character alone, a justified line in the sources list opened past the
+  bound, and the evaluation config block split with two lines on its second page. Three wording changes fixed them;
+  one restores the base's wording of the Phoenix sentence.
 - **Ageing sources.** The cited studies and system card date from 2023 to 2025; the text uses them as mechanisms with
   their conditions, and the forward judgement does not rest on them.
 - **Numbers.** Each added number shows its calculation and its assumptions, so a reader can tell when it does not
