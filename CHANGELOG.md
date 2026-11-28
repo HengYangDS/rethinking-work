@@ -14,6 +14,10 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+### Changed
+
+- The repository runs ETHOS 0.2.0-beta.12, from the release's own declaration.
+
 ## [0.2.9] - 2026-11-28
 
 ### Added

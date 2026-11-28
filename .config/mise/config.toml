@@ -20,7 +20,7 @@ uv = "0.13.9"
 
 # The ETHOS release; the lock holds each platform's checksum.
 [tools."http:ethos"]
-version = "0.2.0-beta.11"
+version = "0.2.0-beta.12"
 
 [tools."http:ethos".platforms]
 linux-x64 = { url = "https://github.com/HengYangDS/ethos/releases/download/v{{version}}/ethos-{{version}}-linux-x64.tar.gz", bin_path = "ethos/bin" }
