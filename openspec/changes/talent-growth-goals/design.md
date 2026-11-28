@@ -94,8 +94,8 @@ release.
 - **The review of `ebe6b4b`** is answered: 成色 is no longer set against 分量, which elsewhere in the book means a
   person's worth; the editor chose 「而不只是多少和快慢」, since the sentence before says the three mean less and less,
   not nothing, and each piece of work still delivers its agreed result. Notes taken: the entry-grade clause gains its
-  verb (也要对照), 「决定是否录用」, 「靠培养」, the quotation introduced as 「《道德经》说」 (a bare 三十三章 could read as a count, and 第三十三章 is the
-  form the book keeps for its own chapters, derived by reference), and :60 names where the gap lies (那段说明是评审人补写的).
+  verb (也要对照), 「决定是否录用」, 「靠培养」, the quotation stands without a lead-in naming its source (the editor's word, 19:1x: the line carries its meaning, not
+  its name; edition and chapter are kept here), and :60 names where the gap lies (那段说明是评审人补写的).
 
 ## Risks / Trade-offs
 

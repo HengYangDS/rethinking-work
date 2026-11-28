@@ -23,8 +23,9 @@ prevail. What follows is that practice for word choice and sentence making (遣�
   two in a row, never as ornament.
 - **Classical quotations.** Rare, and only where a classical line says the point more exactly than the book's own
   words could, at the place the argument turns on it; the editor prefers the Daoist texts. Each is exact against a
-  named edition and glossed in plain Chinese. A line that only restates the prose, or lends it authority, is left
-  out.
+  named edition, which the Change's record keeps, and glossed in plain Chinese. The text does not announce its
+  source (no 「某书说」): the line stands on its meaning, not on its name. A line that only restates the prose, or
+  lends it authority, is left out.
 - **Positive form.** State what is done and why; a negation carries only a limit that matters.
 
 ## Composition (谋篇布局)
