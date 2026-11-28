@@ -42,12 +42,16 @@ do; a release.
   worse.
 - **Where people's work gathers.** If models keep improving, the bought part grows; the two steps that cannot be bought
   (first declaring a kind of case an error, reading a result and answering for it) do not shrink. So people's work
-  gathers at four places: deciding what counts as right and naming the first error; writing understanding into checks
-  and records; deciding what cannot be undone and answering for it; training people who can do these. The judgement
+  gathers at four places: deciding what counts as right and naming the first error; writing understanding into reasons
+  and checks; reading results and answering for them, with what cannot be undone decided before acting; training
+  people who can do these. Each item comes from the two steps or from the two classes checks cannot cover, and the
+  closing names the same four. How much can be handed over without watching each result depends on the understanding
+  made into checks, as the verify chapter credits checks, not reasons, with that. The judgement
   rests on the chapter's four facts and the two grounds of 责任交不出去, not on present limits of agents, and is to be revisited when
   one of them changes; the appendix's basis table carries it. The verb is 定为 (a decision), not 认出 (a capability).
-- **可逆 in both directions.** Irreversible steps keep strict procedure; reversible ones may go fast and in parallel. The
-  improve chapter's close states the rhythm that follows: trials fast, switching slow.
+- **可逆 in both directions.** Irreversible steps keep strict procedure; steps that can be undone and touch little may go
+  fast and in parallel, since the criterion weighs both points (the boundaries chapter asks first before reversible
+  writes to shared places). The improve chapter's close states the rhythm that follows: trials fast, switching slow.
 - **Training toward reward.** The agent chapter says what a model is trained toward (what reads as plausible, what
   people prefer, what passes checks) and that these mostly coincide with being right; a vendor's system card reports
   special-casing or editing tests as reward hacking from reinforcement learning, mostly after several failed attempts,
@@ -85,6 +89,14 @@ do; a release.
 - **A sentence-level reading.** A third reader read every changed sentence of draft 4 for clarity; its points were
   taken, chiefly: one wording for the first error throughout (判定第一次遇到的情形算不算错), 理解 written into 理由和检查
   instead of 弄明白的结果, which collided with the book's word for output, and a preface whose one subject is plain.
+- **The review of the committed lane.** The commands reviewer and two further readers read the first commit and the
+  layout fix: no finding on the commands; three findings, all settled: the evaluation chapter's standard deviation
+  states its independence assumption, the list of where people's work gathers keeps both unbuyable steps (and the
+  closing names the same items), and 可逆 lets only what can be undone and touches little go fast. Of sixteen notes,
+  fourteen were taken: Arabic 百分点 and one unit in the evaluation numbers, the preface's summary of chapters 20 and 21
+  restored, 依据 rather than 前提 in the closing, the appendix lead naming its sources, Western quotation marks for
+  English titles, and formulas kept on one line, among others. Two were left, with a reason: 作保 for 显性 (asking
+  stood in for writing down, as above) and the two senses of 模型 in the root chapter, which the context separates.
 
 ## Risks / Trade-offs
 
