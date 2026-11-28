@@ -8,12 +8,13 @@ hiring, the closing chapters, and any scene in which colleagues act.
 
 Write what a person does, learns, contributes and where they go next. The standard is a tool that serves them, not a
 machine that processes them. Words that treat a person as an item handled (「给他一个字母」「定为 D」「人员筛选」「名额」
-「档位」 for a person) stay only inside a definition that needs them; around it, speak of the person.
+「档位」「更换」「替换」 for a person) stay only inside a definition that needs them; around it, speak of the person.
 
 | 原文                                            | 方向                                                      |
 | ----------------------------------------------- | --------------------------------------------------------- |
 | 每一个字母，都要有查得到原件的记录。            | 每一个评定结论，都要有查得到原件的记录。                  |
 | 一个人的评定等级，用 S、A、B、C、D 五个字母表示 | 评定等级分 S、A、B、C、D 五档，说的是一个人这一周期的表现 |
+| 做事的一方可以更换                              | 同事之间写接替、接手；只说智能体时仍写更换                |
 
 ## 2. Purpose before mechanism
 

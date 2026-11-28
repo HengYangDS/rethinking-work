@@ -20,6 +20,9 @@ itself claim editorial acceptance.
 - Chapter 29, now 「目标与认可」, presents the four stages and eight grades as goals, the five tiers by what each
   means and the next step it points to, and the principles of assessment, recognition and guidance; the detailed
   conditions, evidence counts and procedure are left to the department's guidelines.
+- Across the book, colleagues take over each other's work rather than being swapped like agents, a leader decides
+  which conclusions someone must understand and who, and the leading and growth chapters speak of what colleagues did
+  and the support they need rather than sorting them into kinds.
 
 ## [0.2.9] - 2026-11-28
 

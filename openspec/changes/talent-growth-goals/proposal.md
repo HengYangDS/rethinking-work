@@ -4,7 +4,8 @@ Chapter 29 read as a rubric: a table of tier conditions, the conditions for D, e
 published statistics and promotion mechanics, followed by an example that walked them. The owner judged it mechanical
 and asked for the chapter to state principles and spirit, to guide people upward rather than set up rules, to help each
 member grow with clear goals rather than measure people, and not to treat people as objects. He then asked that the
-grades and the five tiers still be explained, as goals, not laid out as procedure.
+grades and the five tiers still be explained, as goals, not laid out as procedure. A read of the other chapters for
+wording that treats people as objects, which the same decision covers, found thirteen places.
 
 ## What Changes
 
@@ -20,6 +21,15 @@ grades and the five tiers still be explained, as goals, not laid out as procedur
 - Chapter 31's sentence that pointed to the chapter's "two sides" points to its 成色 instead.
 - The requirement in `book-argument` is renamed and restated for the new purpose; the prose skill's evaluation terms
   follow the chapter.
+- Across the book, colleagues take over each other's work (接替, 接手) rather than being swapped like agents
+  (`invariants.typ`, `roles.typ`, with the heading 「“接得上”的前提」); a tool is added where repeated work falls on a
+  person, not where a person "serves as an interface" (`tools.typ`); whom to invite to a meeting follows from what the
+  meeting needs (`review.typ`); evaluation looks first at the work done (`improve.typ`); the leading chapter tells its
+  case by what colleagues did and the support they still need, decides which conclusions someone must understand and
+  who rather than where a capacity goes, names 选人 for 筛选, and states support and the incentive rule before their
+  limits (`leading.typ`); a person's positions are limited by what they can understand (`team.typ`); and the growth
+  chapter says who can still see what is wrong, not which two kinds of people appear (`growth.typ`). The prose rules
+  name 更换 and 替换 among the words not used of a person.
 
 ## Capabilities
 
@@ -33,6 +43,7 @@ None.
 
 ## Impact
 
-`book/parts/talent.typ`, `book/parts/growth.typ`, `openspec/specs/book-argument/spec.md`,
-`.agents/skills/book-chinese-prose/` (terms), `CHANGELOG.md`. No fact of the department's guidelines changes; the
+`book/parts/talent.typ`, `book/parts/growth.typ`, seven other chapters (`invariants`, `tools`, `roles`, `review`,
+`improve`, `leading`, `team`), `openspec/specs/book-argument/spec.md`, `.agents/skills/book-chinese-prose/` (terms and
+`human-voice.md`), `CHANGELOG.md`. No fact of the department's guidelines changes; the
 chapter states fewer of them. The edition stays within its ceiling of 200 pages.
