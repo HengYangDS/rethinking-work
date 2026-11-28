@@ -75,6 +75,10 @@ itself claim editorial acceptance.
   their section, counts and terms match the files and chapters they describe,
   补录 names the vendor's backfill throughout, and the work-loop figure takes
   the exit for a step out of bounds from the choice of action, as the text does.
+- Three printed blocks are corrected: the second step of the memory-library
+  diagnosis unsets the key as the first unsets the address, a command printed
+  over three lines carries its line continuations, and a comment in an
+  evaluation configuration gives the gist of the prompt instead of quoting it.
 - A later sample of an edition avoids the pages its earlier samples read only
   until every body page has been read, with every item judged as a sample's
   are, and the errors found are corrected; it is then drawn from the whole
