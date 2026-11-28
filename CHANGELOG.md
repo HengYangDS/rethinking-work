@@ -14,6 +14,8 @@ itself claim editorial acceptance.
 
 ## [Unreleased]
 
+## [0.2.9] - 2026-11-28
+
 ### Added
 
 - A repository skill, `.agents/skills/book-chinese-prose`, carries the book's
