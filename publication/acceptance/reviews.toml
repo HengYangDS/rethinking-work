@@ -18,31 +18,31 @@
 
 [[release]]
 version = "0.2.9"
-pdf = "61ca5704c75fbcbc35bdc2eb8ff60c3409ad632bd52d00be069a6c62fc3c1f7c"
-read = 2026-11-28T08:40:41+08:00
+pdf = "e4405211f7302eaff3d3bd16a5e602acca6a7a7d111ed63044f90a00a6bae870"
+read = 2026-11-28T09:07:15+08:00
 verdict = "no finding"
 settled = 0
 declined = 0
 
 [[commands]]
-book = "8a255cc32422bfb0d2f83b84198f5df344fd9cee"
+book = "0f3df90e3d1aeaa1bce909f4b87a9f82889fb23f"
 exercises = "4c4bf0bbad5311b8a90249e1e55ade23242f7170"
 notes = "376f7f6c2fda783e9160f819e8db47b8ba1d46d5"
 python = "3.12"
-subject = "888f121"
+subject = "b249047"
 blocks_against = "v0.2.8"
-prose_against = "64d05f2"
-pdf = "54e9d7152d7358fec405348dbc74d53abf63f5df5356bbf67d9afe4cce0e713e"
-read = 2026-11-28T02:08:18+08:00
+prose_against = "888f121"
+pdf = "058937f73c35e4cc2e78e7801873af246a65b6bcd7d3ef53f073f87c557ad355"
+read = 2026-11-28T09:06:57+08:00
 verdict = "no finding"
 settled = 0
 declined = 0
 
 [[reading]]
-book = "8a255cc32422bfb0d2f83b84198f5df344fd9cee"
-subject = "888f121"
-against = "64d05f2"
-read = 2026-11-28T02:08:18+08:00
+book = "0f3df90e3d1aeaa1bce909f4b87a9f82889fb23f"
+subject = "b249047"
+against = "888f121"
+read = 2026-11-28T09:06:57+08:00
 verdict = "no finding"
 settled = 0
 declined = 0
