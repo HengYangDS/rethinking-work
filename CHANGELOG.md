@@ -24,6 +24,16 @@ itself claim editorial acceptance.
   which conclusions someone must understand and who, and the leading and growth chapters speak of what colleagues did
   and the support they need rather than sorting them into kinds. The leading chapter adds a section on team culture
   and says why the decision to hire also looks for qualities that cultivation can hardly supply.
+- The root chapter 「什么没变」 derives both halves of the book's stance: the conditions a result must meet are held,
+  while practices that only vouched for them when making was dear are replaced, with a method for changes the book
+  does not name. It defines understanding, says what cheap making should buy first, and judges where people's work
+  gathers, with the bases on which that judgement would be revisited.
+- The agent chapter says what models are trained toward and that they may satisfy a test rather than its intent, and
+  states its mitigations as one principle; the context, run, evaluate and orchestrate chapters give the mechanisms a
+  decision turns on, each with its calculation and assumptions, and the back matter lists the public sources cited.
+- The growth, leading and review chapters speak of what agents and records cannot take from a person, of protecting
+  members' bandwidth and of protecting whoever stops when unsure; the preface and the closing state what is kept and
+  what is redesigned.
 
 ## [0.2.9] - 2026-11-28
 
