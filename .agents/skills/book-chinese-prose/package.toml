@@ -13,7 +13,7 @@ include = [
   "references/translated-forms.md",
 ]
 required_sections = ["When to Use", "Workflow", "Evidence", "Trust Boundary"]
-expected_digest = "sha256:e387991c686904e2fd0e272b231d218c188ea479bc82476bd4cce27370819182"
+expected_digest = "sha256:eac4073b635b51f5a970a3a8a3b853847880793ecfcc9ebcd3694aeea7bdf21f"
 
 [quality]
 placeholder_allowed = false

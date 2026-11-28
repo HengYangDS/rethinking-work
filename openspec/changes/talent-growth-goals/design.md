@@ -33,7 +33,7 @@ release.
   reads so (the 河上公本, 郭店 and 帛书 have 法物); the 「九征」 of 《庄子·列御寇》, which tests people by traps; 「君子不器」,
   which would read as belittling the first stage.
 - **Baselines as the guidelines hold them.** The four baselines are stated as the charter words them; the first and
-  fourth together are chapter 3's 「话只说到证据所能支持的程度」, the third its 「结果有人负责」.
+  fourth together correspond to chapter 3's 「话只说到证据所能支持的程度」, the third to its 「结果有人负责」.
 - **The book-wide pass in this Change.** The decision that the book does not treat people as objects covers every
   chapter, and the read of the others found thirteen places; they join this Change so that one review and one proof
   cover the whole decision.
@@ -43,7 +43,9 @@ release.
 - **带宽 sentences.** 「这份有限的带宽用在哪里」 becomes the decision it stood for, which conclusions someone must
   understand and who; a person's positions are limited by what they can understand (以他弄得明白为限).
 - **选人, support, rule first.** 选人 replaces 筛选, as the back matter names the point; 主动钻研的意愿 stays as the
-  experience it rests on (the prose rules' boundary that judging rests on work done governs a member's assessment).
+  experience it rests on. The owner chose on 2026-11-28 to keep it, adding that initiative itself shows in the final
+  results; so the sentence reads it in what a person has done, and the prose rules keep one boundary for assessment
+  and selection alike: judging rests on the work done, where a disposition shows.
   Colleagues who need more support are owed the written standards and mentoring the chapter names; the difficulty of
   fairness stays in leniency itself, as 「标准不因人而降」 requires. The incentive rule opens its paragraph with 应当.
 - **The review of the chapter's first draft** (`433661a`), commands and meaning, with a second reader of its findings, is
@@ -56,7 +58,15 @@ release.
   two senses; the records that work done the book's way leaves; the pointers in `leading.typ` (晋升) and `improve.typ`
   (走到了哪里、下一步往哪里走) name what the chapter now holds; 成员 for an unanchored 他; and no colon inside the
   《道德经》 quotation that a colon introduces (GB/T 15834—2011 4.7.3.5), the inner colon being the edition's
-  punctuation, not the text's. The two baselines that chapter 3 states are said to correspond to it (对应), not to be it.
+  punctuation, not the text's. The chapter says the baselines correspond (对应) to chapter 3's two sayings, not that they are them.
+- **The review of `23f87f3`** is answered: the period's goals leave what the tier is read against (`talent.typ:39`;
+  goals stay where the period is planned and in pay, as the guidelines have them); the heading of `change.typ` no longer
+  says the doer can be replaced (「动手的不再只是人」), which task 2.2's search had classed as said of agents; the four
+  things that raise density each carry their role, so 选人 (守住门槛) no longer stands as a bare coordinate beside 招聘
+  (提升上限); the leader's three questions are named as his (`leading.typ:7`); and the band of 道, the two 也 and the
+  improvement plan's condition are tightened (`talent.typ:18`, `:41`, `:47`). The colon of `leading.typ:45` stays: it
+  states that the effort poured in is the leniency, as the chapter meant. `talent.typ:12` keeps 步骤 twice for the
+  guidelines' two columns, and `:16` keeps the guidelines' words for the band.
 
 ## Risks / Trade-offs
 
