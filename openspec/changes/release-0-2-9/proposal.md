@@ -30,6 +30,7 @@ None. `.openspec.yaml` sets `skip_specs: true`.
 
 ## Impact
 
-`VERSION`, `CHANGELOG.md` and the release record in `publication/acceptance/reviews.toml`. The release itself follows
+`VERSION`, `CHANGELOG.md`, the release record in `publication/acceptance/reviews.toml`, and three wordings in
+`book/parts/` (`knowing.typ`, `agent.typ`, `talent.typ`) that the layout checks need. The release itself follows
 the archived head as `docs/publication-acceptance.md` ("Release") describes, and is recorded by Git, the tag and the
 forges.

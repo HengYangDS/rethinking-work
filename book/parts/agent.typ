@@ -131,7 +131,7 @@ Credential reader
   ✓ Nothing was written: configuration, credentials and client files are unchanged
 ```
 
-预览中要核对三项。一是它要改写哪个文件：这里是 `~/.claude/settings.json`，即个人设置文件，行末的 `project` 是要对这个文件做的动作，也就是写入配置。二是凭据从哪里来：这里还没有保存，去掉 `--dry-run` 正式运行时，AIGW 会在终端里要求输入并验证。三是它是否要在本机安装一个读取凭据的程序。后两项不一定出现：有一次在已经配置好的机器上运行，输出里没有 `Token` 和 `Credential reader` 这两处，要核对的只剩第一项。最后一行说明这一次什么也没有写入。如果改错了，可以用 `aigw config rollback` 把配置和宿主的设置文件恢复原状。
+预览中要核对三项。一是它要改写哪个文件：这里是 `~/.claude/settings.json`，即个人设置文件，行末的 `project` 是要对这个文件做的动作，也就是写入配置。二是凭据从哪里来：这里还没有保存，去掉 `--dry-run` 正式运行时，AIGW 会在终端里要求输入并验证。三是它是否要在本机安装一个读取凭据的程序。后两项不一定出现：有一次在已经配置好的机器上运行，输出里没有 `Token` 和 `Credential reader` 这两处，要核对的就只剩第一项。最后一行说明这一次什么也没有写入。如果改错了，可以运行 `aigw config rollback`，把配置和宿主的设置文件恢复原状。
 
 要查看 `client` 这一级检查在 Claude Code 里实际查了什么，运行 `aigw check claude --depth client`（可能消耗额度），看输出中的 `session.scope`。
 
