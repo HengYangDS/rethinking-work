@@ -29,8 +29,11 @@ release.
 - **成色 instead of the two sides.** The three things chapter 31 says stay with a person (弄明白、担得起、让别人也弄得明白)
   are what the chapter looks for, so the book names them once and both chapters agree.
 - **One classical line, Daoist.** A survey of Daoist, Confucian and Legalist texts informed the chapter; the owner
-  then asked that quotations not be overused and said he prefers Daoist ones. The chapter keeps one: the close of
-  《道德经》 17 (王弼本, without the editor's inner colon), where the member's own growth answers the chapter's question.
+  then asked that quotations not be overused and said he prefers Daoist ones. The chapter keeps one, at its close: 《道德经》 33,
+  「知人者智，自知者明。胜人者有力，自胜者强。」 (王弼本; the gloss's 才是 follows 王弼's note, 「未若自知者超智之上也」). Knowing
+  oneself answers the chapter's question, and overcoming oneself rather than others is its principle of not comparing
+  members with one another; the member's period shows both. It replaced 17's 「功成事遂，百姓皆谓我自然」, whose
+  百姓 cast members as the governed, which the owner did not want.
   成色 stands as a plain word (volume is what agents multiply), and guiding is carried by the opening scene. Drafts
   had used 《传习录》 on 精金 and 《学记》 「道而弗牵」, and the culture section 《论语·子路》 「其身正」; each restated what
   the prose already said. Not used: 57's 「法令滋彰」 (only the 王弼本 reads so); the 「九征」 of 《庄子·列御寇》, which
@@ -73,8 +76,7 @@ release.
   name them; same grade and same records give the same tier, and no forced distribution; 不就……也不对外 for one 对 in
   two senses; the records that work done the book's way leaves; the pointers in `leading.typ` (晋升) and `improve.typ`
   (走到了哪里、下一步往哪里走) name what the chapter now holds; 成员 for an unanchored 他; and no colon inside the
-  《道德经》 quotation that a colon introduces (GB/T 15834—2011 4.7.3.5), the inner colon being the edition's
-  punctuation, not the text's. The chapter says the baselines correspond (对应) to chapter 3's two sayings, not that they are them.
+  《道德经》 quotation that a colon introduces (GB/T 15834—2011 4.7.3.5); that quotation was later replaced. The chapter says the baselines correspond (对应) to chapter 3's two sayings, not that they are them.
 - **The review of `23f87f3`** is answered: the period's goals leave what the tier is read against (`talent.typ:39`;
   goals stay where the period is planned and in pay, as the guidelines have them); the heading of `change.typ` no longer
   says the doer can be replaced (「动手的不再只是人」), which task 2.2's search had classed as said of agents; the four

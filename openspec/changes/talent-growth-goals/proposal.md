@@ -16,7 +16,7 @@ wording that treats people as objects, which the same decision covers, found thi
   and how to guide a member upward. The opening member's period ends with his tier and his next step.
 - The tiers' detailed conditions, evidence counts, the procedure, statistics, the work score and the evidence for the
   two crossings are left to the department's guidelines, which the chapter names as their source.
-- One classical line, the close of 《道德经》 chapter 17, ends the chapter, quoted exactly and glossed.
+- One classical line, 《道德经》 chapter 33 on knowing and overcoming oneself, ends the chapter, quoted exactly and glossed.
 - Chapter 31's sentence that pointed to the chapter's "two sides" points to its 成色 instead.
 - The requirement in `book-argument` is renamed and restated for the new purpose; the prose skill's evaluation terms
   follow the chapter.
