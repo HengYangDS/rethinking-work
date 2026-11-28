@@ -46,3 +46,26 @@ read = 2026-11-28T09:06:57+08:00
 verdict = "no finding"
 settled = 0
 declined = 0
+
+[[commands]]
+book = "d61a074e12a88f8bc97951578d6026c8c8fdb65e"
+exercises = "4c4bf0bbad5311b8a90249e1e55ade23242f7170"
+notes = "376f7f6c2fda783e9160f819e8db47b8ba1d46d5"
+python = "3.12"
+subject = "65db158"
+blocks_against = "v0.2.9"
+prose_against = "3b7d334"
+pdf = "23035e057ffb6c3da8e3f0c267700af9c06b6a0b2a1af90eb6de2bfb2b01682c"
+read = 2026-11-28T19:24:44+08:00
+verdict = "no finding"
+settled = 0
+declined = 0
+
+[[reading]]
+book = "d61a074e12a88f8bc97951578d6026c8c8fdb65e"
+subject = "65db158"
+against = "3b7d334"
+read = 2026-11-28T19:24:44+08:00
+verdict = "settled"
+settled = 19
+declined = 0
