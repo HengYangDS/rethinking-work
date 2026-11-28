@@ -51,8 +51,9 @@ its kind across the book, to be corrected before the release.
   the exit for a step out of bounds from the choice of action, as the text does.
 - The third sample, drawn from the whole body under the changed rule, passes at 0.31 per 10,000. Its three places
   and their kinds are corrected, and its uncounted notes where a reader would otherwise have to work out the meaning
-  (design decision 11). The re-read of the passages changed after it counts three places that this Change's own
-  wording brought in; they and their kinds are corrected (design decision 12).
+  (design decision 11). Two re-reads of the passages changed after it count three places each, all brought in or
+  exposed by this Change's own wording; they and their kinds are corrected (design decisions 12 and 13). The third
+  re-read counts none (design decision 14).
 - No requirement of the book changes.
 
 ## Capabilities
@@ -71,5 +72,5 @@ readings; no requirement's text changes, so `skip_specs: true` applies.
 
 Thirty-two chapter files under `book/parts/`, the figure `diagrams/work-loop.typ`, one comment in
 `exercises/cases/historical-snapshot/quality.sql`, and `docs/publication-acceptance.md`. Wording and punctuation change,
-and chapter 3 names one exception to its rule. The release of 0.2.9 waits for the re-read of the passages changed after
-the third sample.
+and chapter 3 names one exception to its rule. The re-reads of the passages changed after the third sample end with one
+that counts no error.

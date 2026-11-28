@@ -22,7 +22,7 @@ here before it is worked.
 
 - [x] 2.1 The edition builds and the page count stays at or below 200; done when the built page count and the chapter
       openings are read from the new artifact.
-- [ ] 2.2 The readiness gates pass on the commit; the suite itself runs in the full proof that landing requires.
+- [x] 2.2 The readiness gates pass on the commit; the suite itself runs in the full proof that landing requires.
 
 ## 3. Acceptance rule
 
@@ -65,8 +65,10 @@ here before it is worked.
 - [x] 5.8 The three places the re-read of `64d05f2` counted (`agent.typ:134`, `standing.typ:63`, `improve.typ:40`) are
       rewritten and their kinds searched across the book; done when design decision 13 and the classed list record
       each search.
+- [x] 5.9 The re-read of `888f121` is answered: it counts no error, and its notes judged no are left; done when design
+      decision 14 records them.
 
 ## 6. Review records
 
-- [ ] 6.1 The commands review and the reading of the changed passages are recorded; done when
+- [x] 6.1 The commands review and the reading of the changed passages are recorded; done when
       `tests/test_acceptance.py` passes.

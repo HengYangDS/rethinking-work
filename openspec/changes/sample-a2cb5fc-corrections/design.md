@@ -125,6 +125,11 @@ Non-Goals:
     `practice-collaborating.typ:161` lists three conditions under one 的 and drops 又, so they stand as items. Where the
     clauses share a subject (`invariants.typ:107`, `roles.typ:45`, `:77`, `knowing.typ:75`), 、 joins predicates and
     stays.
+14. The re-read of `888f121` counts no error. Its five notes, each raised by one family and judged no by the other
+    (whether chapter 27 treats 说明文件 at `standing.typ:63`, two other wordings there and one at `improve.typ:40`, and
+    the commas of `run.typ:115`), are left as they stand. After a sample this Change takes only counted places, their
+    kinds and notes both families raise, because each earlier batch of corrections brought in errors of its own. The
+    owner raised the batch's cap from 75 to 80 USD for the re-read's last judge.
 
 ## Risks / Trade-offs
 
