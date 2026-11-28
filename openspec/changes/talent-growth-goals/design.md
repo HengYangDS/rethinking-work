@@ -28,10 +28,13 @@ release.
   detail stay in the guidelines, so the book keeps one source of each.
 - **成色 instead of the two sides.** The three things chapter 31 says stay with a person (弄明白、担得起、让别人也弄得明白)
   are what the chapter looks for, so the book names them once and both chapters agree.
-- **Classics, three and exact.** 《传习录》 (成色, not 分两) because volume and speed are what an agent multiplies;
-  《学记》 (道而弗牵) for guiding; 《道德经》 17 (王弼本) for the end. Not used: 57's 「法令滋彰」, which only the 王弼本
-  reads so (the 河上公本, 郭店 and 帛书 have 法物); the 「九征」 of 《庄子·列御寇》, which tests people by traps; 「君子不器」,
-  which would read as belittling the first stage.
+- **One classical line, Daoist.** A survey of Daoist, Confucian and Legalist texts informed the chapter; the owner
+  then asked that quotations not be overused and said he prefers Daoist ones. The chapter keeps one: the close of
+  《道德经》 17 (王弼本, without the editor's inner colon), where the member's own growth answers the chapter's question.
+  成色 stands as a plain word (volume is what agents multiply), and guiding is carried by the opening scene. Drafts
+  had used 《传习录》 on 精金 and 《学记》 「道而弗牵」, and the culture section 《论语·子路》 「其身正」; each restated what
+  the prose already said. Not used: 57's 「法令滋彰」 (only the 王弼本 reads so); the 「九征」 of 《庄子·列御寇》, which
+  tests people by traps. The rule is written once, in the prose rules' composition file.
 - **Baselines as the guidelines hold them.** The four baselines are stated as the charter words them; the first and
   fourth together correspond to chapter 3's 「话只说到证据所能支持的程度」, the third to its 「结果有人负责」.
 - **The book-wide pass in this Change.** The decision that the book does not treat people as objects covers every
@@ -58,8 +61,7 @@ release.
   here: what a team's people usually do where no rule reaches, above the floor the rules keep (how deep a check goes,
   whether one asks, whether one names a doubt in a colleague's result, whether a question is pursued to understanding),
   moments that multiply as agents return plausible results fast. It decides whether a person's will and abilities last
-  after selection and cultivation, and it is shaped more by what the leader does than by what he says (《论语·子路》,
-  exact against Wikisource, glossed). It is its own section after the conditions a leader creates; its last sentence
+  after selection and cultivation, and it is shaped more by what the leader does than by what he says. It is its own section after the conditions a leader creates; its last sentence
   points to the fairness section for two of the leader's acts. A cold reading settled its examples so that none is a
   rule the book already states.
 - **The review of the chapter's first draft** (`433661a`), commands and meaning, with a second reader of its findings, is

@@ -21,6 +21,10 @@ prevail. What follows is that practice for word choice and sentence making (遣�
 - **The end of the sentence.** Put the new information last; the known comes first and links to what came before.
 - **Set phrases.** A four-character phrase or idiom in its dictionary sense, where it says the thing more exactly; not
   two in a row, never as ornament.
+- **Classical quotations.** Rare, and only where a classical line says the point more exactly than the book's own
+  words could, at the place the argument turns on it; the editor prefers the Daoist texts. Each is exact against a
+  named edition and glossed in plain Chinese. A line that only restates the prose, or lends it authority, is left
+  out.
 - **Positive form.** State what is done and why; a negation carries only a limit that matters.
 
 ## Composition (谋篇布局)
