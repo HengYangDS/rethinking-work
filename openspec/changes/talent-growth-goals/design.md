@@ -90,9 +90,14 @@ release.
 - **The review of `8e1107b`** is answered: the decision to hire is told apart from the entry grade, which the
   guidelines set against the grade's description, and §7 says so; the fairness section's 回报和后果 correspond to
   (对应) two of the leader's acts, not equal them; 习惯 leaves the teachable side, since a quality is read from how a
-  person consistently works; and three wordings are tightened (培养出来, a full stop after 查得出来的部分, 不论深浅).
+  person consistently works; and wordings are tightened (培养出来, a full stop after 查得出来的部分, 不论深浅, 「因为有些品质……」, 「要看一个人以往……」).
+- **The review of `ebe6b4b`** is answered: 成色 is no longer set against 分量, which elsewhere in the book means a
+  person's worth; the editor chose 「而不只是多少和快慢」, since the sentence before says the three mean less and less,
+  not nothing, and each piece of work still delivers its agreed result. Notes taken: the entry-grade clause gains its
+  verb (也要对照), 「决定是否录用」, 「靠培养」, the quotation introduced as 「《道德经》说」 (a bare 三十三章 could read as a count, and 第三十三章 is the
+  form the book keeps for its own chapters, derived by reference), and :60 names where the gap lies (那段说明是评审人补写的).
 
 ## Risks / Trade-offs
 
 - A reader who needs a tier's conditions in detail must open the guidelines; the chapter says where.
-- The classics are new to the book's register; each is glossed in plain Chinese and used once.
+- The one classical line is new to the book's register; it is glossed in plain Chinese.
