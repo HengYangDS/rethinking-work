@@ -17,6 +17,9 @@ itself claim editorial acceptance.
 ### Changed
 
 - The repository runs ETHOS 0.2.0-beta.12, from the release's own declaration.
+- Chapter 29, now 「目标与认可」, presents the four stages and eight grades as goals, the five tiers by what each
+  means and the next step it points to, and the principles of assessment, recognition and guidance; the detailed
+  conditions, evidence counts and procedure are left to the department's guidelines.
 
 ## [0.2.9] - 2026-11-28
 
