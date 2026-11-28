@@ -42,12 +42,26 @@ release.
   `human-voice.md` §1 and its table.
 - **带宽 sentences.** 「这份有限的带宽用在哪里」 becomes the decision it stood for, which conclusions someone must
   understand and who; a person's positions are limited by what they can understand (以他弄得明白为限).
-- **选人, support, rule first.** 选人 replaces 筛选, as the back matter names the point; 主动钻研的意愿 stays as the
-  experience it rests on. The owner chose on 2026-11-28 to keep it, adding that initiative itself shows in the final
-  results; so the sentence reads it in what a person has done, and the prose rules keep one boundary for assessment
-  and selection alike: judging rests on the work done, where a disposition shows.
-  Colleagues who need more support are owed the written standards and mentoring the chapter names; the difficulty of
-  fairness stays in leniency itself, as 「标准不因人而降」 requires. The incentive rule opens its paragraph with 应当.
+- **选人, support, rule first.** 选人 replaces 筛选, as the back matter names the point. Colleagues who need more
+  support are owed the written standards and mentoring the chapter names; the difficulty of fairness stays in leniency
+  itself, as 「标准不因人而降」 requires. The incentive rule opens its paragraph with 应当.
+- **Qualities among the causes.** The owner set this on 2026-11-28: initiative and other good qualities are a cause
+  and the work's results the effect; cultivation does not solve everything, and some qualities are reached by
+  selection. The leading chapter places it in its argument, not as a slogan: what a person achieves comes from ability,
+  conditions and qualities; a period's assessment reads what was done because that can be read against a stated
+  standard; selection also looks for the qualities that cultivation can hardly supply, read from how a person has
+  worked across several pieces of work. Methods and habits can be taught (the opening case's support), the will to dig
+  in hardly. Selection keeps the gate within hiring, which answers the overlap of 选人 with 招聘, and the paragraph on
+  density ends with recruiting, cultivating and retaining together. §7 of the prose rules limits its boundary to
+  assessment and lets qualities be named as causes, never as labels that sort colleagues.
+- **Culture.** The owner named team culture as important on the same day; the book had no word for it. It is derived
+  here: what a team's people usually do where no rule reaches, above the floor the rules keep (how deep a check goes,
+  whether one asks, whether one names a doubt in a colleague's result, whether a question is pursued to understanding),
+  moments that multiply as agents return plausible results fast. It decides whether a person's will and abilities last
+  after selection and cultivation, and it is shaped more by what the leader does than by what he says (《论语·子路》,
+  exact against Wikisource, glossed). It is its own section after the conditions a leader creates; its last sentence
+  points to the fairness section for two of the leader's acts. A cold reading settled its examples so that none is a
+  rule the book already states.
 - **The review of the chapter's first draft** (`433661a`), commands and meaning, with a second reader of its findings, is
   answered in the chapter: the first baseline whole (不把不确定说成确定); who the decision owner is and that he carries the
   tier into the decisions it informs; the tier told in person at the period's end; what an improvement plan leaves unmet

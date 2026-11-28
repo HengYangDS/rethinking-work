@@ -22,7 +22,8 @@ itself claim editorial acceptance.
   conditions, evidence counts and procedure are left to the department's guidelines.
 - Across the book, colleagues take over each other's work rather than being swapped like agents, a leader decides
   which conclusions someone must understand and who, and the leading and growth chapters speak of what colleagues did
-  and the support they need rather than sorting them into kinds.
+  and the support they need rather than sorting them into kinds. The leading chapter adds a section on team culture
+  and explains selection by qualities as the causes of results.
 
 ## [0.2.9] - 2026-11-28
 

@@ -55,8 +55,9 @@ slogans, no sentiment, no first person, no lecture.
 
 ## 7. Boundaries that stay
 
-- Judging a person, in assessment and in selection alike, rests on the work the person did; the book names no trait
-  apart from it, not even to exclude it. A disposition such as initiative shows in what the work achieved and is read
-  there, as the leading chapter reads 「主动钻研的意愿」 in what a person has done.
+- A period's assessment, recognition and promotion rest on the work the person did, which can be read against a
+  standard stated in advance; assessment does not grade a person's character. Qualities are among the causes of what a
+  person achieves and may be named as such where the book speaks of selection, culture and growth (`leading.typ`),
+  never as labels that sort colleagues into kinds.
 - No sentence denies a meaning nobody gave, restates the plain, or piles explanation on a fault.
 - The department guidelines remain the one definition of grades and tiers; the book changes how they are said.

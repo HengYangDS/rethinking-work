@@ -49,7 +49,6 @@ translated forms that keep coming back, and a human perspective on the people th
 - The repository files are the source of truth: `book/parts/writing.typ` for the standard, the department guidelines for grades and
   tiers, the Vale style for decided words. This Skill routes to them and adds the practice they leave open.
 - An edit never adds a fact, softens a limit or changes who is responsible.
-- Judging a person rests on the work that person did, and the book names no other trait; it
-  does not deny a meaning nobody gave, does not restate what is plain, and does not pile explanation on a fault.
+- Writing about people follows `references/human-voice.md`, whose §7 holds the boundaries that stay.
 - Quoted words of a speaker, commands and recorded output keep their form.
 - A reader's yes is not acceptance: the owner reads the result.

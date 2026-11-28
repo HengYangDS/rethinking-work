@@ -22,6 +22,9 @@
       saved with the lane's evidence.
 - [ ] 2.3 `human-voice.md` names 更换 and 替换 among the words not used of a person, with the words to use; done when the
       skills gate passes.
+- [ ] 2.4 The leading chapter explains selection by qualities as causes and gives team culture its own section, and
+      §7 of `human-voice.md` agrees; done when a reader who did not write them has read both passages and their
+      points are settled.
 
 ## 3. Acceptance and landing
 
